@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  person-structure:
+  - apiVersion: v2
+    appVersion: 1.1.7
+    created: "2022-05-10T14:24:27.576985657Z"
+    description: Helm chart for person structure application
+    digest: 982c8bf060fafcfd4982eac7e5e900b74cc24d42eb33754e62035e104a87fa2d
+    name: person-structure
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/person-structure-0.1.0/person-structure-0.1.0.tgz
+    version: 0.1.0
+generated: "2022-05-10T14:24:27.577002958Z"
