@@ -1,0 +1,237 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "person-structure.name" . }}
+  labels:
+    {{- include "person-structure.labels" . | nindent 4 }}
+{{- with .Values.deployment.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.deployment.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "person-structure.selectorLabels" . | nindent 6 }}
+  strategy:
+    {{- toYaml .Values.deployment.strategy | nindent 4 }}
+  minReadySeconds: {{ .Values.deployment.minReadySeconds }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/liquibase-config: {{ include (print $.Template.BasePath "/configmap-liquibase.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "person-structure.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      terminationGracePeriodSeconds: {{ .Values.deployment.terminationGracePeriodSeconds }}
+      restartPolicy: {{ .Values.deployment.restartPolicy }}
+      initContainers:
+        {{- with .Values.initContainers }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        - name: liquibase         
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ include "person-structure.liquibase.repository" . }}
+          imagePullPolicy: {{ include "person-structure.liquibase.imagePullPolicy" . }}
+          volumeMounts:
+            - mountPath: /liquibase/changelog
+              name: liquibase-config
+          {{- if .Values.secret.liquibase.secret.secretName }}
+            - mountPath: "/liquibase/secret/{{ .Values.secret.liquibase.secret.fileName }}"
+              name: liquibase-secret
+              subPath: {{ .Values.secret.liquibase.secret.fileName }}
+          {{- end }}
+          command:
+            - bash
+            - -c
+            - {{ include "person-structure.liquibase.command" . }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ include "person-structure.app.repository" . }}:{{ .Values.image.tag | default .Chart.AppVersion }}
+          imagePullPolicy: {{ include "person-structure.app.imagePullPolicy" . }}
+          env:
+            {{- if .Values.timezone }}
+            - name: TZ
+              value: {{ .Values.timezone }}
+            {{- end }}
+            - name: SERVER_PORT
+              value: "8443"
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://{{- required "Please specify DB host name in datasource.host" .Values.datasource.host -}}:
+              {{- required "Please specify DB port in datasource.port" .Values.datasource.port -}}/
+              {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: {{ required "Please specify DB user in datasource.user" .Values.datasource.user | quote }}
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
+              value: {{ required "Please specify DB schema in datasource.schema"  .Values.datasource.schema | lower | quote }}
+            - name: SPRING_KAFKA_PROPERTIES_SASL_MECHANISM
+              value: {{ .Values.kafka.saslMechanism | quote }}
+            - name: SPRING_KAFKA_PROPERTIES_SASL_JAAS_CONFIG
+              value: >-
+                org.apache.kafka.common.security.plain.PlainLoginModule required username=
+                {{- required "Please specify Kafka user in kafka.user" .Values.kafka.user | quote }} password="${kafka.password}";
+            - name: SPRING_KAFKA_PROPERTIES_BOOTSTRAP_SERVERS
+              value: {{ required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
+            - name: SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL
+              value: {{ .Values.kafka.securityProtocol | quote }}
+            - name: SPRING_KAFKA_PROPERTIES_BASIC_AUTH_CREDENTIALS_SOURCE
+              value: {{ .Values.kafka.schemaRegistry.credSource | quote }}
+            - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_BASIC_AUTH_USER_INFO
+              value: >-
+                {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
+            - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
+              value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
+            - name: KAFKA_TOPIC_CARD_NAME
+              value: {{ .Values.kafka.topics.card.name | quote }}
+            - name: KAFKA_TOPIC_CRDACC_NAME
+              value: {{ .Values.kafka.topics.crdintacc.name | quote }}
+            - name: KAFKA_TOPIC_CUSTCRDINTACC_NAME
+              value: {{ .Values.kafka.topics.custcrdintacc.name | quote }}
+            - name: KAFKA_TOPIC_CUSTOMERACCOUNT_NAME
+              value: {{ .Values.kafka.topics.customeraccount.name | quote }}
+            - name: KAFKA_TOPIC_AUTHPTRAGRMTLIMALC_NAME
+              value: {{ .Values.kafka.topics.authptragrmtlimalc.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CARD_NAME
+              value: {{ .Values.kafka.topics.card.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CRDINTACC_NAME
+              value: {{ .Values.kafka.topics.crdintacc.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSTCRDINTACC_NAME
+              value: {{ .Values.kafka.topics.custcrdintacc.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSTOMERACCOUNT_NAME
+              value: {{ .Values.kafka.topics.customeraccount.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRMTLIMALC_NAME
+              value: {{ .Values.kafka.topics.authptragrmtlimalc.consumerGroup | quote }}
+            - name: SERVER_SSL_KEYSTORE
+              value: /tmp/tls.p12
+            - name: SERVER_SSL_KEYSTORETYPE
+              value: PKCS12
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: loggers,health,prometheus
+            - name: MANAGEMENT_ENDPOINTS_LOGGERS_ENABLED
+              value: "true"
+            - name: MANAGEMENT_ENDPOINTS_WEB_BASEPATH
+              value: /
+            - name: MANAGEMENT_HEALTH_PROBES_ENABLED
+              value: "true"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_SHOWDETAILS
+              value: always
+            - name: MANAGEMENT_ENDPOINT_HEALTH_STATUS_HTTPMAPPING_DOWN
+              value: {{ .Values.healthStatusDownReturnCode | quote }}
+            - name: MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE
+              value: readinessState, db, kafka
+            - name: SERVER_TOMCAT_ACCESSLOG_ENABLED
+              value: {{ .Values.logger.logToFile | quote }}
+            - name: SERVER_TOMCAT_ACCESSLOG_SUFFIX
+              value: ".log"
+            - name: SERVER_TOMCAT_ACCESSLOG_PREFIX
+              value: access
+            - name: SERVER_TOMCAT_BASEDIR
+              {{- $logdir := .Values.logger.logDir | splitList "/" }}
+              {{- if hasPrefix "/" .Values.logger.logDir }}
+              value: "/{{ index $logdir 1 }}"
+              {{- else }}
+              value: "/{{ index $logdir 0 }}"
+              {{- end }}
+            - name: SERVER_TOMCAT_ACCESSLOG_FILEDATEFORMAT
+              value: ""
+            - name: SERVER_TOMCAT_ACCESSLOG_DIRECTORY
+              {{- $logdir := .Values.logger.logDir | splitList "/" }}
+              {{- if hasPrefix "/" .Values.logger.logDir }}
+              {{- $rest := slice $logdir 2 | join "/" }}
+              value: {{ $rest }}
+              {{- else }}
+              {{- $rest := slice $logdir 1 | join "/" }}
+              value: {{ $rest }}
+              {{- end }}
+            - name: SERVER_TOMCAT_ACCESSLOG_PATTERN
+              value: >-
+                [%{yyyy-MM-dd HH:mm:ss.SSS}t] %h %l %u "%r" %s
+            - name: SERVER_TOMCAT_ACCESSLOG_CONDITIONUNLESS
+              value: access
+            - name: LOGGING_CONFIG
+              value: /usr/app/config/log4j2.xml
+            - name: LOGGER_EXCLUDE_ENDPOINTS
+              value: /, /health, /health/liveness, /health/readiness, /prometheus
+            - name: SPRING_DATASOURCE_HIKARI_CONNECTIONTIMEOUT
+              value: {{ .Values.datasource.connTimeout | quote }}
+            - name: SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE
+              value: {{ .Values.datasource.maxPoolSize | quote }}
+            - name: SPRING_DATASOURCE_HIKARI_MINIMUMIDLE
+              value: {{ .Values.datasource.minIdle | quote }}
+            - name: SECRET_PROPERTIES
+              value: /mnt/k8s/secrets/password.conf
+            - name: KAFKA_HEALTH_ENABLED
+              value: "true"
+            - name: JAVA_OPTS
+              value: {{ .Values.javaOpts | quote }}
+            {{- if .Values.mountTrustStoreFromSecret.enabled }}
+            - name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_LOCATION
+              value: {{ required "Please specify trust store location in mountTrustStoreFromSecret.location" .Values.mountTrustStoreFromSecret.location }}/{{ required "Please specify trust store file name in mountTrustStoreFromSecret.trustStoreName" .Values.mountTrustStoreFromSecret.trustStoreName }}
+            - name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_TYPE
+              value: {{ required "Please specify trust store type in mountTrustStoreFromSecret.trustStoreType" .Values.mountTrustStoreFromSecret.trustStoreType }}
+            - name: SSL_TRUST_STORE_FILE
+              value: {{ .Values.mountTrustStoreFromSecret.location }}/{{ .Values.mountTrustStoreFromSecret.trustStoreName }}
+            - name: JAVAX_NET_SSL_TRUST_STORE
+              value: {{ .Values.mountTrustStoreFromSecret.location }}/{{ .Values.mountTrustStoreFromSecret.trustStoreName }}
+            {{- if .Values.secret.trustStorePassword }}
+            - name: JAVAX_NET_SSL_TRUST_STORE_PASSWORD
+              value: {{ .Values.secret.trustStorePassword | b64dec }}
+            {{- end }}
+            {{- end }}
+            {{- if .Values.mountKeyStoreFromSecret.enabled }}
+            - name: SERVER_SSL_KEY_STORE_FILE
+              value: {{ required "Please specify key store location in mountKeyStoreFromSecret.location" .Values.mountKeyStoreFromSecret.location }}/{{ required "Please specify key store file name in mountKeyStoreFromSecret.keyStoreName" .Values.mountKeyStoreFromSecret.keyStoreName }}
+            - name: SSL_KEY_STORE_TYPE
+              value: {{ required "Please specify key store type in mountKeyStoreFromSecret.keyStoreType" .Values.mountKeyStoreFromSecret.keyStoreType }}
+            {{- if .Values.secret.keyStorePassword }}
+            - name: SERVER_SSL_KEY_STORE_PASSWORD
+              value: {{ .Values.secret.keyStorePassword | b64dec }}
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.springActiveProfile | quote }}
+            {{- end }}
+            {{- end }}
+            {{- with .Values.customEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: 8443
+              protocol: TCP
+          livenessProbe:
+            {{- toYaml .Values.deployment.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.deployment.readinessProbe | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            {{- include "person-structure.mounts" . | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        {{- include "person-structure.volumes" . | nindent 8 }}
