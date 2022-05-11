@@ -4,6 +4,8 @@
 
 nameOverride: ""
 
+enableLiquibase: true
+
 image:
   registry: docker.io
   pullPolicy: IfNotPresent

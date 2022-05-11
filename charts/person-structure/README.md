@@ -103,6 +103,12 @@ datasource:
   minIdle: 0 # defines min number of retained idle connections
 ```
 
+Liquibase can be disabled if necessary with `enableLiquibase` attribute (enabled by default):
+
+```yaml
+enableLiquibase: false # disable liquibase
+```
+
 ### Kafka setup
 
 Person structure uses Kafka as event stream backend.

@@ -60,8 +60,8 @@ Liquibase run command
 {{- define "person-structure.liquibase.command" -}}
 {{- if .Values.secret.liquibase.secret.fileName }}
 {{- $secretFile := printf "%s%s" "/liquibase/secret/" .Values.secret.liquibase.secret.fileName }}
-{{- $lsm := printf "%s%s%s" "sed -i \"s/__LIQUIBASE_PASSWORD__/$(cat " $secretFile ")/g\" /liquibase/changelog/liquibase.properties && " }}
-{{- $cmd := "/liquibase/docker-entrypoint.sh --changeLogFile=changelog.yaml --defaultsFile=/liquibase/changelog/liquibase.properties --classpath=/liquibase/changelog:lib/postgresql-42.3.2.jar update" }}
+{{- $lsm := printf "%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && sed -i \"s/__LIQUIBASE_PASSWORD__/$(cat " $secretFile ")/g\" /tmp/liquibase.properties && " }}
+{{- $cmd := "/liquibase/docker-entrypoint.sh --changeLogFile=changelog.yaml --defaultsFile=/tmp/liquibase.properties --classpath=/liquibase/changelog:lib/postgresql-42.3.2.jar update" }}
 {{- printf "%s%s" $lsm $cmd }}
 {{- end }}
 {{- end }}

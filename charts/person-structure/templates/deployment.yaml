@@ -38,11 +38,13 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       terminationGracePeriodSeconds: {{ .Values.deployment.terminationGracePeriodSeconds }}
       restartPolicy: {{ .Values.deployment.restartPolicy }}
+      {{- if or .Values.enableLiquibase .Values.initContainers }}
       initContainers:
         {{- with .Values.initContainers }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-        - name: liquibase         
+        {{- if .Values.enableLiquibase }}
+        - name: liquibase
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "person-structure.liquibase.repository" . }}
@@ -59,6 +61,8 @@ spec:
             - bash
             - -c
             - {{ include "person-structure.liquibase.command" . }}
+        {{- end }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
