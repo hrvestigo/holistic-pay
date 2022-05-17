@@ -8,8 +8,10 @@ metadata:
     "helm.sh/hook": test
 spec:
   containers:
-    - name: wget
-      image: busybox
-      command: ['wget']
-      args: ['{{ include "person-structure.name" . }}:{{ .Values.service.port }}']
+    - name: curl
+      image: alpine
+      command:
+        - 'bash'
+        - -c
+        - 'apk add curl && curl -k https://{{ include "person-structure.name" . }}:{{ .Values.service.port }}/health/liveness'
   restartPolicy: Never

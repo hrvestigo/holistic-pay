@@ -111,6 +111,8 @@ spec:
               value: {{ .Values.kafka.topics.customeraccount.name | quote }}
             - name: KAFKA_TOPIC_AUTHPTRAGRMTLIMALC_NAME
               value: {{ .Values.kafka.topics.authptragrmtlimalc.name | quote }}
+            - name: KAFKA_TOPIC_PARTNERDEF_NAME
+              value: {{ .Values.kafka.topics.partnerdef.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CARD_NAME
               value: {{ .Values.kafka.topics.card.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDINTACC_NAME
@@ -121,6 +123,8 @@ spec:
               value: {{ .Values.kafka.topics.customeraccount.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRMTLIMALC_NAME
               value: {{ .Values.kafka.topics.authptragrmtlimalc.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PARTNERDEF_NAME
+              value: {{ .Values.kafka.topics.partnerdef.consumerGroup | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
@@ -193,23 +197,24 @@ spec:
               value: {{ .Values.mountTrustStoreFromSecret.location }}/{{ .Values.mountTrustStoreFromSecret.trustStoreName }}
             - name: JAVAX_NET_SSL_TRUST_STORE
               value: {{ .Values.mountTrustStoreFromSecret.location }}/{{ .Values.mountTrustStoreFromSecret.trustStoreName }}
-            {{- if .Values.secret.trustStorePassword }}
-            - name: JAVAX_NET_SSL_TRUST_STORE_PASSWORD
-              value: {{ .Values.secret.trustStorePassword | b64dec }}
-            {{- end }}
+            {{- else if .Values.mountCaFromSecret.enabled }}
+            - name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_LOCATION
+              value: /mnt/k8s/trust-store/cacerts
+            - name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_TYPE
+              value: JKS
+            - name: SSL_TRUST_STORE_FILE
+              value: /mnt/k8s/trust-store/cacerts
+            - name: JAVAX_NET_SSL_TRUST_STORE
+              value: /mnt/k8s/trust-store/cacerts
             {{- end }}
             {{- if .Values.mountKeyStoreFromSecret.enabled }}
             - name: SERVER_SSL_KEY_STORE_FILE
               value: {{ required "Please specify key store location in mountKeyStoreFromSecret.location" .Values.mountKeyStoreFromSecret.location }}/{{ required "Please specify key store file name in mountKeyStoreFromSecret.keyStoreName" .Values.mountKeyStoreFromSecret.keyStoreName }}
             - name: SSL_KEY_STORE_TYPE
               value: {{ required "Please specify key store type in mountKeyStoreFromSecret.keyStoreType" .Values.mountKeyStoreFromSecret.keyStoreType }}
-            {{- if .Values.secret.keyStorePassword }}
-            - name: SERVER_SSL_KEY_STORE_PASSWORD
-              value: {{ .Values.secret.keyStorePassword | b64dec }}
+            {{- end }}
             - name: SPRING_PROFILES_ACTIVE
               value: {{ .Values.springActiveProfile | quote }}
-            {{- end }}
-            {{- end }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

@@ -15,9 +15,9 @@ It is not possible to install application using default values only, there is a 
 
 Required attributes should be defined in custom values file in `yaml` format (recommended) or propagated with `--set key=value` command during CLI installation, for example:
 
-`helm upgrade --install person-structure vestigo/person-structure -f my-values.yaml` or
+`helm upgrade --install person-structure holisticpay/person-structure -f my-values.yaml` or
 
-`helm upgrade --install person-structure vestigo/person-structure --set required-key1=value1 --set required-key2=value2 ...`
+`helm upgrade --install person-structure holisticpay/person-structure --set required-key1=value1 --set required-key2=value2 ...`
 
 Required values are (in `yaml` format):
 
@@ -169,6 +169,9 @@ kafka:
     authptragrmtlimalc:
       name: hr.vestigo.hp.authptragrmtlimalc # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.authptragrmtlimalc # default value, set custom name if required
+    partnerdef:
+      name: hr.vestigo.hp.partnerdef # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.partnerdef # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets
@@ -225,7 +228,7 @@ However, there are several different possibilities for customizing TLS setup.
 #### Provide server certificate with custom `initContainer`
 
 Key store with custom server certificate can be provided by using custom `initContainer`.
-Main thing to keep in mind is that application expects that `initContainer` will output `cert.pem` and `key.pem` files to `volumeMount` with name `server-cert`.
+Main thing to keep in mind is that application expects that `initContainer` will output `cert.pem` and `key.pem` files to `volumeMount` with `server-cert` name.
 Application will obtain generated certificate and key files via `server-cert` mount and generate server's key store from them.
 
 For example, init container could be defined like this:
@@ -243,7 +246,7 @@ initContainers:
         name: server-cert # volumeMount name has to be "server-cert"
 ```
 
-When using initContainer for key store, volume will be stored in memory (`emptyDir: medium: "Memory"`)
+When using initContainer for server certificate, volume will be stored in memory (`emptyDir: medium: "Memory"`)
 
 #### Provide server certificate from predefined secret
 
@@ -261,9 +264,10 @@ mountServerCertFromSecret:
   keyPath: "name-of-key-file-from-secret" # string value
 ```
 
-In this case, Helm chart will take care of mounting certificate and key files to expected location, the only requirement is to set secret name and names of certificate and key files into values file.
+In this case, Helm chart will take care of mounting certificate and key files to expected location.
+The only requirement is to set secret name and names of certificate and key files into values file.
 
-#### Provide trust store from custom `initContainer`
+#### Provide trust store with custom `initContainer`
 
 If outbound resources (Kafka or database) require TLS connection, trust store with required certificates should also be provided.
 
@@ -319,8 +323,13 @@ customEnv:
     value: /some/mount/path/trust-store-file # path defined in volumeMount, has to contain full trust store file location
   - name: JAVAX_NET_SSL_TRUST_STORE
     value: /some/mount/path/trust-store-file # path defined in volumeMount, has to contain full trust store file location
-  - name: JAVAX_NET_SSL_TRUST_STORE_PASSWORD
-    value: trustStorePassw0rd # password for trust store file
+```
+
+Trust store password should be AES encrypted with key provided in `secret.decryptionKey` and set to `secret.trustStorePassword`:
+
+```yaml
+secret:
+  trustStorePassword: "{aes}TrustStorePassword" # AES encoded trust store password
 ```
 
 #### Provide trust store from predefined secret
@@ -350,18 +359,37 @@ Those two parameters are joined together to form an absolute path to trust store
 
 Default trust store type is JKS and if other type of trust store file is provided, it has to be specified in `trustStoreType` attribute, for example "PKCS12".
 
-Trust store password has to be provided as base64 encoded string in `secret.trustStorePassword` attribute, for example:
+Trust store password has to be provided as AES encoded string in `secret.trustStorePassword` attribute, for example:
 
 ```yaml
 secret:
-  trustStorePassword: "cGFzc3cwcmQ=" # base64 encoded trust store password, default is "changeit"
+  trustStorePassword: "{aes}TrustStorePassword" # AES encoded trust store password
 ```
+
+Note that password should be AES encoded with key provided in `secret.decryptionKey` attribute.
 
 When using secret to mount trust store, no additional custom setup is required.
 
+#### Provide client certificates from predefined secret
+
+Third option for providing trust store is to use predefined secret with client certificates.
+Certificates provided in secret will be added to trust store by application.
+
+To mount client certificates from secret, specify following attributes:
+
+```yaml
+mountCaFromSecret:
+  enabled: true # default if false
+  secretName: "secret-with-certificates"
+```
+
+When `mountCaFromSecret` is enabled, application will import all certificate files from secret to existing trust store.
+
+Note that either `mountTrustStoreFromSecret` or `mountCaFromSecret` can be used, if both are enabled, `mountTrustStoreFromSecret` will be used.
+
 #### Provide mTLS key store from `initContainer`
 
-mTLS support can also be added to person-structure application in two different ways.
+mTLS support can be added to person-structure application in two different ways.
 
 As for trust store, key store could also be provided via custom `initContainer`, with similar requirements.
 
@@ -409,9 +437,16 @@ customEnv:
     value: /some/mount/path/key-store-file # path defined in volumeMount, has to contain full key store file location
   - name: SSL_KEY_STORE_TYPE
     value: PKCS12 # defines key store type (PKCS12, JKS, or other)
-  - name: SERVER_SSL_KEY_STORE_PASSWORD
-    value: keyStorePassw0rd # password for key store file
 ```
+
+Password for key store should be AES encoded and provided in following attribute:
+
+```yaml
+secret:
+  keyStorePassword: "{aes}KeyStorePassword" # AES encoded key store password
+```
+
+Password should be encoded using key defined in `secret.decryptionKey`.
 
 #### Provide mTLS key store from predefined secret
 
@@ -439,11 +474,12 @@ Those two parameters are joined together to form an absolute path to key store f
 
 Default key store type is JKS and if other type of key store file is provided, it has to be specified in `keyStoreType` attribute, for example "PKCS12".
 
-Key store password has to be provided as base64 encoded string in `secret.keyStorePassword` attribute, for example:
+Key store password has to be provided as AES encoded string in `secret.keyStorePassword` attribute.
+Password should be encrypted with the key defined in `secret.decryptionKey`.
 
 ```yaml
 secret:
-  keyStorePassword: "cGFzc3cwcmQ=" # base64 encoded trust store password, default is "changeit"
+  keyStorePassword: "{aes}KeyStorePassword" # AES encoded trust store password
 ```
 
 When using secret to mount key store, no additional custom setup is required.

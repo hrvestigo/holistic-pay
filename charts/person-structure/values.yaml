@@ -55,6 +55,9 @@ kafka:
     authptragrmtlimalc:
       name: hr.vestigo.hp.authptragrmtlimalc
       consumerGroup: hr.vestigo.hp.authptragrmtlimalc
+    partnerdef:
+      name: hr.vestigo.hp.partnerdef
+      consumerGroup: hr.vestigo.hp.partnerdef
 
 timezone: ""
 
@@ -68,8 +71,8 @@ secret:
     secret:
       secretName: ""
       fileName: ""
-  trustStorePassword: "" # b64 encoded
-  keyStorePassword: "" # b64 encoded
+  trustStorePassword: ""
+  keyStorePassword: ""
 
 logger:
   logToFile: false
@@ -219,6 +222,10 @@ mountTrustStoreFromSecret:
   location: ""
   trustStoreName: ""
   trustStoreType: JKS
+
+mountCaFromSecret:
+  enabled: false
+  secretName: ""
 
 customVolumes: []
 

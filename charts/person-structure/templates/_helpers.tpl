@@ -142,6 +142,10 @@ Volumes
       - path: {{ .Values.mountTrustStoreFromSecret.trustStoreName }}
         key: {{ .Values.mountTrustStoreFromSecret.trustStoreName }}
 {{- end }}
+{{- else if .Values.mountCaFromSecret.enabled }}
+- name: truststore
+  secret:
+    secretName: {{ .Values.mountCaFromSecret.enabled }}
 {{- end }}
 {{- if and .Values.logger.logDirMount.enabled .Values.logger.logDirMount.spec }}
 - name: logdir
@@ -192,6 +196,9 @@ Mounts for person-structure application
 {{- end }}
 {{- if .Values.mountTrustStoreFromSecret.enabled }}
 - mountPath: {{ .Values.mountTrustStoreFromSecret.location }}
+  name: truststore
+{{- else if .Values.mountCaFromSecret.enabled }}
+- mountPath: /mnt/k8s/client-certs
   name: truststore
 {{- end }}
 {{- if and .Values.logger.logDirMount.enabled .Values.logger.logDirMount.spec }}
