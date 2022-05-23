@@ -58,12 +58,40 @@ Person-structure image pull policy
 Liquibase run command
 */}}
 {{- define "person-structure.liquibase.command" -}}
-{{- if .Values.secret.liquibase.secret.fileName }}
-{{- $secretFile := printf "%s%s" "/liquibase/secret/" .Values.secret.liquibase.secret.fileName }}
+{{- if .Values.enableLiquibase }}
+{{- $secretFileName := required "Liquibase secret file name is required, please specify in secret.liquibase.secret.fileName" .Values.secret.liquibase.secret.fileName }}
+{{- $secretFile := printf "%s%s" "/liquibase/secret/" $secretFileName }}
 {{- $lsm := printf "%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && sed -i \"s/__LIQUIBASE_PASSWORD__/$(cat " $secretFile ")/g\" /tmp/liquibase.properties && " }}
 {{- $cmd := "/liquibase/docker-entrypoint.sh --changeLogFile=changelog.yaml --defaultsFile=/tmp/liquibase.properties --classpath=/liquibase/changelog:lib/postgresql-42.3.2.jar update" }}
 {{- printf "%s%s" $lsm $cmd }}
 {{- end }}
+{{- end }}
+
+{{/*
+Trust store env variables
+*/}}
+{{- define "person-structure.trustStoreEnv" -}}
+{{- $trustStoreLocation := "/mnt/k8s/trust-store/" }}
+{{- if .Values.mountTrustStoreFromSecret.enabled -}}
+{{- $trustStoreName := required "Please specify trust store file name in mountTrustStoreFromSecret.trustStoreName" .Values.mountTrustStoreFromSecret.trustStoreName }}
+{{- $trustStorePath := printf "%s%s" $trustStoreLocation $trustStoreName -}}
+- name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_TYPE
+  value: {{ required "Please specify trust store type in mountTrustStoreFromSecret.trustStoreType" .Values.mountTrustStoreFromSecret.trustStoreType }}
+- name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_LOCATION
+  value: {{ $trustStorePath }}
+- name: SSL_TRUST_STORE_FILE
+  value: {{ $trustStorePath }}
+- name: JAVAX_NET_SSL_TRUST_STORE
+  value: {{ $trustStorePath }}
+{{- else if .Values.mountCaFromSecret.enabled -}}
+{{- $trustStorePath := printf "%s%s" $trustStoreLocation "cacerts" -}}
+- name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_LOCATION
+  value: {{ $trustStorePath }}
+- name: SSL_TRUST_STORE_FILE
+  value: {{ $trustStorePath }}
+- name: JAVAX_NET_SSL_TRUST_STORE
+  value: {{ $trustStorePath }}
+{{- end -}}
 {{- end }}
 
 {{/*
@@ -145,16 +173,16 @@ Volumes
 {{- else if .Values.mountCaFromSecret.enabled }}
 - name: truststore
   secret:
-    secretName: {{ .Values.mountCaFromSecret.enabled }}
+    secretName: {{ required "Secret name is required when mounting CA from secret, please specify in mountCaFromSecret.secretName" .Values.mountCaFromSecret.secretName }}
 {{- end }}
 {{- if and .Values.logger.logDirMount.enabled .Values.logger.logDirMount.spec }}
 - name: logdir
 {{- toYaml .Values.logger.logDirMount.spec | nindent 2 }}
 {{- end }}
-{{- if .Values.secret.liquibase.secret.secretName }}
+{{- if .Values.enableLiquibase }}
 - name: liquibase-secret
   secret:
-    secretName: {{ .Values.secret.liquibase.secret.secretName }}
+    secretName: {{ required "Liquibase secret name is required, please specify in secret.liquibase.secret.secretName" .Values.secret.liquibase.secret.secretName }}
 {{- if .Values.secret.liquibase.secret.fileName }}
     items:
       - path: {{ .Values.secret.liquibase.secret.fileName }}
@@ -191,11 +219,11 @@ Mounts for person-structure application
   name: server-cert
 {{- end }}
 {{- if .Values.mountKeyStoreFromSecret.enabled }}
-- mountPath: {{ .Values.mountKeyStoreFromSecret.location }}
+- mountPath: /mnt/k8s/key-store
   name: keystore
 {{- end }}
 {{- if .Values.mountTrustStoreFromSecret.enabled }}
-- mountPath: {{ .Values.mountTrustStoreFromSecret.location }}
+- mountPath: /mnt/k8s/trust-store
   name: truststore
 {{- else if .Values.mountCaFromSecret.enabled }}
 - mountPath: /mnt/k8s/client-certs

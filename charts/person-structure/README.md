@@ -344,14 +344,9 @@ When adding trust store as secret, following values have to be provided:
 mountTrustStoreFromSecret:
   enabled: true # boolean value, default is false
   secretName: "name-of-trust-store-secret" # string value
-  location: "/path/to/trust-store" # string value
   trustStoreName: "name-of-trust-store-file-from-secret" # string value
   trustStoreType: "type-of-trust-store" # string value, default is JKS
 ```
-
-`location` attribute is used to define where trust store file will be located inside container.
-Any location is fine, as long as it doesn't override any existing container path.
-Suggested location is: `/mnt/k8s/trust-store`.
 
 `trustStoreName` is the actual name of the trust store file itself, as defined in secret.
 
@@ -459,14 +454,9 @@ When adding key store from secret, following values have to be provided:
 mountKeyStoreFromSecret:
   enabled: true # boolean value, default is false
   secretName: "name-of-key-store-secret" # string value
-  location: "/path/to/key-store" # string value
   keyStoreName: "name-of-key-store-file-from-secret" # string value
   keyStoreType: "type-of-key-store" # string value, default is JKS
 ```
-
-`location` attribute is used to define where key store file will be located inside container (folder structure only).
-Any location is fine, as long as it doesn't override any existing container path.
-Suggested location is: `/mnt/k8s/key-store`.
 
 `keyStoreName` is the actual name of the key store file itself, as defined in secret.
 

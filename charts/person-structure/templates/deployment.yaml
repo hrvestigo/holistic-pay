@@ -188,24 +188,8 @@ spec:
               value: "true"
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
-            {{- if .Values.mountTrustStoreFromSecret.enabled }}
-            - name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_LOCATION
-              value: {{ required "Please specify trust store location in mountTrustStoreFromSecret.location" .Values.mountTrustStoreFromSecret.location }}/{{ required "Please specify trust store file name in mountTrustStoreFromSecret.trustStoreName" .Values.mountTrustStoreFromSecret.trustStoreName }}
-            - name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_TYPE
-              value: {{ required "Please specify trust store type in mountTrustStoreFromSecret.trustStoreType" .Values.mountTrustStoreFromSecret.trustStoreType }}
-            - name: SSL_TRUST_STORE_FILE
-              value: {{ .Values.mountTrustStoreFromSecret.location }}/{{ .Values.mountTrustStoreFromSecret.trustStoreName }}
-            - name: JAVAX_NET_SSL_TRUST_STORE
-              value: {{ .Values.mountTrustStoreFromSecret.location }}/{{ .Values.mountTrustStoreFromSecret.trustStoreName }}
-            {{- else if .Values.mountCaFromSecret.enabled }}
-            - name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_LOCATION
-              value: /mnt/k8s/trust-store/cacerts
-            - name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_TYPE
-              value: JKS
-            - name: SSL_TRUST_STORE_FILE
-              value: /mnt/k8s/trust-store/cacerts
-            - name: JAVAX_NET_SSL_TRUST_STORE
-              value: /mnt/k8s/trust-store/cacerts
+            {{- if (include "auth-limit-control.trustStoreEnv" .) -}}
+            {{- include "auth-limit-control.trustStoreEnv" . | nindent 12 -}}
             {{- end }}
             {{- if .Values.mountKeyStoreFromSecret.enabled }}
             - name: SERVER_SSL_KEY_STORE_FILE

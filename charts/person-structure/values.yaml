@@ -212,14 +212,12 @@ mountServerCertFromSecret:
 mountKeyStoreFromSecret:
   enabled: false
   secretName: ""
-  location: ""
   keyStoreName: ""
   keyStoreType: JKS
 
 mountTrustStoreFromSecret:
   enabled: false
   secretName: ""
-  location: ""
   trustStoreName: ""
   trustStoreType: JKS
 
