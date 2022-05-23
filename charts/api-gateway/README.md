@@ -126,6 +126,213 @@ mountServerCertFromSecret:
 In this case, Helm chart will take care of mounting certificate and key files to expected location.
 The only requirement is to set secret name and names of certificate and key files into values file.
 
+#### Provide trust store with custom `initContainer`
+
+If outbound resources (Kafka or database) require TLS connection, trust store with required certificates should also be provided.
+
+One of the options is to provide trust store via custom `initContainer`.
+
+There are some requirements if custom `initContainer` is used for providing trust store.
+First, initContainer definition should be added to values file. Besides that, custom `volume`, `volumeMount` and environment variables should be added also.
+
+For example, custom `initContainer` could have this definition:
+
+```yaml
+initContainers:
+  - name: create-trust-store
+    image: create-trust-store-image
+    command:
+      - bash
+      - -c
+      - "custom command to generate trust store"
+    volumeMounts:
+      - mountPath: /any
+        name: trust-store-volume-name # has to match custom volume definition
+```
+
+Defined `volumeMounts.name` from `initContainer` should also be used to define custom volume, for example:
+
+```yaml
+customVolumes:
+  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in api-gateway container
+    emptyDir: # any other volume type is OK
+      medium: "Memory"
+```
+
+api-gateway container should also mount this volume, so a custom `volumeMount` is required, for example:
+
+```yaml
+customMounts:
+  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in api-gateway container
+    mountPath: /some/mount/path # this path should be used for custom environment variables
+```
+
+Note that `mountPath` variable is used to specify a location of trust store in api-gateway container.
+Suggested location is: `/mnt/k8s/trust-store`.
+
+To make trust store available to underlying application server, its location (absolute path - `mountPath` and file name) should be defined in following environment variables:
+
+```yaml
+customEnv:
+  - name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_LOCATION
+    value: /some/mount/path/trust-store-file # path defined in volumeMount, has to contain full trust store file location
+  - name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_TYPE
+    value: JKS # defines provided trust store type (PKCS12, JKS, or other)
+  - name: SSL_TRUST_STORE_FILE
+    value: /some/mount/path/trust-store-file # path defined in volumeMount, has to contain full trust store file location
+  - name: JAVAX_NET_SSL_TRUST_STORE
+    value: /some/mount/path/trust-store-file # path defined in volumeMount, has to contain full trust store file location
+```
+
+Trust store password should be AES encrypted with key provided in `secret.decryptionKey` and set to `secret.trustStorePassword`:
+
+```yaml
+secret:
+  trustStorePassword: "{aes}TrustStorePassword" # AES encoded trust store password
+```
+
+#### Provide trust store from predefined secret
+
+Trust store can also be provided by using predefined secret.
+**Note that this secret has to be created in target namespace prior to installation of API Gateway application.**
+Additionally, both certificate and key files should be in one single secret.
+
+When adding trust store as secret, following values have to be provided:
+
+```yaml
+mountTrustStoreFromSecret:
+  enabled: true # boolean value, default is false
+  secretName: "name-of-trust-store-secret" # string value
+  trustStoreName: "name-of-trust-store-file-from-secret" # string value
+  trustStoreType: "type-of-trust-store" # string value, default is JKS
+```
+
+`trustStoreName` is the actual name of the trust store file itself, as defined in secret.
+
+Those two parameters are joined together to form an absolute path to trust store file.
+
+Default trust store type is JKS and if other type of trust store file is provided, it has to be specified in `trustStoreType` attribute, for example "PKCS12".
+
+Trust store password has to be provided as AES encoded string in `secret.trustStorePassword` attribute, for example:
+
+```yaml
+secret:
+  trustStorePassword: "{aes}TrustStorePassword" # AES encoded trust store password
+```
+
+Note that password should be AES encoded with key provided in `secret.decryptionKey` attribute.
+
+When using secret to mount trust store, no additional custom setup is required.
+
+#### Provide client certificates from predefined secret
+
+Third option for providing trust store is to use predefined secret with client certificates.
+Certificates provided in secret will be added to trust store by application.
+
+To mount client certificates from secret, specify following attributes:
+
+```yaml
+mountCaFromSecret:
+  enabled: true # default if false
+  secretName: "secret-with-certificates"
+```
+
+When `mountCaFromSecret` is enabled, application will import all certificate files from secret to existing trust store.
+
+Note that either `mountTrustStoreFromSecret` or `mountCaFromSecret` can be used, if both are enabled, `mountTrustStoreFromSecret` will be used.
+
+#### Provide mTLS key store from `initContainer`
+
+mTLS support can be added to api-gateway application in two different ways.
+
+As for trust store, key store could also be provided via custom `initContainer`, with similar requirements.
+
+For example, custom `initContainer` could have this definition:
+
+```yaml
+initContainers:
+  - name: create-key-store
+    image: create-key-store-image
+    command:
+      - bash
+      - -c
+      - "custom command to generate key store"
+    volumeMounts:
+      - mountPath: /any
+        name: key-store-volume-name # has to match custom volume definition
+```
+
+Defined `volumeMounts.name` from `initContainer` should also be used to define custom volume, for example:
+
+```yaml
+customVolumes:
+  - name: key-store-volume-name # has to match name in initContainer and volumeMount in api-gateway container
+    emptyDir: # any other volume type is OK
+      medium: "Memory"
+```
+
+api-gateway container should also mount this volume, so a custom `volumeMount` is required, for example:
+
+```yaml
+customMounts:
+  - name: key-store-volume-name # has to match name in initContainer and volumeMount in api-gateway container
+    mountPath: /some/mount/path # this path should be used for custom environment variables
+```
+
+Note that `mountPath` variable is used to specify a location of key store in api-gateway container.
+Suggested location is: `/mnt/k8s/trust-store`.
+
+To make key store available to underlying application server, its location (absolute path - `mountPath` and file name) should be defined in environment variable.
+Additionally, key store type should also be defined, for example:
+
+```yaml
+customEnv:
+  - name: SERVER_SSL_KEY_STORE_FILE
+    value: /some/mount/path/key-store-file # path defined in volumeMount, has to contain full key store file location
+  - name: SSL_KEY_STORE_TYPE
+    value: PKCS12 # defines key store type (PKCS12, JKS, or other)
+```
+
+Password for key store should be AES encoded and provided in following attribute:
+
+```yaml
+secret:
+  keyStorePassword: "{aes}KeyStorePassword" # AES encoded key store password
+```
+
+Password should be encoded using key defined in `secret.decryptionKey`.
+
+#### Provide mTLS key store from predefined secret
+
+Key store required for mTLS can also be provided via predefined secret.
+**Note that this secret has to be created in target namespace prior to installation of API Gateway application.**
+
+When adding key store from secret, following values have to be provided:
+
+```yaml
+mountKeyStoreFromSecret:
+  enabled: true # boolean value, default is false
+  secretName: "name-of-key-store-secret" # string value
+  keyStoreName: "name-of-key-store-file-from-secret" # string value
+  keyStoreType: "type-of-key-store" # string value, default is JKS
+```
+
+`keyStoreName` is the actual name of the key store file itself, as defined in secret.
+
+Those two parameters are joined together to form an absolute path to key store file.
+
+Default key store type is JKS and if other type of key store file is provided, it has to be specified in `keyStoreType` attribute, for example "PKCS12".
+
+Key store password has to be provided as AES encoded string in `secret.keyStorePassword` attribute.
+Password should be encrypted with the key defined in `secret.decryptionKey`.
+
+```yaml
+secret:
+  keyStorePassword: "{aes}KeyStorePassword" # AES encoded trust store password
+```
+
+When using secret to mount key store, no additional custom setup is required.
+
 ## Customizing installation
 
 Besides required attributes, installation of API Gateway can be customized in different ways.
