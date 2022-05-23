@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "auth-limit-control.name" . }}-test-connection"
+  labels:
+    {{- include "auth-limit-control.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: curl
+      image: alpine
+      command:
+        - 'bash'
+        - -c
+        - 'apk add curl && curl -k https://{{ include "auth-limit-control.name" . }}:{{ .Values.service.port }}/health/liveness'
+  restartPolicy: Never

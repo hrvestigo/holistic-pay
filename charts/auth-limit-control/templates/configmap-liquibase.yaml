@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-liquibase-configmap
+data:
+  changelog.yaml: |-
+    {{ include "auth-limit-control.changelog" . | nindent 4 }}
+  liquibase.properties: |-
+    {{ include "auth-limit-control.liquibase-config" . | nindent 4 }}

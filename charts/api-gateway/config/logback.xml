@@ -1,0 +1,54 @@
+<configuration>
+    <appender name="accessLog" class="ch.qos.logback.core.FileAppender">
+        <filter class="hr.vestigo.apigateway.logging.HttpAccessLogHealthRemoveFilter" />
+        <file>/var/log/app/access.log</file>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="async" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="accessLog" />
+    </appender>
+
+    <logger name="reactor.netty.http.server.AccessLog" level="INFO" additivity="false">
+        <appender-ref ref="async" />
+    </logger>
+
+    <appender name="healthAccessLog" class="ch.qos.logback.core.FileAppender">
+        <filter class="hr.vestigo.apigateway.logging.HttpAccessLogHealthOnlyFilter" />
+        <file>/var/log/app/health.log</file>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="healthAsync" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="healthAccessLog" />
+    </appender>
+
+    <logger name="reactor.netty.http.server.AccessLog" level="INFO" additivity="false">
+        <appender-ref ref="healthAsync" />
+    </logger>
+
+
+    <appender name="application" class="ch.qos.logback.core.FileAppender">
+        <file>/var/log/app/messages.log</file>
+        <encoder>
+            <pattern>
+            %d %-5level %logger - %msg%n
+          </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern> %d %-5level %logger - %msg%n </pattern>
+        </encoder>
+    </appender>
+
+    <root>
+        <appender-ref ref="application" />
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

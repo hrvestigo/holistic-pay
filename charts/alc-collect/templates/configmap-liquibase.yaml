@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-liquibase-configmap
+data:
+  changelog.yaml: |-
+    {{ include "alc-collect.changelog" . | nindent 4 }}
+  liquibase.properties: |-
+    {{ include "alc-collect.liquibase-config" . | nindent 4 }}

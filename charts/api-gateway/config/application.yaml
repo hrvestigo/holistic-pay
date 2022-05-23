@@ -1,0 +1,22 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: alc_route
+          predicates:
+            - Path=/alc-collect/**
+          uri: https://{{ required "ALC collect application service name has to be defined in routes.alcCollect.serviceName" .Values.routes.alcCollect.serviceName }}:{{ required "ALC collect application port number has to be defined in routes.alcCollect.port" .Values.routes.alcCollect.port }}
+          filters:
+            - StripPrefix=1
+        - id: auth-limit-control_route
+          predicates:
+            - Path=/auth-limit-control/**
+          uri: https://{{ required "Auth limit control application service name has to be defined in routes.authLimitControl.serviceName" .Values.routes.authLimitControl.serviceName }}:{{ required "Auth limit control application port number has to be defined in routes.authLimitControl.port" .Values.routes.authLimitControl.port }}
+          filters:
+            - StripPrefix=1
+        - id: person-structure-ms_route
+          predicates:
+            - Path=/person-structure/**
+          uri: https://{{ required "Person structure application service name has to be defined in routes.personStructure.serviceName" .Values.routes.personStructure.serviceName }}:{{ required "Person structure application port number has to be defined in routes.personStructure.port" .Values.routes.personStructure.port }}
+          filters:
+            - StripPrefix=1

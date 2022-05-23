@@ -1,0 +1,235 @@
+# Default values for auth-limit-control.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+
+enableLiquibase: true
+
+image:
+  registry: docker.io
+  pullPolicy: IfNotPresent
+  app:
+    registry: # defaults to image.registry
+    tag: "" # overrides the image tag whose default is the chart appVersion.
+    pullPolicy: # defaults to image.pullPolicy
+  liquibase:
+    registry: # defaults to image.registry
+    pullPolicy: # defaults to image.pullPolicy
+
+imagePullSecrets: []
+
+datasource:
+  host: ""
+  port: ""
+  dbName: ""
+  user: ""
+  liquibaseUser: ""
+  schema: ""
+  connTimeout: 60000
+  maxPoolSize: 2
+  minIdle: 0
+
+kafka:
+  user: ""
+  servers: ""
+  saslMechanism: PLAIN
+  securityProtocol: SASL_SSL
+  schemaRegistry:
+    credSource: USER_INFO
+    user: ""
+    url: ""
+  topics:
+    personstructuredef:
+      name: hr.vestigo.hp.personstructuredef
+      consumerGroup: hr.vestigo.hp.personstructuredef
+    limitdef:
+      name: hr.vestigo.hp.limitdef
+      consumerGroup: hr.vestigo.hp.limitdef
+    authprocgroupfinctrllim:
+      name: hr.vestigo.hp.authprocgroupfinctrllim
+      consumerGroup: hr.vestigo.hp.authprocgroupfinctrllim
+    authprocgroupitem:
+      name: hr.vestigo.hp.authprocgroupitem
+      consumerGroup: hr.vestigo.hp.authprocgroupitem
+    authptragrmtlim:
+      name: hr.vestigo.hp.authptragrmtlim
+      consumerGroup: hr.vestigo.hp.authptragrmtlim
+    authptragrmtparam:
+      name: hr.vestigo.hp.authptragrmtparam
+      consumerGroup: hr.vestigo.hp.authptragrmtparam
+    finctrllimtype:
+      name: hr.vestigo.hp.finctrllimtype
+      consumerGroup: hr.vestigo.hp.finctrllimtype
+
+timezone: ""
+
+secret:
+  decryptionKey: ""
+  datasourcePassword: ""
+  kafkaPassword: ""
+  kafkaSchemaRegistryPassword: ""
+  liquibase:
+    # password: "" # b64 encoded
+    secret:
+      secretName: ""
+      fileName: ""
+  trustStorePassword: ""
+  keyStorePassword: ""
+
+logger:
+  logToFile: false
+  rollingFileAppender: false
+  logDir: "/var/log/app"
+  logDirMount:
+    enabled: false
+    # spec:
+      # emptyDir: {}
+      # flexVolume:
+        # driver: ""
+        # fsType: ""
+        # options:
+          # basepath: ""
+          # basename: ""
+
+healthStatusDownReturnCode: "418"
+
+javaOpts: "-Xms256M -Xmx256M"
+
+springActiveProfile: "prod"
+
+podAnnotations: {}
+
+deploymentAnnotations: {}
+
+serviceAnnotations: {}
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+
+securityContext: {}
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 8443
+  nodePort: ""
+  clusterIP: ""
+  loadBalancerIP: ""
+  loadBalancerSourceRanges: []
+  annotations: {}
+  labels: {}
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts: []
+  tls: []
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 50m
+    memory: 256Mi
+
+initContainers: []
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/arch
+              operator: In
+              values:
+                - amd64
+            - key: kubernetes.io/os
+              operator: In
+              values:
+                - linux
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - auth-limit-control
+          topologyKey: kubernetes.io/hostname
+
+deployment:
+  replicaCount: 1
+  annotations: {}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  minReadySeconds: 60
+  terminationGracePeriodSeconds: 60
+  restartPolicy: Always
+  readinessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 60
+    timeoutSeconds: 181
+    successThreshold: 1
+    failureThreshold: 2
+    httpGet:
+      path: /health/readiness
+      port: http
+      scheme: HTTPS
+  livenessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 60
+    timeoutSeconds: 10
+    failureThreshold: 3
+    httpGet:
+      path: /health/liveness
+      port: http
+      scheme: HTTPS
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+mountServerCertFromSecret:
+  enabled: false
+  secretName: ""
+  certPath: ""
+  keyPath: ""
+
+mountKeyStoreFromSecret:
+  enabled: false
+  secretName: ""
+  keyStoreName: ""
+  keyStoreType: JKS
+
+mountTrustStoreFromSecret:
+  enabled: false
+  secretName: ""
+  trustStoreName: ""
+  trustStoreType: JKS
+
+mountCaFromSecret:
+  enabled: false
+  secretName: ""
+
+customVolumes: []
+
+customMounts: []
+
+customEnv: []
