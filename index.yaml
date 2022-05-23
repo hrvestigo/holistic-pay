@@ -1,6 +1,49 @@
 apiVersion: v1
 entries:
+  alc-collect:
+  - apiVersion: v2
+    appVersion: 1.1.12.1
+    created: "2022-05-23T14:12:45.984362451Z"
+    description: Helm chart for ALC collect application
+    digest: deb492ecf355e5d08e4b15cee278f66c495a4f346d347e3f0351c8e981e15604
+    name: alc-collect
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/alc-collect-0.2.0/alc-collect-0.2.0.tgz
+    version: 0.2.0
+  api-gateway:
+  - apiVersion: v2
+    appVersion: 1.1.21
+    created: "2022-05-23T14:12:46.207054447Z"
+    description: Helm chart for API gateway application
+    digest: 465c9b3fc5a5e02462143f1b77ba1b5e36f0760f21051c61842df72282e9213d
+    name: api-gateway
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/api-gateway-0.2.0/api-gateway-0.2.0.tgz
+    version: 0.2.0
+  auth-limit-control:
+  - apiVersion: v2
+    appVersion: 1.1.14.1
+    created: "2022-05-23T14:12:46.409269698Z"
+    description: Helm chart for auth limit control application
+    digest: a6aef4c9b68a9b7f840a2206d0d5a8029155e60662634268f0889d81f20b601e
+    name: auth-limit-control
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/auth-limit-control-0.2.0/auth-limit-control-0.2.0.tgz
+    version: 0.2.0
   person-structure:
+  - apiVersion: v2
+    appVersion: 1.1.7.1
+    created: "2022-05-23T14:12:46.642913118Z"
+    description: Helm chart for person structure application
+    digest: 552e5b2dac5528c9fd7d9e3a91ea60cb08463872982bfe3080281e5eec555298
+    name: person-structure
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/person-structure-0.2.0/person-structure-0.2.0.tgz
+    version: 0.2.0
   - apiVersion: v2
     appVersion: 1.1.7
     created: "2022-05-11T14:20:05.07334712Z"
@@ -21,4 +64,15 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/person-structure-0.1.0/person-structure-0.1.0.tgz
     version: 0.1.0
-generated: "2022-05-11T14:20:05.07336102Z"
+  product-factory:
+  - apiVersion: v2
+    appVersion: 1.1.10
+    created: "2022-05-23T14:12:46.850887781Z"
+    description: Helm chart for product factory application
+    digest: 8c96c646d407f7d3a97b6e21a797f52e3680f114b1bec197f37b87b784c0fcfe
+    name: product-factory
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/product-factory-0.2.0/product-factory-0.2.0.tgz
+    version: 0.2.0
+generated: "2022-05-23T14:12:46.850900781Z"
