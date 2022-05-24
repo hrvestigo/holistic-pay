@@ -146,10 +146,10 @@ Mounts for api-gateway application
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
-- mountPath: /opt/app/
+- mountPath: /opt/app/application.yaml
   name: {{ include "api-gateway.name" . }}-configmap
   subPath: application.yaml
-- mountPath: /opt/app/
+- mountPath: /opt/app/logback.xml
   name: {{ include "api-gateway.name" . }}-configmap
   subPath: logback.xml
 {{- if .Values.mountServerCertFromSecret.enabled }}
