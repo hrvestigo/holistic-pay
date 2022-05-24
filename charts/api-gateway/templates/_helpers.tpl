@@ -43,7 +43,7 @@ Trust store env variables
 api-gateway image repository
 */}}
 {{- define "api-gateway.app.repository" -}}
-{{- $psRepo := "hrvestigo/api-gateway-ms" }}
+{{- $psRepo := "hrvestigo/api-gateway" }}
 {{- $reg := default .Values.image.registry .Values.image.app.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $psRepo }}
