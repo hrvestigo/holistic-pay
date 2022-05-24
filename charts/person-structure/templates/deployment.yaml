@@ -188,8 +188,8 @@ spec:
               value: "true"
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
-            {{- if (include "auth-limit-control.trustStoreEnv" .) -}}
-            {{- include "auth-limit-control.trustStoreEnv" . | nindent 12 -}}
+            {{- if (include "person-structure.trustStoreEnv" .) -}}
+            {{- include "person-structure.trustStoreEnv" . | nindent 12 -}}
             {{- end }}
             {{- if .Values.mountKeyStoreFromSecret.enabled }}
             - name: SERVER_SSL_KEY_STORE_FILE
