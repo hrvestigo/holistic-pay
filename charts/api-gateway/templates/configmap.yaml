@@ -3,5 +3,8 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-configmap
 data:
-  log4j2.xml: |-
+  application.yaml: |-
+    {{- include "api-gateway.appConfig" . | nindent 4 }}
+    
+  logback.xml: |-
     {{- include "api-gateway.logger" . | nindent 4 }}
