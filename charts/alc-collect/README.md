@@ -154,24 +154,18 @@ Kafka topics and consumer group names used by ALC collect have default names def
 ```yaml
 kafka:
   topics:
-    card:
-      name: hr.vestigo.hp.card # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.card # default value, set custom name if required
-    crdacc:
-      name: hr.vestigo.hp.crdacc # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.crdacc # default value, set custom name if required
-    custcrdintacc:
-      name: hr.vestigo.hp.custcrdintacc # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.custcrdintacc # default value, set custom name if required
-    customeraccount:
-      name: hr.vestigo.hp.customeraccount # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.customeraccount # default value, set custom name if required
-    authptragrmtlimalc:
-      name: hr.vestigo.hp.authptragrmtlimalc # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.authptragrmtlimalc # default value, set custom name if required
-    partnerdef:
-      name: hr.vestigo.hp.partnerdef # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.partnerdef # default value, set custom name if required
+    authpersstruc:
+      name: hr.vestigo.hp.authpersstruc # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.authpersstruc # default value, set custom name if required
+    limitbucket:
+      name: hr.vestigo.hp.limitbucket # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.limitbucket # default value, set custom name if required
+    authptragrmtlim:
+      name: hr.vestigo.hp.authptragrmtlim # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.authptragrmtlim # default value, set custom name if required
+    limitdef:
+      name: hr.vestigo.hp.limitdef # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.limitdef # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets

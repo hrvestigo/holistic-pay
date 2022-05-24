@@ -40,24 +40,18 @@ kafka:
     user: ""
     url: ""
   topics:
-    card:
-      name: hr.vestigo.hp.card
-      consumerGroup: hr.vestigo.hp.card
-    crdintacc:
-      name: hr.vestigo.hp.crdintacc
-      consumerGroup: hr.vestigo.hp.crdintacc
-    custcrdintacc:
-      name: hr.vestigo.hp.custcrdintacc
-      consumerGroup: hr.vestigo.hp.custcrdintacc
-    customeraccount:
-      name: hr.vestigo.hp.customeraccount
-      consumerGroup: hr.vestigo.hp.customeraccount
-    authptragrmtlimalc:
-      name: hr.vestigo.hp.authptragrmtlimalc
-      consumerGroup: hr.vestigo.hp.authptragrmtlimalc
-    partnerdef:
-      name: hr.vestigo.hp.partnerdef
-      consumerGroup: hr.vestigo.hp.partnerdef
+    authpersstruc:
+      name: hr.vestigo.hp.authpersstruc
+      consumerGroup: hr.vestigo.hp.authpersstruc
+    limitbucket:
+      name: hr.vestigo.hp.limitbucket
+      consumerGroup: hr.vestigo.hp.limitbucket
+    authptragrmtlim:
+      name: hr.vestigo.hp.authptragrmtlim
+      consumerGroup: hr.vestigo.hp.authptragrmtlim
+    limitdef:
+      name: hr.vestigo.hp.limitdef
+      consumerGroup: hr.vestigo.hp.limitdef
 
 timezone: ""
 

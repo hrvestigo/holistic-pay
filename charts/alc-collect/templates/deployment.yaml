@@ -101,30 +101,22 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
-            - name: KAFKA_TOPIC_CARD_NAME
-              value: {{ .Values.kafka.topics.card.name | quote }}
-            - name: KAFKA_TOPIC_CRDACC_NAME
-              value: {{ .Values.kafka.topics.crdintacc.name | quote }}
-            - name: KAFKA_TOPIC_CUSTCRDINTACC_NAME
-              value: {{ .Values.kafka.topics.custcrdintacc.name | quote }}
-            - name: KAFKA_TOPIC_CUSTOMERACCOUNT_NAME
-              value: {{ .Values.kafka.topics.customeraccount.name | quote }}
-            - name: KAFKA_TOPIC_AUTHPTRAGRMTLIMALC_NAME
-              value: {{ .Values.kafka.topics.authptragrmtlimalc.name | quote }}
-            - name: KAFKA_TOPIC_PARTNERDEF_NAME
-              value: {{ .Values.kafka.topics.partnerdef.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CARD_NAME
-              value: {{ .Values.kafka.topics.card.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CRDINTACC_NAME
-              value: {{ .Values.kafka.topics.crdintacc.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CUSTCRDINTACC_NAME
-              value: {{ .Values.kafka.topics.custcrdintacc.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CUSTOMERACCOUNT_NAME
-              value: {{ .Values.kafka.topics.customeraccount.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRMTLIMALC_NAME
-              value: {{ .Values.kafka.topics.authptragrmtlimalc.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_PARTNERDEF_NAME
-              value: {{ .Values.kafka.topics.partnerdef.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_AUTHPERSSTRUC_NAME
+              value: {{ .Values.kafka.topics.authpersstruc.name | quote }}
+            - name: KAFKA_TOPIC_LIMITBUCKET_NAME
+              value: {{ .Values.kafka.topics.limitbucket.name | quote }}
+            - name: KAFKA_TOPIC_AUTHPTRAGRMTLIM_NAME
+              value: {{ .Values.kafka.topics.authptragrmtlim.name | quote }}
+            - name: KAFKA_TOPIC_LIMITDEF_NAME
+              value: {{ .Values.kafka.topics.limitdef.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_AUTHPERSSTRUC_NAME
+              value: {{ .Values.kafka.topics.authpersstruc.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_LIMITBUCKET_NAME
+              value: {{ .Values.kafka.topics.limitbucket.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRMTLIM_NAME
+              value: {{ .Values.kafka.topics.authptragrmtlim.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_LIMITDEF_NAME
+              value: {{ .Values.kafka.topics.limitdef.consumerGroup | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
