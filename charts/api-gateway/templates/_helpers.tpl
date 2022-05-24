@@ -179,7 +179,7 @@ Mounts for api-gateway application
   name: truststore
 {{- end }}
 {{- if and .Values.logger.logDirMount.enabled .Values.logger.logDirMount.spec }}
-- mountPath: {{ .Values.logger.logDir }}
+- mountPath: /var/log/app
   name: logdir
 {{- end}}
 {{- end }}
