@@ -20,6 +20,18 @@ secret:
   trustStorePassword: ""
   keyStorePassword: ""
 
+logger:
+  logDirMount:
+    enabled: true # boolean value, default is true
+    spec:
+      emptyDir: {}
+      # flexVolume:
+        # driver: ""
+        # fsType: ""
+        # options:
+          # basepath: ""
+          # basename: ""
+
 routes:
   alcCollect:
     serviceName: alc-collect

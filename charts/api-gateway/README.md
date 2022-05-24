@@ -366,6 +366,45 @@ customMounts:
     mountPath: /some/mount/path # this path should be used for custom environment variables
 ```
 
+### Customizing container logs
+
+API Gateway application is predefined to redirect all logs to three different files:
+
+* `messages.log` - contains application and server logs
+
+* `health.log` - contains all incoming requests to health check endpoint (filtered out from `access.log`)
+
+* `access.log` - contains typical Web Server logs, except for health check endpoint
+
+Files are logged to `/var/log/app` folder, which is by default mounted to host's `emptyDir`. This is the default setup:
+
+```yaml
+logger:
+  logDirMount:
+    enabled: true # boolean value, default is true
+    spec:
+      emptyDir: {} # default value of mount type, other types can be used also
+```
+
+Folder can be mounted with other mount type as well, for example:
+
+```yaml
+logger:
+  logDirMount:
+    enabled: true # boolean value, default is false
+    spec:
+      flexVolume:
+        driver: "volume-driver"
+        fsType: "bind"
+        options:
+          basepath: "/host/path"
+          basename: "nope"
+          uid: 1000
+          gid: 1000
+```
+
+Note that any type of mount specification can be used by following standard Kubernetes mount specification, the only requirement is that it has to be defined under `logger.logDirMount.spec` attribute in values file.
+
 ### Modifying deployment strategy
 
 Default deployment strategy for API Gateway application is `RollingUpdate`, but it can be overridden, along with other deployment parameters using following attributes (default values are shown):
