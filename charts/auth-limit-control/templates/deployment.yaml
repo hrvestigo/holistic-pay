@@ -67,7 +67,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ include "auth-limit-control.app.repository" . }}:{{ .Values.image.tag | default .Chart.AppVersion }}
+          image: {{ include "auth-limit-control.app.repository" . }}:{{ .Values.image.app.tag | default .Chart.AppVersion }}
           imagePullPolicy: {{ include "auth-limit-control.app.imagePullPolicy" . }}
           env:
             {{- if .Values.timezone }}

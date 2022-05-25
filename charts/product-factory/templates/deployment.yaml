@@ -67,7 +67,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ include "product-factory.app.repository" . }}:{{ .Values.image.tag | default .Chart.AppVersion }}
+          image: {{ include "product-factory.app.repository" . }}:{{ .Values.image.app.tag | default .Chart.AppVersion }}
           imagePullPolicy: {{ include "product-factory.app.imagePullPolicy" . }}
           env:
             {{- if .Values.timezone }}
