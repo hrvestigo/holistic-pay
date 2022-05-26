@@ -55,6 +55,12 @@ imagePullSecrets:
 Auth limit control application relies on PostgreSQL database and Kafka backends.
 In order to assure connectivity to those backends, it's required to set basic info into values file.
 
+Starting from chart version 0.3.0 (application version 1.1.21), Auth limit control application also requires URL of Partner bank interface application to be defined with attribute `partnerBankServiceUrl`.
+
+```yaml
+partnerBankServiceUrl: https://partner-bank-interface:8443 # default value, should point to partner-bank-interface Service name and port number
+```
+
 ### Datasource connection setup
 
 All values required for PostgreSQL database connection are defined within `datasource` parent attribute.

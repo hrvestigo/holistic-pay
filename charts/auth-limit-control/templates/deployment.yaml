@@ -203,6 +203,8 @@ spec:
             {{- end }}
             - name: SPRING_PROFILES_ACTIVE
               value: {{ .Values.springActiveProfile | quote }}
+            - name: PARTNER_BANK_SERVICE_URL
+              value: {{ .Values.partnerBankServiceUrl | quote }}/api/v1/partnerBank
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

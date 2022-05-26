@@ -64,6 +64,8 @@ kafka:
 
 timezone: ""
 
+partnerBankServiceUrl: https://partner-bank-interface:8443
+
 secret:
   decryptionKey: ""
   datasourcePassword: ""
