@@ -58,6 +58,9 @@ kafka:
     partnerdef:
       name: hr.vestigo.hp.partnerdef
       consumerGroup: hr.vestigo.hp.partnerdef
+    risklimitcontract:
+      name: hr.vestigo.hp.risklimitcontract
+      consumerGroup: hr.vestigo.hp.risklimitcontract
 
 timezone: ""
 

@@ -157,9 +157,9 @@ kafka:
     card:
       name: hr.vestigo.hp.card # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.card # default value, set custom name if required
-    crdacc:
-      name: hr.vestigo.hp.crdacc # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.crdacc # default value, set custom name if required
+    crdintacc:
+      name: hr.vestigo.hp.crdintacc # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.crdintacc # default value, set custom name if required
     custcrdintacc:
       name: hr.vestigo.hp.custcrdintacc # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.custcrdintacc # default value, set custom name if required
@@ -172,6 +172,9 @@ kafka:
     partnerdef:
       name: hr.vestigo.hp.partnerdef # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.partnerdef # default value, set custom name if required
+    risklimitcontract:
+      name: hr.vestigo.hp.risklimitcontract # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.risklimitcontract # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets

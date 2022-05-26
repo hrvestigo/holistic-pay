@@ -113,6 +113,8 @@ spec:
               value: {{ .Values.kafka.topics.authptragrmtlimalc.name | quote }}
             - name: KAFKA_TOPIC_PARTNERDEF_NAME
               value: {{ .Values.kafka.topics.partnerdef.name | quote }}
+            - name: KAFKA_TOPIC_RISKLIMITCONTRACT_NAME
+              value: {{ .Values.kafka.topics.risklimitcontract.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CARD_NAME
               value: {{ .Values.kafka.topics.card.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDINTACC_NAME
@@ -125,6 +127,8 @@ spec:
               value: {{ .Values.kafka.topics.authptragrmtlimalc.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_PARTNERDEF_NAME
               value: {{ .Values.kafka.topics.partnerdef.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_RISKLIMITCONTRACT_NAME
+              value: {{ .Values.kafka.topics.risklimitcontract.consumerGroup | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
