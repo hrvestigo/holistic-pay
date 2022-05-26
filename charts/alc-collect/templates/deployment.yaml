@@ -101,16 +101,16 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
-            - name: KAFKA_TOPIC_AUTHPERSSTRUC_NAME
-              value: {{ .Values.kafka.topics.authpersstruc.name | quote }}
+            - name: KAFKA_TOPIC_PERSONSTRUCTUREDEF_NAME
+              value: {{ .Values.kafka.topics.personstructuredef.name | quote }}
             - name: KAFKA_TOPIC_LIMITBUCKET_NAME
               value: {{ .Values.kafka.topics.limitbucket.name | quote }}
             - name: KAFKA_TOPIC_AUTHPTRAGRMTLIM_NAME
               value: {{ .Values.kafka.topics.authptragrmtlim.name | quote }}
             - name: KAFKA_TOPIC_LIMITDEF_NAME
               value: {{ .Values.kafka.topics.limitdef.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_AUTHPERSSTRUC_NAME
-              value: {{ .Values.kafka.topics.authpersstruc.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTUREDEF_NAME
+              value: {{ .Values.kafka.topics.personstructuredef.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_LIMITBUCKET_NAME
               value: {{ .Values.kafka.topics.limitbucket.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRMTLIM_NAME

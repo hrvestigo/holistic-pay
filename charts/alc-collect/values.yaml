@@ -40,9 +40,9 @@ kafka:
     user: ""
     url: ""
   topics:
-    authpersstruc:
-      name: hr.vestigo.hp.authpersstruc
-      consumerGroup: hr.vestigo.hp.authpersstruc
+    personstructuredef:
+      name: hr.vestigo.hp.personstructuredef
+      consumerGroup: hr.vestigo.hp.personstructuredef
     limitbucket:
       name: hr.vestigo.hp.limitbucket
       consumerGroup: hr.vestigo.hp.limitbucket

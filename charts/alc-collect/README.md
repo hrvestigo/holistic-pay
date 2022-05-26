@@ -154,9 +154,9 @@ Kafka topics and consumer group names used by ALC collect have default names def
 ```yaml
 kafka:
   topics:
-    authpersstruc:
-      name: hr.vestigo.hp.authpersstruc # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.authpersstruc # default value, set custom name if required
+    personstructuredef:
+      name: hr.vestigo.hp.personstructuredef # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.personstructuredef # default value, set custom name if required
     limitbucket:
       name: hr.vestigo.hp.limitbucket # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.limitbucket # default value, set custom name if required
