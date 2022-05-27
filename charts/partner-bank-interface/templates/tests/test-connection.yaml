@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "partner-bank-interface.name" . }}-test-connection"
+  labels:
+    {{- include "partner-bank-interface.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: curl
+      image: alpine
+      command:
+        - 'bash'
+        - -c
+        - 'apk add curl && curl -k https://{{ include "partner-bank-interface.name" . }}:{{ .Values.service.port }}/health/liveness'
+  restartPolicy: Never
