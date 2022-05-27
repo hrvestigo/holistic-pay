@@ -204,6 +204,8 @@
     <Logger name="hr.vestigo.springtemplate.app.filter.AccessLogFilter" level="DEBUG" additivity="false">
       <AppenderRef ref="Health"/>
     </Logger>
+    {{- else }}
+    <Logger name="hr.vestigo.springtemplate.app.filter.AccessLogFilter" level="ERROR" additivity="false"></Logger>
     {{- end }}
     <Logger name="hr.vestigo.springtemplate.app.interceptors.CorrelationIdHttpInterceptor" level="DEBUG" additivity="false">
       {{- if .logToFile }}
