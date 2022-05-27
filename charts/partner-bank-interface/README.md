@@ -158,27 +158,18 @@ Kafka topics and consumer group names used by Partner bank interface have defaul
 ```yaml
 kafka:
   topics:
-    card:
-      name: hr.vestigo.hp.card # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.card # default value, set custom name if required
-    crdintacc:
-      name: hr.vestigo.hp.crdintacc # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.crdintacc # default value, set custom name if required
-    custcrdintacc:
-      name: hr.vestigo.hp.custcrdintacc # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.custcrdintacc # default value, set custom name if required
-    customeraccount:
-      name: hr.vestigo.hp.customeraccount # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.customeraccount # default value, set custom name if required
-    authptragrmtlimalc:
-      name: hr.vestigo.hp.authptragrmtlimalc # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.authptragrmtlimalc # default value, set custom name if required
-    partnerdef:
-      name: hr.vestigo.hp.partnerdef # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.partnerdef # default value, set custom name if required
-    risklimitcontract:
-      name: hr.vestigo.hp.risklimitcontract # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.risklimitcontract # default value, set custom name if required
+    partnerbankinterface5s:
+      name: hr.vestigo.hp.partnerbankinterface5s # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.partnerbankinterface5s # default value, set custom name if required
+    partnerbankinterface10s:
+      name: hr.vestigo.hp.partnerbankinterface10s # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.partnerbankinterface10s # default value, set custom name if required
+    partnerbankinterface5m:
+      name: hr.vestigo.hp.partnerbankinterface5m # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.partnerbankinterface5m # default value, set custom name if required
+    partnerbankinterface10m:
+      name: hr.vestigo.hp.partnerbankinterface10m # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.partnerbankinterface10m # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets
