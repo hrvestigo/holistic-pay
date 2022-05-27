@@ -163,6 +163,17 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/auth-limit-control-0.2.0/auth-limit-control-0.2.0.tgz
     version: 0.2.0
+  partner-bank-interface:
+  - apiVersion: v2
+    appVersion: 1.2.4
+    created: "2022-05-27T09:41:58.887155626Z"
+    description: Helm chart for partner bank interface application
+    digest: 0e553eebeb82ee7a334d5dc3a94b87c7afe0921c8dbd7edfa7a2620b7f0bd0d9
+    name: partner-bank-interface
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/partner-bank-interface-0.3.0/partner-bank-interface-0.3.0.tgz
+    version: 0.3.0
   person-structure:
   - apiVersion: v2
     appVersion: 1.1.8
@@ -245,4 +256,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/product-factory-0.2.0/product-factory-0.2.0.tgz
     version: 0.2.0
-generated: "2022-05-26T13:33:05.760911741Z"
+generated: "2022-05-27T09:41:59.191943134Z"
