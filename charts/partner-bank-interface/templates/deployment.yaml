@@ -101,18 +101,22 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
-            - name: KAFKA_TOPIC_PARTNERBANKINTERFACE5S_NAME
-              value: {{ .Values.kafka.topics.partnerbankinterface5s.name | quote }}
             - name: KAFKA_TOPIC_PARTNERBANKINTERFACE10S_NAME
               value: {{ .Values.kafka.topics.partnerbankinterface10s.name | quote }}
+            - name: KAFKA_TOPIC_PARTNERBANKINTERFACE30S_NAME
+              value: {{ .Values.kafka.topics.partnerbankinterface30s.name | quote }}
+            - name: KAFKA_TOPIC_PARTNERBANKINTERFACE1M_NAME
+              value: {{ .Values.kafka.topics.partnerbankinterface1m.name | quote }}
             - name: KAFKA_TOPIC_PARTNERBANKINTERFACE5M_NAME
               value: {{ .Values.kafka.topics.partnerbankinterface5m.name | quote }}
             - name: KAFKA_TOPIC_PARTNERBANKINTERFACE10M_NAME
               value: {{ .Values.kafka.topics.partnerbankinterface10m.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_PARTNERBANKINTERFACE5S_NAME
-              value: {{ .Values.kafka.topics.partnerbankinterface5s.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_PARTNERBANKINTERFACE10S_NAME
               value: {{ .Values.kafka.topics.partnerbankinterface10s.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PARTNERBANKINTERFACE30S_NAME
+              value: {{ .Values.kafka.topics.partnerbankinterface30s.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PARTNERBANKINTERFACE1M_NAME
+              value: {{ .Values.kafka.topics.partnerbankinterface1m.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_PARTNERBANKINTERFACE5M_NAME
               value: {{ .Values.kafka.topics.partnerbankinterface5m.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_PARTNERBANKINTERFACE10M_NAME

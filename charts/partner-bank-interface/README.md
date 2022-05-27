@@ -158,12 +158,15 @@ Kafka topics and consumer group names used by Partner bank interface have defaul
 ```yaml
 kafka:
   topics:
-    partnerbankinterface5s:
-      name: hr.vestigo.hp.partnerbankinterface5s # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.partnerbankinterface5s # default value, set custom name if required
     partnerbankinterface10s:
       name: hr.vestigo.hp.partnerbankinterface10s # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.partnerbankinterface10s # default value, set custom name if required
+    partnerbankinterface30s:
+      name: hr.vestigo.hp.partnerbankinterface30s # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.partnerbankinterface30s # default value, set custom name if required
+    partnerbankinterface1m:
+      name: hr.vestigo.hp.partnerbankinterface1m # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.partnerbankinterface1m # default value, set custom name if required
     partnerbankinterface5m:
       name: hr.vestigo.hp.partnerbankinterface5m # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.partnerbankinterface5m # default value, set custom name if required

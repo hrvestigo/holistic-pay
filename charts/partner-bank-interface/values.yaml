@@ -40,12 +40,15 @@ kafka:
     user: ""
     url: ""
   topics:
-    partnerbankinterface5s:
-      name: hr.vestigo.hp.partnerbankinterface5s
-      consumerGroup: hr.vestigo.hp.partnerbankinterface5s
     partnerbankinterface10s:
       name: hr.vestigo.hp.partnerbankinterface10s
       consumerGroup: hr.vestigo.hp.partnerbankinterface10s
+    partnerbankinterface30s:
+      name: hr.vestigo.hp.partnerbankinterface30s
+      consumerGroup: hr.vestigo.hp.partnerbankinterface30s
+    partnerbankinterface1m:
+      name: hr.vestigo.hp.partnerbankinterface1m
+      consumerGroup: hr.vestigo.hp.partnerbankinterface1m
     partnerbankinterface5m:
       name: hr.vestigo.hp.partnerbankinterface5m
       consumerGroup: hr.vestigo.hp.partnerbankinterface5m
