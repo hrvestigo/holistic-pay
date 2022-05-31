@@ -204,7 +204,7 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: {{ .Values.springActiveProfile | quote }}
             - name: PARTNER_BANK_SERVICE_URL
-              value: {{ .Values.partnerBankServiceUrl | quote }}/api/v1/partnerBank
+              value: {{ required "Please specify partner bank interface microservice url in partnerBankServiceUrl" .Values.partnerBankServiceUrl }}/api/v1/partnerBank
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
