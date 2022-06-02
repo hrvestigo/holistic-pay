@@ -197,13 +197,15 @@ spec:
               value: {{ required "Please specify Spring profile in springActiveProfile. Possible values: 'dev', 'prod'." .Values.springActiveProfile | quote }}
             - name: PARTNER_BANK_SERVICE_URL
               value: {{ required "Please specify partner bank service URL in partnerBankServiceUrl" .Values.partnerBankServiceUrl | quote }}
-            {{- if .Values.keycloak.enabled }}
+            {{- if .Values.oauth2.enabled }}
             - name: KEYCLOAK_REALM
-              value: {{ required "Please specify Keycloak realm name in keycloak.realm" .Values.keycloak.realm | quote }}
+              value: {{ required "Please specify Keycloak realm name in oauth2.realm" .Values.oauth2.realm | quote }}
             - name: KEYCLOAK_AUTHSERVERURL
-              value: {{ required "Please specify Keycloak server URL in keycloak.serverUrl" .Values.keycloak.serverUrl | quote }}
+              value: {{ required "Please specify Keycloak server URL in oauth2.serverUrl" .Values.oauth2.serverUrl | quote }}
             - name: KEYCLOAK_RESOURCE
-              value: {{ required "Please specify Keycloak resource name in keycloak.resource" .Values.keycloak.resource | quote }}
+              value: {{ required "Please specify Keycloak resource name in oauth2.resource" .Values.oauth2.resource | quote }}
+            - name: SECURITY_KEYCLOAK_CACHETOKEN
+              value: {{ required "Please specify if oAuth2 token cache is enabled in oauth2.cacheEnabled" .Values.oauth2.cacheEnabled | quote }}
             {{- end }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}

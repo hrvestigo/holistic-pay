@@ -489,6 +489,7 @@ keycloak:
   realm: Holistic-Pay # default value, specify other if required
   serverUrl: "" # no default value
   resource: aux # default value, specify other if required
+  cacheEnabled: true # enabled by default
 
 secret:
   keycloakClientToken: "" # no default value
@@ -501,10 +502,12 @@ First parameter is realm name which is defined in Keycloak. Default value for th
 
 Second parameter is Keycloak server URL which has to be defined (has no default value). URL should contain Keycloak server FQDN, followed by `/auth` endpoint, for example: `https://keycloak.custom.domain/auth`.
 
-Third parameter is used to define Keycloak client, which is by default set to `aux`.
+Third parameter is used to define Keycloak client ID, which is by default set to `aux`.
 This value can be modified with `keycloak.resource` attribute.
 
-Final parameter to set is Keycloak cache token, which should be set with `secret.keycloakClientToken` attribute. This is an AES encrypted token which is encrypted using the same encryption key as other secrets (`secret.decryptionKey`).
+Next parameter to set is Keycloak client token, which should be set with `secret.keycloakClientToken` attribute. This is an AES encrypted token which is encrypted using the same encryption key as other secrets (`secret.decryptionKey`).
+
+Final parameter is used to define if token will be cached in application. Cache is enabled by default but can be disabled by setting attribute `cacheEnabled` to `false`.
 
 ### Adding custom environment variables
 

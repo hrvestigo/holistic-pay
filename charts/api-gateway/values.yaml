@@ -43,7 +43,7 @@ routes:
     serviceName: person-structure
     servicePortNumber: "8443"
 
-oAuth2:
+oauth2:
   enabled: false
   resourceUri: ""
 

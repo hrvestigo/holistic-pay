@@ -56,11 +56,12 @@ kafka:
       name: hr.vestigo.hp.partnerbankinterface10m
       consumerGroup: hr.vestigo.hp.partnerbankinterface10m
 
-keycloak:
+oauth2:
   enabled: false
   realm: Holistic-Pay
   serverUrl: ""
   resource: aux
+  cacheEnabled: true
 
 timezone: ""
 
@@ -78,7 +79,7 @@ secret:
       fileName: ""
   trustStorePassword: ""
   keyStorePassword: ""
-  keycloakClientToken: ""
+  oauth2ClientToken: ""
 
 logger:
   logToFile: false
