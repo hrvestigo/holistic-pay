@@ -64,6 +64,16 @@ entries:
   api-gateway:
   - apiVersion: v2
     appVersion: 1.1.24
+    created: "2022-06-02T14:47:16.755072806Z"
+    description: Helm chart for API gateway application
+    digest: 8656f8deb30355f96a912dbef6c9c8747b09bdd8c17b48d197b9545d1c969e85
+    name: api-gateway
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/api-gateway-1.1.25/api-gateway-1.1.25.tgz
+    version: 1.1.25
+  - apiVersion: v2
+    appVersion: 1.1.24
     created: "2022-06-02T12:33:15.254063206Z"
     description: Helm chart for API gateway application
     digest: 51078e82b92855d673d5f93d4d755f48a24ad54f5f05f2dbe6d9e699fabbeea4
@@ -206,6 +216,16 @@ entries:
   partner-bank-interface:
   - apiVersion: v2
     appVersion: 2.0.2
+    created: "2022-06-02T14:47:16.889512596Z"
+    description: Helm chart for partner bank interface application
+    digest: 5ac07f6368b893130923dc87fefc9a3c565f8556da6b81e6a133bf7a54ef1a06
+    name: partner-bank-interface
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/partner-bank-interface-2.0.3/partner-bank-interface-2.0.3.tgz
+    version: 2.0.3
+  - apiVersion: v2
+    appVersion: 2.0.2
     created: "2022-06-02T12:33:15.492505206Z"
     description: Helm chart for partner bank interface application
     digest: 0a10ec7fdaa37537bded849ed9fb63d9a726473e7887c491719fa6d62fa8bb29
@@ -336,4 +356,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/product-factory-0.2.0/product-factory-0.2.0.tgz
     version: 0.2.0
-generated: "2022-06-02T12:33:15.751988378Z"
+generated: "2022-06-02T14:47:16.8898304Z"
