@@ -62,6 +62,10 @@ kafka:
       name: hr.vestigo.hp.risklimitcontract
       consumerGroup: hr.vestigo.hp.risklimitcontract
 
+oauth2:
+  enabled: false
+  resourceUri: ""
+
 timezone: ""
 
 secret:

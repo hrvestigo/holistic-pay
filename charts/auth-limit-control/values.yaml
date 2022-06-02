@@ -62,9 +62,13 @@ kafka:
       name: hr.vestigo.hp.finctrllimtype
       consumerGroup: hr.vestigo.hp.finctrllimtype
 
-timezone: ""
+oauth2:
+  enabled: false
+  resourceUri: ""
 
 partnerBankServiceUrl: https://partner-bank-interface:8443
+
+timezone: ""
 
 secret:
   decryptionKey: ""

@@ -43,6 +43,10 @@ routes:
     serviceName: person-structure
     servicePortNumber: "8443"
 
+oAuth2:
+  enabled: false
+  resourceUri: ""
+
 healthStatusDownReturnCode: "418"
 
 javaOpts: "-Xms256M -Xmx256M -Dreactor.netty.http.server.accessLogEnabled=true -Dlogging.config=/opt/app/logback.xml"

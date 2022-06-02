@@ -203,6 +203,14 @@ spec:
             {{- end }}
             - name: SPRING_PROFILES_ACTIVE
               value: {{ .Values.springActiveProfile | quote }}
+            {{- if .Values.oauth2.enabled }}
+            - name: SECURITY_AUTHENTICATION
+              value: oauth2
+            - name: SECURITY_AUTHENTICATION_JWT_CONVERTER
+              value: realm
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUERURI
+              value: {{ required "Please specify oAuth2 resource URI in oauth2.resourceUri" .Values.oauth2.resourceUri | quote }}
+            {{- end }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

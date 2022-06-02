@@ -194,9 +194,17 @@ spec:
               value: {{ required "Please specify key store type in mountKeyStoreFromSecret.keyStoreType" .Values.mountKeyStoreFromSecret.keyStoreType }}
             {{- end }}
             - name: SPRING_PROFILES_ACTIVE
-              value: {{ .Values.springActiveProfile | quote }}
+              value: {{ required "Please specify Spring profile in springActiveProfile. Possible values: 'dev', 'prod'." .Values.springActiveProfile | quote }}
             - name: PARTNER_BANK_SERVICE_URL
               value: {{ required "Please specify partner bank service URL in partnerBankServiceUrl" .Values.partnerBankServiceUrl | quote }}
+            {{- if .Values.keycloak.enabled }}
+            - name: KEYCLOAK_REALM
+              value: {{ required "Please specify Keycloak realm name in keycloak.realm" .Values.keycloak.realm | quote }}
+            - name: KEYCLOAK_AUTHSERVERURL
+              value: {{ required "Please specify Keycloak server URL in keycloak.serverUrl" .Values.keycloak.serverUrl | quote }}
+            - name: KEYCLOAK_RESOURCE
+              value: {{ required "Please specify Keycloak resource name in keycloak.resource" .Values.keycloak.resource | quote }}
+            {{- end }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

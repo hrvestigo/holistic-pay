@@ -1,4 +1,17 @@
+{{- if .Values.oAuth2.enabled -}}
+api:
+  gateway:
+    authentication: oauth2
+{{ "" }}
+{{- end }}
 spring:
+  {{- if .Values.oAuth2.enabled }}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: {{ required "Please specify oAuth2 URI in oAuth2.resourceUri" .Values.oAuth2.resourceUri }}
+  {{- end }}
   cloud:
     gateway:
       routes:

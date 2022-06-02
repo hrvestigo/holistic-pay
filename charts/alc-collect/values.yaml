@@ -53,6 +53,10 @@ kafka:
       name: hr.vestigo.hp.limitdef
       consumerGroup: hr.vestigo.hp.limitdef
 
+oauth2:
+  enabled: false
+  resourceUri: ""
+
 timezone: ""
 
 secret:

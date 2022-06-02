@@ -472,6 +472,20 @@ When using secret to mount key store, no additional custom setup is required.
 
 Besides required attributes, installation of ALC collect can be customized in different ways.
 
+### oAuth2
+
+ALC collect application can use oAuth2 service for authorization. By default, this option is disabled, but can easily be enabled by specifying following attributes in values:
+
+```yaml
+oAuth2:
+  enabled: true # default is false
+  resourceUri: "" # has to be specified if enabled, no default value
+```
+
+To configure oAuth2, it first has to be enabled with `oAuth2.enabled` parameter.
+When enabled, `oAuth2.resourceUri` should also be defined.
+This URI should point to oAuth2 server with defined converter type and name, for example `https://oauth2.server/realm/Holistic-Pay`.
+
 ### Adding custom environment variables
 
 Custom environment variables can be added to alc-collect container by applying `customEnv` value, for example:

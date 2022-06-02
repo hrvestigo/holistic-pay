@@ -479,6 +479,33 @@ When using secret to mount key store, no additional custom setup is required.
 
 Besides required attributes, installation of Partner bank interface can be customized in different ways.
 
+### oAuth2
+
+Partner bank interface application can use Keycloak implementation for oAuth2 authentication and authorization. By default, this option is disabled, but can easily be enabled by specifying following attributes in values:
+
+```yaml
+keycloak:
+  enabled: true
+  realm: Holistic-Pay # default value, specify other if required
+  serverUrl: "" # no default value
+  resource: aux # default value, specify other if required
+
+secret:
+  keycloakClientToken: "" # no default value
+```
+
+To configure Keycloak, it first has to be enabled with `keycloak.enabled` parameter.
+When enabled, other parameters should be defined.
+
+First parameter is realm name which is defined in Keycloak. Default value for this parameter is `Holistic-Pay`, but it can be modified with `keycloak.realm` attribute.
+
+Second parameter is Keycloak server URL which has to be defined (has no default value). URL should contain Keycloak server FQDN, followed by `/auth` endpoint, for example: `https://keycloak.custom.domain/auth`.
+
+Third parameter is used to define Keycloak client, which is by default set to `aux`.
+This value can be modified with `keycloak.resource` attribute.
+
+Final parameter to set is Keycloak cache token, which should be set with `secret.keycloakClientToken` attribute. This is an AES encrypted token which is encrypted using the same encryption key as other secrets (`secret.decryptionKey`).
+
 ### Adding custom environment variables
 
 Custom environment variables can be added to partner-bank-interface container by applying `customEnv` value, for example:
