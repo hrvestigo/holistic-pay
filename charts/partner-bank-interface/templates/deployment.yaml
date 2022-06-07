@@ -197,6 +197,8 @@ spec:
               value: {{ required "Please specify Spring profile in springActiveProfile. Possible values: 'dev', 'prod'." .Values.springActiveProfile | quote }}
             - name: PARTNER_BANK_SERVICE_URL
               value: {{ required "Please specify partner bank service URL in partnerBankServiceUrl" .Values.partnerBankServiceUrl | quote }}
+            - name: SECURITY_OUTBOUND_OAUTH2_TOKEN
+              value: {{ .Values.oauth2.enabled | quote}}
             {{- if .Values.oauth2.enabled }}
             - name: KEYCLOAK_REALM
               value: {{ required "Please specify Keycloak realm name in oauth2.realm" .Values.oauth2.realm | quote }}

@@ -198,6 +198,13 @@ spec:
               value: realm
             - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUERURI
               value: {{ required "Please specify oAuth2 resource URI in oauth2.resourceUri" .Values.oauth2.resourceUri | quote }}
+            {{- else }}
+            - name: SECURITY_AUTHENTICATION
+              value: none
+            - name: SECURITY_AUTHENTICATION_JWT_CONVERTER
+              value: ""
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUERURI
+              value: ""
             {{- end }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
