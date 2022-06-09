@@ -3,4 +3,4 @@ name: api-gateway
 description: Helm chart for API gateway application
 type: application
 version: 1.1.26
-appVersion: 1.1.26
+appVersion: 1.1.25
