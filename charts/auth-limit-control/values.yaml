@@ -61,6 +61,9 @@ kafka:
     finctrllimtype:
       name: hr.vestigo.hp.finctrllimtype
       consumerGroup: hr.vestigo.hp.finctrllimtype
+    partnerbankinterface10s:
+      name: hr.vestigo.hp.partnerbankinterface10s
+      consumerGroup: hr.vestigo.hp.partnerbankinterface10s
 
 oauth2:
   enabled: false

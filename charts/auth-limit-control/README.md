@@ -181,6 +181,9 @@ kafka:
     finctrllimtype:
       name: hr.vestigo.hp.finctrllimtype # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.finctrllimtype # default value, set custom name if required
+    partnerbankinterface10s:
+      name: hr.vestigo.hp.partnerbankinterface10s # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.partnerbankinterface10s # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets
