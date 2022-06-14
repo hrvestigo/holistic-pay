@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   alc-collect:
   - apiVersion: v2
+    appVersion: 2.2.0
+    created: "2022-06-14T14:06:49.148422207Z"
+    description: Helm chart for ALC collect application
+    digest: 5d6bc114bb2d35e6c24b5defebecfd4a1c4d8eee853f67611e649c548fa73f23
+    name: alc-collect
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/alc-collect-2.2.0/alc-collect-2.2.0.tgz
+    version: 2.2.0
+  - apiVersion: v2
     appVersion: 2.1.1
     created: "2022-06-07T12:56:14.426529702Z"
     description: Helm chart for ALC collect application
@@ -194,6 +204,16 @@ entries:
     version: 0.2.0
   auth-limit-control:
   - apiVersion: v2
+    appVersion: 2.12.0
+    created: "2022-06-14T14:06:49.261500299Z"
+    description: Helm chart for auth limit control application
+    digest: 29b89649020ebdc88ba72387d04d4d9c01fe15bdd9a72dbf75c2fbb0ac3e0c80
+    name: auth-limit-control
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/auth-limit-control-2.12.0/auth-limit-control-2.12.0.tgz
+    version: 2.12.0
+  - apiVersion: v2
     appVersion: 2.9.0
     created: "2022-06-10T12:18:05.085630378Z"
     description: Helm chart for auth limit control application
@@ -275,6 +295,16 @@ entries:
     version: 0.2.0
   partner-bank-interface:
   - apiVersion: v2
+    appVersion: 2.2.0
+    created: "2022-06-14T14:06:49.390409928Z"
+    description: Helm chart for partner bank interface application
+    digest: 71aaac832181de115a6400e6315c6305e360e468432c9f557183bd6803fbfb16
+    name: partner-bank-interface
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/partner-bank-interface-2.2.0/partner-bank-interface-2.2.0.tgz
+    version: 2.2.0
+  - apiVersion: v2
     appVersion: 2.0.5
     created: "2022-06-08T14:13:09.246029887Z"
     description: Helm chart for partner bank interface application
@@ -335,6 +365,16 @@ entries:
     - https://github.com/hrvestigo/holistic-pay/releases/download/partner-bank-interface-0.3.0/partner-bank-interface-0.3.0.tgz
     version: 0.3.0
   person-structure:
+  - apiVersion: v2
+    appVersion: 2.0.2
+    created: "2022-06-14T14:06:49.519925466Z"
+    description: Helm chart for person structure application
+    digest: 1939966a75d59460fc7da0c760d1afcae8b2d976c62dbe4600e2451a16f75a75
+    name: person-structure
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/person-structure-2.0.2/person-structure-2.0.2.tgz
+    version: 2.0.2
   - apiVersion: v2
     appVersion: 2.0.1
     created: "2022-06-07T12:56:14.819235831Z"
@@ -456,4 +496,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/product-factory-0.2.0/product-factory-0.2.0.tgz
     version: 0.2.0
-generated: "2022-06-10T12:18:05.085726477Z"
+generated: "2022-06-14T14:06:49.520081568Z"
