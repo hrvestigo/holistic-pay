@@ -505,7 +505,7 @@ Second parameter is Keycloak server URL which has to be defined (has no default 
 Third parameter is used to define Keycloak client ID, which is by default set to `aux`.
 This value can be modified with `keycloak.resource` attribute.
 
-Next parameter to set is Keycloak client token, which should be set with `secret.keycloakClientToken` attribute. This is an AES encrypted token which is encrypted using the same encryption key as other secrets (`secret.decryptionKey`).
+Next parameter to set is Keycloak client token, which should be set with `secret.oauth2ClientToken` attribute. This is an AES encrypted token which is encrypted using the same encryption key as other secrets (`secret.decryptionKey`).
 
 Final parameter is used to define if token will be cached in application. Cache is enabled by default but can be disabled by setting attribute `cacheEnabled` to `false`.
 
