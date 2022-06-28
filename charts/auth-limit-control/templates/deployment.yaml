@@ -117,6 +117,8 @@ spec:
               value: {{ .Values.kafka.topics.finctrllimtype.name | quote }}
             - name: KAFKA_TOPIC_PARTNERBANKINTERFACE10S_NAME
               value: {{ .Values.kafka.topics.partnerbankinterface10s.name | quote }}
+            - name: KAFKA_TOPIC_CRDAUTHTRXMATCH_NAME
+              value: {{ .Values.kafka.topics.crdauthtrxmatch.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTUREDEF_NAME
               value: {{ .Values.kafka.topics.personstructuredef.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_LIMITDEF_NAME
@@ -133,6 +135,8 @@ spec:
               value: {{ .Values.kafka.topics.finctrllimtype.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_PARTNERBANKINTERFACE10S_NAME
               value: {{ .Values.kafka.topics.partnerbankinterface10s.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CRDAUTHTRXMATCH_NAME
+              value: {{ .Values.kafka.topics.crdauthtrxmatch.consumerGroup | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

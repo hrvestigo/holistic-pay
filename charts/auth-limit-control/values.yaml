@@ -64,6 +64,9 @@ kafka:
     partnerbankinterface10s:
       name: hr.vestigo.hp.partnerbankinterface10s
       consumerGroup: hr.vestigo.hp.partnerbankinterface10s
+    crdauthtrxmatch:
+      name: hr.vestigo.hp.crdauthtrxmatch
+      consumerGroup: hr.vestigo.hp.crdauthtrxmatch
 
 oauth2:
   enabled: false
