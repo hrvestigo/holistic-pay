@@ -115,6 +115,8 @@ spec:
               value: {{ .Values.kafka.topics.partnerdef.name | quote }}
             - name: KAFKA_TOPIC_RISKLIMITCONTRACT_NAME
               value: {{ .Values.kafka.topics.risklimitcontract.name | quote }}
+            - name: KAFKA_TOPIC_RISKLIMITDEF_NAME
+              value: {{ .Values.kafka.topics.risklimitdef.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CARD_NAME
               value: {{ .Values.kafka.topics.card.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDINTACC_NAME

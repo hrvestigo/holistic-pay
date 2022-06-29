@@ -175,6 +175,8 @@ kafka:
     risklimitcontract:
       name: hr.vestigo.hp.risklimitcontract # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.risklimitcontract # default value, set custom name if required
+    risklimitdef:
+      name: hr.vestigo.hp.risklimitdef # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets
