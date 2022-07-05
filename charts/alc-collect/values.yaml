@@ -46,6 +46,8 @@ kafka:
     limitbucket:
       name: hr.vestigo.hp.limitbucket
       consumerGroup: hr.vestigo.hp.limitbucket
+    limitbucketh:
+      consumerGroup: hr.vestigo.hp.limitbucketh
     authptragrmtlim:
       name: hr.vestigo.hp.authptragrmtlim
       consumerGroup: hr.vestigo.hp.authptragrmtlim
