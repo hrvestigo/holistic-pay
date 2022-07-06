@@ -67,6 +67,15 @@ kafka:
     crdauthtrxmatch:
       name: hr.vestigo.hp.crdauthtrxmatch
       consumerGroup: hr.vestigo.hp.crdauthtrxmatch
+    risklimitdef:
+      name: hr.vestigo.hp.risklimitdef
+      consumerGroup: hr.vestigo.hp.risklimitdef
+    expiredauth:
+      name: hr.vestigo.hp.expiredauth
+      consumerGroup: hr.vestigo.hp.expiredauth
+    matchedauth:
+      name: hr.vestigo.hp.matchedauth
+      consumerGroup: hr.vestigo.hp.matchedauth
 
 oauth2:
   enabled: false
