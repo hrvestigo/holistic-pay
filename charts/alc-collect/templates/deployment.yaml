@@ -114,6 +114,10 @@ spec:
               value: {{ .Values.kafka.topics.authptragrmtlim.name | quote }}
             - name: KAFKA_TOPIC_LIMITDEF_NAME
               value: {{ .Values.kafka.topics.limitdef.name | quote }}
+            - name: KAFKA_TOPIC_EXPIREDAUTH_NAME
+              value: {{ .Values.kafka.topics.expiredauth.name | quote }}
+            - name: KAFKA_TOPIC_MATCHEDAUTH_NAME
+              value: {{ .Values.kafka.topics.matchedauth.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTUREDEF_NAME
               value: {{ .Values.kafka.topics.personstructuredef.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_LIMITBUCKET_NAME
@@ -124,6 +128,10 @@ spec:
               value: {{ .Values.kafka.topics.authptragrmtlim.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_LIMITDEF_NAME
               value: {{ .Values.kafka.topics.limitdef.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_EXPIREDAUTH_NAME
+              value: {{ .Values.kafka.topics.expiredauth.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_MATCHEDAUTH_NAME
+              value: {{ .Values.kafka.topics.matchedauth.consumerGroup | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

@@ -168,6 +168,12 @@ kafka:
     limitdef:
       name: hr.vestigo.hp.limitdef # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.limitdef # default value, set custom name if required
+    expiredauth:
+      name: hr.vestigo.hp.expiredauth # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.expiredauth # default value, set custom name if required
+    matchedauth:
+      name: hr.vestigo.hp.matchedauth # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.matchedauth # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets

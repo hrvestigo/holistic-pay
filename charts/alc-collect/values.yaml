@@ -54,6 +54,12 @@ kafka:
     limitdef:
       name: hr.vestigo.hp.limitdef
       consumerGroup: hr.vestigo.hp.limitdef
+    expiredauth:
+      name: hr.vestigo.hp.expiredauth
+      consumerGroup: hr.vestigo.hp.expiredauth
+    matchedauth:
+      name: hr.vestigo.hp.matchedauth
+      consumerGroup: hr.vestigo.hp.matchedauth
 
 oauth2:
   enabled: false
