@@ -42,6 +42,9 @@ routes:
   personStructure:
     serviceName: person-structure
     servicePortNumber: "8443"
+  personRegistry:
+    serviceName: person-registry
+    servicePortNumber: "8443"
 
 oauth2:
   enabled: false

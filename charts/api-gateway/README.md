@@ -32,6 +32,9 @@ routes:
   personStructure:
     serviceName: person-structure # name of person-structure service, default is person-structure
     portNumber: "8443" # port number on which person-structure service is exposed, default is 8443
+  personRegistry:
+    serviceName: person-structure # name of person-registry service, default is person-registry
+    portNumber: "8443" # port number on which person-registry service is exposed, default is 8443
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value, no default value
