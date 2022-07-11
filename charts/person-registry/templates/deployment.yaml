@@ -4,10 +4,10 @@ metadata:
   name: {{ include "person-registry.name" . }}
   labels:
     {{- include "person-registry.labels" . | nindent 4 }}
-    {{- with .Values.deployment.annotations }}
+{{- with .Values.deployment.annotations }}
   annotations:
-    {{ toYaml . | indent 4 }}
-    {{- end }}
+{{ toYaml . | indent 4 }}
+{{- end }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.deployment.replicaCount }}
@@ -22,7 +22,6 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-        checksum/liquibase-config: {{ include (print $.Template.BasePath "/configmap-liquibase.yaml") . | sha256sum }}
         checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
@@ -40,22 +39,22 @@ spec:
       restartPolicy: {{ .Values.deployment.restartPolicy }}
       {{- if or .Values.enableLiquibase .Values.initContainers }}
       initContainers:
-      {{- with .Values.initContainers }}
-      {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- if .Values.enableLiquibase }}
-      - name: liquibase
-        securityContext:
-          {{- toYaml .Values.securityContext | nindent 12 }}
-        image: {{ include "person-registry.liquibase.repository" . }}
-        imagePullPolicy: {{ include "person-registry.liquibase.imagePullPolicy" . }}
-        volumeMounts:
-          - mountPath: /liquibase/changelog
-            name: liquibase-config
-        {{- if .Values.secret.liquibase.secret.secretName }}
-          - mountPath: "/liquibase/secret/{{ .Values.secret.liquibase.secret.fileName }}"
-            name: liquibase-secret
-            subPath: {{ .Values.secret.liquibase.secret.fileName }}
+        {{- with .Values.initContainers }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- if .Values.enableLiquibase }}
+        - name: liquibase
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ include "person-registry.liquibase.repository" . }}
+          imagePullPolicy: {{ include "person-registry.liquibase.imagePullPolicy" . }}
+          volumeMounts:
+            - mountPath: /liquibase/changelog
+              name: liquibase-config
+          {{- if .Values.secret.liquibase.secret.secretName }}
+            - mountPath: "/liquibase/secret/{{ .Values.secret.liquibase.secret.fileName }}"
+              name: liquibase-secret
+              subPath: {{ .Values.secret.liquibase.secret.fileName }}
           {{- end }}
           command:
             - bash
@@ -80,7 +79,7 @@ spec:
               value: "jdbc:postgresql://{{- required "Please specify DB host name in datasource.host" .Values.datasource.host -}}:
               {{- required "Please specify DB port in datasource.port" .Values.datasource.port -}}/
               {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}?currentSchema=
-              {{- required "Please specify DB schema in datasource.schema"  .Values.datasource.schema | lower | quote -}}"
+              {{- required "Please specify DB schema in datasource.schema"  .Values.datasource.schema | lower }}"
             - name: SPRING_DATASOURCE_USERNAME
               value: {{ required "Please specify DB user in datasource.user" .Values.datasource.user | quote }}
             - name: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
