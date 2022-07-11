@@ -517,6 +517,16 @@ entries:
   person-registry:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-07-11T14:39:46.040046868Z"
+    description: Helm chart for person registry application
+    digest: 693e319881f0087bf3557dc7966043a526cb81aa886fec950d3b7d60e8272f03
+    name: person-registry
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/person-registry-1.0.1/person-registry-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-07-08T11:49:44.46910838Z"
     description: Helm chart for person registry application
     digest: f58a01f08d989720af0691f508f837538ff84e7d988d5e173c97efc9f2e93ad7
@@ -697,4 +707,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/product-factory-0.2.0/product-factory-0.2.0.tgz
     version: 0.2.0
-generated: "2022-07-08T13:12:18.629964034Z"
+generated: "2022-07-11T14:39:46.040407201Z"
