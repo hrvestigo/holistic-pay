@@ -67,6 +67,12 @@ timezone: ""
 
 partnerBankServiceUrl: ""
 
+partnerBankHealthCheck:
+  scheduleEnabled: false
+  cronSchedule: "0 * * * * *" # every minute
+  timeout: 30000
+  endpoints: ""
+
 secret:
   decryptionKey: ""
   datasourcePassword: ""

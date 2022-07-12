@@ -898,6 +898,32 @@ deployment:
     other.annotation: other-value
 ```
 
+### Partner bank health checks
+
+Partner bank interface application can trigger a call to partner bank's health check endpoint in order to check it's status and keep the connection "alive".
+Application will trigger partner bank's health check call once on startup and can also trigger periodical calls if schedule is enabled.
+
+To enable health checks, several attributes have to be defined:
+
+```yaml
+partnerBankHealthCheck:
+  endpoints: "" # no default value
+  timeout: 30000 # defined in milliseconds
+  scheduleEnabled: false # disabled by default
+  cronSchedule: "0 * * * * *" # every minute
+```
+
+`partnerBankHealthCheck.endpoints` attribute has to be defined to contain partner bank name and health check endpoint for each of them. Multiple partner banks can be separated with comma and each partner bank endpoint definition contains partner bank name and corresponding health check endpoint separated with semicolon (format: `bank1:/endpoint1,bank2:/endpoint2`).
+
+**Note: There has to be at least one partner bank endpoint defined in order for initial check to work!**
+
+Periodic health checks are disabled by default.
+In order to enable them, `partnerBankHealthCheck.scheduleEnabled` has to be set to `true`.
+
+By default, health checks will be called every minute for each endpoint. Schedule can be modified with `partnerBankHealthCheck.cronSchedule` attribute. Note that this is Spring cron schedule format, which unlike Unix cron schedule has a seconds definition (first parameter). Other than that, schedule can be customized as any other standard cron job.
+
+Finally, it's possible to modify timeout for health check calls with `partnerBankHealthCheck.timeout` with value defined in milliseconds. Default timeout is 30000ms (30s).
+
 ### Additional custom configuration
 
 There are some other customizable attributes predefined in Partner bank interface application.
