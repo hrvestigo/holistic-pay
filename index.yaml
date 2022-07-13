@@ -423,6 +423,17 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/auth-limit-control-0.2.0/auth-limit-control-0.2.0.tgz
     version: 0.2.0
+  cms-interface:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-13T07:42:31.367884356Z"
+    description: Helm chart for CMS interface application
+    digest: 933db758920e8d72e27e37e6d1a3ec226be8a41559d3d6cfd0175c1f18c6548e
+    name: cms-interface
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/cms-interface-1.0.0/cms-interface-1.0.0.tgz
+    version: 1.0.0
   partner-bank-interface:
   - apiVersion: v2
     appVersion: 2.8.0
@@ -747,4 +758,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/product-factory-0.2.0/product-factory-0.2.0.tgz
     version: 0.2.0
-generated: "2022-07-12T12:04:39.087019429Z"
+generated: "2022-07-13T07:42:31.368134258Z"
