@@ -45,12 +45,17 @@ kafka:
     risklimitdef1h:
       name: hr.vestigo.hp.risklimitdef1h
       consumerGroup: hr.vestigo.hp.risklimitdef1h
+    matchedauth:
+      name: hr.vestigo.hp.matchedauth
+    crdauthtrxmatch:
+      name: hr.vestigo.hp.crdauthtrxmatch
+      consumerGroup: hr.vestigo.hp.crdauthtrxmatch
 
 cms:
   url: ""
   wsCode: WS2I82
-  moduleName: DCC
-  deliveryChannel: ESB
+  moduleName: CMSINT
+  deliveryChannel: HP
   basicAuth:
     enabled: false
     username: ""

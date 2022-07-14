@@ -69,8 +69,8 @@ First set of attributes is related to CMS REST API is defined with following att
 cms:
   url: # no default value, has to be defined
   wsCode: WS2I82 # default value
-  moduleName: DCC # default value
-  deliveryChannel: ESB # default value
+  moduleName: CMSINT # default value
+  deliveryChannel: HP # default value
 ```
 
 Attribute `cms.url` should point to CMS REST endpoint in format `http://domain.name:port/rest/service/`.
@@ -184,6 +184,12 @@ kafka:
     risklimitdef1h:
       name: hr.vestigo.hp.risklimitdef1h # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.risklimitdef1h # default value, set custom name if required
+    matchedauth:
+      name: hr.vestigo.hp.matchedauth # default value, set custom name if required
+      # outbound topic, has no consumer group
+    crdauthtrxmatch:
+      name: hr.vestigo.hp.crdauthtrxmatch # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.crdauthtrxmatch # default value, set custom name if required
 ```
 
 Attribute `kafka.topics.risklimitdef1m.counter` specifies maximum number of retries CMS interface application will try to push message to this Kafka topic. Default value is 5, but can be overridden if necessary.
