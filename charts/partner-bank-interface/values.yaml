@@ -1,44 +1,60 @@
-# Default values for partner-bank-interface.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
-nameOverride: ""
-
-enableLiquibase: true
-
+nameOverride: ''
 image:
   registry: docker.io
   pullPolicy: IfNotPresent
   app:
-    registry: # defaults to image.registry
-    tag: "" # overrides the image tag whose default is the chart appVersion.
-    pullPolicy: # defaults to image.pullPolicy
+    registry: null
+    tag: ''
+    pullPolicy: null
   liquibase:
-    registry: # defaults to image.registry
-    pullPolicy: # defaults to image.pullPolicy
-
+    registry: null
+    tag: 2.8.3
+    pullPolicy: null
 imagePullSecrets: []
-
+env:
+  type: ''
+  label: ''
 datasource:
-  host: ""
-  port: ""
-  dbName: ""
-  user: ""
-  liquibaseUser: ""
-  schema: ""
+  host: ''
+  port: ''
+  dbName: ''
+  user: ''
+  globalSchemaPrefix: wo
   connTimeout: 60000
   maxPoolSize: 2
   minIdle: 0
-
+liquibase:
+  enabled: true
+  syncOnly: false
+  user: ''
+  role: ''
+  replicationRole: ''
+members:
+- businessUnit: ''
+  applicationMember: ''
+  memberSign: ''
+  liquibase:
+    role: ''
+    replicationRole: ''
+  datasource:
+    globalSchema: false
+    host: ''
+    port: ''
+    dbName: ''
+    user: ''
+    password: ''
+    connTimeout: ''
+    maxPoolSize: ''
+    minIdle: 0
 kafka:
-  user: ""
-  servers: ""
+  user: ''
+  servers: ''
   saslMechanism: PLAIN
   securityProtocol: SASL_SSL
   schemaRegistry:
     credSource: USER_INFO
-    user: ""
-    url: ""
+    user: ''
+    url: ''
   topics:
     partnerbankinterface10s:
       name: hr.vestigo.hp.partnerbankinterface10s
@@ -55,90 +71,61 @@ kafka:
     partnerbankinterface10m:
       name: hr.vestigo.hp.partnerbankinterface10m
       consumerGroup: hr.vestigo.hp.partnerbankinterface10m
-
 oauth2:
   enabled: false
   realm: Holistic-Pay
-  serverUrl: ""
+  serverUrl: ''
   resource: aux
   cacheEnabled: true
-
-timezone: ""
-
-partnerBankServiceUrl: ""
-
+timezone: ''
+partnerBankServiceUrl: ''
 partnerBankHealthCheck:
   scheduleEnabled: false
-  cronSchedule: "0 * * * * *" # every minute
+  cronSchedule: 0 * * * * *
   timeout: 30000
-  endpoints: ""
-
+  endpoints: ''
 secret:
-  decryptionKey: ""
-  datasourcePassword: ""
-  kafkaPassword: ""
-  kafkaSchemaRegistryPassword: ""
-  liquibase:
-    # password: "" # b64 encoded
-    secret:
-      secretName: ""
-      fileName: ""
-  trustStorePassword: ""
-  keyStorePassword: ""
-  oauth2ClientToken: ""
-
+  decryptionKey: ''
+  datasourcePassword: ''
+  kafkaPassword: ''
+  kafkaSchemaRegistryPassword: ''
+  liquibasePassword: ''
+  trustStorePassword: ''
+  keyStorePassword: ''
+  oauth2ClientToken: ''
 logger:
   logToFile: false
   rollingFileAppender: false
-  logDir: "/var/log/app"
+  logDir: /var/log/app
   logDirMount:
     enabled: false
-    # spec:
-      # emptyDir: {}
-      # flexVolume:
-        # driver: ""
-        # fsType: ""
-        # options:
-          # basepath: ""
-          # basename: ""
-
-healthStatusDownReturnCode: "418"
-
-javaOpts: "-Xms256M -Xmx256M"
-
-springActiveProfile: "prod"
-
+healthStatusDownReturnCode: '418'
+javaOpts: -Xms256M -Xmx256M
+springActiveProfile: prod
 podAnnotations: {}
-
 deploymentAnnotations: {}
-
 serviceAnnotations: {}
-
 podSecurityContext:
   runAsNonRoot: true
   runAsUser: 1000
   runAsGroup: 1000
-
 securityContext: {}
-
 service:
   enabled: true
   type: ClusterIP
   port: 8443
-  nodePort: ""
-  clusterIP: ""
-  loadBalancerIP: ""
+  nodePort: ''
+  clusterIP: ''
+  loadBalancerIP: ''
   loadBalancerSourceRanges: []
   annotations: {}
   labels: {}
-
 ingress:
   enabled: false
-  className: ""
+  className: ''
   annotations: {}
   hosts: []
   tls: []
-
 resources:
   limits:
     cpu: 500m
@@ -146,38 +133,33 @@ resources:
   requests:
     cpu: 50m
     memory: 256Mi
-
 initContainers: []
-
 nodeSelector: {}
-
 tolerations: []
-
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
-        - matchExpressions:
-            - key: kubernetes.io/arch
-              operator: In
-              values:
-                - amd64
-            - key: kubernetes.io/os
-              operator: In
-              values:
-                - linux
+      - matchExpressions:
+        - key: kubernetes.io/arch
+          operator: In
+          values:
+          - amd64
+        - key: kubernetes.io/os
+          operator: In
+          values:
+          - linux
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 100
-        podAffinityTerm:
-          labelSelector:
-            matchExpressions:
-              - key: app
-                operator: In
-                values:
-                  - partner-bank-interface
-          topologyKey: kubernetes.io/hostname
-
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - partner-bank-interface
+        topologyKey: kubernetes.io/hostname
 deployment:
   replicaCount: 1
   annotations: {}
@@ -192,7 +174,7 @@ deployment:
   readinessProbe:
     initialDelaySeconds: 10
     periodSeconds: 60
-    timeoutSeconds: 181
+    timeoutSeconds: 10
     successThreshold: 1
     failureThreshold: 2
     httpGet:
@@ -208,38 +190,29 @@ deployment:
       path: /health/liveness
       port: http
       scheme: HTTPS
-
 autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-
 mountServerCertFromSecret:
   enabled: false
-  secretName: ""
-  certPath: ""
-  keyPath: ""
-
+  secretName: ''
+  certPath: ''
+  keyPath: ''
 mountKeyStoreFromSecret:
   enabled: false
-  secretName: ""
-  keyStoreName: ""
+  secretName: ''
+  keyStoreName: ''
   keyStoreType: JKS
-
 mountTrustStoreFromSecret:
   enabled: false
-  secretName: ""
-  trustStoreName: ""
+  secretName: ''
+  trustStoreName: ''
   trustStoreType: JKS
-
 mountCaFromSecret:
   enabled: false
-  secretName: ""
-
+  secretName: ''
 customVolumes: []
-
 customMounts: []
-
 customEnv: []
