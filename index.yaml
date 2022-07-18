@@ -859,6 +859,16 @@ entries:
     version: 0.1.0
   product-factory:
   - apiVersion: v2
+    appVersion: 2.0.2
+    created: "2022-07-18T08:16:23.202335728Z"
+    description: Helm chart for product factory application
+    digest: 7615a42ec24c872c65b3e78e861368705c8241a13436a9a9dd9c622e43438db6
+    name: product-factory
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/product-factory-2.0.2/product-factory-2.0.2.tgz
+    version: 2.0.2
+  - apiVersion: v2
     appVersion: 2.0.1
     created: "2022-07-18T07:59:28.360856811Z"
     description: Helm chart for product factory application
@@ -898,4 +908,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/product-factory-0.2.0/product-factory-0.2.0.tgz
     version: 0.2.0
-generated: "2022-07-18T07:59:28.361580524Z"
+generated: "2022-07-18T08:16:23.202879212Z"
