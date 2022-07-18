@@ -111,8 +111,6 @@ spec:
               value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
               {{- end }}
             {{- end }}
-            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
-              value: CONNECT
             - name: MEMBERS
               value: {{ include "auth-limit-control.members" . }}
             - name: SPRING_KAFKA_PROPERTIES_SASL_MECHANISM
