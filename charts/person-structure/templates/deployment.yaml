@@ -22,7 +22,6 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-        checksum/liquibase-config: {{ include (print $.Template.BasePath "/configmap-liquibase.yaml") . | sha256sum }}
         checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
@@ -38,29 +37,13 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       terminationGracePeriodSeconds: {{ .Values.deployment.terminationGracePeriodSeconds }}
       restartPolicy: {{ .Values.deployment.restartPolicy }}
-      {{- if or .Values.enableLiquibase .Values.initContainers }}
+      {{- if or .Values.liquibase.enabled .Values.initContainers }}
       initContainers:
         {{- with .Values.initContainers }}
-        {{- toYaml . | nindent 8 }}
+        {{- toYaml . | trim | nindent 8 }}
         {{- end }}
-        {{- if .Values.enableLiquibase }}
-        - name: liquibase
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ include "person-structure.liquibase.repository" . }}
-          imagePullPolicy: {{ include "person-structure.liquibase.imagePullPolicy" . }}
-          volumeMounts:
-            - mountPath: /liquibase/changelog
-              name: liquibase-config
-          {{- if .Values.secret.liquibase.secret.secretName }}
-            - mountPath: "/liquibase/secret/{{ .Values.secret.liquibase.secret.fileName }}"
-              name: liquibase-secret
-              subPath: {{ .Values.secret.liquibase.secret.fileName }}
-          {{- end }}
-          command:
-            - bash
-            - -c
-            - {{ include "person-structure.liquibase.command" . }}
+        {{- if .Values.liquibase.enabled }}
+        {{- include "person-structure.liquibase.initContainer" . | trim | nindent 8 }}
         {{- end }}
       {{- end }}
       containers:
@@ -82,14 +65,56 @@ spec:
               {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}?currentSchema=CONNECT"
             - name: SPRING_DATASOURCE_USERNAME
               value: {{ required "Please specify DB user in datasource.user" .Values.datasource.user | quote }}
-            - name: SPRING_DATASOURCE_URL_CC
-              value: "jdbc:postgresql://{{- required "Please specify DB host name in datasource.host" .Values.datasource.host -}}:
-              {{- required "Please specify DB port in datasource.port" .Values.datasource.port -}}/
-              {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}"
-            - name: SPRING_DATASOURCE_USERNAME_CC
-              value: {{ required "Please specify DB user in datasource.user" .Values.datasource.user | quote }}
+            {{- range $k, $v := .Values.members }}
+            - name: SPRING_DATASOURCE_URL_{{ .memberSign }}
+              {{- if .datasource }}
+                {{- if .datasource.globalSchema }}
+              value: "jdbc:postgresql://
+              {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
+              :
+              {{- default (required "Please specify DB port in datasource.port or override with member specific in members.datasource.port" $.Values.datasource.port) .datasource.port -}}
+              /
+              {{- default (required "Please specify database name in datasource.dbName or override with member specific in members.datasource.dbName" $.Values.datasource.dbName) .datasource.dbName -}}
+              ?currentSchema=
+              {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
+              {{- include "person-structure.dbSchema" $ -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
+                {{- else }}
+              value: "jdbc:postgresql://
+              {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
+              :
+              {{- default (required "Please specify DB port in datasource.port or override with member specific in members.datasource.port" $.Values.datasource.port) .datasource.port -}}
+              /
+              {{- default (required "Please specify database name in datasource.dbName or override with member specific in members.datasource.dbName" $.Values.datasource.dbName) .datasource.dbName -}}
+              ?currentSchema=
+              {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
+              {{- include "person-structure.dbSchema" $ -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
+                {{- end }}
+            - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
+              value: {{ default (required "Please specify DB user in datasource.user" $.Values.datasource.user | quote) .datasource.user }}
+              {{- else }}
+              value: "jdbc:postgresql://
+              {{- required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host -}}
+              :
+              {{- required "Please specify DB port in datasource.port or override with member specific in members.datasource.port" $.Values.datasource.port -}}
+              /
+              {{- required "Please specify database name in datasource.dbName or override with member specific in members.datasource.dbName" $.Values.datasource.dbName -}}
+              ?currentSchema=
+              {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
+              {{- include "person-structure.dbSchema" $ -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
+            - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
+              value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
+              {{- end }}
+            {{- end }}
             - name: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
-              value: {{ required "Please specify DB schema in datasource.schema"  .Values.datasource.schema | lower | quote }}
+              value: CONNECT
+            - name: MEMBERS
+              value: {{ include "person-structure.members" . }}
             - name: SPRING_KAFKA_PROPERTIES_SASL_MECHANISM
               value: {{ .Values.kafka.saslMechanism | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SASL_JAAS_CONFIG
@@ -210,7 +235,7 @@ spec:
               value: {{ required "Please specify key store type in mountKeyStoreFromSecret.keyStoreType" .Values.mountKeyStoreFromSecret.keyStoreType }}
             {{- end }}
             - name: SPRING_PROFILES_ACTIVE
-              value: {{ .Values.springActiveProfile | quote }}
+              value: {{ required "Please specify Spring profile in springActiveProfile. Possible values: 'dev', 'prod'." .Values.springActiveProfile | quote }}
             {{- if .Values.oauth2.enabled }}
             - name: SECURITY_AUTHENTICATION
               value: oauth2
