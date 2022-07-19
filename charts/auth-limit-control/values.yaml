@@ -96,6 +96,9 @@ oauth2:
   enabled: false
   resourceUri: ''
 partnerBankServiceUrl: https://partner-bank-interface:8443
+appWarmup:
+  enabled: true
+  cronSchedule: "0 * * * * *"
 timezone: ''
 secret:
   decryptionKey: ''

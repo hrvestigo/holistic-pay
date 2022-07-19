@@ -512,6 +512,20 @@ When using secret to mount key store, no additional custom setup is required.
 
 Besides required attributes, installation of Auth limit control can be customized in different ways.
 
+### Application warmup schedule task
+
+We added two new variables related to this:
+
+```yaml
+appWarmup:
+  enabled: true
+  cronSchedule: "0 * * * * *"
+```
+
+enabled - default true. Sets if application warmup schedule task is enabled 
+
+cronSchedule - default execute every minute. Used to trigger the scheduler for a specific time period
+
 ### Multi-member setup
 
 Auth limit control application (along with all other HolisticPay applications) supports multi-member setup. In order to complete application setup, at least a mandatory set of attributes has to be defined:

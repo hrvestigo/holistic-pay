@@ -265,6 +265,12 @@ spec:
             - name: SSL_KEY_STORE_TYPE
               value: {{ required "Please specify key store type in mountKeyStoreFromSecret.keyStoreType" .Values.mountKeyStoreFromSecret.keyStoreType }}
             {{- end }}
+            - name: ALC_WARMUP_SCHEDULED
+            {{- if .Values.appWarmup.enabled }}
+              value: {{ required "Please specify app warmup cron schedule in appWarmup.cronSchedule" .Values.appWarmup.cronSchedule | quote }}
+            {{- else }}
+              value: "-"
+            {{- end }}
             - name: SPRING_PROFILES_ACTIVE
               value: {{ required "Please specify Spring profile in springActiveProfile. Possible values: 'dev', 'prod'." .Values.springActiveProfile | quote }}
             - name: PARTNER_BANK_SERVICE_URL
