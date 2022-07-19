@@ -44,7 +44,7 @@ product-factory image pull policy
 Liquibase image
 */}}
 {{- define "product-factory.liquibase.image" }}
-{{- $liquiRepo := printf "%s%s" "hrvestigo/liqui-test:" $.Values.image.liquibase.tag }}
+{{- $liquiRepo := printf "%s%s" "hrvestigo/product-factory-lb:" $.Values.image.liquibase.tag }}
 {{- $reg := default $.Values.image.registry $.Values.image.liquibase.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $liquiRepo }}
