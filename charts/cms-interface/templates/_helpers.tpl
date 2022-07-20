@@ -13,24 +13,10 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{/*
-Liquibase image repository
+Defies fixed part of cms-interface datasource schema name
 */}}
-{{- define "cms-interface.liquibase.repository" -}}
-{{- $liquiRepo := "liquibase/liquibase:4.9.1" }}
-{{- $reg := default .Values.image.registry .Values.image.liquibase.registry }}
-{{- if $reg }}
-{{- printf "%s/%s" $reg $liquiRepo }}
-{{- else }}
-{{- $liquiRepo }}
-{{- end }}
-{{- end }}
-
-{{/*
-Liquibase image pull policy
-*/}}
-{{- define "cms-interface.liquibase.imagePullPolicy" -}}
-{{- $reg := default .Values.image.pullPolicy .Values.image.liquibase.pullPolicy }}
-{{- default "IfNotPresent" $reg }}
+{{- define "cms-interface.dbSchema" -}}
+{{- "cmsint" }}
 {{- end }}
 
 {{/*
@@ -55,15 +41,75 @@ cms-interface image pull policy
 {{- end }}
 
 {{/*
-Liquibase run command
+Liquibase image
 */}}
-{{- define "cms-interface.liquibase.command" -}}
-{{- if .Values.enableLiquibase }}
-{{- $secretFileName := required "Liquibase secret file name is required, please specify in secret.liquibase.secret.fileName" .Values.secret.liquibase.secret.fileName }}
-{{- $secretFile := printf "%s%s" "/liquibase/secret/" $secretFileName }}
-{{- $lsm := printf "%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && sed -i \"s/__LIQUIBASE_PASSWORD__/$(cat " $secretFile ")/g\" /tmp/liquibase.properties && " }}
-{{- $cmd := "/liquibase/docker-entrypoint.sh --changeLogFile=changelog.yaml --defaultsFile=/tmp/liquibase.properties --classpath=/liquibase/changelog:lib/postgresql-42.3.2.jar update" }}
-{{- printf "%s%s" $lsm $cmd }}
+{{- define "cms-interface.liquibase.image" }}
+{{- $liquiRepo := printf "%s%s" "hrvestigo/cms-interface-lb:" $.Values.image.liquibase.tag }}
+{{- $reg := default $.Values.image.registry $.Values.image.liquibase.registry }}
+{{- if $reg }}
+{{- printf "%s/%s" $reg $liquiRepo }}
+{{- else }}
+{{- $liquiRepo }}
+{{- end }}
+{{- end }}
+
+{{/*
+Liquibase init container definition
+*/}}
+{{- define "cms-interface.liquibase.initContainer" }}
+{{- range $k, $member := .Values.members }}
+- name: liquibase-{{ .memberSign | lower }}
+  securityContext:
+  {{- toYaml $.Values.securityContext | nindent 4 }}
+  image: {{ include "cms-interface.liquibase.image" $ }}
+  imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
+  volumeMounts:
+    - mountPath: /liquibase/secret/
+      name: {{ include "cms-interface.name" $ }}-secret
+  env:
+    - name: SCHEMA_NAME
+  {{- if $member.datasource }}
+    {{- if $member.datasource.globalSchema }}
+      value: {{ $member.businessUnit | lower }}{{ required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix }}{{ include "cms-interface.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
+    {{- else }}
+      value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "cms-interface.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
+    {{- end }}
+  {{- else }}
+      value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "cms-interface.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
+  {{- end }}
+  {{- if $member.liquibase }}
+    - name: ROLE
+      value: {{ default (required "Please specify database role in liquibase.role or override with member-specific members.liquibase.role" $.Values.liquibase.role) $member.liquibase.role }}
+    - name: REPLICATION_ROLE
+      value: {{ default (required "Please specify database replication role in liquibase.replicationRole or override with member-specific members.liquibase.replicationRole" $.Values.liquibase.replicationRole) $member.liquibase.replicationRole }}
+  {{- else }}
+    - name: ROLE
+      value: {{ required "Please specify database role in liquibase.role or override with member-specific members.liquibase.role" $.Values.liquibase.role }}
+    - name: REPLICATION_ROLE
+      value: {{ required "Please specify database replication role in liquibase.replicationRole or override with member-specific members.liquibase.replicationRole" $.Values.liquibase.replicationRole }}
+  {{- end }}
+  command:
+    - bash
+    - -c
+  {{- if $member.datasource }}
+    {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" (default $.Values.datasource.host $member.datasource.host) ":" (default ($.Values.datasource.port | int) ( $member.datasource.port | int)) "/" (default $.Values.datasource.dbName  $member.datasource.dbName) }}
+    {{- $context := printf "%s%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) "," ( required "Please specify environment type in env.type" $.Values.env.type ) }}
+    {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -cp /tmp/aesdecryptor.jar AesDecrypt && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
+    {{- if $.Values.liquibase.syncOnly }}
+    - {{ printf "%s%s" $params " changelog-sync" }}
+    {{- else }}
+    - {{ printf "%s%s" $params " update" }}
+    {{- end }}
+  {{- else }}
+    {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" $.Values.datasource.host ":" ($.Values.datasource.port | int) "/" $.Values.datasource.dbName }}
+    {{- $context := printf "%s%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) "," ( required "Please specify environment type in env.type" $.Values.env.type ) }}
+    {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -cp /tmp/aesdecryptor.jar AesDecrypt && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
+    {{- if $.Values.liquibase.syncOnly }}
+    - {{ printf "%s%s" $params " changelog-sync" }}
+    {{- else }}
+    - {{ printf "%s%s" $params " update" }}
+    {{- end }}
+  {{- end }}
 {{- end }}
 {{- end }}
 
@@ -91,8 +137,6 @@ Trust store env variables
   value: {{ $trustStorePath }}
 - name: JAVAX_NET_SSL_TRUST_STORE
   value: {{ $trustStorePath }}
-- name: SSL_TRUST_STORE_TYPE
-  value: JKS
 {{- end -}}
 {{- end }}
 
@@ -181,16 +225,6 @@ Volumes
 - name: logdir
 {{- toYaml .Values.logger.logDirMount.spec | nindent 2 }}
 {{- end }}
-{{- if .Values.enableLiquibase }}
-- name: liquibase-secret
-  secret:
-    secretName: {{ required "Liquibase secret name is required, please specify in secret.liquibase.secret.secretName" .Values.secret.liquibase.secret.secretName }}
-{{- if .Values.secret.liquibase.secret.fileName }}
-    items:
-      - path: {{ .Values.secret.liquibase.secret.fileName }}
-        key: {{ .Values.secret.liquibase.secret.fileName }}
-{{- end }}
-{{- end }}
 {{- end }}
 
 {{/*
@@ -235,6 +269,17 @@ Mounts for cms-interface application
 - mountPath: {{ .Values.logger.logDir }}
   name: logdir
 {{- end}}
+{{- end }}
+
+{{/*
+Definition of application members
+*/}}
+{{- define "cms-interface.members" -}}
+{{- $members := list -}}
+{{- range $k, $member := .Values.members }}
+{{- $members = append $members $member.memberSign }}
+{{- end }}
+{{- join "," $members }}
 {{- end }}
 
 {{/*
