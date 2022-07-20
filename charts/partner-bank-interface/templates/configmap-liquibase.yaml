@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ .Release.Name }}-liquibase-configmap
-data:
-  changelog.yaml: |-
-    {{ include "partner-bank-interface.changelog" . | nindent 4 }}
-  liquibase.properties: |-
-    {{ include "partner-bank-interface.liquibase-config" . | nindent 4 }}
