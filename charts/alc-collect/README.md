@@ -22,24 +22,31 @@ Required attributes should be defined in custom values file in `yaml` format (re
 Required values are (in `yaml` format):
 
 ```yaml
+env:
+  type: "test" # string value, possible values: dev, test, preprod, prod
+  label: "t1" # string value
 secret:
   decryptionKey: "my-encryption-key" # string value
   datasourcePassword: "AES-encoded-datasource-password" # string value
   kafkaPassword: "AES-encoded-kafka-password" # string value
   kafkaSchemaRegistryPassword: "AES-encoded-kafka-schema-registry-password" # string value
-  liquibase:
-    password: "Base-64-encoded-password-for-liquibase-user" # string value
-    secret: # can be used instead of b64 password
-      secretName: "liquibase-secret"
-      fileName: "password.file"
+  liquibasePassword: "AES-encoded-liquibase-password" # string value
 
 datasource:
   host: "datasource-host" # string value
   port: 9999 # int value
   dbName: "database-name" # string value
   user: "database-user" # string value
-  liquibaseUser: "liquibase-user" # string value
-  schema: "database-schema" # string value
+
+liquibase:
+  user: "liquibase-user"  # string value
+  role: "database-role"  # string value
+  replicationRole: "database-replication-role" # string value
+
+members:
+  - businessUnit: "BU"
+    applicationMember: "AM"
+    memberSign: "BA"
 
 kafka:
   user: "kafka-user" # string value
@@ -52,8 +59,18 @@ imagePullSecrets:
   - name: "image-pull-secret-name" # string value
 ```
 
+One set of mandatory attributes is `env` block which describes environment to which application is installed.
+
+Attribute `env.type` defines environment type. This attribute has a list of supported values: `dev`, `test`, `preprod` and `prod`. This value instructs liquibase to apply correct database parametrization for correct purpose.
+
+Other environment attribute is `env.label` which should hold short environment label, for instance `t1` for first test environment, or `d2` for second development environment. This attribute is used to generate database schema name.
+
 ALC collect application relies on PostgreSQL database and Kafka backends.
 In order to assure connectivity to those backends, it's required to set basic info into values file.
+
+Additionally, liquibase is enabled by default, which requires some information in order to run successfully. Either this information has to be provided, or liquibase has to be disabled with `liquibase.enabled` attribute set to `false`.
+
+ALC collect (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one application member has to be defined in `members` structure for complete setup. Please refer to [Multi-member setup](#multi-member-setup) for details.
 
 ### Datasource connection setup
 
@@ -68,18 +85,14 @@ datasource:
   port: 5432 # PostgreSQL port number 
   dbName: "database-name" # Name of PostgreSQL database
   user: "database-user" # User which application will use to connect to PostgreSQL
-  liquibaseUser: "liquibase-user" # User which Liquibase container will use to apply database changes
-  schema: "database-schema" # PostgreSQL schema for ALC collect application
 ```
 
-In addition to datasource attributes, it's required to provide an AES encrypted password for database user specified in `datasource.user`, as well as base64 encoded user for Liquibase user defined in `datasource.liquibaseUser`.
+Datasource schema name is auto-generated. For this information, as well as advanced datasource options, please refer to [Multi-member setup](#multi-member-setup) for details.
 
-Encryption key used to encrypt and decrypt datasource password (as well as Kafka passwords) is defined in `secret.decryptionKey` attribute.
-Use this key to encrypt datasource password and define it in `secret.datasourcePassword`.
+In addition to datasource attributes, it's required to provide an AES encrypted password for database user specified in `datasource.user`, as well as for Liquibase user defined in `liquibase.user`.
 
-Password for Liquibase user (which will apply database changes for each version) can be either base64 encoded in `secret.liquibase.password` attribute (not related to `secret.decryptionKey` attribute), or provided via predefined secret.
-If secret is used, secret name and file name (within secret) should be specified in `secret.liquibase.secret.secretName` and `secret.liquibase.secret.fileName` attributes.
-If both are specified, secret reference will be used.
+Encryption key used to encrypt and decrypt datasource and liquibase passwords (as well as Kafka passwords) is defined in `secret.decryptionKey` attribute.
+Use this key to encrypt datasource and liquibase password and define them in `secret.datasourcePassword` and `secret.liquibasePassword` attributes.
 
 Datasource secret configuration:
 
@@ -87,11 +100,7 @@ Datasource secret configuration:
 secret:
   decryptionKey: "my-encryption-key" # some custom encryption key
   datasourcePassword: "{AES}S0m3H4sh" # datasource password for user defined in datasource.user encrypted with custom encryption key
-  liquibase:
-    password: "S0m3H4sh" # base64 encoded password for Liquibase user defined in datasource.liquibaseUser attribute
-    secret: # can be used instead of b64 encoded password
-      secretName: "my-liquibase-secret"
-      fileName: "password.file"
+  liquibasePassword: "{AES}S0m3H4sh" # AES encrypted password for Liquibase user defined in liquibase.user attribute
 ```
 
 Additional datasource connection properties can be set by overriding following default attributes:
@@ -103,10 +112,11 @@ datasource:
   minIdle: 0 # defines min number of retained idle connections
 ```
 
-Liquibase can be disabled if necessary with `enableLiquibase` attribute (enabled by default):
+Liquibase can be disabled if necessary with `liquibase.enabled` attribute (enabled by default):
 
 ```yaml
-enableLiquibase: false # disable liquibase
+liquibase:
+  enabled: false # disable liquibase
 ```
 
 ### Kafka setup
@@ -480,6 +490,123 @@ When using secret to mount key store, no additional custom setup is required.
 
 Besides required attributes, installation of ALC collect can be customized in different ways.
 
+### Multi-member setup
+
+ALC collect application (along with all other HolisticPay applications) supports multi-member setup. In order to complete application setup, at least a mandatory set of attributes has to be defined:
+
+```yaml
+members:
+  - businessUnit: "BU"
+    applicationMember: "AM"
+    memberSign: "MS"
+```
+
+This setup is required and will define one member in application with default setup. By default, with one specified member, two database schemas will be defined - "connect" schema, which is a default schema for non-member-specific requests and one member-specific datasource schema in the same database.
+Schema name for application member is auto-generated and will be in format `{members.businessUnit}{members.applicationMember}alccolr{env.label}`.
+
+`members` attribute enables customization on database level. It is possible to override specific datasource and liquibase parameters for each member separately.
+
+List of all attributes which can be overridden:
+
+```yaml
+members:
+  - businessUnit: ""
+    applicationMember: ""
+    memberSign: ""
+    liquibase:
+      role: ""
+      replicationRole: ""
+    datasource:
+      globalSchema: false
+      host: ""
+      port: ""
+      dbName: ""
+      user: ""
+      password: ""
+      connTimeout: ""
+      maxPoolSize: ""
+      minIdle: 0
+```
+
+Each attribute within `members.datasource` and `members.liquibase` can be defined to override same values defined in `datasource` and `liquibase` blocks.
+
+For instance, if value of `member.datasource.dbName` attribute is modified, this value will be used instead of `datasource.dbName` for this member's datasource definition.
+Same logic is applied for all attributes.
+
+#### Database setup for multi-member
+
+ALC collect provides option to setup database in several different flavors:
+
+- all members in one database and one schema
+- all members in one database with multiple member-specific schemas
+- all members in member-specific databases
+
+For first option (all-in-one), it's necessary to set `members.datasource.globalSchema` attribute to `true` (default is `false`).
+When this option is enabled, generated schema name will no longer include `members.applicationMember`, but will instead hold value defined in `datasource.globalSchemaPrefix` attribute, which is set to "wo" by default.
+Note that `members.businessUnit` will still be a part of schema name, as it's not possible to have a single schema in combination with multiple business units.
+
+For instance, with setup like this one:
+
+```yaml
+environment:
+  label: "t1"
+
+members:
+  - businessUnit: "AA"
+    applicationMember: "BB"
+    datasource:
+      globalSchema: true
+```
+
+application will bind to schema with name `aawoalccolrt1`.
+To change default `wo` prefix used in schema name, set attribute `datasource.globalSchemaPrefix` to other value.
+
+Note that `members.datasource.globalSchema` is member-specific, so when multiple members are defined, in order to keep all data in one schema, all members have to be defined with this attribute set to `true`.
+Otherwise, member with `globalSchema` attribute set to `false` will use its own schema.
+
+For example, with following setup, one member would use global schema and one would use member-specific schema:
+
+```yaml
+members:
+  - businessUnit: "AA"
+    applicationMember: "BB"
+    datasource:
+      globalSchema: true
+  - businessUnit: "AA"
+    applicationMember: "CC"
+    # datasource.globalSchema is not overridden, member-specific schema will be used for this member
+```
+
+Second option is to use a member-specific schemas for each member.
+This is a default setup, so if `members.datasource.globalSchema` is not set to `true`, member-specific schema will be used. With this setup, each member will use its own schema in one common database.
+
+Final option is to use a separate database (even on different host).
+For this setup, `members.datasource` parameters have to be overridden for each member that required separate database.
+
+For example, this setup would use different databases for default schema ("connect") and one additional for each member:
+
+```yaml
+datasource:
+  host: "host1"
+  port: "5432"
+  dbName: "db1"
+
+members:
+  - businessUnit: "AA"
+    applicationMember: "BB"
+    memberSign: "AB"
+    datasource:
+      host: "host2"
+      # port is not defined, datasource.port will be used
+      dbName: "db2"
+  - businessUnit: "AA"
+    applicationMember: "CC"
+    memberSign: "AC"
+    datasource:
+      # host and port are not defined, same datasource.host and datasource.port will be used, so this member will end up in same host as default "connect" schema
+      dbName: "db3"
+```
+
 ### oAuth2
 
 ALC collect application can use oAuth2 service for authorization. By default, this option is disabled, but can easily be enabled by specifying following attributes in values:
@@ -530,13 +657,13 @@ However, using custom configuration, logs can be redirected to log files also (i
 
 When enabling logging to file, container will divide logs into four different files:
 
-* `application.log` - contains all application-related (business logic) logs
+- `application.log` - contains all application-related (business logic) logs
   
-* `messages.log` - contains application server's logs
+- `messages.log` - contains application server's logs
 
-* `health.log` - contains all incoming requests to health check endpoint (filtered out from `access.log`)
+- `health.log` - contains all incoming requests to health check endpoint (filtered out from `access.log`)
 
-* `access.log` - contains typical Web Server logs, except for health check endpoint
+- `access.log` - contains typical Web Server logs, except for health check endpoint
 
 To enable logging to file, following attribute should be set in values file:
 

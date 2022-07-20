@@ -4,8 +4,6 @@
 
 nameOverride: ""
 
-enableLiquibase: true
-
 image:
   registry: docker.io
   pullPolicy: IfNotPresent
@@ -15,20 +13,51 @@ image:
     pullPolicy: # defaults to image.pullPolicy
   liquibase:
     registry: # defaults to image.registry
+    tag: 2.4.0
     pullPolicy: # defaults to image.pullPolicy
 
 imagePullSecrets: []
+
+env:
+  type: "" # possible values: dev, test, preprod, prod
+  label: ""
 
 datasource:
   host: ""
   port: ""
   dbName: ""
   user: ""
-  liquibaseUser: ""
-  schema: ""
+  globalSchemaPrefix: "wo"
   connTimeout: 60000
   maxPoolSize: 2
   minIdle: 0
+
+liquibase:
+  enabled: true
+  syncOnly: false
+  user: ""
+  role: ""
+  replicationRole: ""
+
+members:
+  - businessUnit: ""
+    applicationMember: ""
+    memberSign: ""
+    liquibase:
+      # user: ""
+      # password: ""
+      role: ""
+      replicationRole: ""
+    datasource:
+      globalSchema: false
+      host: ""
+      port: ""
+      dbName: ""
+      user: ""
+      password: ""
+      connTimeout: ""
+      maxPoolSize: ""
+      minIdle: 0
 
 kafka:
   user: ""
@@ -72,11 +101,7 @@ secret:
   datasourcePassword: ""
   kafkaPassword: ""
   kafkaSchemaRegistryPassword: ""
-  liquibase:
-    # password: "" # b64 encoded
-    secret:
-      secretName: ""
-      fileName: ""
+  liquibasePassword: ""
   trustStorePassword: ""
   keyStorePassword: ""
 
@@ -185,7 +210,7 @@ deployment:
   readinessProbe:
     initialDelaySeconds: 10
     periodSeconds: 60
-    timeoutSeconds: 181
+    timeoutSeconds: 10
     successThreshold: 1
     failureThreshold: 2
     httpGet:
