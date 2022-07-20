@@ -576,6 +576,16 @@ entries:
     version: 1.0.0
   partner-bank-interface:
   - apiVersion: v2
+    appVersion: 2.9.0
+    created: "2022-07-20T11:38:59.858623352Z"
+    description: Helm chart for partner bank interface application
+    digest: 096feaac41793481f2c8d02b2889ed29772fabf96b0353db2ff296fa91d0d923
+    name: partner-bank-interface
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/partner-bank-interface-2.9.0/partner-bank-interface-2.9.0.tgz
+    version: 2.9.0
+  - apiVersion: v2
     appVersion: 2.8.9
     created: "2022-07-19T08:46:11.234348684Z"
     description: Helm chart for partner bank interface application
@@ -1148,4 +1158,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/product-factory-0.2.0/product-factory-0.2.0.tgz
     version: 0.2.0
-generated: "2022-07-20T11:29:55.821279723Z"
+generated: "2022-07-20T11:38:59.85902775Z"
