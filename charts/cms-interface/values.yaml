@@ -11,6 +11,9 @@ image:
     tag: 1.4.0
     pullPolicy: null
 imagePullSecrets: []
+env:
+  type: "" # possible values: dev, test, preprod, prod
+  label: ""
 datasource:
   host: ''
   port: ''
