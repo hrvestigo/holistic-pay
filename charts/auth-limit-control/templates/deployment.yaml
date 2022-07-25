@@ -271,6 +271,8 @@ spec:
             {{- else }}
               value: "-"
             {{- end }}
+            - name: SERVICE_WARMUP_ENABLED
+              value: {{ .Values.appWarmup.runOnStartup | quote }}
             - name: SPRING_PROFILES_ACTIVE
               value: {{ required "Please specify Spring profile in springActiveProfile. Possible values: 'dev', 'prod'." .Values.springActiveProfile | quote }}
             - name: PARTNER_BANK_SERVICE_URL

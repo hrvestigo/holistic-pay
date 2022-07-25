@@ -113,6 +113,7 @@ partnerBankServiceUrl: https://partner-bank-interface:8443
 appWarmup:
   enabled: true
   cronSchedule: "0 * * * * *"
+  runOnStartup: true
 timezone: ''
 secret:
   decryptionKey: ""

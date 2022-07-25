@@ -520,11 +520,16 @@ We added two new variables related to this:
 appWarmup:
   enabled: true
   cronSchedule: "0 * * * * *"
-```
+  runOnStartup: true
 
 enabled - default true. Sets if application warmup schedule task is enabled 
 
 cronSchedule - default execute every minute. Used to trigger the scheduler for a specific time period
+
+runOnStartup - Default true. The parameter determines if application warmap needs to be done right after the microservice starts. 
+Only during the initial installation on a new environment, the parameter needs to be set to false. That is because the 
+microservice first needs to fill the parameterization tables before it starts any other work. 
+In any other case, true must be set as a parameter value.
 
 ### Multi-member setup
 
