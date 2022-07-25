@@ -76,6 +76,7 @@ cms:
   wsCode: WS2I82
   moduleName: CMSINT
   deliveryChannel: HP
+  userId: HPTECH001
   basicAuth:
     enabled: false
     username: ''

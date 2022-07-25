@@ -89,11 +89,13 @@ cms:
   wsCode: WS2I82 # default value
   moduleName: CMSINT # default value
   deliveryChannel: HP # default value
+  userId: HPTECH001 # default value
 ```
 
 Attribute `cms.url` should point to CMS REST endpoint in format `http://domain.name:port/rest/service/`.
 Attribute `wsCode` specifies targeted Rest service (method) which should be triggered. Value is applied after specified URL.
 `moduleName` and `deliveryChannel` attributes are related to CMS application itself and have to be set in correspondence with it.
+Attribute `userId` should point to technical user for HolisticPay.
 
 ### Datasource connection setup
 
