@@ -173,6 +173,8 @@ spec:
               value: {{ .Values.cms.moduleName }}
             - name: CCMS_REST_SERVICE_DELIVERY_CHANNEL
               value: {{ .Values.cms.deliveryChannel }}
+            - name: CCMS_REST_SERVICE_USERID
+              value: {{ .Values.cms.userId }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
