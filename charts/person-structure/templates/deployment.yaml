@@ -161,6 +161,8 @@ spec:
               value: {{ .Values.kafka.topics.risklimitcontract.name | quote }}
             - name: KAFKA_TOPIC_RISKLIMITDEF_NAME
               value: {{ .Values.kafka.topics.risklimitdef.name | quote }}
+            - name: KAFKA_TOPIC_PERSONSTRUCTURE_NAME
+              value: {{ .Values.kafka.topics.personstructure.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CARD_NAME
               value: {{ .Values.kafka.topics.card.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDINTACC_NAME
@@ -175,6 +177,12 @@ spec:
               value: {{ .Values.kafka.topics.partnerdef.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITCONTRACT_NAME
               value: {{ .Values.kafka.topics.risklimitcontract.consumerGroup | quote }}
+            - name: CMS_CDC_MODULE_NAME
+              value: {{ .Values.cms.moduleName }}
+            - name: CMS_CDC_DELIVERY_CHANNEL
+              value: {{ .Values.cms.deliveryChannel }}
+            - name: CMS_CDC_USERID
+              value: {{ .Values.cms.userId }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

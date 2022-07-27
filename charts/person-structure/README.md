@@ -73,6 +73,21 @@ Additionally, liquibase is enabled by default, which requires some information i
 
 Person structure (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one application member has to be defined in `members` structure for complete setup. Please refer to [Multi-member setup](#multi-member-setup) for details.
 
+### CMS connectivity setup
+
+Hardcoded values used when populating kafka header before publishing complete person structure to personstructure topic.
+
+Values set in kafka header:
+
+```yaml
+cms:
+  moduleName: BOS # default value
+  deliveryChannel: DCC # default value
+  userId: HPTECH001 # default value```
+
+  `moduleName` and `deliveryChannel` attributes are related to CMS application itself and have to be set in correspondence with it.
+  Attribute `userId` should point to technical user for HolisticPay.
+
 ### Datasource connection setup
 
 All values required for PostgreSQL database connection are defined within `datasource` parent attribute.
@@ -188,6 +203,8 @@ kafka:
       consumerGroup: hr.vestigo.hp.risklimitcontract # default value, set custom name if required
     risklimitdef:
       name: hr.vestigo.hp.risklimitdef # default value, set custom name if required
+    personstructure:
+      name: hr.vestigo.hp.personstructure # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets
