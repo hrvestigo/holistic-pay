@@ -22,7 +22,6 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-        checksum/liquibase-config: {{ include (print $.Template.BasePath "/configmap-liquibase.yaml") . | sha256sum }}
         checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
@@ -38,29 +37,13 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       terminationGracePeriodSeconds: {{ .Values.deployment.terminationGracePeriodSeconds }}
       restartPolicy: {{ .Values.deployment.restartPolicy }}
-      {{- if or .Values.enableLiquibase .Values.initContainers }}
+      {{- if or .Values.liquibase.enabled .Values.initContainers }}
       initContainers:
         {{- with .Values.initContainers }}
-        {{- toYaml . | nindent 8 }}
+        {{- toYaml . | trim | nindent 8 }}
         {{- end }}
-        {{- if .Values.enableLiquibase }}
-        - name: liquibase
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ include "product-factory.liquibase.repository" . }}
-          imagePullPolicy: {{ include "product-factory.liquibase.imagePullPolicy" . }}
-          volumeMounts:
-            - mountPath: /liquibase/changelog
-              name: liquibase-config
-          {{- if .Values.secret.liquibase.secret.secretName }}
-            - mountPath: "/liquibase/secret/{{ .Values.secret.liquibase.secret.fileName }}"
-              name: liquibase-secret
-              subPath: {{ .Values.secret.liquibase.secret.fileName }}
-          {{- end }}
-          command:
-            - bash
-            - -c
-            - {{ include "product-factory.liquibase.command" . }}
+        {{- if .Values.liquibase.enabled }}
+        {{- include "product-factory.liquibase.initContainer" . | trim | nindent 8 }}
         {{- end }}
       {{- end }}
       containers:
@@ -79,11 +62,72 @@ spec:
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:postgresql://{{- required "Please specify DB host name in datasource.host" .Values.datasource.host -}}:
               {{- required "Please specify DB port in datasource.port" .Values.datasource.port -}}/
-              {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}"
+              {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}?currentSchema=CONNECT"
             - name: SPRING_DATASOURCE_USERNAME
               value: {{ required "Please specify DB user in datasource.user" .Values.datasource.user | quote }}
+            {{- range $k, $v := .Values.members }}
+            - name: SPRING_DATASOURCE_URL_{{ .memberSign }}
+              {{- if .datasource }}
+                {{- if .datasource.globalSchema }}
+              value: "jdbc:postgresql://
+              {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
+              :
+              {{- default (required "Please specify DB port in datasource.port or override with member specific in members.datasource.port" $.Values.datasource.port) .datasource.port -}}
+              /
+              {{- default (required "Please specify database name in datasource.dbName or override with member specific in members.datasource.dbName" $.Values.datasource.dbName) .datasource.dbName -}}
+              ?currentSchema=
+              {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
+              {{- include "product-factory.dbSchema" $ -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
             - name: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
-              value: {{ required "Please specify DB schema in datasource.schema"  .Values.datasource.schema | lower | quote }}
+              value: "{{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
+              {{- include "product-factory.dbSchema" $ -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
+                {{- else }}
+              value: "jdbc:postgresql://
+              {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
+              :
+              {{- default (required "Please specify DB port in datasource.port or override with member specific in members.datasource.port" $.Values.datasource.port) .datasource.port -}}
+              /
+              {{- default (required "Please specify database name in datasource.dbName or override with member specific in members.datasource.dbName" $.Values.datasource.dbName) .datasource.dbName -}}
+              ?currentSchema=
+              {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
+              {{- include "product-factory.dbSchema" $ -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
+              value: "{{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
+              {{- include "product-factory.dbSchema" $ -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"			
+                {{- end }}
+            - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
+              value: {{ default (required "Please specify DB user in datasource.user" $.Values.datasource.user | quote) .datasource.user }}
+              {{- else }}
+              value: "jdbc:postgresql://
+              {{- required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host -}}
+              :
+              {{- required "Please specify DB port in datasource.port or override with member specific in members.datasource.port" $.Values.datasource.port -}}
+              /
+              {{- required "Please specify database name in datasource.dbName or override with member specific in members.datasource.dbName" $.Values.datasource.dbName -}}
+              ?currentSchema=
+              {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
+              {{- include "product-factory.dbSchema" $ -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
+              value: "{{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
+              {{- include "product-factory.dbSchema" $ -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"	
+            - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
+              value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
+              {{- end }}
+            {{- end }}
+            - name: MEMBERS
+              value: {{ include "product-factory.members" . }}
             - name: SPRING_KAFKA_PROPERTIES_SASL_MECHANISM
               value: {{ .Values.kafka.saslMechanism | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SASL_JAAS_CONFIG
@@ -111,6 +155,12 @@ spec:
               value: {{ .Values.kafka.topics.cobaffschlimit.name | quote }}
             - name: KAFKA_TOPIC_FINANCIALLIMITTYPE_NAME
               value: {{ .Values.kafka.topics.financiallimittype.name | quote }}
+            - name: KAFKA_TOPIC_COUNTRY_NAME
+              value: {{ .Values.kafka.topics.country.name | quote }}
+            - name: KAFKA_TOPIC_CURRENCY_NAME
+              value: {{ .Values.kafka.topics.currency.name | quote }}
+            - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_COBAFFSCHEMA_NAME
               value: {{ .Values.kafka.topics.cobaffschema.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_COBAFFSCHEMAPARAM_NAME
@@ -121,6 +171,12 @@ spec:
               value: {{ .Values.kafka.topics.cobaffschlimit.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_FINANCIALLIMITTYPE_NAME
               value: {{ .Values.kafka.topics.financiallimittype.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_COUNTRY_NAME
+              value: {{ .Values.kafka.topics.country.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CURRENCY_NAME
+              value: {{ .Values.kafka.topics.currency.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
