@@ -43,6 +43,7 @@ liquibase:
   user: "liquibase-user"  # string value
   role: "database-role"  # string value
   replicationRole: "database-replication-role" # string value
+  syncOnly: false # boolean value
 
 members:
   - businessUnit: "BU"
@@ -519,8 +520,10 @@ members:
     applicationMember: ""
     memberSign: ""
     liquibase:
+      user: ""
       role: ""
       replicationRole: ""
+      syncOnly: false
     datasource:
       globalSchema: false
       host: ""
@@ -610,6 +613,19 @@ members:
     datasource:
       # host and port are not defined, same datasource.host and datasource.port will be used, so this member will end up in same host as default "connect" schema
       dbName: "db3"
+```
+
+### Request body sanitization and response body encoding
+
+Product factory application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
+```yaml
+request:
+  sanitization:
+    enabled: true
+    
+response:
+  encoding:
+    enabled: false
 ```
 
 ### Adding custom environment variables

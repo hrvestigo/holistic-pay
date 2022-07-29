@@ -83,6 +83,18 @@ kafka:
     parameterization:
       name: hr.vestigo.hp.parameterization
       consumerGroup: hr.vestigo.hp.parameterization
+    financiallimittype:
+      name: hr.vestigo.hp.financiallimittype
+      consumerGroup: hr.vestigo.hp.financiallimittype
+
+request:
+  sanitization:
+    enabled: true
+
+response:
+  encoding:
+    enabled: false
+
 timezone: ''
 secret:
   decryptionKey: ''
