@@ -42,6 +42,7 @@ liquibase:
   user: "liquibase-user"  # string value
   role: "database-role"  # string value
   replicationRole: "database-replication-role" # string value
+  syncOnly: false # boolean value
 
 members:
   - businessUnit: "BU"
@@ -497,8 +498,10 @@ members:
     applicationMember: ""
     memberSign: ""
     liquibase:
+      user: ""
       role: ""
       replicationRole: ""
+      syncOnly: false
     datasource:
       globalSchema: false
       host: ""
@@ -603,6 +606,20 @@ oAuth2:
 To configure oAuth2, it first has to be enabled with `oAuth2.enabled` parameter.
 When enabled, `oAuth2.resourceUri` should also be defined.
 This URI should point to oAuth2 server with defined converter type and name, for example `https://oauth2.server/realm/Holistic-Pay`.
+
+### Request body sanitization and response body encoding
+
+Person registry application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
+```yaml
+request:
+  sanitization:
+    enabled: true
+    
+response:
+  encoding:
+    enabled: false
+```
+
 
 ### Adding custom environment variables
 

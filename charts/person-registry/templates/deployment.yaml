@@ -238,6 +238,14 @@ spec:
             - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUERURI
               value: ""
             {{- end }}
+            - name: REQUEST_BODY_SANITIZATION_ENABLED
+              value: {{ .Values.request.sanitization.enabled | default "true" | quote }}
+            - name: RESPONSE_BODY_ENCODING_ENABLED
+              value: {{ .Values.response.encoding.enabled | default "false" | quote }}
+            {{- if .Values.oauth2.authorizationPrefix }}
+            - name: SECURITY_AUTHENTICATION_CLAIM_PREFIX
+              value: {{ .Values.oauth2.authorizationPrefix }}
+            {{- end}}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

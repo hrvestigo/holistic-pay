@@ -62,6 +62,16 @@ kafka:
 oauth2:
   enabled: false
   resourceUri: ''
+  authorizationPrefix: ''
+
+request:
+  sanitization:
+    enabled: true
+
+response:
+  encoding:
+    enabled: false
+
 timezone: ''
 secret:
   decryptionKey: ''
