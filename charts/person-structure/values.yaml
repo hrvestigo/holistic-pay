@@ -88,6 +88,15 @@ cms:
 oauth2:
   enabled: false
   resourceUri: ''
+
+request:
+  sanitization:
+    enabled: true
+
+response:
+  encoding:
+    enabled: false
+
 timezone: ''
 secret:
   decryptionKey: ''
