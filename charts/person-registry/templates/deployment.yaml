@@ -244,8 +244,8 @@ spec:
               value: {{ .Values.response.encoding.enabled | default "false" | quote }}
             {{- if .Values.oauth2.authorizationPrefix }}
             - name: SECURITY_AUTHENTICATION_CLAIM_PREFIX
-              value: {{ .Values.oauth2.authorizationPrefix }}
-            {{- end}}
+              value: {{ .Values.oauth2.authorizationPrefix | quote }}
+            {{- end }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
