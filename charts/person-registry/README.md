@@ -601,11 +601,13 @@ Person registry application can use oAuth2 service for authorization. By default
 oAuth2:
   enabled: true # default is false
   resourceUri: "" # has to be specified if enabled, no default value
+  authorizationPrefix: "" # defines variable prefix of the scope/role
 ```
 
 To configure oAuth2, it first has to be enabled with `oAuth2.enabled` parameter.
 When enabled, `oAuth2.resourceUri` should also be defined.
 This URI should point to oAuth2 server with defined converter type and name, for example `https://oauth2.server/realm/Holistic-Pay`.
+If scope/role has variable prefix, which should not be considered as full role/scope name, this variable prefix should be defined. Every part of this variable part should be defined (e.g. if scopes are defined as MY_PREFIX:scope1 MY_PREFIX:scope2 etc, then variable prefix is 'MY_PREFIX:') 
 
 ### Request body sanitization and response body encoding
 
