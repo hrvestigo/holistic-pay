@@ -145,8 +145,8 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
-            - name: KAFKA_TOPIC_PERSONSTRUCTUREDEF_NAME
-              value: {{ .Values.kafka.topics.personstructuredef.name | quote }}
+            - name: KAFKA_TOPIC_PERSONSTRUCTURE_NAME
+              value: {{ .Values.kafka.topics.personstructure.name | quote }}
             - name: KAFKA_TOPIC_LIMITDEF_NAME
               value: {{ .Values.kafka.topics.limitdef.name | quote }}
             - name: KAFKA_TOPIC_AUTHPROCGROUPFINCTRLLIM_NAME
@@ -169,8 +169,8 @@ spec:
               value: {{ .Values.kafka.topics.expiredauth.name | quote }}
             - name: KAFKA_TOPIC_MATCHEDAUTH_NAME
               value: {{ .Values.kafka.topics.matchedauth.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTUREDEF_NAME
-              value: {{ .Values.kafka.topics.personstructuredef.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTURE_NAME
+              value: {{ .Values.kafka.topics.personstructure.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_LIMITDEF_NAME
               value: {{ .Values.kafka.topics.limitdef.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_AUTHPROCGROUPFINCTRLLIM_NAME
@@ -292,6 +292,10 @@ spec:
             - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUERURI
               value: ""
             {{- end }}
+            - name: REQUEST_BODY_SANITIZATION_ENABLED
+              value: {{ .Values.request.sanitization.enabled | default "true" | quote }}
+            - name: RESPONSE_BODY_ENCODING_ENABLED
+              value: {{ .Values.response.encoding.enabled | default "false" | quote }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

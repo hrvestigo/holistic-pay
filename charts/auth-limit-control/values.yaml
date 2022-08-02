@@ -56,9 +56,9 @@ kafka:
     user: ''
     url: ''
   topics:
-    personstructuredef:
-      name: hr.vestigo.hp.personstructuredef
-      consumerGroup: hr.vestigo.hp.personstructuredef
+    personstructure:
+      name: hr.vestigo.hp.personstructure
+      consumerGroup: hr.vestigo.hp.personstructure
     limitdef:
       name: hr.vestigo.hp.limitdef
       consumerGroup: hr.vestigo.hp.limitdef
@@ -95,6 +95,15 @@ kafka:
 oauth2:
   enabled: false
   resourceUri: ''
+
+request:
+  sanitization:
+    enabled: true
+
+response:
+  encoding:
+    enabled: false
+
 partnerBankServiceUrl: https://partner-bank-interface:8443
 appWarmup:
   enabled: true
