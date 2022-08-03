@@ -194,7 +194,7 @@ spec:
             - name: CMS_CDC_USERID
               value: {{ .Values.cms.userId | quote }}
             - name: RETENTION_PERIOD
-              value: {{ .Values.retention.period }}
+              value: {{ .Values.retention.period | quote }}
             - name: RETENTION_DELETE_BATCH
               value: {{ .Values.retention.deleteBatch | quote }}
             - name: RETENTION_DELETE_ITERATIONS
