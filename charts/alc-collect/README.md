@@ -42,6 +42,7 @@ liquibase:
   user: "liquibase-user"  # string value
   role: "database-role"  # string value
   replicationRole: "database-replication-role" # string value
+  syncOnly: false # boolean value
 
 members:
   - businessUnit: "BU"
@@ -184,6 +185,9 @@ kafka:
     matchedauth:
       name: hr.vestigo.hp.matchedauth # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.matchedauth # default value, set custom name if required
+    parameterization:
+      name: hr.vestigo.hp.parameterization # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.parameterization # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets
@@ -514,8 +518,10 @@ members:
     applicationMember: ""
     memberSign: ""
     liquibase:
+      user: ""
       role: ""
       replicationRole: ""
+      syncOnly: false
     datasource:
       globalSchema: false
       host: ""
@@ -615,11 +621,26 @@ ALC collect application can use oAuth2 service for authorization. By default, th
 oAuth2:
   enabled: true # default is false
   resourceUri: "" # has to be specified if enabled, no default value
+  authorizationPrefix: "" # defines variable prefix of the scope/role
 ```
 
 To configure oAuth2, it first has to be enabled with `oAuth2.enabled` parameter.
 When enabled, `oAuth2.resourceUri` should also be defined.
 This URI should point to oAuth2 server with defined converter type and name, for example `https://oauth2.server/realm/Holistic-Pay`.
+If scope/role has variable prefix, which should not be considered as full role/scope name, this variable prefix should be defined. Every part of this variable part should be defined (e.g. if scopes are defined as MY_PREFIX:scope1 MY_PREFIX:scope2 etc, then variable prefix is 'MY_PREFIX:')
+
+### Request body sanitization and response body encoding
+
+ALC collect application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
+```yaml
+request:
+  sanitization:
+    enabled: true
+    
+response:
+  encoding:
+    enabled: false
+```
 
 ### Adding custom environment variables
 
