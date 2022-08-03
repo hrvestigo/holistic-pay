@@ -188,19 +188,19 @@ spec:
             - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRTLIM_PARAMETRIZATION_NAME
               value: {{ .Values.kafka.topics.parametrization.authptragrmtlim.consumerGroup | quote }}
             - name: CMS_CDC_MODULE_NAME
-              value: {{ .Values.cms.moduleName }}
+              value: {{ .Values.cms.moduleName | quote }}
             - name: CMS_CDC_DELIVERY_CHANNEL
-              value: {{ .Values.cms.deliveryChannel }}
+              value: {{ .Values.cms.deliveryChannel | quote }}
             - name: CMS_CDC_USERID
-              value: {{ .Values.cms.userId }}
+              value: {{ .Values.cms.userId | quote }}
             - name: RETENTION_PERIOD
               value: {{ .Values.retention.period }}
             - name: RETENTION_DELETE_BATCH
-              value: {{ .Values.retention.deleteBatch }}
+              value: {{ .Values.retention.deleteBatch | quote }}
             - name: RETENTION_DELETE_ITERATIONS
-              value: {{ .Values.retention.deleteIterations }}
+              value: {{ .Values.retention.deleteIterations | quote }}
             - name: RETENTION_SCHEDULE
-              value: {{ .Values.retention.schedule }}
+              value: {{ .Values.retention.schedule | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
