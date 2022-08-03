@@ -163,6 +163,8 @@ spec:
               value: {{ .Values.kafka.topics.risklimitdef.name | quote }}
             - name: KAFKA_TOPIC_PERSONSTRUCTURE_NAME
               value: {{ .Values.kafka.topics.personstructure.name | quote }}
+            - name: KAFKA_TOPIC_PARAMETRIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CARD_NAME
               value: {{ .Values.kafka.topics.card.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDINTACC_NAME
@@ -177,12 +179,28 @@ spec:
               value: {{ .Values.kafka.topics.partnerdef.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITCONTRACT_NAME
               value: {{ .Values.kafka.topics.risklimitcontract.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CRDINTACCTYPE_PARAMETRIZATION_NAME
+              value: {{ .Values.kafka.topics.crdintacctype.parametrization.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PARTNERDEF_PARAMETRIZATION_NAME
+              value: {{ .Values.kafka.topics.partnerdef.parametrization.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CURRENCY_PARAMETRIZATION_NAME
+              value: {{ .Values.kafka.topics.currency.parametrization.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRTLIM_PARAMETRIZATION_NAME
+              value: {{ .Values.kafka.topics.authptragrmtlim.parametrization.consumerGroup | quote }}
             - name: CMS_CDC_MODULE_NAME
               value: {{ .Values.cms.moduleName }}
             - name: CMS_CDC_DELIVERY_CHANNEL
               value: {{ .Values.cms.deliveryChannel }}
             - name: CMS_CDC_USERID
               value: {{ .Values.cms.userId }}
+            - name: RETENTION_PERIOD
+              value: {{ .Values.retention.period }}
+            - name: RETENTION_DELETE_BATCH
+              value: {{ .Values.retention.deleteBatch }}
+            - name: RETENTION_DELETE_ITERATIONS
+              value: {{ .Values.retention.deleteIterations }}
+            - name: RETENTION_SCHEDULE
+              value: {{ .Values.retention.schedule }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
@@ -276,6 +294,10 @@ spec:
               value: {{ .Values.request.sanitization.enabled | default "true" | quote }}
             - name: RESPONSE_BODY_ENCODING_ENABLED
               value: {{ .Values.response.encoding.enabled | default "false" | quote }}
+            {{- if .Values.oauth2.authorizationPrefix }}
+            - name: SECURITY_AUTHENTICATION_CLAIM_PREFIX
+              value: {{ .Values.oauth2.authorizationPrefix | quote }}
+            {{- end }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

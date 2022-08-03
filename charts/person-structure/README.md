@@ -85,9 +85,25 @@ cms:
   moduleName: BOS # default value
   deliveryChannel: DCC # default value
   userId: HPTECH001 # default value```
-
+ ```
   `moduleName` and `deliveryChannel` attributes are related to CMS application itself and have to be set in correspondence with it.
   Attribute `userId` should point to technical user for HolisticPay.
+
+### Scheduled task
+
+Scheduled task fetches all incomplete person structure data for specified period of time and deletes them in chunks and specific number of iterations.
+
+To run this scheduled task several attributes have to be defined:
+
+  ```yaml
+  retention:
+        period: 30 #default period of time to be subtract from sys_rec_ts
+        deleteBatch: 5 #default number of chunks
+        deleteIterations: 200 #default number of iterations
+        schedule: 0 1 1 * * * # everyday at 1:01 AM
+   ```
+This scheduled task is run by default everyday at 1:01 AM. Schedule can be modified with `retention.schedule` attribute. Note that this is Spring cron schedule format, which unlike Unix cron schedule has a seconds definition (first parameter). Other than that, schedule can be customized as any other standard cron job.
+
 
 ### Datasource connection setup
 
@@ -206,6 +222,18 @@ kafka:
       name: hr.vestigo.hp.risklimitdef # default value, set custom name if required
     personstructure:
       name: hr.vestigo.hp.personstructure # default value, set custom name if required
+    crdintacctype.parameterization:
+      name: hr.vestigo.hp.parameterization  # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.crdintacctype.parameterization  # default value, set custom name if required
+    partnerdef.parameterization:
+      name: hr.vestigo.hp.parameterization  # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.partnerdef.parameterization  # default value, set custom name if required
+    currency.parameterization:
+      name: hr.vestigo.hp.parameterization  # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.currency.parameterization  # default value, set custom name if required
+    authptragrmtlim.parameterization:
+      name: hr.vestigo.hp.parameterization  # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.authptragrmtlim.parameterization  # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets
@@ -639,11 +667,12 @@ Person structure application can use oAuth2 service for authorization. By defaul
 oAuth2:
   enabled: true # default is false
   resourceUri: "" # has to be specified if enabled, no default value
+  authorizationPrefix: "" # defines variable prefix of the scope/role
 ```
 
 To configure oAuth2, it first has to be enabled with `oAuth2.enabled` parameter.
 When enabled, `oAuth2.resourceUri` should also be defined.
-This URI should point to oAuth2 server with defined converter type and name, for example `https://oauth2.server/realm/Holistic-Pay`.
+This URI should point to oAuth2 server with defined converter type and name, for example `https://oauth2.server/realm/Holistic-Pay`. If scope/role has variable prefix, which should not be considered as full role/scope name, this variable prefix should be defined. Every part of this variable part should be defined (e.g. if scopes are defined as MY_PREFIX:scope1 MY_PREFIX:scope2 etc, then variable prefix is 'MY_PREFIX:')
 
 ### Request body sanitization and response body encoding
 

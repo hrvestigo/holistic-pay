@@ -81,13 +81,32 @@ kafka:
       name: hr.vestigo.hp.risklimitdef
     personstructure:
       name: hr.vestigo.hp.personstructure
+    crdintacctype.parameterization:
+      name: hr.vestigo.hp.parameterization
+      consumerGroup: hr.vestigo.hp.crdintacctype.parameterization
+    partnerdef.parameterization:
+      name: hr.vestigo.hp.parameterization
+      consumerGroup: hr.vestigo.hp.partnerdef.parameterization
+    currency.parameterization:
+      name: hr.vestigo.hp.parameterization
+      consumerGroup: hr.vestigo.hp.currency.parameterization
+    authptragrmtlim.parameterization:
+      name: hr.vestigo.hp.parameterization
+      consumerGroup: hr.vestigo.hp.authptragrmtlim.parameterization
 cms:
   moduleName: BOS
   deliveryChannel: DCC
   userId: HPTECH001
+
+retention:
+  period: 30
+  deleteBatch: 5
+  deleteIterations: 200
+  schedule: 0 1 1 * * * #at 1:01 AM
 oauth2:
   enabled: false
   resourceUri: ''
+  authorizationPrefix: ''
 
 request:
   sanitization:
