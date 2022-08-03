@@ -81,18 +81,16 @@ kafka:
       name: hr.vestigo.hp.risklimitdef
     personstructure:
       name: hr.vestigo.hp.personstructure
-    crdintacctype.parameterization:
-      name: hr.vestigo.hp.parameterization
-      consumerGroup: hr.vestigo.hp.crdintacctype.parameterization
-    partnerdef.parameterization:
-      name: hr.vestigo.hp.parameterization
-      consumerGroup: hr.vestigo.hp.partnerdef.parameterization
-    currency.parameterization:
-      name: hr.vestigo.hp.parameterization
-      consumerGroup: hr.vestigo.hp.currency.parameterization
-    authptragrmtlim.parameterization:
-      name: hr.vestigo.hp.parameterization
-      consumerGroup: hr.vestigo.hp.authptragrmtlim.parameterization
+    parametrization:
+      name: hr.vestigo.hp.parametrization
+      crdintacctype:
+        consumerGroup: hr.vestigo.hp.crdintacctype.parametrization
+      partnerdef:
+        consumerGroup: hr.vestigo.hp.partnerdef.parametrization
+      currency:
+        consumerGroup: hr.vestigo.hp.currency.parametrization
+      authptragrmtlim:
+        consumerGroup: hr.vestigo.hp.authptragrmtlim.parametrization
 cms:
   moduleName: BOS
   deliveryChannel: DCC

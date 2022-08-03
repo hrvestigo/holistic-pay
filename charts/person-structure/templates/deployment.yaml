@@ -164,7 +164,7 @@ spec:
             - name: KAFKA_TOPIC_PERSONSTRUCTURE_NAME
               value: {{ .Values.kafka.topics.personstructure.name | quote }}
             - name: KAFKA_TOPIC_PARAMETRIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.name | quote }}
+              value: {{ .Values.kafka.topics.parametrization.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CARD_NAME
               value: {{ .Values.kafka.topics.card.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDINTACC_NAME
@@ -180,13 +180,13 @@ spec:
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITCONTRACT_NAME
               value: {{ .Values.kafka.topics.risklimitcontract.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDINTACCTYPE_PARAMETRIZATION_NAME
-              value: {{ .Values.kafka.topics.crdintacctype.parametrization.consumerGroup | quote }}
+              value: {{ .Values.kafka.topics.parametrization.crdintacctype.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_PARTNERDEF_PARAMETRIZATION_NAME
-              value: {{ .Values.kafka.topics.partnerdef.parametrization.consumerGroup | quote }}
+              value: {{ .Values.kafka.topics.parametrization.partnerdef.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CURRENCY_PARAMETRIZATION_NAME
-              value: {{ .Values.kafka.topics.currency.parametrization.consumerGroup | quote }}
+              value: {{ .Values.kafka.topics.parametrization.currency.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRTLIM_PARAMETRIZATION_NAME
-              value: {{ .Values.kafka.topics.authptragrmtlim.parametrization.consumerGroup | quote }}
+              value: {{ .Values.kafka.topics.parametrization.authptragrmtlim.consumerGroup | quote }}
             - name: CMS_CDC_MODULE_NAME
               value: {{ .Values.cms.moduleName }}
             - name: CMS_CDC_DELIVERY_CHANNEL
