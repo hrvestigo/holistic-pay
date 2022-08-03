@@ -92,9 +92,13 @@ kafka:
     matchedauth:
       name: hr.vestigo.hp.matchedauth
       consumerGroup: hr.vestigo.hp.matchedauth
+    parameterization:
+      name: hr.vestigo.hp.parameterization
+      consumerGroup: hr.vestigo.hp.parameterization
 oauth2:
   enabled: false
   resourceUri: ''
+  authorizationPrefix: ''
 
 request:
   sanitization:

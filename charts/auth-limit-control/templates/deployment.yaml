@@ -169,6 +169,8 @@ spec:
               value: {{ .Values.kafka.topics.expiredauth.name | quote }}
             - name: KAFKA_TOPIC_MATCHEDAUTH_NAME
               value: {{ .Values.kafka.topics.matchedauth.name | quote }}
+            - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
+              value: { { .Values.kafka.topics.parameterization.name | quote } }S
             - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTURE_NAME
               value: {{ .Values.kafka.topics.personstructure.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_LIMITDEF_NAME
@@ -193,6 +195,8 @@ spec:
               value: {{ .Values.kafka.topics.expiredauth.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_MATCHEDAUTH_NAME
               value: {{ .Values.kafka.topics.matchedauth.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
+              value: { { .Values.kafka.topics.parameterization.consumerGroup | quote } }
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
@@ -296,6 +300,10 @@ spec:
               value: {{ .Values.request.sanitization.enabled | default "true" | quote }}
             - name: RESPONSE_BODY_ENCODING_ENABLED
               value: {{ .Values.response.encoding.enabled | default "false" | quote }}
+            {{- if .Values.oauth2.authorizationPrefix }}
+            - name: SECURITY_AUTHENTICATION_CLAIM_PREFIX
+              value: {{ .Values.oauth2.authorizationPrefix | quote }}
+            {{- end }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
