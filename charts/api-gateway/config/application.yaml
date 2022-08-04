@@ -15,35 +15,37 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: alc_route
+        - id: alc_route-GET
           predicates:
-            - Path=/alc-collect/**
+            - Path=/api/v1/riskLimits
+            - Method=GET
           uri: https://{{ required "ALC collect application service name has to be defined in routes.alcCollect.serviceName" .Values.routes.alcCollect.serviceName }}:{{ required "ALC collect application port number has to be defined in routes.alcCollect.servicePortNumber" .Values.routes.alcCollect.servicePortNumber }}
           filters:
-            - StripPrefix=1
             - TokenRelay
             - SaveSession
-        - id: auth-limit-control_route
+            
+        - id: auth-limit-control_route-POST
           predicates:
-            - Path=/auth-limit-control/**
+            - Path=/api/authLimitControl/{messageType}
+            - Method=POST
           uri: https://{{ required "Auth limit control application service name has to be defined in routes.authLimitControl.serviceName" .Values.routes.authLimitControl.serviceName }}:{{ required "Auth limit control application port number has to be defined in routes.authLimitControl.servicePortNumber" .Values.routes.authLimitControl.servicePortNumber }}
           filters:
-            - StripPrefix=1
             - TokenRelay
             - SaveSession
-        - id: person-structure-ms_route
+            
+        - id: person-structure-ms_route-POST
           predicates:
-            - Path=/person-structure/**
+            - Path=/api/v1/riskLimits
+            - Method=POST
           uri: https://{{ required "Person structure application service name has to be defined in routes.personStructure.serviceName" .Values.routes.personStructure.serviceName }}:{{ required "Person structure application port number has to be defined in routes.personStructure.servicePortNumber" .Values.routes.personStructure.servicePortNumber }}
           filters:
-            - StripPrefix=1
             - TokenRelay
             - SaveSession
+            
         - id: person-registry-ms_route
           predicates:
-            - Path=/person-registry/**
+            - Path=/api/v1/personRegistry/**
           uri: https://{{ required "Person registry application service name has to be defined in routes.personRegistry.serviceName" .Values.routes.personRegistry.serviceName }}:{{ required "Person structure application port number has to be defined in routes.personRegistry.servicePortNumber" .Values.routes.personRegistry.servicePortNumber }}
           filters:
-            - StripPrefix=1
             - TokenRelay
             - SaveSession
