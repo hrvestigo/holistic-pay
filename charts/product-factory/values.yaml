@@ -8,7 +8,7 @@ image:
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 2.1.1
+    tag: 2.7.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -86,15 +86,12 @@ kafka:
     financiallimittype:
       name: hr.vestigo.hp.financiallimittype
       consumerGroup: hr.vestigo.hp.financiallimittype
-
 request:
   sanitization:
     enabled: true
-
 response:
   encoding:
     enabled: false
-
 timezone: ''
 secret:
   decryptionKey: ''
