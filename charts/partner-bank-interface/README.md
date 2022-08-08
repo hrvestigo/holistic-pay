@@ -42,6 +42,7 @@ liquibase:
   user: "liquibase-user"  # string value
   role: "database-role"  # string value
   replicationRole: "database-replication-role" # string value
+  syncOnly: false # boolean value
 
 members:
   - businessUnit: "BU"
@@ -513,8 +514,10 @@ members:
     applicationMember: ""
     memberSign: ""
     liquibase:
+      user: ""
       role: ""
       replicationRole: ""
+      syncOnly: false
     datasource:
       globalSchema: false
       host: ""
@@ -635,6 +638,20 @@ This value can be modified with `keycloak.resource` attribute.
 Next parameter to set is Keycloak client token, which should be set with `secret.oauth2ClientToken` attribute. This is an AES encrypted token which is encrypted using the same encryption key as other secrets (`secret.decryptionKey`).
 
 Final parameter is used to define if token will be cached in application. Cache is enabled by default but can be disabled by setting attribute `cacheEnabled` to `false`.
+
+### Request body sanitization and response body encoding
+
+Partner bank interface application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
+```yaml
+request:
+  sanitization:
+    enabled: true
+    
+response:
+  encoding:
+    enabled: false
+```
+
 
 ### Adding custom environment variables
 

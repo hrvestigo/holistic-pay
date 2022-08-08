@@ -92,6 +92,14 @@ oauth2:
   resource: aux
   cacheEnabled: true
 
+request:
+  sanitization:
+    enabled: true
+
+response:
+  encoding:
+    enabled: false
+
 timezone: ""
 
 partnerBankServiceUrl: ""

@@ -257,6 +257,10 @@ spec:
             - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_SCOPE
               value: openid
             {{- end }}
+            - name: REQUEST_BODY_SANITIZATION_ENABLED
+              value: {{ .Values.request.sanitization.enabled | default "true" | quote }}
+            - name: RESPONSE_BODY_ENCODING_ENABLED
+              value: {{ .Values.response.encoding.enabled | default "false" | quote }}
             - name: PABINT_KEEPALIVE_PARTNER
               value: {{ required "Please specify partner bank health check endpoint in partnerBankHealthCheck.endpoints" .Values.partnerBankHealthCheck.endpoints | quote }}
             - name: PABINT_KEEPALIVE_TIMEOUT
