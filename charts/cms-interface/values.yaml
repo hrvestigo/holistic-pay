@@ -8,12 +8,12 @@ image:
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 1.4.0
+    tag: 1.8.0
     pullPolicy: null
 imagePullSecrets: []
 env:
-  type: "" # possible values: dev, test, preprod, prod
-  label: ""
+  type: ''
+  label: ''
 datasource:
   host: ''
   port: ''
@@ -71,6 +71,11 @@ kafka:
     crdauthtrxmatch:
       name: hr.vestigo.hp.crdauthtrxmatch
       consumerGroup: hr.vestigo.hp.crdauthtrxmatch
+    scadfile:
+      name: gcp.hpdev.hp.evt.scadfile
+      consumerGroup: hr.vestigo.hp.scadfile
+    expiredauth:
+      name: hr.vestigo.hp.expiredauth
 cms:
   url: ''
   wsCode: WS2I82
@@ -80,6 +85,12 @@ cms:
   basicAuth:
     enabled: false
     username: ''
+request:
+  sanitization:
+    enabled: true
+response:
+  encoding:
+    enabled: false
 timezone: ''
 secret:
   decryptionKey: ''

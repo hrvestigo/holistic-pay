@@ -43,6 +43,7 @@ liquibase:
   user: "liquibase-user"  # string value
   role: "database-role"  # string value
   replicationRole: "database-replication-role" # string value
+  syncOnly: false
 
 members:
   - businessUnit: "BU"
@@ -205,6 +206,12 @@ kafka:
     crdauthtrxmatch:
       name: hr.vestigo.hp.crdauthtrxmatch # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.crdauthtrxmatch # default value, set custom name if required
+    scadfile:
+      name: hr.vestigo.hp.scadfile # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.scadfile # default value, set custom name if required
+    expiredauth:
+      name: hr.vestigo.hp.expiredauth # default value, set custom name if required
+      # outbound topic, has no consumer group
 ```
 
 Attribute `kafka.topics.risklimitdef1m.counter` specifies maximum number of retries CMS interface application will try to push message to this Kafka topic. Default value is 5, but can be overridden if necessary.
@@ -536,8 +543,10 @@ members:
     applicationMember: ""
     memberSign: ""
     liquibase:
+      user: ""
       role: ""
       replicationRole: ""
+      syncOnly: false
     datasource:
       globalSchema: false
       host: ""
@@ -627,6 +636,19 @@ members:
     datasource:
       # host and port are not defined, same datasource.host and datasource.port will be used, so this member will end up in same host as default "connect" schema
       dbName: "db3"
+```
+
+### Request body sanitization and response body encoding
+
+CMS interface application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
+```yaml
+request:
+  sanitization:
+    enabled: true
+    
+response:
+  encoding:
+    enabled: false
 ```
 
 ### Adding custom environment variables

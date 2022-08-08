@@ -155,6 +155,10 @@ spec:
               value: {{ .Values.kafka.topics.matchedauth.name | quote }}
             - name: KAFKA_TOPIC_CRDAUTHTRXMATCH_NAME
               value: {{ .Values.kafka.topics.crdauthtrxmatch.name | quote }}
+            - name: KAFKA_TOPIC_SCADFILE_NAME
+              value: { { .Values.kafka.topics.scadfile.name | quote } }
+            - name: KAFKA_TOPIC_EXPIREDAUTH_NAME
+              value: { { .Values.kafka.topics.expiredauth.name | quote } }
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITDEF_NAME
               value: {{ .Values.kafka.topics.risklimitdef.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITDEF1M_NAME
@@ -163,6 +167,8 @@ spec:
               value: {{ .Values.kafka.topics.risklimitdef1h.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDAUTHTRXMATCH_NAME
               value: {{ .Values.kafka.topics.crdauthtrxmatch.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SCADFILE_NAME
+              value: { { .Values.kafka.topics.scadfile.consumerGroup | quote } }
             - name: CCMS_REST_SERVICE_URL
               value: {{ .Values.cms.url }}
             - name: CCMS_REST_SERVICE_SETRISKLIMITS_CODE
@@ -256,6 +262,10 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: {{ required "Please specify Spring profile in springActiveProfile. Possible values: 'dev', 'prod'." .Values.springActiveProfile | quote }}
             {{- end }}
+            - name: REQUEST_BODY_SANITIZATION_ENABLED
+              value: {{ .Values.request.sanitization.enabled | default "true" | quote }}
+            - name: RESPONSE_BODY_ENCODING_ENABLED
+              value: {{ .Values.response.encoding.enabled | default "false" | quote }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
