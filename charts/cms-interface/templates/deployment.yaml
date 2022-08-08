@@ -156,9 +156,9 @@ spec:
             - name: KAFKA_TOPIC_CRDAUTHTRXMATCH_NAME
               value: {{ .Values.kafka.topics.crdauthtrxmatch.name | quote }}
             - name: KAFKA_TOPIC_SCADFILE_NAME
-              value: { { .Values.kafka.topics.scadfile.name | quote } }
+              value: {{ .Values.kafka.topics.scadfile.name | quote }}
             - name: KAFKA_TOPIC_EXPIREDAUTH_NAME
-              value: { { .Values.kafka.topics.expiredauth.name | quote } }
+              value: {{ .Values.kafka.topics.expiredauth.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITDEF_NAME
               value: {{ .Values.kafka.topics.risklimitdef.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITDEF1M_NAME
@@ -168,7 +168,7 @@ spec:
             - name: KAFKA_CONSUMER_GROUP_CRDAUTHTRXMATCH_NAME
               value: {{ .Values.kafka.topics.crdauthtrxmatch.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_SCADFILE_NAME
-              value: { { .Values.kafka.topics.scadfile.consumerGroup | quote } }
+              value: {{ .Values.kafka.topics.scadfile.consumerGroup | quote }}
             - name: CCMS_REST_SERVICE_URL
               value: {{ .Values.cms.url }}
             - name: CCMS_REST_SERVICE_SETRISKLIMITS_CODE

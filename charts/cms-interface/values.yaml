@@ -72,7 +72,7 @@ kafka:
       name: hr.vestigo.hp.crdauthtrxmatch
       consumerGroup: hr.vestigo.hp.crdauthtrxmatch
     scadfile:
-      name: gcp.hpdev.hp.evt.scadfile
+      name: hr.vestigo.hp.scadfile
       consumerGroup: hr.vestigo.hp.scadfile
     expiredauth:
       name: hr.vestigo.hp.expiredauth
