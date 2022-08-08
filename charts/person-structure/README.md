@@ -233,6 +233,8 @@ kafka:
         consumerGroup: hr.vestigo.hp.currency.parameterization  # default value, set custom name if required
       authptragrmtlim:
         consumerGroup: hr.vestigo.hp.authptragrmtlim.parameterization  # default value, set custom name if required
+      finctrllimtypeperstr:
+        consumerGroup: hr.vestigo.hp.finctrllimtypeperstr.parametrization # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets

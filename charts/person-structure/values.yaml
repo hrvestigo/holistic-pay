@@ -91,6 +91,8 @@ kafka:
         consumerGroup: hr.vestigo.hp.currency.parametrization
       authptragrmtlim:
         consumerGroup: hr.vestigo.hp.authptragrmtlim.parametrization
+      finctrllimtypeperstr:
+        consumerGroup: hr.vestigo.hp.finctrllimtypeperstr.parametrization
 cms:
   moduleName: BOS
   deliveryChannel: DCC

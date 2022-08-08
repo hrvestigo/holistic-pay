@@ -187,6 +187,8 @@ spec:
               value: {{ .Values.kafka.topics.parametrization.currency.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRTLIM_PARAMETRIZATION_NAME
               value: {{ .Values.kafka.topics.parametrization.authptragrmtlim.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_FINCTRLLIMTYPEPERSTR_PARAMETRIZATION_NAME
+              value: {{ .Values.kafka.topics.parametrization.finctrllimtypeperstr.consumerGroup | quote }}
             - name: CMS_CDC_MODULE_NAME
               value: {{ .Values.cms.moduleName | quote }}
             - name: CMS_CDC_DELIVERY_CHANNEL
