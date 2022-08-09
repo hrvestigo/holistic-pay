@@ -195,16 +195,16 @@ spec:
               value: {{ .Values.kafka.topics.expiredauth.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_MATCHEDAUTH_NAME
               value: {{ .Values.kafka.topics.matchedauth.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRMTLIMALC_NAME
-              value: {{ .Values.kafka.topics.authptragrmtlimalc.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRMTPARAMALC_NAME
-              value: {{ .Values.kafka.topics.authptragrmtparamalc.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_FINCTRLLIMTYPEALC_NAME
-              value: {{ .Values.kafka.topics.finctrllimtypealc.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CURRENCY_NAME
-              value: {{ .Values.kafka.topics.currency.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_COUNTRY_NAME
-              value: {{ .Values.kafka.topics.country.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRMTLIMALC_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.authptragrmtlimalc.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRMTPARAMALC_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.authptragrmtparamalc.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_FINCTRLLIMTYPEALC_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.finctrllimtypealc.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CURRENCY_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.currency.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_COUNTRY_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.country.consumerGroup | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
