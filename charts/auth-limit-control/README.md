@@ -207,9 +207,18 @@ kafka:
     matchedauth:
       name: hr.vestigo.hp.matchedauth # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.matchedauth # default value, set custom name if required
-    parameterization:
+    parameterization: 
       name: hr.vestigo.hp.parameterization # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.parameterization # default value, set custom name if required
+      authptragrmtlimalc:
+        consumerGroup: hr.vestigo.hp.authptragrmtlimalc.parameterization # default value, set custom name if required
+      authptragrmtparamalc:
+        consumerGroup: hr.vestigo.hp.authptragrmtparamalc.parameterization # default value, set custom name if required
+      finctrllimtypealc:
+        consumerGroup: hr.vestigo.hp.finctrllimtypealc.parameterization # default value, set custom name if required
+      currency:
+        consumerGroup: hr.vestigo.hp.currency.parameterization # default value, set custom name if required
+      country:
+        consumerGroup: hr.vestigo.hp.country.parameterization # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets

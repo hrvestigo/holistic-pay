@@ -94,7 +94,16 @@ kafka:
       consumerGroup: hr.vestigo.hp.matchedauth
     parameterization:
       name: hr.vestigo.hp.parameterization
-      consumerGroup: hr.vestigo.hp.parameterization
+      authptragrmtlimalc:
+        consumerGroup: hr.vestigo.hp.authptragrmtlimalc.parameterization
+      authptragrmtparamalc:
+        consumerGroup: hr.vestigo.hp.authptragrmtparamalc.parameterization
+      finctrllimtypealc:
+        consumerGroup: hr.vestigo.hp.finctrllimtypealc.parameterization
+      currency:
+        consumerGroup: hr.vestigo.hp.currency.parameterization
+      country:
+        consumerGroup: hr.vestigo.hp.country.parameterization
 oauth2:
   enabled: false
   resourceUri: ''
