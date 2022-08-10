@@ -8,7 +8,7 @@ image:
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 2.7.0
+    tag: 2.9.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -58,34 +58,31 @@ kafka:
   topics:
     cobaffschema:
       name: hr.vestigo.hp.cobaffschema
-      consumerGroup: hr.vestigo.hp.cobaffschema
+      consumerGroup: hr.vestigo.hp.cobaffschema.profac
     cobaffschemaparam:
       name: hr.vestigo.hp.cobaffschemaparam
-      consumerGroup: hr.vestigo.hp.cobaffschemaparam
+      consumerGroup: hr.vestigo.hp.cobaffschemaparam.profac
     cobaffschgatewayparams:
       name: hr.vestigo.hp.cobaffschgatewayparams
-      consumerGroup: hr.vestigo.hp.cobaffschgatewayparams
+      consumerGroup: hr.vestigo.hp.cobaffschgatewayparams.profac
     cobaffschlimit:
       name: hr.vestigo.hp.cobaffschlimit
-      consumerGroup: hr.vestigo.hp.cobaffschlimit
-    authptragrmtlimalc:
-      name: hr.vestigo.hp.authptragrmtlimalc
-      consumerGroup: hr.vestigo.hp.authptragrmtlimalc
-    partnerdef:
-      name: hr.vestigo.hp.partnerdef
-      consumerGroup: hr.vestigo.hp.partnerdef
+      consumerGroup: hr.vestigo.hp.cobaffschlimit.profac
+    crdintacctype:
+      name: hr.vestigo.hp.crdintacctype
+      consumerGroup: hr.vestigo.hp.crdintacctype.profac
     country:
       name: hr.vestigo.hp.country
-      consumerGroup: hr.vestigo.hp.country
+      consumerGroup: hr.vestigo.hp.country.profac
     currency:
       name: hr.vestigo.hp.currency
-      consumerGroup: hr.vestigo.hp.currency
+      consumerGroup: hr.vestigo.hp.currency.profac
     parameterization:
       name: hr.vestigo.hp.parameterization
-      consumerGroup: hr.vestigo.hp.parameterization
+      consumerGroup: hr.vestigo.hp.parameterization.profac
     financiallimittype:
       name: hr.vestigo.hp.financiallimittype
-      consumerGroup: hr.vestigo.hp.financiallimittype
+      consumerGroup: hr.vestigo.hp.financiallimittype.profac
 request:
   sanitization:
     enabled: true
