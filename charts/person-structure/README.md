@@ -222,19 +222,18 @@ kafka:
       name: hr.vestigo.hp.risklimitdef # default value, set custom name if required
     personstructure:
       name: hr.vestigo.hp.personstructure # default value, set custom name if required
-    parametrization:
-      name: hr.vestigo.hp.parametrization
-      
+    parameterization:
+      name: hr.vestigo.hp.parameterization
       crdintacctype:
-        consumerGroup: hr.vestigo.hp.crdintacctype.parameterization  # default value, set custom name if required
+        consumerGroup: hr.vestigo.hp.crdintacctype.parameterization.perstr  # default value, set custom name if required
       partnerdef:
-        consumerGroup: hr.vestigo.hp.partnerdef.parameterization  # default value, set custom name if required
+        consumerGroup: hr.vestigo.hp.partnerdef.parameterization.perstr  # default value, set custom name if required
       currency:
-        consumerGroup: hr.vestigo.hp.currency.parameterization  # default value, set custom name if required
+        consumerGroup: hr.vestigo.hp.currency.parameterization.perstr  # default value, set custom name if required
       authptragrmtlim:
-        consumerGroup: hr.vestigo.hp.authptragrmtlim.parameterization  # default value, set custom name if required
+        consumerGroup: hr.vestigo.hp.authptragrmtlim.parameterization.perstr # default value, set custom name if required
       finctrllimtypeperstr:
-        consumerGroup: hr.vestigo.hp.finctrllimtypeperstr.parametrization # default value, set custom name if required
+        consumerGroup: hr.vestigo.hp.finctrllimtypeperstr.parameterization.perstr # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets

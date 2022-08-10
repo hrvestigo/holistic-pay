@@ -163,8 +163,8 @@ spec:
               value: {{ .Values.kafka.topics.risklimitdef.name | quote }}
             - name: KAFKA_TOPIC_PERSONSTRUCTURE_NAME
               value: {{ .Values.kafka.topics.personstructure.name | quote }}
-            - name: KAFKA_TOPIC_PARAMETRIZATION_NAME
-              value: {{ .Values.kafka.topics.parametrization.name | quote }}
+            - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CARD_NAME
               value: {{ .Values.kafka.topics.card.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDINTACC_NAME
