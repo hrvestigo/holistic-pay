@@ -179,16 +179,16 @@ spec:
               value: {{ .Values.kafka.topics.partnerdef.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITCONTRACT_NAME
               value: {{ .Values.kafka.topics.risklimitcontract.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CRDINTACCTYPE_PARAMETRIZATION_NAME
-              value: {{ .Values.kafka.topics.parametrization.crdintacctype.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_PARTNERDEF_PARAMETRIZATION_NAME
-              value: {{ .Values.kafka.topics.parametrization.partnerdef.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CURRENCY_PARAMETRIZATION_NAME
-              value: {{ .Values.kafka.topics.parametrization.currency.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRTLIM_PARAMETRIZATION_NAME
-              value: {{ .Values.kafka.topics.parametrization.authptragrmtlim.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_FINCTRLLIMTYPEPERSTR_PARAMETRIZATION_NAME
-              value: {{ .Values.kafka.topics.parametrization.finctrllimtypeperstr.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CRDINTACCTYPE_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.crdintacctype.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PARTNERDEF_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.partnerdef.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CURRENCY_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.currency.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRTLIM_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.authptragrmtlim.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_FINCTRLLIMTYPEPERSTR_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.finctrllimtypeperstr.consumerGroup | quote }}
             - name: CMS_CDC_MODULE_NAME
               value: {{ .Values.cms.moduleName | quote }}
             - name: CMS_CDC_DELIVERY_CHANNEL
