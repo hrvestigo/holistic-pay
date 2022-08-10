@@ -95,15 +95,15 @@ kafka:
     parameterization:
       name: hr.vestigo.hp.parameterization
       authptragrmtlimalc:
-        consumerGroup: hr.vestigo.hp.authptragrmtlimalc.parameterization
+        consumerGroup: hr.vestigo.hp.authptragrmtlimalc.parameterization.alc
       authptragrmtparamalc:
-        consumerGroup: hr.vestigo.hp.authptragrmtparamalc.parameterization
+        consumerGroup: hr.vestigo.hp.authptragrmtparamalc.parameterization.alc
       finctrllimtypealc:
-        consumerGroup: hr.vestigo.hp.finctrllimtypealc.parameterization
+        consumerGroup: hr.vestigo.hp.finctrllimtypealc.parameterization.alc
       currency:
-        consumerGroup: hr.vestigo.hp.currency.parameterization
+        consumerGroup: hr.vestigo.hp.currency.parameterization.alc
       country:
-        consumerGroup: hr.vestigo.hp.country.parameterization
+        consumerGroup: hr.vestigo.hp.country.parameterization.alc
 oauth2:
   enabled: false
   resourceUri: ''
