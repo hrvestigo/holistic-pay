@@ -8,7 +8,7 @@ image:
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 2.25.0
+    tag: 2.38.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -108,15 +108,12 @@ oauth2:
   enabled: false
   resourceUri: ''
   authorizationPrefix: ''
-
 request:
   sanitization:
     enabled: true
-
 response:
   encoding:
     enabled: false
-
 partnerBankServiceUrl: https://partner-bank-interface:8443
 appWarmup:
   enabled: true
