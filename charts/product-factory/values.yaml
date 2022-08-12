@@ -79,7 +79,6 @@ kafka:
       consumerGroup: hr.vestigo.hp.currency.profac
     parameterization:
       name: hr.vestigo.hp.parameterization
-      consumerGroup: hr.vestigo.hp.parameterization.profac
     financiallimittype:
       name: hr.vestigo.hp.financiallimittype
       consumerGroup: hr.vestigo.hp.financiallimittype.profac

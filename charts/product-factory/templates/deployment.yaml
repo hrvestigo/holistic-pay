@@ -177,8 +177,6 @@ spec:
               value: {{ .Values.kafka.topics.country.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CURRENCY_NAME
               value: {{ .Values.kafka.topics.currency.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDINTACCTYPE_NAME
               value: {{ .Values.kafka.topics.crdintacctype.consumerGroup | quote }}
             - name: SERVER_SSL_KEYSTORE

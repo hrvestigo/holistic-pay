@@ -189,7 +189,6 @@ kafka:
       consumerGroup: hr.vestigo.hp.currency # default value, set custom name if required
     parameterization:
       name: hr.vestigo.hp.parameterization # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.parameterization # default value, set custom name if required
     crdintacctype:
       name: hr.vestigo.hp.crdintacctype # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.crdintacctype # default value, set custom name if required
