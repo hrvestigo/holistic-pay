@@ -45,6 +45,9 @@ routes:
   personRegistry:
     serviceName: person-registry
     servicePortNumber: "8443"
+  personRegistryWeb:
+    serviceName: person-registry-web
+    servicePortNumber: "8443"
 
 oauth2:
   enabled: false
