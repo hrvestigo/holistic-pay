@@ -52,6 +52,5 @@ spring:
             - Path=/**
           uri: https://{{ required "Person registry application service name has to be defined in routes.personRegistryWeb.serviceName" .Values.routes.personRegistryWeb.serviceName }}:{{ required "Person structure application port number has to be defined in routes.personRegistryWeb.servicePortNumber" .Values.routes.personRegistryWeb.servicePortNumber }}
           filters:
-            - StripPrefix=1
             - TokenRelay
             - SaveSession
