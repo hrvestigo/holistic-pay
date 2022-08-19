@@ -1,0 +1,6 @@
+apiVersion: v2
+name: person-registry-web
+description: Helm chart for person registry web application
+type: application
+version: 0.9.0
+appVersion: 0.9.0
