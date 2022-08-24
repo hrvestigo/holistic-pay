@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="warn">
-{{- with .Values.logger }}
+  {{- with .Values.logger }}
   <Properties>
     {{- if .logToFile }}
     <Property name="folder">{{ .logDir }}</Property>
@@ -8,17 +8,22 @@
     <Property name="fileNameTomcat">messages.log</Property>
     <Property name="fileNameHealth">health.log</Property>
     {{- end }}
-    <Property name="defaultPattern">[%d %X{correlationId}] %p %c{1.} %m%n</Property>
-    <Property name="healthPattern">[%d %X{correlationId}] %m%n</Property>
+    <Property name="defaultPattern">[%d] [%X{correlationId}] %p %c{1.} %replace{%m}{[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}}{*****}%n</Property>
+    <Property name="healthPattern">[%d] [%X{correlationId}] %m%n</Property>
+
+    <Property name="applicationAppender">Application</Property>
+    <Property name="tomcatAppender">Tomcat</Property>
+    <Property name="healthAppender">Health</Property>
+    <Property name="consoleAppender">Console</Property>
   </Properties>
 
   <Appenders>
-    <Console name="Console" target="SYSTEM_OUT">
-      <PatternLayout pattern="[%d] [%X{correlationId}] %p %c{1.} %m%n"/>
+    <Console name="${consoleAppender}" target="SYSTEM_OUT">
+      <PatternLayout pattern="${defaultPattern}"/>
     </Console>
 
     {{- if and .logToFile .rollingFileAppender }}
-    <RollingFile name="Application" fileName="${folder}/${fileName}" filePattern="${folder}/${fileName}-%d{MM-dd-yyyy}.log">
+    <RollingFile name="${applicationAppender}" fileName="${folder}/${fileName}" filePattern="${folder}/${fileName}-%d{MM-dd-yyyy}.log">
       <PatternLayout>
         <Pattern>${defaultPattern}</Pattern>
       </PatternLayout>
@@ -29,7 +34,7 @@
       <DefaultRolloverStrategy max="1000"/>
     </RollingFile>
 
-    <RollingFile name="Tomcat" fileName="${folder}/${fileNameTomcat}" filePattern="${folder}/${fileNameTomcat}-%d{MM-dd-yyyy}.log">
+    <RollingFile name="${tomcatAppender}" fileName="${folder}/${fileNameTomcat}" filePattern="${folder}/${fileNameTomcat}-%d{MM-dd-yyyy}.log">
       <PatternLayout>
         <Pattern>${defaultPattern}</Pattern>
       </PatternLayout>
@@ -40,7 +45,7 @@
       <DefaultRolloverStrategy max="1000"/>
     </RollingFile>
 
-    <RollingFile name="Health" fileName="${folder}/${fileNameHealth}" filePattern="${folder}/${fileNameHealth}-%d{MM-dd-yyyy}.log">
+    <RollingFile name="${healthAppender}" fileName="${folder}/${fileNameHealth}" filePattern="${folder}/${fileNameHealth}-%d{MM-dd-yyyy}.log">
       <PatternLayout>
         <Pattern>${healthPattern}</Pattern>
       </PatternLayout>
@@ -53,173 +58,120 @@
 
     {{- else if .logToFile }}
 
-    <File name="Application" fileName="${folder}/${fileName}">
+    <File name="${applicationAppender}" fileName="${folder}/${fileName}">
       <PatternLayout>
         <Pattern>${defaultPattern}</Pattern>
       </PatternLayout>
     </File>
-    
-    <File name="Tomcat" fileName="${folder}/${fileNameTomcat}">
+
+    <File name="${tomcatAppender}" fileName="${folder}/${fileNameTomcat}">
       <PatternLayout>
         <Pattern>${defaultPattern}</Pattern>
       </PatternLayout>
     </File>
-    
-    <File name="Health" fileName="${folder}/${fileNameHealth}">
+
+    <File name="${healthAppender}" fileName="${folder}/${fileNameHealth}">
       <PatternLayout>
         <Pattern>${healthPattern}</Pattern>
       </PatternLayout>
     </File>
     {{- end }}
-</Appenders>
+  </Appenders>
 
   <Loggers>
     <Logger name="hr.vestigo" level="DEBUG" additivity="false">
       {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
+      <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
-      <AppenderRef ref="Console"/>
+      <AppenderRef ref="${consoleAppender}"/>
     </Logger>
-    <Logger name="org.apache" level="INFO" additivity="false">
+
+    <Logger name="org.apache" level="INFO" additivity="false"> <!-- samo kafku logira, uključeno u ovaj ispod? -->
       {{- if .logToFile }}
-      <AppenderRef ref="Tomcat"/>
+      <AppenderRef ref="${tomcatAppender}"/>
       {{- end }}
-      <AppenderRef ref="Console"/>
+      <AppenderRef ref="${consoleAppender}"/>
     </Logger>
-    <Logger name="org.hibernate" level="INFO" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
-    <Logger name="org.jboss.resteasy" level="INFO" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
-    <Logger name="org.jboss.weld" level="INFO" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
-    <Logger name="org.flywaydb" level="INFO" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
-    <Logger name="org.reflections" level="INFO" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
-    <Logger name="org.jnp" level="INFO" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
-    <Logger name="org.xnio" level="INFO" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
-    <Logger name="org.springframework" level="INFO" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
-    <Logger name="org.springframework.orm.jpa" level="DEBUG" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
-    <Logger name="io.swagger" level="INFO" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
-    <Logger name="io.undertow" level="INFO" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
-    <Logger name="springfox" level="INFO" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
-    <Logger name="de.codecentric" level="INFO" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
-    <Logger name="io.jaegertracing" level="ERROR" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
-    <Logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
-    <Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
-    <Logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
-    <Logger name="org.springframework.boot.autoconfigure" level="ERROR" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
-      {{- end }}
-      <AppenderRef ref="Console"/>
-    </Logger>
+
     <Logger name="org.apache.kafka" level="INFO" additivity="false">
       {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
+      <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
-      <AppenderRef ref="Console"/>
+      <AppenderRef ref="${consoleAppender}"/>
     </Logger>
+
+    <Logger name="org.hibernate" level="INFO" additivity="false"> <!-- da li treba s obzirom da je većina već uključena u SQL i BasicBinder? -->
+      {{- if .logToFile }}
+      <AppenderRef ref="${applicationAppender}"/>
+      {{- end }}
+      <AppenderRef ref="${consoleAppender}"/>
+    </Logger>
+
+    <Logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+      {{- if .logToFile }}
+      <AppenderRef ref="${applicationAppender}"/>
+      {{- end }}
+      <AppenderRef ref="${consoleAppender}"/>
+    </Logger>
+
+    <Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" additivity="false">
+      {{- if .logToFile }}
+      <AppenderRef ref="${applicationAppender}"/>
+      {{- end }}
+      <AppenderRef ref="${consoleAppender}"/>
+    </Logger>
+
+    <Logger name="org.springframework" level="INFO" additivity="false">
+      {{- if .logToFile }}
+      <AppenderRef ref="${applicationAppender}"/>
+      {{- end }}
+      <AppenderRef ref="${consoleAppender}"/>
+    </Logger>
+
+    <Logger name="org.springframework.orm.jpa" level="DEBUG" additivity="false">
+      {{- if .logToFile }}
+      <AppenderRef ref="${applicationAppender}"/>
+      {{- end }}
+      <AppenderRef ref="${consoleAppender}"/>
+    </Logger>
+
+    <Logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG" additivity="false"> <!-- ne koristi se? -->
+      {{- if .logToFile }}
+      <AppenderRef ref="${applicationAppender}"/>
+      {{- end }}
+      <AppenderRef ref="${consoleAppender}"/>
+    </Logger>
+
+    <Logger name="org.springframework.boot.autoconfigure" level="ERROR" additivity="false"> <!-- ne koristi se? -->
+      {{- if .logToFile }}
+      <AppenderRef ref="${applicationAppender}"/>
+      {{- end }}
+      <AppenderRef ref="${consoleAppender}"/>
+    </Logger>
+
     {{- if .logToFile }}
-    <Logger name="hr.vestigo.springtemplate.app.filter.AccessLogFilter" level="DEBUG" additivity="false">
-      <AppenderRef ref="Health"/>
+    <Logger name="hr.vestigo.springtemplate.app.logging.AccessLogFilter" level="DEBUG" additivity="false">
+      <AppenderRef ref="${healthAppender}"/>
     </Logger>
     {{- else }}
-    <Logger name="hr.vestigo.springtemplate.app.filter.AccessLogFilter" level="ERROR" additivity="false"></Logger>
+    <Logger name="hr.vestigo.springtemplate.app.logging.AccessLogFilter" level="ERROR" additivity="false">
+      <AppenderRef ref="${consoleAppender}"/>
+    </Logger>
     {{- end }}
+
     <Logger name="hr.vestigo.springtemplate.app.interceptors.CorrelationIdHttpInterceptor" level="DEBUG" additivity="false">
       {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
+      <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
-      <AppenderRef ref="Console" />
-    </Logger>    
+      <AppenderRef ref="${consoleAppender}" />
+    </Logger>
 
     <Root level="INFO">
-      <AppenderRef ref="Console"/>
+      <AppenderRef ref="${consoleAppender}"/>
       {{- if .logToFile }}
-      <AppenderRef ref="Application"/>
+      <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
     </Root>
   </Loggers>
-{{- end }}
+  {{- end }}
 </Configuration>
