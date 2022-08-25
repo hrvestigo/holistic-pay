@@ -62,6 +62,15 @@ spec:
               value: {{ required "Please specify HTTP session timeout in httpSessionTimeout" .Values.httpSessionTimeout | quote }}
             - name: REACT_APP_SESSION_TIMEOUT_MESSAGE
               value: "Session expired! Please login."
+            - name: REACT_OAUTH_AUTH_ENABLED
+              value: {{ .Values.oauth2.enabled | quote }}
+            {{- if .Values.oauth2.enabled }}
+            - name: REACT_OAUTH_AUTH_SERVER_URL
+              value: >-
+                {{ required "Please specify Keycloak server URL in oauth2.serverUrl" .Values.oauth2.serverUrl }}/realms/{{ required "Please specify Keycloak realm name in oauth2.realm" .Values.oauth2.realm }}
+            - name: REACT_OAUTH_CLIENT_ID
+              value: {{ required "Please specify Keycloak resource name in oauth2.resource" .Values.oauth2.resource | quote }}
+            {{- end }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

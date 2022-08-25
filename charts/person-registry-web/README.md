@@ -82,6 +82,47 @@ The only requirement is to set secret name and names of certificate and key file
 
 Besides required attributes, installation of Person registry web application can be customized in different ways.
 
+### oAuth2
+
+Person registry web application can use oAuth2 service for authorization. By default, this option is disabled, but can easily be enabled by specifying following attributes in values:
+
+```yaml
+oauth2:
+  enabled: true
+  realm: Holistic-Pay # default value, specify other if required
+  serverUrl: "" # no default value
+  resource: aux # default value, specify other if required
+
+secret:
+  keycloakClientToken: "" # no default value
+```
+
+To configure oAuth2, it first has to be enabled with `oauth2.enabled` parameter.
+When enabled, other parameters should be defined.
+
+First parameter is realm name which is defined in oAuth2. Default value for this parameter is `Holistic-Pay`, but it can be modified with `oauth2.realm` attribute.
+
+Second parameter is oAuth2 server URL which has to be defined (has no default value). URL should contain oAuth2 server FQDN, followed by `/auth` endpoint, for example: `https://oAuth2.custom.domain/auth`.
+
+Third parameter is used to define oAuth2 client ID, which is by default set to `aux`.
+This value can be modified with `oauth2.resource` attribute.
+
+Final parameter to set is Keycloak client token, which should be set with `secret.oauth2ClientToken` attribute. This is an AES encrypted token which is encrypted using the same encryption key as other secrets (`secret.decryptionKey`).
+
+### Request body sanitization and response body encoding
+
+Partner bank interface application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
+
+```yaml
+request:
+  sanitization:
+    enabled: true
+    
+response:
+  encoding:
+    enabled: false
+```
+
 ### Setting application environment
 
 Application can display environment name on logon screen and in main screen.

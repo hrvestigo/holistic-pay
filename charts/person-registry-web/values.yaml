@@ -20,6 +20,12 @@ environmentName: "TEST"
 
 httpSessionTimeout: "14400"
 
+oauth2:
+  enabled: false
+  realm: Holistic-Pay
+  serverUrl: ""
+  resource: aux
+
 timezone: ""
 
 podAnnotations: {}
@@ -56,10 +62,10 @@ ingress:
 resources:
   limits:
     cpu: 500m
-    memory: 512Mi
+    memory: 64Mi
   requests:
     cpu: 50m
-    memory: 256Mi
+    memory: 16Mi
 
 initContainers: []
 
