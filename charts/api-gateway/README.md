@@ -388,28 +388,51 @@ customMounts:
 
 ### Customizing container logs
 
-API Gateway application is predefined to redirect all logs to three different files:
+API Gateway application is predefined to redirect all logs to `stdout` expect for Web Server logs (`access.log`) and health check logs, which are not logged by default.
+However, using custom configuration, logs can be redirected to log files also (in addition to `stdout`).
 
-* `messages.log` - contains application and server logs
+When enabling logging to file, container will divide logs into three different files:
 
-* `health.log` - contains all incoming requests to health check endpoint (filtered out from `access.log`)
+- `messages.log` - contains application server's logs
 
-* `access.log` - contains typical Web Server logs, except for health check endpoint
+- `health.log` - contains all incoming requests to health check endpoint (filtered out from `access.log`)
 
-Files are logged to `/var/log/app` folder, which is by default mounted to host's `emptyDir`. This is the default setup:
+- `access.log` - contains typical Web Server logs, except for health check endpoint
+
+To enable logging to file, following attribute should be set in values file:
 
 ```yaml
 logger:
-  logDirMount:
-    enabled: true # boolean value, default is true
-    spec:
-      emptyDir: {} # default value of mount type, other types can be used also
+  logToFile: true # boolean value, default is false
 ```
 
-Folder can be mounted with other mount type as well, for example:
+With this basic setup, container will start to log files into a predefined "/var/log/app" location with basic file appender.
+In order to set custom log location, additional attribute has to be defined:
 
 ```yaml
 logger:
+  logToFile: true # boolean value, default is false
+  logDir: "/custom/log/folder"
+```
+
+When defining custom log location, make sure folder either already exists in container or is mounted with `logDirMount` variable, for example:
+
+```yaml
+logger:
+  logToFile: true # boolean value, default is false
+  logDir: "/custom/log/folder"
+  logDirMount:
+    enabled: true # boolean value, default is false
+    spec:
+      emptyDir: {} # defines mount type, other types can be used also
+```
+
+or with other mount type:
+
+```yaml
+logger:
+  logToFile: true # boolean value, default is false
+  logDir: "/custom/log/folder"
   logDirMount:
     enabled: true # boolean value, default is false
     spec:
@@ -424,6 +447,15 @@ logger:
 ```
 
 Note that any type of mount specification can be used by following standard Kubernetes mount specification, the only requirement is that it has to be defined under `logger.logDirMount.spec` attribute in values file.
+
+Log level can be modified by changing a single attribute:
+
+```yaml
+logger:
+  globalLogLevel: "DEBUG" # default value
+```
+
+Possible values for this parameter are: `TRACE`, `DEBUG`, `INFO`, `WARN` or `ERROR`.
 
 ### Modifying deployment strategy
 

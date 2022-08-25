@@ -21,10 +21,13 @@ secret:
   keyStorePassword: ""
 
 logger:
+  globalLogLevel: DEBUG
+  logToFile: false # boolean value, default is false
+  logDir: "/var/log/app"
   logDirMount:
-    enabled: true # boolean value, default is true
+    enabled: false # boolean value, default is false
     spec:
-      emptyDir: {}
+      # emptyDir: {}
       # flexVolume:
         # driver: ""
         # fsType: ""
@@ -139,9 +142,9 @@ deployment:
   terminationGracePeriodSeconds: 60
   restartPolicy: Always
   readinessProbe:
-    initialDelaySeconds: 10
+    initialDelaySeconds: 30
     periodSeconds: 60
-    timeoutSeconds: 181
+    timeoutSeconds: 10
     successThreshold: 1
     failureThreshold: 2
     httpGet:
@@ -149,7 +152,7 @@ deployment:
       port: http
       scheme: HTTPS
   livenessProbe:
-    initialDelaySeconds: 60
+    initialDelaySeconds: 30
     periodSeconds: 60
     timeoutSeconds: 10
     failureThreshold: 3

@@ -1,18 +1,23 @@
 <configuration>
 
+{{- with .Values.logger }}
+
     <variable name="DEF_PATTERN" value="[%d] %p %c{1} %msg%n" />
+    {{- if .logToFile }}
     <variable name="HEALTH_PATTERN" value="%msg%n" />
-    <variable name="LOG_FOLDER" value="/var/log/app" />
+    <variable name="LOG_FOLDER" value="{{ .logDir }}" />
+    {{- end }}
 
-
-    <appender name="application" class="ch.qos.logback.core.FileAppender">
-        <file>${LOG_FOLDER}/messages.log</file>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${DEF_PATTERN}</pattern>
         </encoder>
     </appender>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    {{- if .logToFile }}
+    
+    <appender name="application" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_FOLDER}/messages.log</file>
         <encoder>
             <pattern>${DEF_PATTERN}</pattern>
         </encoder>
@@ -42,18 +47,33 @@
         <appender-ref ref="healthAccessLog" />
     </appender>
 
-
-    <logger name="reactor.netty.http.server.AccessLog" level="INFO" additivity="false">
+    <logger name="reactor.netty.http.server.AccessLog" level={{ required "Please specify log level in logger.globalLogLevel. Possible values: TRACE, DEBUG, INFO, WARN, ERROR" .globalLogLevel | upper | quote }} additivity="false">
         <appender-ref ref="async" />
-    </logger>
-
-    <logger name="reactor.netty.http.server.AccessLog" level="INFO" additivity="false">
         <appender-ref ref="healthAsync" />
     </logger>
 
-    <root>
+    {{- else }}
+
+    <logger name="reactor.netty.http.server.AccessLog" level={{ required "Please specify log level in logger.globalLogLevel. Possible values: TRACE, DEBUG, INFO, WARN, ERROR" .globalLogLevel | upper | quote }} additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    {{- end }}
+
+    <logger name="hr.vestigo.apigateway.logging.RequestAndResponseLoggingFilter" level="INFO" additivity="false" >
+        {{- if .logToFile }}
         <appender-ref ref="application" />
+        {{- end }}
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <root additivity="false" level={{ required "Please specify log level in logger.globalLogLevel. Possible values: TRACE, DEBUG, INFO, WARN, ERROR" .globalLogLevel | upper | quote }} >
+        {{- if .logToFile }}
+        <appender-ref ref="application" />
+        {{- end }}
         <appender-ref ref="STDOUT" />
     </root>
+
+{{- end }}
 
 </configuration>

@@ -64,10 +64,6 @@ spec:
               value: {{ .Values.healthStatusDownReturnCode | quote }}
             - name: SERVER_PORT
               value: '8443'
-            - name: LOGGING_LEVEL_ORG
-              value: TRACE
-            - name: LOGGING_LEVEL_HR
-              value: TRACE
             - name: SPRING_CONFIG_ADDITIONALLOCATION
               value: /opt/app/application.yaml
             - name: PATH
