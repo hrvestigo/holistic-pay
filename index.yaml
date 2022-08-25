@@ -303,6 +303,16 @@ entries:
     version: 0.2.0
   api-gateway:
   - apiVersion: v2
+    appVersion: 1.6.0
+    created: "2022-08-25T09:00:42.696049416Z"
+    description: Helm chart for API gateway application
+    digest: 9b17d19f0e07117de338a82f80eb55a4a7df3068f026a09bdad307e08cbb3078
+    name: api-gateway
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/api-gateway-1.6.0/api-gateway-1.6.0.tgz
+    version: 1.6.0
+  - apiVersion: v2
     appVersion: 1.5.0
     created: "2022-08-18T08:23:41.831237208Z"
     description: Helm chart for API gateway application
@@ -2249,4 +2259,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/product-factory-0.2.0/product-factory-0.2.0.tgz
     version: 0.2.0
-generated: "2022-08-25T07:57:17.147817318Z"
+generated: "2022-08-25T09:00:42.697384449Z"
