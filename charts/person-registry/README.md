@@ -168,6 +168,12 @@ kafka:
     personreplicateddata:
       name: hr.vestigo.hp.personreplicateddata # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.personreplicateddata # default value, set custom name if required
+    personregistrylinks:
+      name: hr.vestigo.hp.personregistrylinks # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.personregistrylinks # default value, set custom name if required
+    matchabilityflag:
+      name: hr.vestigo.hp.matchabilityflag # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.matchabilityflag # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets

@@ -149,6 +149,14 @@ spec:
               value: {{ .Values.kafka.topics.personreplicateddata.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PERSONREPLICATEDDATA_NAME
               value: {{ .Values.kafka.topics.personreplicateddata.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_PERSONREGISTRYLINKS_NAME
+              value: {{ .Values.kafka.topics.personregistrylinks.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PERSONREGISTRYLINKS_NAME
+              value: {{ .Values.kafka.topics.personregistrylinks.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_MATCHABILITYFLAG_NAME
+              value: {{ .Values.kafka.topics.matchabilityflag.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_MATCHABILITYFLAG_NAME
+              value: {{ .Values.kafka.topics.matchabilityflag.consumerGroup | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

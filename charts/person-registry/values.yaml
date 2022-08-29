@@ -59,6 +59,12 @@ kafka:
     personreplicateddata:
       name: hr.vestigo.hp.personreplicateddata
       consumerGroup: hr.vestigo.hp.personreplicateddata
+    personregistrylinks:
+      name: hr.vestigo.hp.personregistrylinks
+      consumerGroup: hr.vestigo.hp.personregistrylinks
+    matchabilityflag:
+      name: hr.vestigo.hp.matchabilityflag
+      consumerGroup: hr.vestigo.hp.matchabilityflag
 oauth2:
   enabled: false
   resourceUri: ''
