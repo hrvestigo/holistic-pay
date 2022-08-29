@@ -80,11 +80,6 @@ spec:
               {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
               {{- include "cms-interface.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
-            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
-              value: "{{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
-              {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
-              {{- include "cms-interface.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
                 {{- else }}
               value: "jdbc:postgresql://
               {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
@@ -94,11 +89,6 @@ spec:
               {{- default (required "Please specify database name in datasource.dbName or override with member specific in members.datasource.dbName" $.Values.datasource.dbName) .datasource.dbName -}}
               ?currentSchema=
               {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
-              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
-              {{- include "cms-interface.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
-            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
-              value: "{{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
               {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
               {{- include "cms-interface.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
@@ -117,11 +107,6 @@ spec:
               {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
               {{- include "cms-interface.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
-            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
-              value: "{{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
-              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
-              {{- include "cms-interface.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"  
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
               {{- end }}
