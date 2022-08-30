@@ -70,6 +70,11 @@ spec:
                 {{ required "Please specify Keycloak server URL in oauth2.serverUrl" .Values.oauth2.serverUrl }}/realms/{{ required "Please specify Keycloak realm name in oauth2.realm" .Values.oauth2.realm }}
             - name: REACT_OAUTH_CLIENT_ID
               value: {{ required "Please specify Keycloak resource name in oauth2.resource" .Values.oauth2.resource | quote }}
+            {{- else }}
+            - name: REACT_OAUTH_AUTH_SERVER_URL
+              value: N/A
+            - name: REACT_OAUTH_CLIENT_ID
+              value: N/A
             {{- end }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
