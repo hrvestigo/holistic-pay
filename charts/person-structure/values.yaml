@@ -62,18 +62,9 @@ kafka:
     crdintacc:
       name: hr.vestigo.hp.crdintacc
       consumerGroup: hr.vestigo.hp.crdintacc
-    custcrdintacc:
-      name: hr.vestigo.hp.custcrdintacc
-      consumerGroup: hr.vestigo.hp.custcrdintacc
     customeraccount:
       name: hr.vestigo.hp.customeraccount
       consumerGroup: hr.vestigo.hp.customeraccount
-    authptragrmtlimalc:
-      name: hr.vestigo.hp.authptragrmtlimalc
-      consumerGroup: hr.vestigo.hp.authptragrmtlimalc
-    partnerdef:
-      name: hr.vestigo.hp.partnerdef
-      consumerGroup: hr.vestigo.hp.partnerdef
     risklimitcontract:
       name: hr.vestigo.hp.risklimitcontract
       consumerGroup: hr.vestigo.hp.risklimitcontract

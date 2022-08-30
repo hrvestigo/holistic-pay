@@ -203,18 +203,9 @@ kafka:
     crdintacc:
       name: hr.vestigo.hp.crdintacc # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.crdintacc # default value, set custom name if required
-    custcrdintacc:
-      name: hr.vestigo.hp.custcrdintacc # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.custcrdintacc # default value, set custom name if required
     customeraccount:
       name: hr.vestigo.hp.customeraccount # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.customeraccount # default value, set custom name if required
-    authptragrmtlimalc:
-      name: hr.vestigo.hp.authptragrmtlimalc # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.authptragrmtlimalc # default value, set custom name if required
-    partnerdef:
-      name: hr.vestigo.hp.partnerdef # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.partnerdef # default value, set custom name if required
     risklimitcontract:
       name: hr.vestigo.hp.risklimitcontract # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.risklimitcontract # default value, set custom name if required
