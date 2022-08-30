@@ -138,12 +138,6 @@ spec:
               value: {{ .Values.kafka.topics.authprocgroupfinctrllim.name | quote }}
             - name: KAFKA_TOPIC_AUTHPROCGROUPITEM_NAME
               value: {{ .Values.kafka.topics.authprocgroupitem.name | quote }}
-            - name: KAFKA_TOPIC_AUTHPTRAGRMTLIM_NAME
-              value: {{ .Values.kafka.topics.authptragrmtlim.name | quote }}
-            - name: KAFKA_TOPIC_AUTHPTRAGRMTPARAM_NAME
-              value: {{ .Values.kafka.topics.authptragrmtparam.name | quote }}
-            - name: KAFKA_TOPIC_FINCTRLLIMTYPE_NAME
-              value: {{ .Values.kafka.topics.finctrllimtype.name | quote }}
             - name: KAFKA_TOPIC_PARTNERBANKINTERFACE10S_NAME
               value: {{ .Values.kafka.topics.partnerbankinterface10s.name | quote }}
             - name: KAFKA_TOPIC_CRDAUTHTRXMATCH_NAME
@@ -164,14 +158,6 @@ spec:
               value: {{ .Values.kafka.topics.authprocgroupfinctrllim.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_AUTHPROCGROUPITEM_NAME
               value: {{ .Values.kafka.topics.authprocgroupitem.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRMTLIM_NAME
-              value: {{ .Values.kafka.topics.authptragrmtlim.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRMTPARAM_NAME
-              value: {{ .Values.kafka.topics.authptragrmtparam.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_FINCTRLLIMTYPE_NAME
-              value: {{ .Values.kafka.topics.finctrllimtype.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_PARTNERBANKINTERFACE10S_NAME
-              value: {{ .Values.kafka.topics.partnerbankinterface10s.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDAUTHTRXMATCH_NAME
               value: {{ .Values.kafka.topics.crdauthtrxmatch.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITDEF_NAME

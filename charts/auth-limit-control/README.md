@@ -183,18 +183,8 @@ kafka:
     authprocgroupitem:
       name: hr.vestigo.hp.authprocgroupitem # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.authprocgroupitem # default value, set custom name if required
-    authptragrmtlim:
-      name: hr.vestigo.hp.authptragrmtlim # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.authptragrmtlim # default value, set custom name if required
-    authptragrmtparam:
-      name: hr.vestigo.hp.authptragrmtparam # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.authptragrmtparam # default value, set custom name if required
-    finctrllimtype:
-      name: hr.vestigo.hp.finctrllimtype # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.finctrllimtype # default value, set custom name if required
     partnerbankinterface10s:
       name: hr.vestigo.hp.partnerbankinterface10s # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.partnerbankinterface10s # default value, set custom name if required
     crdauthtrxmatch:
       name: hr.vestigo.hp.crdauthtrxmatch # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.crdauthtrxmatch # default value, set custom name if required

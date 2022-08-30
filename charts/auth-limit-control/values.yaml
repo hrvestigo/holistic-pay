@@ -68,18 +68,8 @@ kafka:
     authprocgroupitem:
       name: hr.vestigo.hp.authprocgroupitem
       consumerGroup: hr.vestigo.hp.authprocgroupitem
-    authptragrmtlim:
-      name: hr.vestigo.hp.authptragrmtlim
-      consumerGroup: hr.vestigo.hp.authptragrmtlim
-    authptragrmtparam:
-      name: hr.vestigo.hp.authptragrmtparam
-      consumerGroup: hr.vestigo.hp.authptragrmtparam
-    finctrllimtype:
-      name: hr.vestigo.hp.finctrllimtype
-      consumerGroup: hr.vestigo.hp.finctrllimtype
     partnerbankinterface10s:
       name: hr.vestigo.hp.partnerbankinterface10s
-      consumerGroup: hr.vestigo.hp.partnerbankinterface10s
     crdauthtrxmatch:
       name: hr.vestigo.hp.crdauthtrxmatch
       consumerGroup: hr.vestigo.hp.crdauthtrxmatch
