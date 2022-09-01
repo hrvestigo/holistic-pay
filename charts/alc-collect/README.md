@@ -173,18 +173,6 @@ kafka:
       consumerGroup: hr.vestigo.hp.limitbucket # default value, set custom name if required
     limitbucketh:
       consumerGroup: hr.vestigo.hp.limitbucketh # default value, set custom name if required
-    authptragrmtlim:
-      name: hr.vestigo.hp.authptragrmtlim # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.authptragrmtlim # default value, set custom name if required
-    limitdef:
-      name: hr.vestigo.hp.limitdef # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.limitdef # default value, set custom name if required
-    expiredauth:
-      name: hr.vestigo.hp.expiredauth # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.expiredauth # default value, set custom name if required
-    matchedauth:
-      name: hr.vestigo.hp.matchedauth # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.matchedauth # default value, set custom name if required
     parameterization:
       name: hr.vestigo.hp.parameterization # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.parameterization # default value, set custom name if required
