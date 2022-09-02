@@ -80,11 +80,6 @@ spec:
               {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
               {{- include "product-factory.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
-            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
-              value: "{{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
-              {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
-              {{- include "product-factory.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
                 {{- else }}
               value: "jdbc:postgresql://
               {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
@@ -97,11 +92,6 @@ spec:
               {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
               {{- include "product-factory.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
-            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
-              value: "{{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
-              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
-              {{- include "product-factory.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"			
                 {{- end }}
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ default (required "Please specify DB user in datasource.user" $.Values.datasource.user | quote) .datasource.user }}
@@ -117,11 +107,6 @@ spec:
               {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
               {{- include "product-factory.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
-            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
-              value: "{{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
-              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
-              {{- include "product-factory.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"	
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
               {{- end }}
@@ -147,8 +132,6 @@ spec:
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
             - name: KAFKA_TOPIC_COBAFFSCHEMA_NAME
               value: {{ .Values.kafka.topics.cobaffschema.name | quote }}
-            - name: KAFKA_TOPIC_COBAFFSCHEMAPARAM_NAME
-              value: {{ .Values.kafka.topics.cobaffschemaparam.name | quote }}
             - name: KAFKA_TOPIC_COBAFFSCHGATEWAYPARAMS_NAME
               value: {{ .Values.kafka.topics.cobaffschgatewayparams.name | quote }}
             - name: KAFKA_TOPIC_COBAFFSCHLIMIT_NAME
@@ -165,8 +148,6 @@ spec:
               value: {{ .Values.kafka.topics.crdintacctype.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_COBAFFSCHEMA_NAME
               value: {{ .Values.kafka.topics.cobaffschema.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_COBAFFSCHEMAPARAM_NAME
-              value: {{ .Values.kafka.topics.cobaffschemaparam.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_COBAFFSCHGATEWAYPARAMS_NAME
               value: {{ .Values.kafka.topics.cobaffschgatewayparams.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_COBAFFSCHLIMIT_NAME

@@ -59,9 +59,6 @@ kafka:
     cobaffschema:
       name: hr.vestigo.hp.cobaffschema
       consumerGroup: hr.vestigo.hp.cobaffschema.profac
-    cobaffschemaparam:
-      name: hr.vestigo.hp.cobaffschemaparam
-      consumerGroup: hr.vestigo.hp.cobaffschemaparam.profac
     cobaffschgatewayparams:
       name: hr.vestigo.hp.cobaffschgatewayparams
       consumerGroup: hr.vestigo.hp.cobaffschgatewayparams.profac

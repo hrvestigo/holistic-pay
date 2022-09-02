@@ -169,9 +169,6 @@ kafka:
     cobaffschema:
       name: hr.vestigo.hp.cobaffschema # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.cobaffschema # default value, set custom name if required
-    cobaffschemaparam:
-      name: hr.vestigo.hp.cobaffschemaparam # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.cobaffschemaparam # default value, set custom name if required
     cobaffschgatewayparams:
       name: hr.vestigo.hp.cobaffschgatewayparams # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.cobaffschgatewayparams # default value, set custom name if required
