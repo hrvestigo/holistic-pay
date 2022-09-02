@@ -7,7 +7,7 @@ This Helm chart installs Person registry web application into your Kubernetes cl
 Helm release name set during installation will be used for naming all resources created by this Helm chart.
 For example, if Chart is installed with name "my-chart", deployment name will have "my-chart" prefix, as well as all configmaps, secrets and other resources created by this chart.
 It is possible to override this behavior and to set custom name for resources using attribute `nameOverride` in custom values file.
-If this attribute is set, it's value will be used to name all the resources, and release name will be ignored.
+If this attribute is set, its value will be used to name all the resources, and release name will be ignored.
 
 It is not possible to install application using default values only, there is a list of required attributes which should be applied when installing Person registry web.
 
