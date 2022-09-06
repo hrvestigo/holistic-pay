@@ -41,7 +41,7 @@ spring:
             - SaveSession
         - id: person-registry-ms_route
           predicates:
-            - Path=/person-registry/**
+            - Path=*/personRegistry/**
           uri: https://{{ required "Person registry application service name has to be defined in routes.personRegistry.serviceName" .Values.routes.personRegistry.serviceName }}:{{ required "Person structure application port number has to be defined in routes.personRegistry.servicePortNumber" .Values.routes.personRegistry.servicePortNumber }}
           filters:
             - StripPrefix=1
