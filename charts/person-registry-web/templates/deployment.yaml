@@ -55,7 +55,7 @@ spec:
             - name: REACT_APP_API_GATEWAY_URL
               value: {{ required "Please specify API Gateway URL apiGatewayUrl" .Values.apiGatewayUrl | quote }}
             - name: REACT_APP_API_URL
-              value: "{{ .Values.apiGatewayUrl }}/person-registry"
+              value: "{{ .Values.apiGatewayUrl }}"
             - name: REACT_APP_ENVIRONMENT
               value: {{ required "Please specify environment name in environmentName" .Values.environmentName | quote }}
             - name: REACT_APP_SESSION_TIMEOUT_IN_SECONDS
