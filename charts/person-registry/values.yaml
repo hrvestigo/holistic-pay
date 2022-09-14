@@ -8,7 +8,7 @@ image:
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 1.10.0
+    tag: 1.29.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -69,15 +69,12 @@ oauth2:
   enabled: false
   resourceUri: ''
   authorizationPrefix: ''
-
 request:
   sanitization:
     enabled: true
-
 response:
   encoding:
     enabled: false
-
 timezone: ''
 secret:
   decryptionKey: ''
