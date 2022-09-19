@@ -144,6 +144,12 @@ spec:
               value: {{ .Values.kafka.topics.scadfile.name | quote }}
             - name: KAFKA_TOPIC_EXPIREDAUTH_NAME
               value: {{ .Values.kafka.topics.expiredauth.name | quote }}
+            - name: KAFKA_TOPIC_CARD_NAME
+              value: {{ .Values.kafka.topics.card.name | quote }}
+            - name: KAFKA_TOPIC_CRDACC_NAME
+              value: {{  .Values.kafka.topics.crdintacc.name | quote }}
+            - name: KAFKA_TOPIC_CUSTOMERACCOUNT_NAME
+              value: {{ .Values.kafka.topics.customeraccount.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITDEF_NAME
               value: {{ .Values.kafka.topics.risklimitdef.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITDEF1M_NAME
@@ -154,6 +160,12 @@ spec:
               value: {{ .Values.kafka.topics.crdauthtrxmatch.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_SCADFILE_NAME
               value: {{ .Values.kafka.topics.scadfile.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CARD_NAME
+              value: {{ .Values.kafka.topics.card.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CRDINTACC_NAME
+              value: {{ .Values.kafka.topics.crdintacc.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSTOMERACCOUNT_NAME
+              value: {{ .Values.kafka.topics.customeraccount.consumerGroup | quote }}
             - name: CCMS_REST_SERVICE_URL
               value: {{ .Values.cms.url }}
             - name: CCMS_REST_SERVICE_SETRISKLIMITS_CODE
@@ -166,6 +178,12 @@ spec:
               value: {{ .Values.cms.deliveryChannel }}
             - name: CCMS_REST_SERVICE_USERID
               value: {{ .Values.cms.userId }}
+            - name: CMS_CDC_MODULE_NAME
+              value: {{ .Values.cms.cdc.moduleName | quote }}
+            - name: CMS_CDC_DELIVERY_CHANNEL
+              value: {{ .Values.cms.cdc.deliveryChannel | quote }}
+            - name: CMS_CDC_USERID
+              value: {{ .Values.cms.cdc.userId | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

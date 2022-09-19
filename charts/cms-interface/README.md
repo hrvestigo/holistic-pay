@@ -91,12 +91,18 @@ cms:
   moduleName: CMSINT # default value
   deliveryChannel: HP # default value
   userId: HPTECH001 # default value
+  cdc:
+    moduleName: BOS # default value
+    deliveryChannel: DCC # default value
+    userId: HPTECH001 # default value
 ```
 
 Attribute `cms.url` should point to CMS REST endpoint in format `http://domain.name:port/rest/service/`.
 Attribute `wsCode` specifies targeted Rest service (method) which should be triggered. Value is applied after specified URL.
 `moduleName` and `deliveryChannel` attributes are related to CMS application itself and have to be set in correspondence with it.
 Attribute `userId` should point to technical user for HolisticPay.
+`cms.cdc` section are values used for populating data kafka header when consuming data that came through CDC from CCMS.
+
 
 ### Datasource connection setup
 
@@ -212,6 +218,15 @@ kafka:
     expiredauth:
       name: hr.vestigo.hp.expiredauth # default value, set custom name if required
       # outbound topic, has no consumer group
+    card:
+      name: hr.vestigo.hp.card # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.card # default value, set custom name if required
+    crdintacc:
+      name: hr.vestigo.hp.crdintacc # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.crdintacc # default value, set custom name if required
+    customeraccount:
+      name: hr.vestigo.hp.customeraccount # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.customeraccount # default value, set custom name if required
 ```
 
 Attribute `kafka.topics.risklimitdef1m.counter` specifies maximum number of retries CMS interface application will try to push message to this Kafka topic. Default value is 5, but can be overridden if necessary.

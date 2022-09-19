@@ -76,6 +76,15 @@ kafka:
       consumerGroup: hr.vestigo.hp.scadfile
     expiredauth:
       name: hr.vestigo.hp.expiredauth
+    card:
+      name: hr.vestigo.hp.card
+      consumerGroup: hr.vestigo.hp.card
+    crdintacc:
+      name: hr.vestigo.hp.crdintacc
+      consumerGroup: hr.vestigo.hp.crdintacc
+    customeraccount:
+      name: hr.vestigo.hp.customeraccount
+      consumerGroup: hr.vestigo.hp.customeraccount
 cms:
   url: ''
   wsCode: WS2I82
@@ -85,6 +94,10 @@ cms:
   basicAuth:
     enabled: false
     username: ''
+  cdc:
+    moduleName: BOS
+    deliveryChannel: DCC
+    userId: HPTECH001
 request:
   sanitization:
     enabled: true
