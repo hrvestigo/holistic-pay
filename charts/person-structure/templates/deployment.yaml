@@ -130,12 +130,6 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
-            - name: KAFKA_TOPIC_CARD_NAME
-              value: {{ .Values.kafka.topics.card.name | quote }}
-            - name: KAFKA_TOPIC_CRDACC_NAME
-              value: {{ .Values.kafka.topics.crdintacc.name | quote }}
-            - name: KAFKA_TOPIC_CUSTOMERACCOUNT_NAME
-              value: {{ .Values.kafka.topics.customeraccount.name | quote }}
             - name: KAFKA_TOPIC_RISKLIMITCONTRACT_NAME
               value: {{ .Values.kafka.topics.risklimitcontract.name | quote }}
             - name: KAFKA_TOPIC_RISKLIMITDEF_NAME
@@ -144,12 +138,8 @@ spec:
               value: {{ .Values.kafka.topics.personstructure.name | quote }}
             - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
               value: {{ .Values.kafka.topics.parameterization.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CARD_NAME
-              value: {{ .Values.kafka.topics.card.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CRDINTACC_NAME
-              value: {{ .Values.kafka.topics.crdintacc.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CUSTOMERACCOUNT_NAME
-              value: {{ .Values.kafka.topics.customeraccount.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_PERSTRUCINITIAL_NAME
+              value: {{ .Values.kafka.topics.perstrucinitial.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITCONTRACT_NAME
               value: {{ .Values.kafka.topics.risklimitcontract.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDINTACCTYPE_PARAMETERIZATION_NAME
@@ -162,12 +152,16 @@ spec:
               value: {{ .Values.kafka.topics.parameterization.authptragrmtlim.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_FINCTRLLIMTYPEPERSTR_PARAMETERIZATION_NAME
               value: {{ .Values.kafka.topics.parameterization.finctrllimtypeperstr.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PERSTRUCINITIAL_NAME
+              value: {{ .Values.kafka.topics.perstrucinitial.consumerGroup | quote }}
             - name: CMS_CDC_MODULE_NAME
               value: {{ .Values.cms.moduleName | quote }}
             - name: CMS_CDC_DELIVERY_CHANNEL
               value: {{ .Values.cms.deliveryChannel | quote }}
             - name: CMS_CDC_USERID
               value: {{ .Values.cms.userId | quote }}
+            - name: RISK_LIMITS_ENABLED
+              value: {{ .Values.riskLimits.enabled | quote }}
             - name: RETENTION_PERIOD
               value: {{ .Values.retention.period | quote }}
             - name: RETENTION_DELETE_BATCH

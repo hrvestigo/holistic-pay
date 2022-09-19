@@ -104,6 +104,14 @@ To run this scheduled task several attributes have to be defined:
    ```
 This scheduled task is run by default everyday at 1:01 AM. Schedule can be modified with `retention.schedule` attribute. Note that this is Spring cron schedule format, which unlike Unix cron schedule has a seconds definition (first parameter). Other than that, schedule can be customized as any other standard cron job.
 
+###Enabling risk limit functionalities
+```yaml
+riskLimits:
+  enabled: true  #default value, enables all risk limit functionalities
+```
+If this value is set to true then you can use all risk limits functionalities in the microservice.
+Otherwise, in case you want to disable risk limit functionalities, then you have to put the value to false.
+
 
 ### Datasource connection setup
 
@@ -197,15 +205,6 @@ Kafka topics and consumer group names used by Person structure have default name
 ```yaml
 kafka:
   topics:
-    card:
-      name: hr.vestigo.hp.card # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.card # default value, set custom name if required
-    crdintacc:
-      name: hr.vestigo.hp.crdintacc # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.crdintacc # default value, set custom name if required
-    customeraccount:
-      name: hr.vestigo.hp.customeraccount # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.customeraccount # default value, set custom name if required
     risklimitcontract:
       name: hr.vestigo.hp.risklimitcontract # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.risklimitcontract # default value, set custom name if required
@@ -213,6 +212,9 @@ kafka:
       name: hr.vestigo.hp.risklimitdef # default value, set custom name if required
     personstructure:
       name: hr.vestigo.hp.personstructure # default value, set custom name if required
+    perstrucinitial:
+      name: hr.vestigo.hp.perstrucinitial  # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.perstrucinitial  # default value, set custom name if required
     parameterization:
       name: hr.vestigo.hp.parameterization
       crdintacctype:

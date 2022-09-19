@@ -56,15 +56,6 @@ kafka:
     user: ''
     url: ''
   topics:
-    card:
-      name: hr.vestigo.hp.card
-      consumerGroup: hr.vestigo.hp.card
-    crdintacc:
-      name: hr.vestigo.hp.crdintacc
-      consumerGroup: hr.vestigo.hp.crdintacc
-    customeraccount:
-      name: hr.vestigo.hp.customeraccount
-      consumerGroup: hr.vestigo.hp.customeraccount
     risklimitcontract:
       name: hr.vestigo.hp.risklimitcontract
       consumerGroup: hr.vestigo.hp.risklimitcontract
@@ -72,6 +63,9 @@ kafka:
       name: hr.vestigo.hp.risklimitdef
     personstructure:
       name: hr.vestigo.hp.personstructure
+    perstrucinitial:
+      name: hr.vestigo.hp.perstrucinitial
+      consumerGroup: hr.vestigo.hp.perstrucinitial
     parameterization:
       name: hr.vestigo.hp.parameterization
       crdintacctype:
@@ -88,6 +82,8 @@ cms:
   moduleName: BOS
   deliveryChannel: DCC
   userId: HPTECH001
+riskLimits:
+  enabled: true
 retention:
   period: 30
   deleteBatch: 5
