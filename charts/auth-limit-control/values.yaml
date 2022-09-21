@@ -94,6 +94,9 @@ kafka:
         consumerGroup: hr.vestigo.hp.currency.parameterization.alc
       country:
         consumerGroup: hr.vestigo.hp.country.parameterization.alc
+    timeoutedauth:
+      name: hr.vestigo.hp.timeoutedauth
+      consumerGroup: hr.vestigo.hp.timeoutedauth
 oauth2:
   enabled: false
   resourceUri: ''

@@ -209,6 +209,9 @@ kafka:
         consumerGroup: hr.vestigo.hp.currency.parameterization # default value, set custom name if required
       country:
         consumerGroup: hr.vestigo.hp.country.parameterization # default value, set custom name if required
+    timeoutedauth:
+      name: hr.vestigo.hp.timeoutedauth # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.timeoutedauth # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets

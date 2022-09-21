@@ -150,6 +150,8 @@ spec:
               value: {{ .Values.kafka.topics.matchedauth.name | quote }}
             - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
               value: {{ .Values.kafka.topics.parameterization.name | quote }}
+            - name: KAFKA_TOPIC_TIMEOUTEDAUTH_NAME
+              value: {{ .Values.kafka.topics.timeoutedauth.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTURE_NAME
               value: {{ .Values.kafka.topics.personstructure.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_LIMITDEF_NAME
@@ -176,6 +178,8 @@ spec:
               value: {{ .Values.kafka.topics.parameterization.currency.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_COUNTRY_PARAMETERIZATION_NAME
               value: {{ .Values.kafka.topics.parameterization.country.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_TIMEOUTEDAUTH_NAME
+              value: {{ .Values.kafka.topics.timeoutedauth.consumerGroup | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
