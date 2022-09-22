@@ -160,6 +160,20 @@ spec:
               value: {{ .Values.kafka.topics.currency.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDINTACCTYPE_NAME
               value: {{ .Values.kafka.topics.crdintacctype.consumerGroup | quote }}
+            - name: PRODUCT_FACTORY_COBAFF_SCHEMA_ENABLED
+              value: {{ .Values.productFactory.cobaffschema.enabled | quote }}
+            - name: PRODUCT_FACTORY_COBAFF_SCHEMA_GATEWAY_PARAMS_ENABLED
+              value: {{ .Values.productFactory.cobaffschemagatewayparams.enabled | quote }}
+            - name: PRODUCT_FACTORY_COBAFF_SCHEMA_LIMIT_ENABLED
+              value: {{ .Values.productFactory.cobaffschemalimit.enabled | quote }}
+            - name: PRODUCT_FACTORY_FINANCIAL_LIMIT_TYPE_ENABLED
+              value: {{ .Values.productFactory.financiallimittype.enabled | quote }}
+            - name: PRODUCT_FACTORY_COUNTRY_ENABLED
+              value: {{ .Values.productFactory.country.enabled | quote }}
+            - name: PRODUCT_FACTORY_CURRENCY_ENABLED
+              value: {{ .Values.productFactory.currency.enabled | quote }}
+            - name: PRODUCT_FACTORY_CRDINTACC_TYPE_ENABLED
+              value: {{ .Values.productFactory.crdintacctype.enabled | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

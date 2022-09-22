@@ -191,6 +191,29 @@ kafka:
       consumerGroup: hr.vestigo.hp.crdintacctype # default value, set custom name if required
 ```
 
+### Enabling and disabling functionalities
+
+Enable flags used by Product factory have default names defined in `values.yaml` file, but can be
+overwritten with the following setup:
+
+```yaml
+productFactory:
+  cobaffschema:
+    enabled: false # functionality disabled by default
+  cobaffschemagatewayparams:
+    enabled: false # functionality disabled by default
+  cobaffschemalimit:
+    enabled: false # functionality disabled by default
+  financiallimittype:
+    enabled: false # functionality disabled by default
+  country:
+    enabled: false # functionality disabled by default
+  currency:
+    enabled: false # functionality disabled by default
+  crdintacctype:
+    enabled: false # functionality disabled by default
+```
+
 ### Configuring image source and pull secrets
 
 By default, Product factory image is pulled directly from Vestigo's repository hosted by Docker Hub.
