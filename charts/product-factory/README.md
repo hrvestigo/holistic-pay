@@ -199,19 +199,19 @@ overwritten with the following setup:
 ```yaml
 productFactory:
   cobaffschema:
-    enabled: false # functionality disabled by default
+    enabled: true # functionality enabled by default
   cobaffschemagatewayparams:
-    enabled: false # functionality disabled by default
+    enabled: true # functionality enabled by default
   cobaffschemalimit:
-    enabled: false # functionality disabled by default
+    enabled: true # functionality enabled by default
   financiallimittype:
-    enabled: false # functionality disabled by default
+    enabled: true # functionality enabled by default
   country:
-    enabled: false # functionality disabled by default
+    enabled: true # functionality enabled by default
   currency:
-    enabled: false # functionality disabled by default
+    enabled: true # functionality enabled by default
   crdintacctype:
-    enabled: false # functionality disabled by default
+    enabled: true # functionality enabled by default
 ```
 
 ### Configuring image source and pull secrets

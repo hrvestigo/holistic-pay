@@ -81,19 +81,19 @@ kafka:
       consumerGroup: hr.vestigo.hp.financiallimittype.profac
 productFactory:
   cobaffschema:
-    enabled: false
+    enabled: true
   cobaffschemagatewayparams:
-    enabled: false
+    enabled: true
   cobaffschemalimit:
-    enabled: false
+    enabled: true
   financiallimittype:
-    enabled: false
+    enabled: true
   country:
-    enabled: false
+    enabled: true
   currency:
-    enabled: false
+    enabled: true
   crdintacctype:
-    enabled: false
+    enabled: true
 request:
   sanitization:
     enabled: true
