@@ -122,6 +122,12 @@ secret:
   trustStorePassword: ''
   keyStorePassword: ''
 logger:
+  level:
+    kafka: DEBUG
+    rest: DEBUG
+    database: DEBUG
+    businessLogic: DEBUG
+    general: DEBUG
   logToFile: false
   rollingFileAppender: false
   logDir: /var/log/app
