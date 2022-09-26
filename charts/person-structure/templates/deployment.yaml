@@ -176,6 +176,8 @@ spec:
               value: {{ .Values.retention.deleteIterations | quote }}
             - name: RETENTION_SCHEDULE
               value: {{ .Values.retention.schedule | quote }}
+            - name: DEBIT_FILTER_ENABLED
+              value: {{ .Values.debitFilter.enabled | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
