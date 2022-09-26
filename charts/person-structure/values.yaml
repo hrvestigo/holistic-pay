@@ -102,6 +102,8 @@ retention:
   deleteBatch: 5
   deleteIterations: 200
   schedule: 0 1 1 * * *
+debitFilter:
+  enabled: true
 oauth2:
   enabled: false
   resourceUri: ''

@@ -235,6 +235,14 @@ kafka:
       finctrllimtypeperstr:
         consumerGroup: hr.vestigo.hp.finctrllimtypeperstr.parameterization.perstr # default value, set custom name if required
 ```
+### Debit data filter
+
+Temporary filter of messages consumed from CCMS. This filter is used for filtering all messages containing debit data. If received message contains debit data then consumer method is called, otherwise it skips this message.
+This will be only used until qlick filter works good.
+```yaml
+debitFilter:
+  enabled: true
+```
 
 ### Configuring image source and pull secrets
 
