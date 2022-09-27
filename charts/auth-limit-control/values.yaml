@@ -8,7 +8,7 @@ image:
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 2.51.0
+    tag: 2.57.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -29,6 +29,7 @@ liquibase:
   user: ''
   role: ''
   replicationRole: ''
+  resources: {}
 members:
 - businessUnit: ''
   applicationMember: ''
