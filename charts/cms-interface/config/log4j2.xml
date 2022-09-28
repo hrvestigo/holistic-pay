@@ -79,70 +79,77 @@
   </Appenders>
 
   <Loggers>
-    <Logger name="hr.vestigo" level="DEBUG" additivity="false">
+    <Logger name="hr.vestigo" level={{ required "Please specify business logic log level in logger.level.businessLogic. Possible values: TRACE, DEBUG, INFO, WARN, ERROR" .level.businessLogic | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.apache" level="INFO" additivity="false"> <!-- samo kafku logira, uključeno u ovaj ispod? -->
+    <Logger name="hr.vestigo.springtemplate.app.logging.HttpRequestAndResponseLoggingFilter" level={{ required "Please specify rest log level in logger.level.rest. Possible values: TRACE, DEBUG, INFO, WARN, ERROR" .level.rest | upper | quote }} additivity="false">
+      {{- if .logToFile }}
+      <AppenderRef ref="${applicationAppender}"/>
+      {{- end }}
+      <AppenderRef ref="${consoleAppender}"/>
+    </Logger>
+
+    <Logger name="org.apache" level={{ required "Please specify general log level in logger.level.general. Possible values: TRACE, DEBUG, INFO, WARN, ERROR" .level.general | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${tomcatAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.apache.kafka" level="INFO" additivity="false">
+    <Logger name="org.apache.kafka" level={{ required "Please specify Kafka log level in logger.level.kafka. Possible values: TRACE, DEBUG, INFO, WARN, ERROR" .level.kafka | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.hibernate" level="INFO" additivity="false"> <!-- da li treba s obzirom da je većina već uključena u SQL i BasicBinder? -->
+    <Logger name="org.hibernate" level={{ required "Please specify database log level in logger.level.database. Possible values: TRACE, DEBUG, INFO, WARN, ERROR" .level.database | upper | quote }} additivity="false"> <!-- da li treba s obzirom da je većina već uključena u SQL i BasicBinder? -->
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+    <Logger name="org.hibernate.SQL" level={{ .level.database | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" additivity="false">
+    <Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level={{ .level.database | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.springframework" level="INFO" additivity="false">
+    <Logger name="org.springframework" level={{ .level.general | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.springframework.orm.jpa" level="DEBUG" additivity="false">
+    <Logger name="org.springframework.orm.jpa" level={{ .level.database | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG" additivity="false"> <!-- ne koristi se? -->
+    <Logger name="org.springframework.jdbc" level={{ .level.database | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.springframework.boot.autoconfigure" level="ERROR" additivity="false"> <!-- ne koristi se? -->
+    <Logger name="org.springframework.boot.autoconfigure" level={{ .level.general | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
@@ -159,14 +166,7 @@
     </Logger>
     {{- end }}
 
-    <Logger name="hr.vestigo.springtemplate.app.interceptors.CorrelationIdHttpInterceptor" level="DEBUG" additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="${applicationAppender}"/>
-      {{- end }}
-      <AppenderRef ref="${consoleAppender}" />
-    </Logger>
-
-    <Root level="INFO">
+    <Root level={{ .level.general | upper | quote }}>
       <AppenderRef ref="${consoleAppender}"/>
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
