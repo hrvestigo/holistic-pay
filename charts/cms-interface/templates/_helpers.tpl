@@ -23,7 +23,7 @@ Defies fixed part of cms-interface datasource schema name
 cms-interface image repository
 */}}
 {{- define "cms-interface.app.repository" -}}
-{{- $psRepo := "hrvestigo/cms-interface-ms" }}
+{{- $psRepo := "hrvestigo/cms-interface" }}
 {{- $reg := default .Values.image.registry .Values.image.app.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $psRepo }}
@@ -63,6 +63,8 @@ Liquibase init container definition
   {{- toYaml $.Values.securityContext | nindent 4 }}
   image: {{ include "cms-interface.liquibase.image" $ }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
+  resources:
+    {{- include "cms-interface.liquibase.initContainer.resources" $ | nindent 4 }}
   volumeMounts:
     - mountPath: /liquibase/secret/
       name: {{ include "cms-interface.name" $ }}-secret
@@ -295,3 +297,16 @@ Application logger
 {{- define "cms-interface.logger" -}}
 {{ tpl (.Files.Get "config/log4j2.xml") . }}
 {{- end }}
+
+{{/*
+Liquibase init container resources
+*/}}
+{{- define "cms-interface.liquibase.initContainer.resources" -}}
+{{- if .Values.liquibase.resources }}
+{{- toYaml .Values.liquibase.resources }}
+{{- else }}
+{{- toYaml .Values.resources }}
+{{- end }}
+{{- end }}
+
+
