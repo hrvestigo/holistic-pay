@@ -38,7 +38,7 @@ liquibase:
   user: ""
   role: ""
   replicationRole: ""
-
+  resources: {}
 members:
   - businessUnit: ""
     applicationMember: ""
@@ -121,6 +121,12 @@ secret:
   oauth2ClientToken: ""
 
 logger:
+  level:
+    kafka: DEBUG
+    rest: DEBUG
+    database: DEBUG
+    businessLogic: DEBUG
+    general: DEBUG
   logToFile: false
   rollingFileAppender: false
   logDir: "/var/log/app"
