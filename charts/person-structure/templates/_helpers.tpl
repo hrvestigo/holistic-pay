@@ -1,30 +1,30 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "person-structure.name" -}}
+{{- define "${rootArtifactId}.name" -}}
 {{- default .Release.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "person-structure.chart" -}}
+{{- define "${rootArtifactId}.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
-Defies fixed part of person-structure datasource schema name
+Defies fixed part of ${rootArtifactId} datasource schema name
 */}}
-{{- define "person-structure.dbSchema" -}}
+{{- define "${rootArtifactId}.dbSchema" -}}
 {{- "perstr" }}
 {{- end }}
 
 
 {{/*
-Person-structure image repository
+${rootArtifactId} image repository
 */}}
-{{- define "person-structure.app.repository" -}}
-{{- $psRepo := "hrvestigo/person-structure-ms" }}
+{{- define "${rootArtifactId}.app.repository" -}}
+{{- $psRepo := "hrvestigo/${rootArtifactId}-ms" }}
 {{- $reg := default .Values.image.registry .Values.image.app.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $psRepo }}
@@ -34,9 +34,9 @@ Person-structure image repository
 {{- end }}
 
 {{/*
-Person-structure image pull policy
+${rootArtifactId} image pull policy
 */}}
-{{- define "person-structure.app.imagePullPolicy" -}}
+{{- define "${rootArtifactId}.app.imagePullPolicy" -}}
 {{- $reg := default .Values.image.pullPolicy .Values.image.app.pullPolicy }}
 {{- default "IfNotPresent" $reg }}
 {{- end }}
@@ -44,8 +44,8 @@ Person-structure image pull policy
 {{/*
 Liquibase image
 */}}
-{{- define "person-structure.liquibase.image" }}
-{{- $liquiRepo := printf "%s%s" "hrvestigo/person-structure-lb:" $.Values.image.liquibase.tag }}
+{{- define "${rootArtifactId}.liquibase.image" }}
+{{- $liquiRepo := printf "%s%s" "hrvestigo/${rootArtifactId}-lb:" $.Values.image.liquibase.tag }}
 {{- $reg := default $.Values.image.registry $.Values.image.liquibase.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $liquiRepo }}
@@ -57,26 +57,28 @@ Liquibase image
 {{/*
 Liquibase init container definition
 */}}
-{{- define "person-structure.liquibase.initContainer" }}
+{{- define "${rootArtifactId}.liquibase.initContainer" }}
 {{- range $k, $member := .Values.members }}
 - name: liquibase-{{ .memberSign | lower }}
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
-  image: {{ include "person-structure.liquibase.image" $ }}
+  image: {{ include "${rootArtifactId}.liquibase.image" $ }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
+  resources:
+     {{- include "${rootArtifactId}.liquibase.initContainer.resources" $ | nindent 4 }}
   volumeMounts:
     - mountPath: /liquibase/secret/
-      name: {{ include "person-structure.name" $ }}-secret
+      name: {{ include "${rootArtifactId}.name" $ }}-secret
   env:
     - name: SCHEMA_NAME
   {{- if $member.datasource }}
     {{- if $member.datasource.globalSchema }}
-      value: {{ $member.businessUnit | lower }}{{ required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix }}{{ include "person-structure.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
+      value: {{ $member.businessUnit | lower }}{{ required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix }}{{ include "${rootArtifactId}.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
     {{- else }}
-      value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "person-structure.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
+      value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "${rootArtifactId}.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
     {{- end }}
   {{- else }}
-      value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "person-structure.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
+      value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "${rootArtifactId}.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
   {{- end }}
   {{- if $member.liquibase }}
     - name: ROLE
@@ -94,7 +96,7 @@ Liquibase init container definition
     - -c
   {{- if $member.datasource }}
     {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" (default $.Values.datasource.host $member.datasource.host) ":" (default ($.Values.datasource.port | int) ( $member.datasource.port | int)) "/" (default $.Values.datasource.dbName  $member.datasource.dbName) }}
-    {{- $context := printf "%s%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) "," ( required "Please specify environment type in env.type" $.Values.env.type ) }}
+    {{- $context := printf "%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" }}
     {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -cp /tmp/aesdecryptor.jar AesDecrypt && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
     {{- if $.Values.liquibase.syncOnly }}
     - {{ printf "%s%s" $params " changelog-sync" }}
@@ -103,7 +105,7 @@ Liquibase init container definition
     {{- end }}
   {{- else }}
     {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" $.Values.datasource.host ":" ($.Values.datasource.port | int) "/" $.Values.datasource.dbName }}
-    {{- $context := printf "%s%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) "," ( required "Please specify environment type in env.type" $.Values.env.type ) }}
+    {{- $context := printf "%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" }}
     {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -cp /tmp/aesdecryptor.jar AesDecrypt && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
     {{- if $.Values.liquibase.syncOnly }}
     - {{ printf "%s%s" $params " changelog-sync" }}
@@ -117,7 +119,7 @@ Liquibase init container definition
 {{/*
 Trust store env variables
 */}}
-{{- define "person-structure.trustStoreEnv" -}}
+{{- define "${rootArtifactId}.trustStoreEnv" -}}
 {{- $trustStoreLocation := "/mnt/k8s/trust-store/" }}
 {{- if .Values.mountTrustStoreFromSecret.enabled -}}
 {{- $trustStoreName := required "Please specify trust store file name in mountTrustStoreFromSecret.trustStoreName" .Values.mountTrustStoreFromSecret.trustStoreName }}
@@ -144,11 +146,11 @@ Trust store env variables
 {{/*
 Common labels
 */}}
-{{- define "person-structure.labels" -}}
-helm.sh/chart: {{ include "person-structure.chart" . }}
-app: {{ include "person-structure.name" . }}
+{{- define "${rootArtifactId}.labels" -}}
+helm.sh/chart: {{ include "${rootArtifactId}.chart" . }}
+app: {{ include "${rootArtifactId}.name" . }}
 project: HolisticPay
-{{ include "person-structure.selectorLabels" . }}
+{{ include "${rootArtifactId}.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -158,31 +160,31 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "person-structure.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "person-structure.name" . }}
+{{- define "${rootArtifactId}.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "${rootArtifactId}.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Volumes
 */}}
-{{- define "person-structure.volumes" -}}
+{{- define "${rootArtifactId}.volumes" -}}
 {{- with .Values.customVolumes -}}
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
-- name: {{ include "person-structure.name" . }}-secret
+- name: {{ include "${rootArtifactId}.name" . }}-secret
   secret:
-    secretName: {{ include "person-structure.name" . }}-secret
+    secretName: {{ include "${rootArtifactId}.name" . }}-secret
     items:
       - path: password.conf
         key: password.conf
-- name: {{ include "person-structure.name" . }}-configmap
+- name: {{ include "${rootArtifactId}.name" . }}-configmap
   configMap:
-    name: {{ include "person-structure.name" . }}-configmap
+    name: {{ include "${rootArtifactId}.name" . }}-configmap
 - name: liquibase-config
   configMap:
-    name: {{ include "person-structure.name" . }}-liquibase-configmap
+    name: {{ include "${rootArtifactId}.name" . }}-liquibase-configmap
 - name: server-cert
 {{- if .Values.mountServerCertFromSecret.enabled }}
   secret:
@@ -229,17 +231,17 @@ Volumes
 {{- end }}
 
 {{/*
-Mounts for person-structure application
+Mounts for ${rootArtifactId} application
 */}}
-{{- define "person-structure.mounts" -}}
+{{- define "${rootArtifactId}.mounts" -}}
 {{- with .Values.customMounts -}}
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
 - mountPath: /mnt/k8s/secrets/
-  name: {{ include "person-structure.name" . }}-secret
+  name: {{ include "${rootArtifactId}.name" . }}-secret
 - mountPath: /usr/app/config
-  name: {{ include "person-structure.name" . }}-configmap
+  name: {{ include "${rootArtifactId}.name" . }}-configmap
 {{- if .Values.mountServerCertFromSecret.enabled }}
 - mountPath: /mnt/k8s/tls-server/key.pem
   name: server-cert
@@ -275,7 +277,7 @@ Mounts for person-structure application
 {{/*
 Definition of application members
 */}}
-{{- define "person-structure.members" -}}
+{{- define "${rootArtifactId}.members" -}}
 {{- $members := list -}}
 {{- range $k, $member := .Values.members }}
 {{- $members = append $members $member.memberSign }}
@@ -286,13 +288,25 @@ Definition of application members
 {{/*
 Application secrets
 */}}
-{{- define "person-structure.passwords" -}}
+{{- define "${rootArtifactId}.passwords" -}}
 {{ tpl (.Files.Get "config/password.conf") . | b64enc }}
 {{- end }}
 
 {{/*
 Application logger
 */}}
-{{- define "person-structure.logger" -}}
+{{- define "${rootArtifactId}.logger" -}}
 {{ tpl (.Files.Get "config/log4j2.xml") . }}
 {{- end }}
+
+{{/*
+Liquibase init container resources
+*/}}
+{{- define "${rootArtifactId}.liquibase.initContainer.resources" -}}
+{{- if .Values.liquibase.resources }}
+{{- toYaml .Values.liquibase.resources }}
+{{- else }}
+{{- toYaml .Values.resources }}
+{{- end }}
+{{- end }}
+
