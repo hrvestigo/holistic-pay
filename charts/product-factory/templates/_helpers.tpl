@@ -63,6 +63,8 @@ Liquibase init container definition
   {{- toYaml $.Values.securityContext | nindent 4 }}
   image: {{ include "product-factory.liquibase.image" $ }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
+  resources:
+  {{- include "product-factory.liquibase.initContainer.resources" $ | nindent 4 }}
   volumeMounts:
     - mountPath: /liquibase/secret/
       name: {{ include "product-factory.name" $ }}-secret
@@ -294,4 +296,15 @@ Application logger
 */}}
 {{- define "product-factory.logger" -}}
 {{ tpl (.Files.Get "config/log4j2.xml") . }}
+{{- end }}
+
+{{/*
+Liquibase init container resources
+*/}}
+{{- define "product-factory.liquibase.initContainer.resources" -}}
+{{- if .Values.liquibase.resources }}
+{{- toYaml .Values.liquibase.resources }}
+{{- else }}
+{{- toYaml .Values.resources }}
+{{- end }}
 {{- end }}
