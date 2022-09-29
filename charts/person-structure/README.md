@@ -214,17 +214,9 @@ kafka:
     personstructure:
       name: hr.vestigo.hp.personstructure # default value, set custom name if required
     parameterization:
-      name: hr.vestigo.hp.parameterization
-      crdintacctype:
-        consumerGroup: hr.vestigo.hp.crdintacctype.parameterization.perstr  # default value, set custom name if required
-      partnerdef:
-        consumerGroup: hr.vestigo.hp.partnerdef.parameterization.perstr  # default value, set custom name if required
-      currency:
-        consumerGroup: hr.vestigo.hp.currency.parameterization.perstr  # default value, set custom name if required
-      authptragrmtlim:
-        consumerGroup: hr.vestigo.hp.authptragrmtlim.parameterization.perstr # default value, set custom name if required
-      finctrllimtypeperstr:
-        consumerGroup: hr.vestigo.hp.finctrllimtypeperstr.parameterization.perstr # default value, set custom name if required
+      name: hr.vestigo.hp.parameterization # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.parameterization.perstr # default value, set custom name if required
+
 ```
 ### Debit data filter
 
