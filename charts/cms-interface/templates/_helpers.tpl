@@ -23,7 +23,7 @@ Defies fixed part of cms-interface datasource schema name
 cms-interface image repository
 */}}
 {{- define "cms-interface.app.repository" -}}
-{{- $psRepo := "hrvestigo/cms-interface" }}
+{{- $psRepo := "hrvestigo/cms-interface-ms" }}
 {{- $reg := default .Values.image.registry .Values.image.app.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $psRepo }}
