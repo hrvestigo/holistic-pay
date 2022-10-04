@@ -302,7 +302,7 @@ Application logger
 {{/*
 Liquibase init container resources
 */}}
-{{- define " person-registry.liquibase.initContainer.resources" -}}
+{{- define "person-registry.liquibase.initContainer.resources" -}}
 {{- if .Values.liquibase.resources }}
 {{- toYaml .Values.liquibase.resources }}
 {{- else }}
