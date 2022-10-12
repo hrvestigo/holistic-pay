@@ -324,3 +324,15 @@ Defines custom datasource connection parameters appended to URL
 {{- "" }}
 {{- end }}
 {{- end }}
+
+{{/*
+Readiness probes
+*/}}
+{{- define "auth-limit-control.readinessProbes" -}}
+{{- $probes := "readinessState, db" -}}
+{{- if .Values.kafka.readinessProbeEnabled -}}
+{{ printf "%s%s" $probes ", kafka" }}
+{{- else }}
+{{- print $probes }}
+{{- end }}
+{{- end }}
