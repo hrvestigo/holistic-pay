@@ -164,6 +164,17 @@ kafka:
   securityProtocol: SASL_SSL # default value, set custom protocol if required
 ```
 
+Auth limit control application uses Kafka endpoint as a part of a readiness probe check.
+
+However, Kafka endpoint can be excluded from readiness probe by changing `kafka.readinessProbeEnabled` attribute value to `false`:
+
+```yaml
+kafka:
+  readinessProbeEnabled: false
+```
+
+This will disable readiness probes to Kafka endpoint, keeping application ready to accept authorization regarding existing data even when Kafka is not available.
+
 #### Topics and consumer groups setup
 
 Kafka topics and consumer group names used by Auth limit control have default names defined in `values.yaml` file, but can be overridden with following setup:
