@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "sirius-specific.name" . }}-test-connection"
+  labels:
+    {{- include "sirius-specific.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: curl
+      image: alpine
+      command:
+        - 'bash'
+        - -c
+        - 'apk add curl && curl -k https://{{ include "sirius-specific.name" . }}:{{ .Values.service.port }}/health/liveness'
+  restartPolicy: Never

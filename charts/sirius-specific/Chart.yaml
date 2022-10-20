@@ -1,0 +1,6 @@
+apiVersion: v2
+name: sirius-specific
+description: Helm chart for sirius-specific application
+type: application
+version: 1.0.1
+appVersion: 1.0.1
