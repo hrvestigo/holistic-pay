@@ -3459,4 +3459,15 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/product-factory-0.2.0/product-factory-0.2.0.tgz
     version: 0.2.0
-generated: "2022-10-20T15:34:56.115331743Z"
+  sirius-specific:
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2022-10-20T15:42:22.527947232Z"
+    description: Helm chart for sirius-specific application
+    digest: bb3f943c110f31ee9322974580caff9d573be91bf1e2148cff24bee67c3e8114
+    name: sirius-specific
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-specific-1.0.1/sirius-specific-1.0.1.tgz
+    version: 1.0.1
+generated: "2022-10-20T15:42:22.531141876Z"
