@@ -115,11 +115,11 @@ spec:
               value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
               {{- end }}
             -name: DELIVERY_CHANNEL_{{ .memberSign }}
-            value:{{ .deliveryChannel }}
+             value:{{ .deliveryChannel }}
             -name: BRANCH_CODE_{{ .memberSign }}
-            value:{{ .branchCode }}
-            -name: MODULE_NAME{{ .memberSign }}
-            value:{{ .moduleName }}
+             value:{{ .branchCode }}
+            -name: MODULE_NAME_{{ .memberSign }}
+             value:{{ .moduleName }}
             {{- end }}
             - name: MEMBERS
               value: {{ include "sirius-specific.members" . }}

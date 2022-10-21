@@ -32,7 +32,7 @@ liquibase:
   replicationRole: ''
   resources: {}
 members:
-- businessUnit: ''
+  businessUnit: ''
   applicationMember: ''
   memberSign: ''
   deliveryChannel: ''
