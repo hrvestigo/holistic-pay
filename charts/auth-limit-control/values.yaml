@@ -100,6 +100,9 @@ kafka:
     timeoutedauth:
       name: hr.vestigo.hp.timeoutedauth
       consumerGroup: hr.vestigo.hp.timeoutedauth
+    authlog:
+      name: hr.vestigo.hp.authlog
+      consumerGroup: hr.vestigo.hp.authlog
 oauth2:
   enabled: false
   resourceUri: ''
