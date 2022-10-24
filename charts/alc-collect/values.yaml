@@ -8,7 +8,7 @@ image:
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 2.16.0
+    tag: 2.19.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -23,6 +23,7 @@ datasource:
   connTimeout: 60000
   maxPoolSize: 2
   minIdle: 0
+  connectionParams: {}
 liquibase:
   enabled: true
   syncOnly: false
@@ -68,6 +69,11 @@ kafka:
     parameterization:
       name: hr.vestigo.hp.parameterization
       consumerGroup: hr.vestigo.hp.parameterization
+    authlog:
+      name: hr.vestigo.hp.authlog
+    authmsg:
+      name: hr.vestigo.hp.authmsg
+      consumerGroup: hr.vestigo.hp.authmsg
 oauth2:
   enabled: false
   resourceUri: ''
