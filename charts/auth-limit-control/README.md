@@ -550,6 +550,8 @@ appWarmup:
   enabled: true
   cronSchedule: "0 * * * * *"
   runOnStartup: true
+  serviceWarmupRestEnabled: true
+  serviceWarmupRestUrl: https://auth-limit-control:8443
 
 enabled - default true. Sets if application warmup schedule task is enabled 
 
@@ -559,6 +561,11 @@ runOnStartup - Default true. The parameter determines if application warmap need
 Only during the initial installation on a new environment, the parameter needs to be set to false. That is because the 
 microservice first needs to fill the parameterization tables before it starts any other work. 
 In any other case, true must be set as a parameter value.
+
+serviceWarmupRestEnabled - Default true. Sets if application rest warmup endpoint is called on restart
+
+serviceWarmupRestUrl - Default https://auth-limit-control:8443. The parameter should point to auth-limit-control Service name and port number.
+Used for warmup rest endpoint call on startup.
 
 ### Multi-member setup
 
