@@ -81,7 +81,6 @@ secret:
   liquibasePassword: ''
   trustStorePassword: ''
   keyStorePassword: ''
-  cmsRestPassword: ''
   datasourcePassword: ''
 logger:
   logToFile: false

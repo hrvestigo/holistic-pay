@@ -64,7 +64,7 @@ spec:
               value: "jdbc:postgresql://{{- required "Please specify DB host name in datasource.host" .Values.datasource.host -}}:
               {{- required "Please specify DB port in datasource.port" .Values.datasource.port -}}/
               {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}?currentSchema=CONNECT
-              {{- include "alc-collect.db.connectionParams" $ -}}"
+              {{- include "sirius-specific.db.connectionParams" $ -}}"
             - name: SPRING_DATASOURCE_USERNAME
               value: {{ required "Please specify DB user in datasource.user" .Values.datasource.user | quote }}
             {{- range $k, $v := .Values.members }}
@@ -82,7 +82,7 @@ spec:
               {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
               {{- include "sirius-specific.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
-              {{- include "alc-collect.db.connectionParams" $ -}}"
+              {{- include "sirius-specific.db.connectionParams" $ -}}"
                 {{- else }}
               value: "jdbc:postgresql://
               {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
@@ -95,7 +95,7 @@ spec:
               {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
               {{- include "sirius-specific.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
-              {{- include "alc-collect.db.connectionParams" $ -}}"
+              {{- include "sirius-specific.db.connectionParams" $ -}}"
                 {{- end }}
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ default (required "Please specify DB user in datasource.user" $.Values.datasource.user | quote) .datasource.user }}
