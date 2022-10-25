@@ -112,14 +112,14 @@ spec:
               {{- include "sirius-specific.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
-              value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
+              value: {{- required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
               {{- end }}
-            -name: DELIVERY_CHANNEL_{{ .memberSign }}
-             value:{{ .deliveryChannel }}
-            -name: BRANCH_CODE_{{ .memberSign }}
-             value:{{ .branchCode }}
-            -name: MODULE_NAME_{{ .memberSign }}
-             value:{{ .moduleName }}
+            - name: DELIVERY_CHANNEL_{{ .memberSign }}
+              value: {{ .deliveryChannel }}
+            - name: BRANCH_CODE_{{ .memberSign }}
+              value: {{ .branchCode }}
+            - name: MODULE_NAME_{{ .memberSign }}
+              value: {{ .moduleName }}
             {{- end }}
             - name: MEMBERS
               value: {{ include "sirius-specific.members" . }}
@@ -130,7 +130,7 @@ spec:
                 org.apache.kafka.common.security.plain.PlainLoginModule required username=
                 {{- required "Please specify Kafka user in kafka.user" .Values.kafka.user | quote }} password="${kafka.password}";
             - name: SPRING_KAFKA_PROPERTIES_BOOTSTRAP_SERVERS
-              value: {{ required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
+              value: {{- required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL
               value: {{ .Values.kafka.securityProtocol | quote }}
             - name: SPRING_KAFKA_PROPERTIES_BASIC_AUTH_CREDENTIALS_SOURCE
@@ -141,13 +141,13 @@ spec:
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
             - name: KAFKA_TOPIC_PAYMENTORIGINALMESSAGE_NAME
-              value: { { .Values.kafka.topics.paymentOriginalMessage.name | quote } }
+              value: { { .Values.kafka.topics.paymentOriginalMessage.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORIGINALMESSAGE_NAME
-              value: { { .Values.kafka.topics.paymentOriginalMessage.consumerGroup | quote } }
+              value: {{ .Values.kafka.topics.paymentOriginalMessage.consumerGroup | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDERFLOW_NAME
-              value: { { .Values.kafka.topics.paymentOrderFlow.name | quote } }
+              value: {{ .Values.kafka.topics.paymentOrderFlow.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORDERFLOW_NAME
-              value: { { .Values.kafka.topics.paymentOrderFlow.consumerGroup | quote } }
+              value: {{ .Values.kafka.topics.paymentOrderFlow.consumerGroup | quote }}
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
               value: loggers,health,prometheus
             - name: MANAGEMENT_ENDPOINTS_LOGGERS_ENABLED
