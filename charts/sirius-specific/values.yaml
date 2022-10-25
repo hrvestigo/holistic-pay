@@ -8,7 +8,7 @@ image:
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 1.8.0
+    tag: 1.0.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -32,25 +32,25 @@ liquibase:
   replicationRole: ''
   resources: {}
 members:
-  businessUnit: ''
-  applicationMember: ''
-  memberSign: ''
-  deliveryChannel: ''
-  branchCode: ''
-  moduleName: ''
-  liquibase:
-    role: ''
-    replicationRole: ''
-  datasource:
-    globalSchema: false
-    host: ''
-    port: ''
-    dbName: ''
-    user: ''
-    password: ''
-    connTimeout: ''
-    maxPoolSize: ''
-    minIdle: 0
+    businessUnit: ''
+    applicationMember: ''
+    memberSign: ''
+    deliveryChannel: ''
+    branchCode: ''
+    moduleName: ''
+    liquibase:
+      role: ''
+      replicationRole: ''
+    datasource:
+      globalSchema: false
+      host: ''
+      port: ''
+      dbName: ''
+      user: ''
+      password: ''
+      connTimeout: ''
+      maxPoolSize: ''
+      minIdle: 0
 kafka:
   user: ''
   servers: ''
@@ -62,11 +62,11 @@ kafka:
     url: ''
   topics:
     paymentOriginalMessage:
-      name: gcp.ipdev.hp.evt.paymentOriginalMessage
-      consumerGroup: gcp.ipdev.hp.cg.paymentOriginalMessage
+      name: gcp.ipt1.hp.cdc.paymentOriginalMessage
+      consumerGroup: gcp.ipt1.hp.sirspec1.paymentOriginalMessage
     paymentOrderFlow:
-      name: gcp.ipdev.hp.evt.paymentOrderFlow
-      consumerGroup: gcp.ipdev.hp.cg.paymentOrderFlow
+      name: gcp.ipt1.hp.cdc.paymentOrderFlow
+      consumerGroup: gcp.ipt1.hp.sirspec1.paymentOrderFlow
 request:
   sanitization:
     enabled: true
@@ -82,6 +82,7 @@ secret:
   trustStorePassword: ''
   keyStorePassword: ''
   cmsRestPassword: ''
+  datasourcePassword: ''
 logger:
   logToFile: false
   rollingFileAppender: false
@@ -129,26 +130,28 @@ affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/arch
-          operator: In
-          values:
-          - amd64
-        - key: kubernetes.io/os
-          operator: In
-          values:
-          - linux
+        - matchExpressions:
+            - key: kubernetes.io/arch
+              operator: In
+              values:
+                - amd64
+            - key: kubernetes.io/os
+              operator: In
+              values:
+                - linux
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
-    - weight: 100
-      podAffinityTerm:
-        labelSelector:
-          matchExpressions:
-          - key: app
-            operator: In
-            values:
-            - sirius-specific
-        topologyKey: kubernetes.io/hostname
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - payment-order
+          topologyKey: kubernetes.io/hostname
+riskLimits:
+  enabled: true
 deployment:
   replicaCount: 1
   annotations: {}
