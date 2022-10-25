@@ -32,25 +32,25 @@ liquibase:
   replicationRole: ''
   resources: {}
 members:
-    businessUnit: ''
-    applicationMember: ''
-    memberSign: ''
-    deliveryChannel: ''
-    branchCode: ''
-    moduleName: ''
-    liquibase:
-      role: ''
-      replicationRole: ''
-    datasource:
-      globalSchema: false
-      host: ''
-      port: ''
-      dbName: ''
-      user: ''
-      password: ''
-      connTimeout: ''
-      maxPoolSize: ''
-      minIdle: 0
+- businessUnit: ''
+  applicationMember: ''
+  memberSign: ''
+  deliveryChannel: ''
+  branchCode: ''
+  moduleName: ''
+  liquibase:
+    role: ''
+    replicationRole: ''
+  datasource:
+    globalSchema: false
+    host: ''
+    port: ''
+    dbName: ''
+    user: ''
+    password: ''
+    connTimeout: ''
+    maxPoolSize: ''
+    minIdle: 0
 kafka:
   user: ''
   servers: ''
