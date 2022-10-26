@@ -148,6 +148,10 @@ spec:
               value: {{ .Values.kafka.topics.paymentOrderFlow.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORDERFLOW_NAME
               value: {{ .Values.kafka.topics.paymentOrderFlow.consumerGroup | quote }}
+            - name: SERVER_SSL_KEYSTORE
+              value: /tmp/tls.p12
+            - name: SERVER_SSL_KEYSTORETYPE
+              value: PKCS12
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
               value: loggers,health,prometheus
             - name: MANAGEMENT_ENDPOINTS_LOGGERS_ENABLED
