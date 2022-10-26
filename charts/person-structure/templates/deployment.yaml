@@ -29,6 +29,7 @@ spec:
       labels:
         {{- include "person-structure.selectorLabels" . | nindent 8 }}
     spec:
+      automountServiceAccountToken: false
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -62,7 +63,8 @@ spec:
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:postgresql://{{- required "Please specify DB host name in datasource.host" .Values.datasource.host -}}:
               {{- required "Please specify DB port in datasource.port" .Values.datasource.port -}}/
-              {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}?currentSchema=CONNECT"
+              {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}?currentSchema=CONNECT
+              {{- include "person-structure.db.connectionParams" $ -}}"
             - name: SPRING_DATASOURCE_USERNAME
               value: {{ required "Please specify DB user in datasource.user" .Values.datasource.user | quote }}
             {{- range $k, $v := .Values.members }}
@@ -79,7 +81,8 @@ spec:
               {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
               {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
               {{- include "person-structure.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
+              {{- include "person-structure.db.connectionParams" $ -}}"
                 {{- else }}
               value: "jdbc:postgresql://
               {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
@@ -91,7 +94,8 @@ spec:
               {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
               {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
               {{- include "person-structure.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
+              {{- include "person-structure.db.connectionParams" $ -}}"
                 {{- end }}
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ default (required "Please specify DB user in datasource.user" $.Values.datasource.user | quote) .datasource.user }}
@@ -106,7 +110,8 @@ spec:
               {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
               {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
               {{- include "person-structure.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
+              {{- include "person-structure.db.connectionParams" $ -}}"
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
               {{- end }}
@@ -142,16 +147,8 @@ spec:
               value: {{ .Values.kafka.topics.perstrucinitial.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITCONTRACT_NAME
               value: {{ .Values.kafka.topics.risklimitcontract.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CRDINTACCTYPE_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.crdintacctype.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_PARTNERDEF_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.partnerdef.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CURRENCY_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.currency.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRTLIM_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.authptragrmtlim.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_FINCTRLLIMTYPEPERSTR_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.finctrllimtypeperstr.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_PERSTRUCINITIAL_NAME
               value: {{ .Values.kafka.topics.perstrucinitial.consumerGroup | quote }}
             - name: CMS_CDC_MODULE_NAME
@@ -162,6 +159,8 @@ spec:
               value: {{ .Values.cms.userId | quote }}
             - name: RISK_LIMITS_ENABLED
               value: {{ .Values.riskLimits.enabled | quote }}
+            - name: STATUS_MANAGEMENT_ENABLED
+              value: {{ .Values.statusManagement.enabled | quote }}
             - name: RETENTION_PERIOD
               value: {{ .Values.retention.period | quote }}
             - name: RETENTION_DELETE_BATCH

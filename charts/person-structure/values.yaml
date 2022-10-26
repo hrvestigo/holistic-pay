@@ -23,12 +23,14 @@ datasource:
   connTimeout: 60000
   maxPoolSize: 2
   minIdle: 0
+  connectionParams: {}
 liquibase:
   enabled: true
   syncOnly: false
   user: ''
   role: ''
   replicationRole: ''
+  resources: {}
 members:
 - businessUnit: ''
   applicationMember: ''
@@ -68,21 +70,14 @@ kafka:
       consumerGroup: hr.vestigo.hp.perstrucinitial
     parameterization:
       name: hr.vestigo.hp.parameterization
-      crdintacctype:
-        consumerGroup: hr.vestigo.hp.crdintacctype.parameterization.perstr
-      partnerdef:
-        consumerGroup: hr.vestigo.hp.partnerdef.parameterization.perstr
-      currency:
-        consumerGroup: hr.vestigo.hp.currency.parameterization.perstr
-      authptragrmtlim:
-        consumerGroup: hr.vestigo.hp.authptragrmtlim.parameterization.perstr
-      finctrllimtypeperstr:
-        consumerGroup: hr.vestigo.hp.finctrllimtypeperstr.parameterization.perstr
+      consumerGroup: hr.vestigo.hp.parameterization.perstr
 cms:
   moduleName: BOS
   deliveryChannel: DCC
   userId: HPTECH001
 riskLimits:
+  enabled: true
+statusManagement:
   enabled: true
 retention:
   period: 30
@@ -109,6 +104,12 @@ secret:
   trustStorePassword: ''
   keyStorePassword: ''
 logger:
+  level:
+    kafka: DEBUG
+    rest: DEBUG
+    database: DEBUG
+    businessLogic: DEBUG
+    general: DEBUG
   logToFile: false
   rollingFileAppender: false
   logDir: /var/log/app

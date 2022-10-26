@@ -21,7 +21,7 @@ Defies fixed part of person-structure datasource schema name
 
 
 {{/*
-Person-structure image repository
+person-structure image repository
 */}}
 {{- define "person-structure.app.repository" -}}
 {{- $psRepo := "hrvestigo/person-structure-ms" }}
@@ -34,7 +34,7 @@ Person-structure image repository
 {{- end }}
 
 {{/*
-Person-structure image pull policy
+person-structure image pull policy
 */}}
 {{- define "person-structure.app.imagePullPolicy" -}}
 {{- $reg := default .Values.image.pullPolicy .Values.image.app.pullPolicy }}
@@ -64,6 +64,8 @@ Liquibase init container definition
   {{- toYaml $.Values.securityContext | nindent 4 }}
   image: {{ include "person-structure.liquibase.image" $ }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
+  resources:
+     {{- include "person-structure.liquibase.initContainer.resources" $ | nindent 4 }}
   volumeMounts:
     - mountPath: /liquibase/secret/
       name: {{ include "person-structure.name" $ }}-secret
@@ -295,4 +297,31 @@ Application logger
 */}}
 {{- define "person-structure.logger" -}}
 {{ tpl (.Files.Get "config/log4j2.xml") . }}
+{{- end }}
+
+{{/*
+Liquibase init container resources
+*/}}
+{{- define "person-structure.liquibase.initContainer.resources" -}}
+{{- if .Values.liquibase.resources }}
+{{- toYaml .Values.liquibase.resources }}
+{{- else }}
+{{- toYaml .Values.resources }}
+{{- end }}
+{{- end }}
+
+{{/*
+Defines custom datasource connection parameters appended to URL
+*/}}
+{{- define "person-structure.db.connectionParams" -}}
+{{- $atts := list -}}
+{{- range $key, $value := .Values.datasource.connectionParams }}
+{{- $atts = append $atts (printf "%s%s%s" $key "=" $value) }}
+{{- end }}
+{{- $string := join "&" $atts }}
+{{- if $string }}
+{{- printf "%s%s" "&" $string }}
+{{- else }}
+{{- "" }}
+{{- end }}
 {{- end }}
