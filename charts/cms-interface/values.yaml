@@ -23,12 +23,14 @@ datasource:
   connTimeout: 60000
   maxPoolSize: 2
   minIdle: 0
+  connectionParams: {}
 liquibase:
   enabled: true
   syncOnly: false
   user: ''
   role: ''
   replicationRole: ''
+  resources: {}
 members:
 - businessUnit: ''
   applicationMember: ''
@@ -114,6 +116,12 @@ secret:
   keyStorePassword: ''
   cmsRestPassword: ''
 logger:
+  level:
+    kafka: DEBUG
+    rest: DEBUG
+    database: DEBUG
+    businessLogic: DEBUG
+    general: DEBUG
   logToFile: false
   rollingFileAppender: false
   logDir: /var/log/app

@@ -63,6 +63,8 @@ Liquibase init container definition
   {{- toYaml $.Values.securityContext | nindent 4 }}
   image: {{ include "cms-interface.liquibase.image" $ }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
+  resources:
+    {{- include "cms-interface.liquibase.initContainer.resources" $ | nindent 4 }}
   volumeMounts:
     - mountPath: /liquibase/secret/
       name: {{ include "cms-interface.name" $ }}-secret
@@ -93,7 +95,7 @@ Liquibase init container definition
     - -c
   {{- if $member.datasource }}
     {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" (default $.Values.datasource.host $member.datasource.host) ":" (default ($.Values.datasource.port | int) ( $member.datasource.port | int)) "/" (default $.Values.datasource.dbName  $member.datasource.dbName) }}
-    {{- $context := printf "%s%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" }}
+    {{- $context := printf "%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" }}
     {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -cp /tmp/aesdecryptor.jar AesDecrypt && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
     {{- if $.Values.liquibase.syncOnly }}
     - {{ printf "%s%s" $params " changelog-sync" }}
@@ -102,7 +104,7 @@ Liquibase init container definition
     {{- end }}
   {{- else }}
     {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" $.Values.datasource.host ":" ($.Values.datasource.port | int) "/" $.Values.datasource.dbName }}
-    {{- $context := printf "%s%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" }}
+    {{- $context := printf "%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" }}
     {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -cp /tmp/aesdecryptor.jar AesDecrypt && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
     {{- if $.Values.liquibase.syncOnly }}
     - {{ printf "%s%s" $params " changelog-sync" }}
@@ -294,4 +296,31 @@ Application logger
 */}}
 {{- define "cms-interface.logger" -}}
 {{ tpl (.Files.Get "config/log4j2.xml") . }}
+{{- end }}
+
+{{/*
+Liquibase init container resources
+*/}}
+{{- define "cms-interface.liquibase.initContainer.resources" -}}
+{{- if .Values.liquibase.resources }}
+{{- toYaml .Values.liquibase.resources }}
+{{- else }}
+{{- toYaml .Values.resources }}
+{{- end }}
+{{- end }}
+
+{{/*
+Defines custom datasource connection parameters appended to URL
+*/}}
+{{- define "cms-interface.db.connectionParams" -}}
+{{- $atts := list -}}
+{{- range $key, $value := .Values.datasource.connectionParams }}
+{{- $atts = append $atts (printf "%s%s%s" $key "=" $value) }}
+{{- end }}
+{{- $string := join "&" $atts }}
+{{- if $string }}
+{{- printf "%s%s" "&" $string }}
+{{- else }}
+{{- "" }}
+{{- end }}
 {{- end }}

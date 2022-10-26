@@ -151,6 +151,19 @@ liquibase:
   enabled: false # disable liquibase
 ```
 
+Datasource connection string can be customized by adding additional parameters to connection string (URL).
+
+To add custom parameters, they should be defined in `datasource.connectionParams` attribute as a map of values, for example:
+
+```yaml
+datasource:
+  connectionParams:
+    ssl: "true"
+    sslmode: "enable"
+```
+
+Setup from this example would result with string "&ssl=true&sslmode=enable" appended to database connection URL.
+
 ### Kafka setup
 
 CMS interface uses Kafka as event stream backend.
@@ -797,6 +810,35 @@ resources:
 ```
 
 Any value (or all of them) can be modified by specifying same attribute in custom values file to any other value.
+
+Since application uses Liquibase as init container, resources can be defined for this container also.
+
+Resources for Liquibase can be set with `liquibase.resources` attribute. This attribute has no defaults (empty), but if it's not defined, main container's resources will be used.
+For example, using following setup, resources defined within `liquibase` attribute would be used over attributes for main container (defined in root `resources` attribute):
+
+```yaml
+resources:
+  limits:
+    cpu: 2
+    memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 1Gi
+
+liquibase:
+  resources:
+    limits:
+      cpu: 1
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+```
+
+With this setup, Liquibase init container would have limits set to 1 CPU and 128Mi of memory and requests to 100m and 128Mi.
+If Liquibase resource was not defined, Liquibase init container would have limits set to 2 CPU and 1Gi and request to 100m and 1Gi.
+
+
 
 #### Using `HorizontalPodAutoscaler`
 
