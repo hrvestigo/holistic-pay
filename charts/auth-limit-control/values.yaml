@@ -119,7 +119,7 @@ appWarmup:
   cronSchedule: 0 * * * * *
   runOnStartup: true
   serviceWarmupRestEnabled: true
-  serviceWarmupRestUrl: https://auth-limit-control:8443
+  serviceWarmupRestUrl: https://localhost:8443
 timezone: ''
 secret:
   decryptionKey: ''
