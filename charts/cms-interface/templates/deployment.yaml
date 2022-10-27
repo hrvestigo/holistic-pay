@@ -155,6 +155,8 @@ spec:
               value: {{  .Values.kafka.topics.crdintacc.name | quote }}
             - name: KAFKA_TOPIC_CUSTOMERACCOUNT_NAME
               value: {{ .Values.kafka.topics.customeraccount.name | quote }}
+            - name: KAFKA_TOPIC_PERSONSTRUCTURE_NAME
+              value: {{ .Values.kafka.topics.personstructure.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITDEF_NAME
               value: {{ .Values.kafka.topics.risklimitdef.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITDEF1M_NAME

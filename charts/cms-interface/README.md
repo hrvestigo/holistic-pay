@@ -240,6 +240,8 @@ kafka:
     customeraccount:
       name: hr.vestigo.hp.customeraccount # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.customeraccount # default value, set custom name if required
+    personstructure: 
+      name: hr.vestigo.hp.personstructure.cms # default value, set custom name if required
 ```
 
 Attribute `kafka.topics.risklimitdef1m.counter` specifies maximum number of retries CMS interface application will try to push message to this Kafka topic. Default value is 5, but can be overridden if necessary.

@@ -87,6 +87,9 @@ kafka:
     customeraccount:
       name: hr.vestigo.hp.customeraccount
       consumerGroup: hr.vestigo.hp.customeraccount
+    personstructure:
+      name: hr.vestigo.hp.perstrucinitial.cms
+
 cms:
   url: ''
   wsCode: WS2I82
