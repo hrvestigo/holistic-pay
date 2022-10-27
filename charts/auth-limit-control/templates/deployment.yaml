@@ -272,7 +272,7 @@ spec:
             - name: SERVICE_WARMUP_REST_ENABLED
               value: {{ .Values.appWarmup.serviceWarmupRestEnabled | quote }}
             - name: SERVICE_WARMUP_REST_URL
-              value: {{ required "Please specify warmup url in serviceWarmupRestUrl" .Values.appWarmup.serviceWarmupRestUrl }}/warmup/authLimitControlWarmUp/cain.001
+              value: {{ required "Please specify warmup url in serviceWarmupRestUrl" .Values.appWarmup.serviceWarmupRestUrl }}
             - name: SPRING_PROFILES_ACTIVE
               value: {{ required "Please specify Spring profile in springActiveProfile. Possible values: 'dev', 'prod'." .Values.springActiveProfile | quote }}
             - name: PARTNER_BANK_SERVICE_URL
