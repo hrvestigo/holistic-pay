@@ -112,6 +112,25 @@ riskLimits:
 If this value is set to true then you can use all risk limits functionalities in the microservice.
 Otherwise, in case you want to disable risk limit functionalities, then you have to put the value to false.
 
+###Enabling status management functionalities
+```yaml
+statusManagement:
+  enabled: true  #default value, enables all status management functionalities
+```
+If this value is set to true then you can use all status management functionalities in the microservice.
+Otherwise, in case you want to disable status management functionalities, then you have to put the value to false.
+
+###Enabling person structure checks functionalities
+```yaml
+personStructureChecks:
+  enabled: true  #default value, enables all person structure checks functionalities
+  topicRealNames:
+    paymentChecksResult: hr.vestigo.hp.paymentorderchecksresult # default value, set custom name if required
+```
+If enabled value is set to true then you can use all person structure checks functionalities in the microservice.
+Otherwise, in case you want to disable person structure checks functionalities, then you have to put this value to false.
+In topicRealNames value you can define properties that map business names of topics to their real names.
+So in paymentChecksResult value you should map real name for the topic paymentchecksresult.
 
 ### Datasource connection setup
 
@@ -225,9 +244,13 @@ kafka:
       name: hr.vestigo.hp.risklimitdef # default value, set custom name if required
     personstructure:
       name: hr.vestigo.hp.personstructure # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.personstructure # default value, set custom name if required
     perstrucinitial:
       name: hr.vestigo.hp.perstrucinitial  # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.perstrucinitial  # default value, set custom name if required
+    personstructurechecks:
+      name: hr.vestigo.hp.personstructurechecks # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.personstructurechecks # default value, set custom name if required
     parameterization:
       name: hr.vestigo.hp.parameterization # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.parameterization.perstr # default value, set custom name if required

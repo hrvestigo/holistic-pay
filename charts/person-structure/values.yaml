@@ -65,9 +65,13 @@ kafka:
       name: hr.vestigo.hp.risklimitdef
     personstructure:
       name: hr.vestigo.hp.personstructure
+      consumerGroup: hr.vestigo.hp.personstructure
     perstrucinitial:
       name: hr.vestigo.hp.perstrucinitial
       consumerGroup: hr.vestigo.hp.perstrucinitial
+    personstructurechecks:
+      name: hr.vestigo.hp.personstructurechecks
+      consumerGroup: hr.vestigo.hp.personstructurechecks
     parameterization:
       name: hr.vestigo.hp.parameterization
       consumerGroup: hr.vestigo.hp.parameterization.perstr
@@ -79,6 +83,10 @@ riskLimits:
   enabled: true
 statusManagement:
   enabled: true
+personStructureChecks:
+  enabled: true
+  topicRealNames:
+    paymentChecksResult: hr.vestigo.hp.paymentorderchecksresult
 retention:
   period: 30
   deleteBatch: 5

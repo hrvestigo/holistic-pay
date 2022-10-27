@@ -145,12 +145,18 @@ spec:
               value: {{ .Values.kafka.topics.parameterization.name | quote }}
             - name: KAFKA_TOPIC_PERSTRUCINITIAL_NAME
               value: {{ .Values.kafka.topics.perstrucinitial.name | quote }}
+            - name: KAFKA_TOPIC_PERSONSTRUCTURECHECKS_NAME
+              value: {{ .Values.kafka.topics.personstructurechecks.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITCONTRACT_NAME
               value: {{ .Values.kafka.topics.risklimitcontract.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
               value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_PERSTRUCINITIAL_NAME
               value: {{ .Values.kafka.topics.perstrucinitial.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTURE_NAME
+              value: {{ .Values.kafka.topics.personstructure.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTURECHECKS_NAME
+              value: {{ .Values.kafka.topics.personstructurechecks.consumerGroup | quote }}
             - name: CMS_CDC_MODULE_NAME
               value: {{ .Values.cms.moduleName | quote }}
             - name: CMS_CDC_DELIVERY_CHANNEL
@@ -161,6 +167,12 @@ spec:
               value: {{ .Values.riskLimits.enabled | quote }}
             - name: STATUS_MANAGEMENT_ENABLED
               value: {{ .Values.statusManagement.enabled | quote }}
+            - name: PERSON_STRUCTURE_CHECKS_ENABLED
+              value: {{ .Values.personStructureChecks.enabled | quote }}
+            {{- if .Values.personStructureChecks.enabled }}
+            - name: TOPIC_BUSINESS_REAL_NAMES_MAP_PAYMENTCHECKSRESULT
+              value: {{ .Values.personStructureChecks.topicRealNames.paymentChecksResult | quote }}
+            {{- end }}
             - name: RETENTION_PERIOD
               value: {{ .Values.retention.period | quote }}
             - name: RETENTION_DELETE_BATCH
