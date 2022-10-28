@@ -62,11 +62,12 @@ kafka:
     url: ''
   topics:
     paymentOriginalMessage:
-      name: gcp.ipt1.hp.cdc.paymentOriginalMessage
-      consumerGroup: gcp.ipt1.hp.sirspec1.paymentOriginalMessage
+      name: gcp.ipt1.hp.evt.paymentOriginalMessage
+      consumerGroup: gcp.ipt1.hp.evt.sirspec1.paymentOriginalMessage
     paymentOrderFlow:
-      name: gcp.ipt1.hp.cdc.paymentOrderFlow
-      consumerGroup: gcp.ipt1.hp.sirspec1.paymentOrderFlow
+      name: gcp.ipt1.hp.evt.paymentOrderFlow
+      consumerGroup: gcp.ipt1.hp.evt.sirspec1.paymentOrderFlow
+
 request:
   sanitization:
     enabled: true
