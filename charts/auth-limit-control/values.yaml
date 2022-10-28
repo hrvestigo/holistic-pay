@@ -115,9 +115,8 @@ response:
     enabled: false
 partnerBankServiceUrl: https://partner-bank-interface:8443
 appWarmup:
-  enabled: true
-  cronSchedule: 0 * * * * *
-  runOnStartup: true
+  serviceWarmupLocalScheduleEnabled: true
+  serviceWarmupCronSchedule: 0 * * * * *
   serviceWarmupRestEnabled: true
   serviceWarmupRestUrl: https://localhost:8443
 timezone: ''

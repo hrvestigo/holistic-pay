@@ -261,14 +261,14 @@ spec:
             - name: SSL_KEY_STORE_TYPE
               value: {{ required "Please specify key store type in mountKeyStoreFromSecret.keyStoreType" .Values.mountKeyStoreFromSecret.keyStoreType }}
             {{- end }}
-            - name: ALC_WARMUP_SCHEDULED
-            {{- if .Values.appWarmup.enabled }}
-              value: {{ required "Please specify app warmup cron schedule in appWarmup.cronSchedule" .Values.appWarmup.cronSchedule | quote }}
+            - name: SERVICE_WARMUP_LOCAL_SCHEDULED_CRONSCHEDULE
+            {{- if .Values.appWarmup.serviceWarmupLocalScheduleEnabled }}
+              value: {{ required "Please specify app warmup cron schedule in appWarmup.serviceWarmupCronSchedule" .Values.appWarmup.serviceWarmupCronSchedule | quote }}
             {{- else }}
               value: "-"
             {{- end }}
-            - name: SERVICE_WARMUP_ENABLED
-              value: {{ .Values.appWarmup.runOnStartup | quote }}
+            - name: SERVICE_WARMUP_LOCAL_SCHEDULED_ENABLED
+              value: {{ .Values.appWarmup.serviceWarmupLocalScheduleEnabled | quote }}
             - name: SERVICE_WARMUP_REST_ENABLED
               value: {{ .Values.appWarmup.serviceWarmupRestEnabled | quote }}
             - name: SERVICE_WARMUP_REST_URL
