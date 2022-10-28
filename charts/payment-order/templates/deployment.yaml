@@ -110,7 +110,8 @@ spec:
               {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
               {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
               {{- include "payment-order.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
+              {{- include "payment-order.db.connectionParams" $ -}}"
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
               {{- end }}
