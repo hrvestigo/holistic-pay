@@ -33,8 +33,11 @@ routes:
     serviceName: person-structure # name of person-structure service, default is person-structure
     portNumber: "8443" # port number on which person-structure service is exposed, default is 8443
   personRegistry:
-    serviceName: person-structure # name of person-registry service, default is person-registry
+    serviceName: person-registry # name of person-registry service, default is person-registry
     portNumber: "8443" # port number on which person-registry service is exposed, default is 8443
+  paymentOrder:
+    serviceName: payment-order # name of payment-order service, default is payment-order
+    portNumber: "8443" # port number on which payment-order service is exposed, default is 8443
   personRegistryWeb:
     serviceName: person-structure-web # name of person-registry-web service, default is person-registry-web
     portNumber: "8443" # port number on which person-registry-web service is exposed, default is 8443

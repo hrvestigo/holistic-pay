@@ -48,6 +48,9 @@ routes:
   personRegistry:
     serviceName: person-registry
     servicePortNumber: "8443"
+  paymentOrder:
+    serviceName: payment-order
+    servicePortNumber: "8443"
   personRegistryWeb:
     serviceName: person-registry-web
     servicePortNumber: "8443"
