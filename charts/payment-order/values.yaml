@@ -96,7 +96,6 @@ logger:
     enabled: false
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
-springActiveProfile: prod
 podAnnotations: {}
 deploymentAnnotations: {}
 serviceAnnotations: {}
