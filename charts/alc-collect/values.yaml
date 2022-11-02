@@ -74,6 +74,9 @@ kafka:
     authmsg:
       name: hr.vestigo.hp.authmsg
       consumerGroup: hr.vestigo.hp.authmsg
+    risklimitdef:
+      name: hr.vestigo.hp.risklimitdef
+      consumerGroup: hr.vestigo.hp.risklimitdef
 oauth2:
   enabled: false
   resourceUri: ''
