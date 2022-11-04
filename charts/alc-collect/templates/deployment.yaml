@@ -145,7 +145,7 @@ spec:
               value: {{ .Values.kafka.topics.authlog.name | quote }}
             - name: KAFKA_TOPIC_AUTHMSG_NAME
               value: {{ .Values.kafka.topics.authmsg.name | quote }}
-            - name: KAFKA_TOPIC_AUTHMSG_NAME
+            - name: KAFKA_TOPIC_RISKLIMITDEF_NAME
               value: {{ .Values.kafka.topics.risklimitdef.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTURE_NAME
               value: {{ .Values.kafka.topics.personstructure.consumerGroup | quote }}
@@ -157,7 +157,7 @@ spec:
               value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_AUTHMSG_NAME
               value: {{ .Values.kafka.topics.authmsg.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_AUTHMSG_NAME
+            - name: KAFKA_CONSUMER_GROUP_RISKLIMITDEF_NAME
               value: {{ .Values.kafka.topics.risklimitdef.consumerGroup | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
