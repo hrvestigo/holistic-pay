@@ -141,6 +141,8 @@ spec:
               value: {{ .Values.kafka.topics.paymentOrderEventIn.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORDEREVENTIN_NAME
               value: {{ .Values.kafka.topics.paymentOrderEventIn.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_NAMES_TOPICBUSINESSTOREALNAMESMAP.PERSONSTRUCTURECHECKS
+              value: {{ .Values.paymentExternalChecks.topicRealNames.personStructureChecks | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

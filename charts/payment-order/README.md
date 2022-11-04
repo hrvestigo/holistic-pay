@@ -74,6 +74,16 @@ Additionally, liquibase is enabled by default, which requires some information i
 
 Payment order (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one application member has to be defined in `members` structure for complete setup. Please refer to [Multi-member setup](#multi-member-setup) for details.
 
+###Payment external checks functionalities
+```yaml
+paymentExternalChecks:
+  topicRealNames:
+    personStructureChecks: hr.vestigo.hp.personstructurechecks # default value, set custom name if required
+```
+Represents all payment external checks functionalities in the microservice.
+In topicRealNames value you can define properties that map business names of topics to their real names.
+So in personStructureChecks value you should map real name for the topic personstructurechecks.
+
 ### Datasource connection setup
 
 All values required for PostgreSQL database connection are defined within `datasource` parent attribute.

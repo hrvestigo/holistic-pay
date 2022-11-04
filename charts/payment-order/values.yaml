@@ -63,6 +63,9 @@ kafka:
     paymentOrderEventIn:
       name: hr.vestigo.hp.paymentordereventin
       consumerGroup: hr.vestigo.hp.paymentordereventin
+paymentExternalChecks:
+  topicRealNames:
+    personStructureChecks: hr.vestigo.hp.personstructurechecks
 oauth2:
   enabled: false
   resourceUri: ''
