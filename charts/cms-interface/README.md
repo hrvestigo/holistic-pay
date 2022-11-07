@@ -145,6 +145,19 @@ liquibase:
   enabled: false # disable liquibase
 ```
 
+Datasource connection string can be customized by adding additional parameters to connection string (URL).
+
+To add custom parameters, they should be defined in `datasource.connectionParams` attribute as a map of values, for example:
+
+```yaml
+datasource:
+  connectionParams:
+    ssl: "true"
+    sslmode: "enable"
+```
+
+Setup from this example would result with string "&ssl=true&sslmode=enable" appended to database connection URL.
+
 ### Kafka setup
 
 CMS interface uses Kafka as event stream backend.
