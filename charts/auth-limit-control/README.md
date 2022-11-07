@@ -547,18 +547,20 @@ We added two new variables related to this:
 
 ```yaml
 appWarmup:
-  enabled: true
-  cronSchedule: "0 * * * * *"
-  runOnStartup: true
+  serviceWarmupLocalScheduleEnabled: true
+  serviceWarmupCronSchedule: "0 * * * * *"
+  serviceWarmupRestEnabled: true
+  serviceWarmupRestUrl: https://localhost:8443
 
-enabled - default true. Sets if application warmup schedule task is enabled 
+serviceWarmupLocalScheduleEnabled - default true. Sets if application warmup schedule task is enabled 
 
-cronSchedule - default execute every minute. Used to trigger the scheduler for a specific time period
+serviceWarmupCronSchedule - default execute every minute. Used to trigger the scheduler for a specific time period.
+Mandatory if serviceWarmupLocalScheduleEnabled set to true
 
-runOnStartup - Default true. The parameter determines if application warmap needs to be done right after the microservice starts. 
-Only during the initial installation on a new environment, the parameter needs to be set to false. That is because the 
-microservice first needs to fill the parameterization tables before it starts any other work. 
-In any other case, true must be set as a parameter value.
+serviceWarmupRestEnabled - Default true. Sets if application rest warmup endpoint is called on restart
+
+serviceWarmupRestUrl - Default https://localhost:8443. The parameter should point to auth-limit-control internal service name and port number.
+Used to warmup rest endpoint call on startup.
 
 ### Multi-member setup
 
