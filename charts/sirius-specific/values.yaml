@@ -67,7 +67,9 @@ kafka:
     paymentOrderFlow:
       name: gcp.ipt1.hp.evt.paymentOrderFlow
       consumerGroup: gcp.ipt1.hp.evt.sirspec1.paymentOrderFlow
-
+sirius:
+  service:
+    url: ''
 request:
   sanitization:
     enabled: true
