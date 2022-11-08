@@ -213,29 +213,29 @@ spec:
             - name: SSL_KEY_STORE_TYPE
               value: {{ required "Please specify key store type in mountKeyStoreFromSecret.keyStoreType" .Values.mountKeyStoreFromSecret.keyStoreType }}
             {{- end }}
-            {{ - if .Values.oauth2.enabled }}
+            {{- if .Values.oauth2.enabled }}
             - name: SECURITY_AUTHENTICATION
               value: oauth2
             - name: SECURITY_AUTHENTICATION_JWT_CONVERTER
               value: realm
             - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUERURI
               value: {{ required "Please specify oAuth2 resource URI in oauth2.resourceUri" .Values.oauth2.resourceUri | quote }}
-            {{ - else }}
+            {{- else }}
             - name: SECURITY_AUTHENTICATION
               value: none
             - name: SECURITY_AUTHENTICATION_JWT_CONVERTER
               value: ""
             - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUERURI
               value: ""
-            {{ - end }}
+            {{- end }}
             - name: REQUEST_BODY_SANITIZATION_ENABLED
               value: {{ .Values.request.sanitization.enabled | default "true" | quote }}
             - name: RESPONSE_BODY_ENCODING_ENABLED
               value: {{ .Values.response.encoding.enabled | default "false" | quote }}
-            {{ - if .Values.oauth2.authorizationPrefix }}
+            {{- if .Values.oauth2.authorizationPrefix }}
             - name: SECURITY_AUTHENTICATION_CLAIM_PREFIX
               value: {{ .Values.oauth2.authorizationPrefix | quote }}
-            {{ - end }}
+            {{- end }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
