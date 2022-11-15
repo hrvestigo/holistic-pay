@@ -139,6 +139,8 @@ spec:
               value: {{ .Values.kafka.topics.paymentorderflow.name | quote }}
             - name: KAFKA_TOPIC_ORIGINALPAYMENTMESSAGE_NAME
               value: {{ .Values.kafka.topics.originalpaymentmessage.name | quote }}
+            - name: KAFKA_TOPIC_PAYMENTORDEREVENTIN_NAME
+              value: {{ .Values.kafka.topics.paymentordereventin.name | quote }}
             - name: SEPA_INST_CSM_URL
               value: {{ .Values.csm.url | quote }}
             - name: SERVER_SSL_KEYSTORE
@@ -240,7 +242,7 @@ spec:
             {{- toYaml . | nindent 12 }}
             {{- end }}
           ports:
-            - name: http
+            - name: https
               containerPort: 8443
               protocol: TCP
           livenessProbe:

@@ -8,7 +8,7 @@ image:
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 0.1.0
+    tag: 0.3.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -63,6 +63,8 @@ kafka:
       consumerGroup: hr.vestigo.hp.sepainst.paymentorderflow
     originalpaymentmessage:
       name: hr.vestigo.hp.originalpaymentmessage
+    paymentordereventin:
+      name: hr.vestigo.hp.paymentordereventin
 csm:
   url: ''
 oauth2:

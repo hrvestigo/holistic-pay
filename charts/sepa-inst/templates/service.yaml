@@ -19,9 +19,9 @@ spec:
       {{- if contains "NodePort" .Values.service.type }}
       nodePort: {{ .Values.service.nodePort }}
       {{- end }}
-      targetPort: http
+      targetPort: https
       protocol: TCP
-      name: http
+      name: https
   {{- if .Values.service.clusterIP }}
   clusterIP: {{ .Values.service.clusterIP }}
   {{- end }}
