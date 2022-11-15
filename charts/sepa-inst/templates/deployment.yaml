@@ -141,6 +141,8 @@ spec:
               value: {{ .Values.kafka.topics.originalpaymentmessage.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDEREVENTIN_NAME
               value: {{ .Values.kafka.topics.paymentordereventin.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PAYMENTORDERFLOW_NAME
+              value: {{ .Values.kafka.topics.paymentorderflow.consumerGroup | quote }}
             - name: SEPA_INST_CSM_URL
               value: {{ .Values.csm.url | quote }}
             - name: SERVER_SSL_KEYSTORE

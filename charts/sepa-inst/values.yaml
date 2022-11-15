@@ -60,7 +60,7 @@ kafka:
   topics:
     paymentorderflow:
       name: hr.vestigo.hp.paymentorderflow
-      consumerGroup: hr.vestigo.hp.sepainst.paymentorderflow
+      consumerGroup: hr.vestigo.hp.sepins.paymentorderflow
     originalpaymentmessage:
       name: hr.vestigo.hp.originalpaymentmessage
     paymentordereventin:

@@ -188,7 +188,7 @@ kafka:
   topics:
     paymentOrderFlow:
       name: hr.vestigo.hp.paymentorderflow  # default, set custom name if required
-      consumerGroup: hr.vestigo.hp.sepainst.paymentorderflow  # default, set custom if required
+      consumerGroup: hr.vestigo.hp.sepins.paymentorderflow  # default, set custom if required
     originalpaymentmessage:
       name: hr.vestigo.hp.originalpaymentmessage  # default, set custom name if required
     paymentordereventin:
