@@ -66,6 +66,9 @@ kafka:
 paymentExternalChecks:
   topicRealNames:
     personStructureChecks: hr.vestigo.hp.personstructurechecks
+cache:
+  refresh:
+    rate: 600s
 oauth2:
   enabled: false
   resourceUri: ''
