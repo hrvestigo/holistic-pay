@@ -1067,12 +1067,12 @@ deployment:
 
 In Payment order application, parametrization that is often used is cached or temporarily stored in the memory for the 
 performance purposes. By default, application refreshes all cached data after a period of ten minutes.
-That behaviour is modifiable by this attribute:
+That behaviour is modifiable by this attribute in seconds:
 
 ```yaml
 cache:
   refresh:
-    rate: 600s # default value is 600s
+    rate: 600 # default value is 600
 ```
 
 ### Additional custom configuration

@@ -68,7 +68,7 @@ paymentExternalChecks:
     personStructureChecks: hr.vestigo.hp.personstructurechecks
 cache:
   refresh:
-    rate: 600s
+    rate: 600
 oauth2:
   enabled: false
   resourceUri: ''
