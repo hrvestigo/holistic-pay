@@ -87,11 +87,8 @@ personStructureChecks:
   enabled: true
   topicRealNames:
     paymentChecksResult: hr.vestigo.hp.paymentorderchecksresult
-retention:
-  period: 30
-  deleteBatch: 5
-  deleteIterations: 200
-  schedule: 0 1 1 * * *
+paramWarmup:
+  enabled: true
 oauth2:
   enabled: false
   resourceUri: ''

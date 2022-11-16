@@ -132,6 +132,14 @@ Otherwise, in case you want to disable person structure checks functionalities, 
 In topicRealNames value you can define properties that map business names of topics to their real names.
 So in paymentChecksResult value you should map real name for the topic paymentchecksresult.
 
+###Enabling warm up for parametrization caching
+```yaml
+paramWarmup:
+  enabled: true  #default value, enables warm up parametrization
+```
+If this value is set to true then warm up will be triggered when starting application.
+This warm up is used for fetching all parametrization table data and caching that data.
+
 ### Datasource connection setup
 
 All values required for PostgreSQL database connection are defined within `datasource` parent attribute.

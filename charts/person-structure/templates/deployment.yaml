@@ -173,14 +173,8 @@ spec:
             - name: TOPIC_BUSINESS_REAL_NAMES_MAP_PAYMENTCHECKSRESULT
               value: {{ .Values.personStructureChecks.topicRealNames.paymentChecksResult | quote }}
             {{- end }}
-            - name: RETENTION_PERIOD
-              value: {{ .Values.retention.period | quote }}
-            - name: RETENTION_DELETE_BATCH
-              value: {{ .Values.retention.deleteBatch | quote }}
-            - name: RETENTION_DELETE_ITERATIONS
-              value: {{ .Values.retention.deleteIterations | quote }}
-            - name: RETENTION_SCHEDULE
-              value: {{ .Values.retention.schedule | quote }}
+            - name: PARAM_WARMUP_ENABLED
+              value: {{ .Values.paramWarmup.enabled | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
