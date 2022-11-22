@@ -69,6 +69,10 @@ csm:
   url: ''
 oauth2:
   enabled: false
+  realm: Holistic-Pay
+  serverUrl: ""
+  resource: aux
+  cacheEnabled: true
   resourceUri: ''
   authorizationPrefix: ''
 request:
