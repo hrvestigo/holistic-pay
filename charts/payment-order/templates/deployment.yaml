@@ -141,6 +141,10 @@ spec:
               value: {{ .Values.kafka.topics.paymentOrderEventIn.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORDEREVENTIN_NAME
               value: {{ .Values.kafka.topics.paymentOrderEventIn.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_PAYMENTORDERCHECKSRESULT_NAME
+              value: {{ .Values.kafka.topics.paymentOrderChecksResult.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PAYMENTORDERCHECKSRESULT_NAME
+              value: {{ .Values.kafka.topics.paymentOrderChecksResult.consumerGroup | quote }}
             - name: KAFKA_TOPIC_NAMES_TOPICBUSINESSTOREALNAMESMAP.PERSONSTRUCTURECHECKS
               value: {{ .Values.paymentExternalChecks.topicRealNames.personStructureChecks | quote }}
             - name: SPRING_CACHE_CAFFEINE_SPEC
