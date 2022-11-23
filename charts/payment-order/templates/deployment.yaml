@@ -145,7 +145,7 @@ spec:
               value: {{ .Values.kafka.topics.paymentOrderChecksResult.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORDERCHECKSRESULT_NAME
               value: {{ .Values.kafka.topics.paymentOrderChecksResult.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_NAMES_TOPICBUSINESSTOREALNAMESMAP.PERSONSTRUCTURECHECKS
+            - name: KAFKA_TOPIC_NAMES_TOPICBUSINESSTOREALNAMESMAP_PERSONSTRUCTURECHECKS
               value: {{ .Values.paymentExternalChecks.topicRealNames.personStructureChecks | quote }}
             - name: SPRING_CACHE_CAFFEINE_SPEC
               value: expireAfterAccess={{ .Values.cache.refresh.rate }}s
