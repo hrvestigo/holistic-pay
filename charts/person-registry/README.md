@@ -31,6 +31,7 @@ secret:
   kafkaPassword: "AES-encoded-kafka-password" # string value
   kafkaSchemaRegistryPassword: "AES-encoded-kafka-schema-registry-password" # string value
   liquibasePassword: "AES-encoded-liquibase-password" # string value
+  elasticsearchPassword: "AES-encoded-elasticsearch-password" # string value
 
 datasource:
   host: "datasource-host" # string value
@@ -187,6 +188,71 @@ kafka:
     matchabilityflag:
       name: hr.vestigo.hp.matchabilityflag # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.matchabilityflag # default value, set custom name if required
+    personcrosscheck:
+      name: hr.vestigo.hp.personcrosscheck # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.personcrosscheck # default value, set custom name if required
+```
+
+#### Kafka message producer setup
+
+Kafka messages are produced with outbox pattern, see https://microservices.io/patterns/data/transactional-outbox.html. 
+Service default behaviour is without CDC - Change Data Capture, where business process insert into OUTBOX_EVENT table and on commit other process reads from table delete record, publish to topic (personCrossCheck) and commit changes on DB (for each record separately).
+
+Parameters for case when Change Data Capture is not available on target environment are defined with default values in `values.yaml` file, but can be overridden with following setup:
+
+```yaml
+kafka:
+  outbox:
+    deleteEntity: false # default value, set custom name if required
+    scheduler:
+      enabled: true # default value, set custom name if required
+      fixedRate: 10000 # default value, set custom name if required      
+```
+In case Change Data Capture is available on target environment it should be used. 
+In that case parameter deleteEntity should be set on true and scheduler enabled on false.
+Topic personCrossCheck is then configured as CDC on table OUTBOX_EVENT.
+
+### Elasticsearch setup
+
+Person registry uses Elasticsearch as search engine.
+
+To connect to Elasticsearch cluster, several attributes have to be defined in values file.
+
+```yaml
+elasticsearch:
+  hostnames: "hostname1,hostname2" # a comma separated list of Elasticsearch server
+  port: 9200 # default value, set custom port used to connect to Elasticsearch server
+  scheme: https # defualt value, set scheme used to connect to Elasticsearch server Values: http/https
+  username: "elasticsearch-user" # user used to connect to Elasticsearch server
+  load:
+    enabled: false # defualt value, enable initial full load in Elasticsearch Values: true/false
+    limit: 10000 # default value, set custom value for bulk load in Elasticsearch
+  index:
+    perreg:
+      suffix: "elasticsearch-index-perreg-suffix" # Elasticsearch index suffix define index name like fix part "per_reg_" and suffix that must be different on each environment (e.g. per_reg_spp1)
+      replicas: 0 # default number, set custom number of index replicas depending on requirement and number of servers
+```
+
+As for database, passwords for Elasticsearch is also AES encrypted.
+Passwords should be defined with `secret.elasticsearchPassword` attribute, for example:
+
+```yaml
+secret:
+  decryptionKey: "my-encryption-key" # some custom encryption key
+  elasticsearchPassword: "{AES}S0m3H4sh" # AES encrypted password for Elasticsearch user defined in elasticsearch.username, encrypted with custom encryption key 
+```
+
+Note that same `secret` attribute is used for datasource, Kafka and Elasticsearch, so the same encryption/decryption key is used for encrypting passwords for backends.
+
+Default Elasticsearch connection type used by Person registry is Basic auth (username and password).
+
+
+### Service param
+
+Person registry service parameters.
+
+```yaml
+technicalUserId: "person-registry-technical-user-id" # technical user used while producing messages in topic personcrosscheck  
 ```
 
 ### Configuring image source and pull secrets

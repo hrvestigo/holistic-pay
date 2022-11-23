@@ -67,6 +67,26 @@ kafka:
     matchabilityflag:
       name: hr.vestigo.hp.matchabilityflag
       consumerGroup: hr.vestigo.hp.matchabilityflag
+    personcrosscheck:
+      name: hr.vestigo.hp.personcrosscheck
+      consumerGroup: hr.vestigo.hp.personcrosscheck
+  outbox:
+    deleteEntity: false
+    scheduler:
+      enabled: true
+      fixedRate: 10000
+elasticsearch:
+ hostnames: ''
+ port: 9200
+ scheme: https
+ username: ''
+ load:
+   enabled: false
+   limit: 10000
+ index:
+   perreg:
+     replicas: 0
+technicalUserId: ''
 oauth2:
   enabled: false
   resourceUri: ''
@@ -86,6 +106,7 @@ secret:
   liquibasePassword: ''
   trustStorePassword: ''
   keyStorePassword: ''
+  elasticsearchPassword: ''
 logger:
   level:
     kafka: DEBUG

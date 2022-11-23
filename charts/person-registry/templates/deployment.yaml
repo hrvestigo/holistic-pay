@@ -82,12 +82,7 @@ spec:
               {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
               {{- include "person-registry.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
-              {{- include "person-registry.db.connectionParams" $ -}}"
-            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
-              value: "{{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
-              {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
-              {{- include "person-registry.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"												  	  
+              {{- include "person-registry.db.connectionParams" $ -}}"            												  	  
                 {{- else }}
               value: "jdbc:postgresql://
               {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
@@ -100,12 +95,7 @@ spec:
               {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
               {{- include "person-registry.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
-              {{- include "person-registry.db.connectionParams" $ -}}"
-            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
-              value: "{{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
-              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
-              {{- include "person-registry.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
+              {{- include "person-registry.db.connectionParams" $ -}}"            
                 {{- end }}
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ default (required "Please specify DB user in datasource.user" $.Values.datasource.user | quote) .datasource.user }}
@@ -121,12 +111,7 @@ spec:
               {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
               {{- include "person-registry.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
-              {{- include "person-registry.db.connectionParams" $ -}}"
-            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
-              value: "{{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
-              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
-              {{- include "person-registry.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
+              {{- include "person-registry.db.connectionParams" $ -}}"            
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
               {{- end }}
@@ -162,6 +147,48 @@ spec:
               value: {{ .Values.kafka.topics.matchabilityflag.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_MATCHABILITYFLAG_NAME
               value: {{ .Values.kafka.topics.matchabilityflag.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_PERSONCROSSCHECK_NAME
+              value: {{ .Values.kafka.topics.personcrosscheck.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PERSONCROSSCHECK_NAME
+              value: {{ .Values.kafka.topics.personcrosscheck.consumerGroup | quote }}
+            - name: HR_VESTIGO_HP_OUTBOX_DELETEENTITY
+              value: {{ .Values.kafka.outbox.deleteEntity | quote }}
+            - name: HR_VESTIGO_HP_OUTBOX_SCHEDULER
+              value: {{ .Values.kafka.outbox.scheduler.enabled | quote }}
+            - name: HR_VESTIGO_HP_OUTBOX_SCHEDULER_FIXEDRATE
+              value: {{ .Values.kafka.outbox.scheduler.fixedRate }}
+            - name: ELASTICSEARCH_LOAD_ENABLED
+              value: {{ .Values.elasticsearch.load.enabled | quote }}
+            - name: ELASTICSEARCH_LOAD_LIMIT
+              value: {{ .Values.elasticsearch.load.limit}}
+            - name: ELASTICSEARCH_HOSTNAMES
+              value: {{ .Values.elasticsearch.hostnames | quote }}
+            - name: ELASTICSEARCH_PORT
+              value: {{ .Values.elasticsearch.port}}
+            - name: ELASTICSEARCH_SCHEME
+              value: {{ .Values.elasticsearch.scheme | quote }}
+            - name: ELASTICSEARCH_USERNAME
+              value: {{ .Values.elasticsearch.username | quote }}
+            {{- range $k, $v := .Values.members }}
+            - name: ELASTICSEARCH_INDEX_PERREG_NAME_{{ .memberSign }}
+              {{- if .datasource.globalSchema }}
+              value: "per_reg_             
+              {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
+              {{- include "person-registry.dbSchema" $ -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"                      												  	  
+              {{- else }}
+              value: "per_reg_
+              {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
+              {{- include "person-registry.dbSchema" $ -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"                      
+              {{- end }}
+            {{- end }}
+            - name: ELASTICSEARCH_INDEX_PERREG_REPLICAS
+              value: {{ .Values.elasticsearch.index.perreg.replicas}}
+            - name: PERSON_REGISTRY_TECHNICAL_USER_ID
+              value: {{ .Values.technicalUserId | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
