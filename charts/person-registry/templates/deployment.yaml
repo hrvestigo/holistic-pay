@@ -156,15 +156,15 @@ spec:
             - name: HR_VESTIGO_HP_OUTBOX_SCHEDULER
               value: {{ .Values.kafka.outbox.scheduler.enabled | quote }}
             - name: HR_VESTIGO_HP_OUTBOX_SCHEDULER_FIXEDRATE
-              value: {{ .Values.kafka.outbox.scheduler.fixedRate }}
+              value: {{ .Values.kafka.outbox.scheduler.fixedRate | quote }}
             - name: ELASTICSEARCH_LOAD_ENABLED
               value: {{ .Values.elasticsearch.load.enabled | quote }}
             - name: ELASTICSEARCH_LOAD_LIMIT
-              value: {{ .Values.elasticsearch.load.limit}}
+              value: {{ .Values.elasticsearch.load.limit | quote }}
             - name: ELASTICSEARCH_HOSTNAMES
               value: {{ .Values.elasticsearch.hostnames | quote }}
             - name: ELASTICSEARCH_PORT
-              value: {{ .Values.elasticsearch.port}}
+              value: {{ .Values.elasticsearch.port | quote }}
             - name: ELASTICSEARCH_SCHEME
               value: {{ .Values.elasticsearch.scheme | quote }}
             - name: ELASTICSEARCH_USERNAME
@@ -186,9 +186,9 @@ spec:
               {{- end }}
             {{- end }}
             - name: ELASTICSEARCH_INDEX_PERREG_REPLICAS
-              value: {{ .Values.elasticsearch.index.perreg.replicas}}
+              value: {{ .Values.elasticsearch.index.perreg.replicas | quote }}
             - name: PERSON_REGISTRY_TECHNICAL_USER_ID
-              value: {{ .Values.technicalUserId | quote }}
+              value: {{ .Values.technicalUseId | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
