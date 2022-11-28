@@ -65,6 +65,8 @@ kafka:
       name: hr.vestigo.hp.originalpaymentmessage
     paymentordereventin:
       name: hr.vestigo.hp.paymentordereventin
+    paymentorderincoming:
+      name: hr.vestigo.hp.paymentorderincoming
 csm:
   url: ''
 oauth2:

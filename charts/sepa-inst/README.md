@@ -193,6 +193,8 @@ kafka:
       name: hr.vestigo.hp.originalpaymentmessage  # default, set custom name if required
     paymentordereventin:
       name: hr.vestigo.hp.paymentordereventin  # default, set custom name if required
+    paymentorderincoming:
+      name: hr.vestigo.hp.paymentorderincoming #default, set custom name if required
 ```
 
 ### Configuring image source and pull secrets
