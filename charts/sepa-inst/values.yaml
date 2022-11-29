@@ -77,6 +77,8 @@ oauth2:
   cacheEnabled: true
   resourceUri: ''
   authorizationPrefix: ''
+keycloak:
+  enabled: false
 request:
   sanitization:
     enabled: true
