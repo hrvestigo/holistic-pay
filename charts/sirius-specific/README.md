@@ -605,6 +605,33 @@ members:
       dbName: "db3"
 ```
 
+### oAuth2
+
+Sirius specific application can use Keycloak implementation for oAuth2 authentication and
+authorization. By default, this option is disabled, but can easily be enabled by specifying
+following attributes in values:
+
+```yaml
+keycloak:
+  enabled: true #default false
+  realm: Holistic-Pay # default value, specify other if required
+  serverUrl: "" # no default value
+  resource: aux # default value, specify other if required
+```
+
+To configure Keycloak, it first has to be enabled with `keycloak.enabled` parameter.
+When enabled, other parameters should be defined.
+
+Realm parameter is realm name which is defined in Keycloak. Default value for this parameter is
+`Holistic-Pay`, but it can be modified with `keycloak.realm` attribute.
+
+ServerUrl parameter is Keycloak server URL which has to be defined (has no default value). URL
+should contain Keycloak server FQDN, followed by `/auth` endpoint, for example:
+`https://keycloak.custom.domain/auth`.
+
+Resource parameter is used to define Keycloak client ID, which is by default set to `aux`.
+This value can be modified with `keycloak.resource` attribute.
+
 ### Request body sanitization and response body encoding
 
 sirius-specific application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
