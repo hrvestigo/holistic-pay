@@ -149,7 +149,7 @@ spec:
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORDERFLOW_NAME
               value: {{ .Values.kafka.topics.paymentOrderFlow.consumerGroup | quote }}
             - name: SIRIUS_SERVICE_URL
-              value: { { .Values.sirius.service.url | quote } }
+              value: {{ .Values.sirius.service.url | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
