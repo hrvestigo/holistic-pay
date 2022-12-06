@@ -75,6 +75,8 @@ kafka:
     scheduler:
       enabled: true
       fixedRate: 10000
+  consumer:
+    initializationPause: false
 elasticsearch:
  hostnames: ''
  port: 9200

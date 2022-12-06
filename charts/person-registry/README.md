@@ -212,6 +212,17 @@ In case Change Data Capture is available on target environment it should be used
 In that case parameter deleteEntity should be set on true and scheduler enabled on false.
 Topic personCrossCheck is then configured as CDC on table OUTBOX_EVENT.
 
+#### Kafka message consumer setup
+
+Kafka messages are consumed after service instantiation. With parameter initializationPause it is possible to pause kafka message consumption while MS initialization process is running
+(e.g. while initially full load in Search engine is running).
+
+```yaml
+kafka:
+  consumer:
+    initializationPause: false # default value, set custom name if required
+```      
+
 ### Elasticsearch setup
 
 Person registry uses Elasticsearch as search engine.
