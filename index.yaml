@@ -4792,6 +4792,16 @@ entries:
     version: 0.2.0
   sepa-inst:
   - apiVersion: v2
+    appVersion: 0.23.0
+    created: "2022-12-06T12:14:43.908447866Z"
+    description: Helm chart for sepa-inst application
+    digest: c50f21ba975c58f3bace7dfe080e1fd4a470bdcccb1bf1b951b476e2e4f9127c
+    name: sepa-inst
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/sepa-inst-0.23.0/sepa-inst-0.23.0.tgz
+    version: 0.23.0
+  - apiVersion: v2
     appVersion: 0.22.0
     created: "2022-12-06T10:30:31.946818738Z"
     description: Helm chart for sepa-inst application
@@ -5252,4 +5262,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-specific-1.0.1/sirius-specific-1.0.1.tgz
     version: 1.0.1
-generated: "2022-12-06T10:49:14.00469915Z"
+generated: "2022-12-06T12:14:43.911321129Z"
