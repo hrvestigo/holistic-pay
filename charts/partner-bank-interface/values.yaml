@@ -49,6 +49,7 @@ members:
     maxPoolSize: ''
     minIdle: 0
 kafka:
+  readinessProbeEnabled: true
   user: ''
   servers: ''
   saslMechanism: PLAIN
