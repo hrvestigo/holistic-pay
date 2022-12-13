@@ -70,8 +70,10 @@ kafka:
       name: hr.vestigo.hp.perstrucinitial
       consumerGroup: hr.vestigo.hp.perstrucinitial
     personstructurechecks:
-      name: hr.vestigo.hp.personstructurechecks
-      consumerGroup: hr.vestigo.hp.personstructurechecks
+      name: ''
+      consumerGroup: ''
+    personstructurechecksresult:
+      name: ''
     parameterization:
       name: hr.vestigo.hp.parameterization
       consumerGroup: hr.vestigo.hp.parameterization.perstr
@@ -80,15 +82,13 @@ cms:
   deliveryChannel: DCC
   userId: HPTECH001
 riskLimits:
-  enabled: true
+  enabled: false
 statusManagement:
-  enabled: true
+  enabled: false
 personStructureChecks:
-  enabled: true
-  topicRealNames:
-    paymentChecksResult: hr.vestigo.hp.paymentorderchecksresult
+  enabled: false
 paramWarmup:
-  enabled: true
+  enabled: false
 oauth2:
   enabled: false
   resourceUri: ''

@@ -84,61 +84,42 @@ Values set in kafka header:
 cms:
   moduleName: BOS # default value
   deliveryChannel: DCC # default value
-  userId: HPTECH001 # default value```
+  userId: HPTECH001 # default value
  ```
   `moduleName` and `deliveryChannel` attributes are related to CMS application itself and have to be set in correspondence with it.
   Attribute `userId` should point to technical user for HolisticPay.
 
-### Scheduled task
-
-Scheduled task fetches all incomplete person structure data for specified period of time and deletes them in chunks and specific number of iterations.
-
-To run this scheduled task several attributes have to be defined:
-
-  ```yaml
-  retention:
-        period: 30 #default period of time to be subtract from sys_rec_ts
-        deleteBatch: 5 #default number of chunks
-        deleteIterations: 200 #default number of iterations
-        schedule: 0 1 1 * * * # everyday at 1:01 AM
-   ```
-This scheduled task is run by default everyday at 1:01 AM. Schedule can be modified with `retention.schedule` attribute. Note that this is Spring cron schedule format, which unlike Unix cron schedule has a seconds definition (first parameter). Other than that, schedule can be customized as any other standard cron job.
-
 ###Enabling risk limit functionalities
 ```yaml
 riskLimits:
-  enabled: true  #default value, enables all risk limit functionalities
+  enabled: false  #default value, disables all risk limit functionalities
 ```
-If this value is set to true then you can use all risk limits functionalities in the microservice.
-Otherwise, in case you want to disable risk limit functionalities, then you have to put the value to false.
+Enables/disables all risk limits functionalities in the microservice.
 
 ###Enabling status management functionalities
 ```yaml
 statusManagement:
-  enabled: true  #default value, enables all status management functionalities
+  enabled: false  #default value, disables all status management functionalities
 ```
-If this value is set to true then you can use all status management functionalities in the microservice.
-Otherwise, in case you want to disable status management functionalities, then you have to put the value to false.
+Enables/disables status management functionalities.
+Additionally, consumer group for personstructure topic should be specified.
 
 ###Enabling person structure checks functionalities
 ```yaml
 personStructureChecks:
-  enabled: true  #default value, enables all person structure checks functionalities
-  topicRealNames:
-    paymentChecksResult: hr.vestigo.hp.paymentorderchecksresult # default value, set custom name if required
+  enabled: false  #default value, disables all person structure checks functionalities
 ```
-If enabled value is set to true then you can use all person structure checks functionalities in the microservice.
-Otherwise, in case you want to disable person structure checks functionalities, then you have to put this value to false.
-In topicRealNames value you can define properties that map business names of topics to their real names.
-So in paymentChecksResult value you should map real name for the topic paymentchecksresult.
+Enables/disables person structure checks functionalities.
+Additionally, topic name and consumer group for personstructurechecks topic and topic name for personstructurechecksresult 
+topic should be specified.
 
 ###Enabling warm up for parametrization caching
 ```yaml
 paramWarmup:
-  enabled: true  #default value, enables warm up parametrization
+  enabled: false  #default value, disables warm up parametrization
 ```
-If this value is set to true then warm up will be triggered when starting application.
-This warm up is used for fetching all parametrization table data and caching that data.
+If this value is set to true then warm up service will be triggered when starting application.
+This service is used for fetching and caching all data from parametrization tables.
 
 ### Datasource connection setup
 
@@ -245,24 +226,31 @@ Kafka topics and consumer group names used by Person structure have default name
 ```yaml
 kafka:
   topics:
-    risklimitcontract:
-      name: hr.vestigo.hp.risklimitcontract # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.risklimitcontract # default value, set custom name if required
-    risklimitdef:
-      name: hr.vestigo.hp.risklimitdef # default value, set custom name if required
+    # Core Person Structure functionalities:
     personstructure:
       name: hr.vestigo.hp.personstructure # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.personstructure # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.personstructure # if statusManagement functionality is enabled, then define this consumer group
     perstrucinitial:
       name: hr.vestigo.hp.perstrucinitial  # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.perstrucinitial  # default value, set custom name if required
+    # Risk limit functionality, enabled through riskLimits property.
+    # If enabled, define following two topics and consumer group:
+    risklimitcontract: # consumption of external risk limit definitions
+      name: hr.vestigo.hp.risklimitcontract # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.risklimitcontract # default value, set custom name if required
+    risklimitdef: # publishing of risk limits
+      name: hr.vestigo.hp.risklimitdef # default value, set custom name if required
+    # Person Structure Checks functionality is enabled through personStructureChecks property.
+    # If enabled, define following two topics and consumer group:
     personstructurechecks:
       name: hr.vestigo.hp.personstructurechecks # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.personstructurechecks # default value, set custom name if required
+    personstructurechecksresult:
+      name: hr.vestigo.hp.paymentorderchecksresult # default value, set custom name if required
+    # Parameterization synchronization functionality:
     parameterization:
       name: hr.vestigo.hp.parameterization # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.parameterization.perstr # default value, set custom name if required
-
 ```
 
 ### Configuring image source and pull secrets
