@@ -135,28 +135,34 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
+            {{- if .Values.riskLimits.enabled }}
             - name: KAFKA_TOPIC_RISKLIMITCONTRACT_NAME
-              value: {{ .Values.kafka.topics.risklimitcontract.name | quote }}
+              value: {{ required "Please specify Kafka topic name for risk limit functionality in kafka.topics.risklimitcontract.name" .Values.kafka.topics.risklimitcontract.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_RISKLIMITCONTRACT_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.topics.risklimitcontract.consumerGroup" .Values.kafka.topics.risklimitcontract.consumerGroup | quote }}
             - name: KAFKA_TOPIC_RISKLIMITDEF_NAME
-              value: {{ .Values.kafka.topics.risklimitdef.name | quote }}
+              value: {{ required "Please specify Kafka topic name for risk limit functionality in kafka.topics.risklimitdef.name" .Values.kafka.topics.risklimitdef.name | quote }}
+            {{- end }}
             - name: KAFKA_TOPIC_PERSONSTRUCTURE_NAME
               value: {{ .Values.kafka.topics.personstructure.name | quote }}
             - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
               value: {{ .Values.kafka.topics.parameterization.name | quote }}
             - name: KAFKA_TOPIC_PERSTRUCINITIAL_NAME
               value: {{ .Values.kafka.topics.perstrucinitial.name | quote }}
+            {{- if .Values.personStructureChecks.enabled }}
             - name: KAFKA_TOPIC_PERSONSTRUCTURECHECKS_NAME
-              value: {{ .Values.kafka.topics.personstructurechecks.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_RISKLIMITCONTRACT_NAME
-              value: {{ .Values.kafka.topics.risklimitcontract.consumerGroup | quote }}
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.personstructurechecks.name" .Values.kafka.topics.personstructurechecks.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTURECHECKS_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.topics.personstructurechecks.consumerGroup" .Values.kafka.topics.personstructurechecks.consumerGroup | quote }}
+            - name: TOPIC_BUSINESS_REAL_NAMES_MAP_PAYMENTCHECKSRESULT
+              value: {{ required "Please specify Kafka topic name for person structure checks results functionality in kafka.topics.personstructurechecksresult.name" .Values.kafka.topics.personstructurechecksresult.name | quote }}
+            {{- end }}
             - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
               value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_PERSTRUCINITIAL_NAME
               value: {{ .Values.kafka.topics.perstrucinitial.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTURE_NAME
               value: {{ .Values.kafka.topics.personstructure.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTURECHECKS_NAME
-              value: {{ .Values.kafka.topics.personstructurechecks.consumerGroup | quote }}
             - name: CMS_CDC_MODULE_NAME
               value: {{ .Values.cms.moduleName | quote }}
             - name: CMS_CDC_DELIVERY_CHANNEL
@@ -169,10 +175,6 @@ spec:
               value: {{ .Values.statusManagement.enabled | quote }}
             - name: PERSON_STRUCTURE_CHECKS_ENABLED
               value: {{ .Values.personStructureChecks.enabled | quote }}
-            {{- if .Values.personStructureChecks.enabled }}
-            - name: TOPIC_BUSINESS_REAL_NAMES_MAP_PAYMENTCHECKSRESULT
-              value: {{ .Values.personStructureChecks.topicRealNames.paymentChecksResult | quote }}
-            {{- end }}
             - name: PARAM_WARMUP_ENABLED
               value: {{ .Values.paramWarmup.enabled | quote }}
             - name: SERVER_SSL_KEYSTORE

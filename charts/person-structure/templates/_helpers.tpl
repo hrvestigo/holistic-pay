@@ -45,7 +45,7 @@ person-structure image pull policy
 Liquibase image
 */}}
 {{- define "person-structure.liquibase.image" }}
-{{- $liquiRepo := printf "%s%s" "hrvestigo/person-structure-lb:" $.Values.image.liquibase.tag }}
+{{- $liquiRepo := "hrvestigo/person-structure-lb" }}
 {{- $reg := default $.Values.image.registry $.Values.image.liquibase.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $liquiRepo }}
@@ -62,7 +62,7 @@ Liquibase init container definition
 - name: liquibase-{{ .memberSign | lower }}
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
-  image: {{ include "person-structure.liquibase.image" $ }}
+  image: {{ printf "%s%s%s%s%s" (include "person-structure.liquibase.image" $) "-" ($member.businessUnit | lower ) ":" $.Values.image.liquibase.tag }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   resources:
      {{- include "person-structure.liquibase.initContainer.resources" $ | nindent 4 }}
