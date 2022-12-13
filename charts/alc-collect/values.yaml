@@ -8,7 +8,7 @@ image:
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 2.16.0
+    tag: 2.18.6
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -23,7 +23,6 @@ datasource:
   connTimeout: 60000
   maxPoolSize: 2
   minIdle: 0
-  connectionParams: {}
 liquibase:
   enabled: true
   syncOnly: false
