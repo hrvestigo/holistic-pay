@@ -199,6 +199,9 @@ kafka:
     paymentOrderIncoming:
       name: hr.vestigo.hp.paymentorderincoming # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.paymentorderincoming # default value, set custom name if required
+    paymentOrderUpdate:
+      name: hr.vestigo.hp.paymentorderupdate # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.paymentorderupdate # default value, set custom name if required
 ```
 
 
