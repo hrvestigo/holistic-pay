@@ -69,6 +69,7 @@ kafka:
       name: hr.vestigo.hp.paymentorderincoming
 csm:
   url: ''
+  xsdCheckType: enabled
 oauth2:
   enabled: false
   realm: Holistic-Pay

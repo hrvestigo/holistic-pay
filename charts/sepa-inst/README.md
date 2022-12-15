@@ -241,6 +241,21 @@ imagePullSecrets:
   - name: vestigo-dockerhub-secret
 ```
 
+### CSM configuration
+
+`SEPA inst` application can configured with `CSM` (Clearing & Settlement Management System) specific configuration:
+
+```yaml
+csm:
+  url: "http://sepa-inst-csm-url:port" # required, base path to CSM
+  xsdCheckType: "enabled"   # default value, XSD check is performed on all endpoints.
+```
+
+With configuration `xsdCheckType` you can configure if XSD check
+is done on all endpoints on which `XML` payload is received.<br>
+Default value is `enabled`. Option `disabled` disables XSD check
+from all endpoints where `XML` payload is received.
+
 ### TLS setup
 
 `SEPA inst` application is prepared to use TLS, but requires provided server certificate.
