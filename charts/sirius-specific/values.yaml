@@ -65,8 +65,10 @@ kafka:
       name: gcp.ipt1.hp.evt.paymentOriginalMessage
       consumerGroup: gcp.ipt1.hp.evt.sirspec1.paymentoriginalmessage
     paymentOrderFlow:
-      name: gcp.ipt1.hp.evt.paymentOrderFlow
+      name: gcp.ipt1.hp.evt.paymentorderflow
       consumerGroup: gcp.ipt1.hp.evt.sirspec1.paymentorderflow
+    paymentOrderUpdate:
+      name: gcp.ipt1.hp.evt.paymentorderupdate
 sirius:
   service:
     url: ''

@@ -148,6 +148,8 @@ spec:
               value: {{ .Values.kafka.topics.paymentOrderFlow.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORDERFLOW_NAME
               value: {{ .Values.kafka.topics.paymentOrderFlow.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_PAYMENTORDERUPDATE_NAME
+              value: {{ .Values.kafka.topics.paymentorderupdate.name | quote }}
             - name: SIRIUS_SERVICE_URL
               value: {{ .Values.sirius.service.url | quote }}
             - name: SERVER_SSL_KEYSTORE
