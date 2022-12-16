@@ -16,7 +16,7 @@ Create chart name and version as used by the chart label.
 Defies fixed part of sirius-specific datasource schema name
 */}}
 {{- define "sirius-specific.dbSchema" -}}
-{{- "cmsint" }}
+{{- "sirspe" }}
 {{- end }}
 
 {{/*
