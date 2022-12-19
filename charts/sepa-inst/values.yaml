@@ -68,6 +68,7 @@ kafka:
     paymentorderincoming:
       name: hr.vestigo.hp.paymentorderincoming
 csm:
+  csmid: 'NKS9999998'
   url: ''
   xsdCheckType: enabled
 oauth2:

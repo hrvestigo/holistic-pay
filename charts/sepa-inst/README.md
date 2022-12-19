@@ -247,10 +247,13 @@ imagePullSecrets:
 
 ```yaml
 csm:
+  csmid: "NKS9999998" # default value
   url: "http://sepa-inst-csm-url:port" # required, base path to CSM
   xsdCheckType: "enabled"   # default value, XSD check is performed on all endpoints.
 ```
 
+Using `csmid` you can configure the clearing system considered
+while fetching the parameterization.
 With configuration `xsdCheckType` you can configure if XSD check
 is done on all endpoints on which `XML` payload is received.<br>
 Default value is `enabled`. Option `disabled` disables XSD check
