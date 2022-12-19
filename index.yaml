@@ -2697,6 +2697,16 @@ entries:
     version: 0.3.0
   payment-order:
   - apiVersion: v2
+    appVersion: 1.29.0
+    created: "2022-12-19T13:51:05.074723737Z"
+    description: Helm chart for payment order application
+    digest: c7c7309ce9944421b9e3094104108a2f7be99d5d0d1c2c7322d149228dd7c20e
+    name: payment-order
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/payment-order-1.29.0/payment-order-1.29.0.tgz
+    version: 1.29.0
+  - apiVersion: v2
     appVersion: 1.28.0
     created: "2022-12-16T11:58:16.386455222Z"
     description: Helm chart for payment order application
@@ -6002,4 +6012,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-specific-1.0.1/sirius-specific-1.0.1.tgz
     version: 1.0.1
-generated: "2022-12-19T11:47:09.248062228Z"
+generated: "2022-12-19T13:51:05.078850367Z"
