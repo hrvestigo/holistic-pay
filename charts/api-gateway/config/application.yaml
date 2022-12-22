@@ -20,7 +20,6 @@ spring:
             - Path=/api/*/riskLimits/**, /api/*/riskLimitHistoryOfChanges/**
           uri: https://{{ required "ALC collect application service name has to be defined in routes.alcCollect.serviceName" .Values.routes.alcCollect.serviceName }}:{{ required "ALC collect application port number has to be defined in routes.alcCollect.servicePortNumber" .Values.routes.alcCollect.servicePortNumber }}
           filters:
-            - StripPrefix=1
             - TokenRelay
             - SaveSession
         - id: auth-limit-control_route
@@ -28,7 +27,6 @@ spring:
             - Path=/api/*/authLimitControl/**
           uri: https://{{ required "Auth limit control application service name has to be defined in routes.authLimitControl.serviceName" .Values.routes.authLimitControl.serviceName }}:{{ required "Auth limit control application port number has to be defined in routes.authLimitControl.servicePortNumber" .Values.routes.authLimitControl.servicePortNumber }}
           filters:
-            - StripPrefix=1
             - TokenRelay
             - SaveSession
         - id: person-structure-ms_route
@@ -36,7 +34,6 @@ spring:
             - Path=/api/*/riskLimits/**, /api/*/customerControlsLimits/**
           uri: https://{{ required "Person structure application service name has to be defined in routes.personStructure.serviceName" .Values.routes.personStructure.serviceName }}:{{ required "Person structure application port number has to be defined in routes.personStructure.servicePortNumber" .Values.routes.personStructure.servicePortNumber }}
           filters:
-            - StripPrefix=1
             - TokenRelay
             - SaveSession
         - id: person-registry-ms_route
