@@ -18,6 +18,7 @@ spring:
         - id: alc_route
           predicates:
             - Path=/api/*/riskLimits/**, /api/*/riskLimitHistoryOfChanges/**
+            - Method=GET
           uri: https://{{ required "ALC collect application service name has to be defined in routes.alcCollect.serviceName" .Values.routes.alcCollect.serviceName }}:{{ required "ALC collect application port number has to be defined in routes.alcCollect.servicePortNumber" .Values.routes.alcCollect.servicePortNumber }}
           filters:
             - TokenRelay
@@ -32,6 +33,7 @@ spring:
         - id: person-structure-ms_route
           predicates:
             - Path=/api/*/riskLimits/**, /api/*/customerControlsLimits/**
+            - Method=POST
           uri: https://{{ required "Person structure application service name has to be defined in routes.personStructure.serviceName" .Values.routes.personStructure.serviceName }}:{{ required "Person structure application port number has to be defined in routes.personStructure.servicePortNumber" .Values.routes.personStructure.servicePortNumber }}
           filters:
             - TokenRelay
