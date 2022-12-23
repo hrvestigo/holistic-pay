@@ -104,7 +104,7 @@ cms:
     deliveryChannel: DCC
     userId: HPTECH001
 debitFilter:
-  enabled: true
+  enabled: false
 request:
   sanitization:
     enabled: true
