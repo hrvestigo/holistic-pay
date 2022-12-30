@@ -103,8 +103,7 @@ cms:
     moduleName: BOS
     deliveryChannel: DCC
     userId: HPTECH001
-debitFilter:
-  enabled: false
+
 request:
   sanitization:
     enabled: true

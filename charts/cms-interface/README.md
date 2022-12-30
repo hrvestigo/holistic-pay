@@ -103,15 +103,6 @@ Attribute `wsCode` specifies targeted Rest service (method) which should be trig
 Attribute `userId` should point to technical user for HolisticPay.
 `cms.cdc` section are values used for populating data kafka header when consuming data that came through CDC from CCMS.
 
-### Debit data filter
-
-Temporary filter of messages consumed from CCMS. This filter is used for filtering all messages containing debit data. If received message contains debit data then consumer method is called, otherwise it skips this message.
-This will be only used until qlick filter works good. To enable this debit data filter you must set 'debitFilter' to true.
-```yaml
-debitFilter:
-  enabled: false #default value is false
-```
-
 
 ### Datasource connection setup
 
