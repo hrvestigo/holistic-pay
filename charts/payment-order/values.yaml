@@ -72,6 +72,8 @@ kafka:
     paymentOrderUpdate:
       name: hr.vestigo.hp.paymentorderupdate
       consumerGroup: hr.vestigo.hp.paymentorderupdate
+    paymentOrderEventFlow:
+      name: hr.vestigo.hp.paymentordereventflow
 paymentExternalChecks:
   topicRealNames:
     personStructureChecks: hr.vestigo.hp.personstructurechecks
