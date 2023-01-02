@@ -143,8 +143,12 @@ spec:
               value: {{ .Values.kafka.topics.paymentorderincoming.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDEREVENTIN_NAME
               value: {{ .Values.kafka.topics.paymentordereventin.name | quote }}
+            - name: KAFKA_TOPIC_PAYMENTORDEREVENTFLOW_NAME
+              value: {{ .Values.kafka.topics.paymentordereventflow.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORDERFLOW_NAME
               value: {{ .Values.kafka.topics.paymentorderflow.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PAYMENTORDEREVENTFLOW_NAME
+              value: {{ .Values.kafka.topics.paymentordereventflow.consumerGroup | quote }}
             - name: SEPA_INST_CSM_CSMID
               value: {{ required "Please specify clearing system mechanism id in csm.csmid" .Values.csm.csmid | quote }}
             - name: SEPA_INST_CSM_URL

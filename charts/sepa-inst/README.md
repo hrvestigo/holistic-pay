@@ -186,7 +186,7 @@ Kafka topics and consumer group names used by `SEPA inst` have default names def
 ```yaml
 kafka:
   topics:
-    paymentOrderFlow:
+    paymentorderflow:
       name: hr.vestigo.hp.paymentorderflow  # default, set custom name if required
       consumerGroup: hr.vestigo.hp.sepins.paymentorderflow  # default, set custom if required
     originalpaymentmessage:
@@ -195,6 +195,9 @@ kafka:
       name: hr.vestigo.hp.paymentordereventin  # default, set custom name if required
     paymentorderincoming:
       name: hr.vestigo.hp.paymentorderincoming #default, set custom name if required
+    paymentordereventflow:
+      name: hr.vestigo.hp.paymentordereventflow  # default, set custom name if required
+      consumerGroup: hr.vestigo.hp.sepins.paymentordereventflow  # default, set custom if required
 ```
 
 ### Configuring image source and pull secrets
