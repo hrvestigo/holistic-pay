@@ -79,10 +79,12 @@ Payment order (as well as all other HolisticPay applications) is a multi-member 
 paymentExternalChecks:
   topicRealNames:
     personStructureChecks: hr.vestigo.hp.personstructurechecks # default value, set custom name if required
+    ecsSpecificChecks: hr.vestigo.hp.ecsspecificchecks # default value, set custom name if required
 ```
 Represents all payment external checks functionalities in the microservice.
 In topicRealNames value you can define properties that map business names of topics to their real names.
-So in personStructureChecks value you should map real name for the topic personstructurechecks.
+So in personStructureChecks value you should map real name for the topic personstructurechecks, and in ecsSpecificChecks
+value you should map real name for the topic ecsspecificchecks.
 
 ### Datasource connection setup
 
