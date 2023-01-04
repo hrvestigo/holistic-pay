@@ -8,7 +8,7 @@ image:
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 1.33.0
+    tag: 2.33.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -78,16 +78,16 @@ kafka:
   consumer:
     initializationPause: false
 elasticsearch:
- hostnames: ''
- port: 9200
- scheme: https
- username: ''
- load:
-   enabled: false
-   limit: 10000
- index:
-   perreg:
-     replicas: 0
+  hostnames: ''
+  port: 9200
+  scheme: https
+  username: ''
+  load:
+    enabled: false
+    limit: 10000
+  index:
+    perreg:
+      replicas: 0
 technicalUserId: ''
 oauth2:
   enabled: false
