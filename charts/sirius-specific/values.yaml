@@ -69,6 +69,15 @@ kafka:
       consumerGroup: gcp.ipt1.hp.evt.sirspec1.paymentorderflow
     paymentOrderUpdate:
       name: gcp.ipt1.hp.evt.paymentorderupdate
+    paymentOrderChecksResult:
+      name: gcp.ipt1.hp.evt.paymentorderchecksresult
+    ecsSpecificChecks:
+      name: gcp.ipt1.hp.evt.ecsspecificchecks
+      consumerGroup: gcp.ipt1.hp.evt.sirspec.ecsspecificchecks
+    paymentOrderEventFlow:
+      name: gcp.ipt1.hp.evt.paymentordereventflow
+      consumerGroup: gcp.ipt1.hp.evt.sirspec.paymentordereventflow
+
 sirius:
   service:
     url: ''

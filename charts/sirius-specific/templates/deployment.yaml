@@ -150,6 +150,16 @@ spec:
               value: {{ .Values.kafka.topics.paymentOrderFlow.consumerGroup | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDERUPDATE_NAME
               value: {{ .Values.kafka.topics.paymentOrderUpdate.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_ECSSPECIFICCHECKS_NAME
+              value: {{ .Values.kafka.consumer.group.ecsSpecificChecks.name | quote }}
+            - name: KAFKA_TOPIC_ECSSPECIFICCHECKS_NAME
+              value: {{ .Values.kafka.topic.ecsSpecificChecks.name | quote }}
+            - name: KAFKA_TOPIC_PAYMENTORDERCHECKSRESULT_NAME
+              value: {{ .Values.kafka.topic.paymentOrderChecksResult.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PAYMENTORDEREVENTFLOW_NAME
+              value: {{ .Values.kafka.consumer.group.paymentOrderEventFlow.name | quote }}
+            - name: KAFKA_TOPIC_PAYMENTORDEREVENTFLOW_NAME
+              value: {{ .Values.kafka.topic.paymentOrderEventFlow.name | quote }}
             - name: SIRIUS_SERVICE_URL
               value: {{ .Values.sirius.service.url | quote }}
             - name: SERVER_SSL_KEYSTORE
