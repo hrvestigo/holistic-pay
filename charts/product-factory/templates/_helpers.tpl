@@ -308,19 +308,3 @@ Liquibase init container resources
 {{- toYaml .Values.resources }}
 {{- end }}
 {{- end }}
-
-{{/*
-Defines custom datasource connection parameters appended to URL
-*/}}
-{{- define "product-factory.db.connectionParams" -}}
-{{- $atts := list -}}
-{{- range $key, $value := .Values.datasource.connectionParams }}
-{{- $atts = append $atts (printf "%s%s%s" $key "=" $value) }}
-{{- end }}
-{{- $string := join "&" $atts }}
-{{- if $string }}
-{{- printf "%s%s" "&" $string }}
-{{- else }}
-{{- "" }}
-{{- end }}
-{{- end }}
