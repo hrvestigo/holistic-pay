@@ -77,7 +77,8 @@ kafka:
       fixedRate: 10000
   consumer:
     initializationPause: false
-elasticsearch:
+searchengine:
+  instance: opensearch
   hostnames: ''
   port: 9200
   scheme: https

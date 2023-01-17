@@ -31,7 +31,7 @@ secret:
   kafkaPassword: "AES-encoded-kafka-password" # string value
   kafkaSchemaRegistryPassword: "AES-encoded-kafka-schema-registry-password" # string value
   liquibasePassword: "AES-encoded-liquibase-password" # string value
-  elasticsearchPassword: "AES-encoded-elasticsearch-password" # string value
+  searchenginePassword: "AES-encoded-searchengine-password" # string value
 
 datasource:
   host: "datasource-host" # string value
@@ -223,39 +223,39 @@ kafka:
     initializationPause: false # default value, set custom name if required
 ```      
 
-### Elasticsearch setup
+### Search engine setup
 
-Person registry uses Elasticsearch as search engine.
+Person registry can use Opensearch or Elasticsearch as search engine.
 
-To connect to Elasticsearch cluster, several attributes have to be defined in values file.
+To connect to search engine cluster, several attributes have to be defined in values file.
 
 ```yaml
-elasticsearch:
-  hostnames: "hostname1,hostname2" # a comma separated list of Elasticsearch server
-  port: 9200 # default value, set custom port used to connect to Elasticsearch server
-  scheme: https # defualt value, set scheme used to connect to Elasticsearch server Values: http/https
-  username: "elasticsearch-user" # user used to connect to Elasticsearch server
+searchengine:
+  instance: "opensearch" # default value, search engine instance, Values: opensearch, elasticsearch, none
+  hostnames: "hostname1,hostname2" # a comma separated list of search engine server
+  port: 9200 # default value, set custom port used to connect to search engine server
+  scheme: https # defualt value, set scheme used to connect to search engine server Values: http/https
+  username: "searchengine-user" # user used to connect to search engine server
   load:
-    enabled: false # defualt value, enable initial full load in Elasticsearch Values: true/false
-    limit: 10000 # default value, set custom value for bulk load in Elasticsearch
+    enabled: false # defualt value, enable initial full load in search engine Values: true/false
+    limit: 10000 # default value, set custom value for bulk load in search engine
   index:
-    perreg:
-      suffix: "elasticsearch-index-perreg-suffix" # Elasticsearch index suffix define index name like fix part "per_reg_" and suffix that must be different on each environment (e.g. per_reg_spp1)
+    perreg:    
       replicas: 0 # default number, set custom number of index replicas depending on requirement and number of servers
 ```
 
-As for database, passwords for Elasticsearch is also AES encrypted.
-Passwords should be defined with `secret.elasticsearchPassword` attribute, for example:
+As for database, passwords for search engine is also AES encrypted.
+Passwords should be defined with `secret.searchenginePassword` attribute, for example:
 
 ```yaml
 secret:
   decryptionKey: "my-encryption-key" # some custom encryption key
-  elasticsearchPassword: "{AES}S0m3H4sh" # AES encrypted password for Elasticsearch user defined in elasticsearch.username, encrypted with custom encryption key 
+  searchenginePassword: "{AES}S0m3H4sh" # AES encrypted password for search engine user defined in searchengine.username, encrypted with custom encryption key 
 ```
 
-Note that same `secret` attribute is used for datasource, Kafka and Elasticsearch, so the same encryption/decryption key is used for encrypting passwords for backends.
+Note that same `secret` attribute is used for datasource, Kafka and search engine, so the same encryption/decryption key is used for encrypting passwords for backends.
 
-Default Elasticsearch connection type used by Person registry is Basic auth (username and password).
+Default search engine connection type used by Person registry is Basic auth (username and password).
 
 
 ### Service param

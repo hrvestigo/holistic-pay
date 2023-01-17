@@ -159,20 +159,20 @@ spec:
               value: {{ .Values.kafka.outbox.scheduler.enabled | quote }}
             - name: HR_VESTIGO_HP_OUTBOX_SCHEDULER_FIXEDRATE
               value: {{ .Values.kafka.outbox.scheduler.fixedRate | quote }}
-            - name: ELASTICSEARCH_LOAD_ENABLED
-              value: {{ .Values.elasticsearch.load.enabled | quote }}
-            - name: ELASTICSEARCH_LOAD_LIMIT
-              value: {{ .Values.elasticsearch.load.limit | quote }}
-            - name: ELASTICSEARCH_HOSTNAMES
-              value: {{ .Values.elasticsearch.hostnames | quote }}
-            - name: ELASTICSEARCH_PORT
-              value: {{ .Values.elasticsearch.port | quote }}
-            - name: ELASTICSEARCH_SCHEME
-              value: {{ .Values.elasticsearch.scheme | quote }}
-            - name: ELASTICSEARCH_USERNAME
-              value: {{ .Values.elasticsearch.username | quote }}
+            - name: SEARCHENGINE_LOAD_ENABLED
+              value: {{ .Values.searchengine.load.enabled | quote }}
+            - name: SEARCHENGINE_LOAD_LIMIT
+              value: {{ .Values.searchengine.load.limit | quote }}
+            - name: SEARCHENGINE_HOSTNAMES
+              value: {{ .Values.searchengine.hostnames | quote }}
+            - name: SEARCHENGINE_PORT
+              value: {{ .Values.searchengine.port | quote }}
+            - name: SEARCHENGINE_SCHEME
+              value: {{ .Values.searchengine.scheme | quote }}
+            - name: SEARCHENGINE_USERNAME
+              value: {{ .Values.searchengine.username | quote }}
             {{- range $k, $v := .Values.members }}
-            - name: ELASTICSEARCH_INDEX_PERREG_NAME_{{ .memberSign }}
+            - name: SEARCHENGINE_INDEX_PERREG_NAME_{{ .memberSign }}
               {{- if .datasource.globalSchema }}
               value: "per_reg_             
               {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
@@ -187,8 +187,8 @@ spec:
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"                      
               {{- end }}
             {{- end }}
-            - name: ELASTICSEARCH_INDEX_PERREG_REPLICAS
-              value: {{ .Values.elasticsearch.index.perreg.replicas | quote }}
+            - name: SEARCHENGINE_INDEX_PERREG_REPLICAS
+              value: {{ .Values.searchengine.index.perreg.replicas | quote }}
             - name: PERSON_REGISTRY_TECHNICAL_USER_ID
               value: {{ .Values.technicalUseId | quote }}
             - name: SERVER_SSL_KEYSTORE
