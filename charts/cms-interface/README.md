@@ -87,7 +87,7 @@ First set of attributes is related to CMS REST API is defined with following att
 ```yaml
 cms:
   url: # no default value, has to be defined
-  wsCode: WS2I82 # default value
+  wsCode: WS2I86 # default value
   moduleName: CMSINT # default value
   deliveryChannel: HP # default value
   userId: HPTECH001 # default value
