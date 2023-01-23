@@ -159,6 +159,8 @@ spec:
               value: {{ .Values.kafka.outbox.scheduler.enabled | quote }}
             - name: HR_VESTIGO_HP_OUTBOX_SCHEDULER_FIXEDRATE
               value: {{ .Values.kafka.outbox.scheduler.fixedRate | quote }}
+            - name: SEARCHENGINE_INSTANCE
+              value: {{ .Values.searchengine.instance | quote }}
             - name: SEARCHENGINE_LOAD_ENABLED
               value: {{ .Values.searchengine.load.enabled | quote }}
             - name: SEARCHENGINE_LOAD_LIMIT
