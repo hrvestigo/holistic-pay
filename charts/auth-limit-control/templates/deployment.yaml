@@ -63,8 +63,7 @@ spec:
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:postgresql://{{- required "Please specify DB host name in datasource.host" .Values.datasource.host -}}:
               {{- required "Please specify DB port in datasource.port" .Values.datasource.port -}}/
-              {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}?currentSchema=CONNECT
-              {{- include "auth-limit-control.db.connectionParams" $ -}}"
+              {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}?currentSchema=CONNECT"
             - name: SPRING_DATASOURCE_USERNAME
               value: {{ required "Please specify DB user in datasource.user" .Values.datasource.user | quote }}
             {{- range $k, $v := .Values.members }}
@@ -81,8 +80,7 @@ spec:
               {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
               {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
               {{- include "auth-limit-control.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
-              {{- include "auth-limit-control.db.connectionParams" $ -}}"
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"                  
                 {{- else }}
               value: "jdbc:postgresql://
               {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
@@ -94,8 +92,7 @@ spec:
               {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
               {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
               {{- include "auth-limit-control.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
-              {{- include "auth-limit-control.db.connectionParams" $ -}}"
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
                 {{- end }}
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ default (required "Please specify DB user in datasource.user" $.Values.datasource.user | quote) .datasource.user }}
@@ -110,8 +107,7 @@ spec:
               {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
               {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
               {{- include "auth-limit-control.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
-              {{- include "auth-limit-control.db.connectionParams" $ -}}"
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
               {{- end }}
