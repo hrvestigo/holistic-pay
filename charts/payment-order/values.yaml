@@ -78,6 +78,9 @@ paymentExternalChecks:
   topicRealNames:
     personStructureChecks: hr.vestigo.hp.personstructurechecks
     ecsSpecificChecks: hr.vestigo.hp.ecsspecificchecks
+automaticRejection:
+  scheduledTask:
+    period: 0 0/30 8-18 * * *
 cache:
   refresh:
     rate: 600

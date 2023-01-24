@@ -86,6 +86,20 @@ In topicRealNames value you can define properties that map business names of top
 So in personStructureChecks value you should map real name for the topic personstructurechecks, and in ecsSpecificChecks
 value you should map real name for the topic ecsspecificchecks.
 
+### Scheduled task
+
+Scheduled task checks if some incoming return requests are unanswered, and automatically rejects them.
+To run this scheduled task you have to define attributes:
+
+  ```yaml
+automaticRejection:
+   scheduledTask:
+     period: 0 0/30 8-18 * * * #default value of scheduled task (triggered every 30min from 8-18)
+   ```
+This scheduled task is run by default every 30 minutes from 8 a.m. to 6 p.m.
+Schedule can be modified with `automaticRejection.period` attribute. Note that this is Spring cron schedule format, which unlike Unix cron schedule has a seconds definition (first parameter). Other than that, schedule can be customized as any other standard cron job.
+
+
 ### Datasource connection setup
 
 All values required for PostgreSQL database connection are defined within `datasource` parent attribute.
