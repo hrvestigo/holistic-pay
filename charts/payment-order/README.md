@@ -93,12 +93,12 @@ To run this scheduled task you have to define attributes:
 
   ```yaml
 automaticRejection:
-   scheduledTask:
-     period: 0 0/30 8-18 * * * #default value of scheduled task (triggered every 30min from 8-18)
+   scheduled: 0 0/30 8-18 * * * #default value of scheduled task (triggered every 30min from 8-18)
+   enabled: false  #default value, disables scheduled task for automatic rejection
    ```
 This scheduled task is run by default every 30 minutes from 8 a.m. to 6 p.m.
-Schedule can be modified with `automaticRejection.period` attribute. Note that this is Spring cron schedule format, which unlike Unix cron schedule has a seconds definition (first parameter). Other than that, schedule can be customized as any other standard cron job.
-
+Schedule can be modified with `automaticRejection.scheduled` attribute. Note that this is Spring cron schedule format, which unlike Unix cron schedule has a seconds definition (first parameter). Other than that, schedule can be customized as any other standard cron job.
+To enable this scheduled task you must change `automaticRejection.enabled` attribute to true.
 
 ### Datasource connection setup
 
