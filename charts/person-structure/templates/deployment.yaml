@@ -157,7 +157,7 @@ spec:
             - name: TOPIC_BUSINESS_REAL_NAMES_MAP_PAYMENTCHECKSRESULT
               value: {{ required "Please specify Kafka topic name for person structure checks results functionality in kafka.topics.personstructurechecksresult.name" .Values.kafka.topics.personstructurechecksresult.name | quote }}
             - name: PERSON_STRUCTURE_CHECKS_CACHE_EXPIREAFTERACCESS
-              value: {{ .Values.personStructureChecks.cache.refresh.rate }}
+              value: {{ .Values.personStructureChecks.cache.refresh.rate | quote }}
             {{- end }}
             - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
               value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}
