@@ -113,6 +113,20 @@ Enables/disables person structure checks functionalities.
 Additionally, topic name and consumer group for personstructurechecks topic and topic name for personstructurechecksresult 
 topic should be specified.
 
+#### Caching custom configuration for person structure checks functionality
+
+When using Person structure checks functionalities, parametrization that is often used is cached or temporarily stored 
+in the memory for the performance purposes. By default, application refreshes all cached data after a period of one day.
+That behaviour is modifiable by this attribute in seconds:
+
+```yaml
+personStructureChecks:
+  cache:
+    refresh:
+      rate: 86400 #default value, refreshes cache after 24 hours
+```
+Person structure checks functionalities must be enabled for this configuration to work.
+
 ###Enabling warm up for parametrization caching
 ```yaml
 paramWarmup:

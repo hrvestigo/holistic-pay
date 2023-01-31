@@ -87,6 +87,9 @@ statusManagement:
   enabled: false
 personStructureChecks:
   enabled: false
+  cache:
+    refresh:
+      rate: 86400
 paramWarmup:
   enabled: false
 oauth2:
