@@ -76,6 +76,8 @@ spec:
             - name: REACT_OAUTH_CLIENT_ID
               value: N/A
             {{- end }}
+            - name: REACT_MULTIMEMBER_ENABLED
+              value: {{ .Values.multimemberEnabled | quote }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

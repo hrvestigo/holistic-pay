@@ -26,6 +26,8 @@ oauth2:
   serverUrl: ""
   resource: aux
 
+multimemberEnabled: false
+
 timezone: ""
 
 podAnnotations: {}
