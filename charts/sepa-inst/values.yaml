@@ -4,11 +4,13 @@ image:
   pullPolicy: IfNotPresent
   app:
     registry: null
+    imageLocation: null
     tag: ''
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 0.54.0
+    imageLocation: null
+    tag: 0.55.0
     pullPolicy: null
 imagePullSecrets: []
 env:

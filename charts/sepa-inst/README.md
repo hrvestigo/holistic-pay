@@ -207,11 +207,13 @@ If mirror registry is used for example, image source can be modified using follo
 
 ```yaml
 image:
-  registry: custom.image.registry # will be used as default for both images, docker.io is default
+  registry: custom.image.registry # will be used as default for both images, docker.io is default (image repository and image name will be automatically appended)
   app:
-    registry: custom.app.image.registry # will override image.registry for sepa-inst app
+    registry: custom.app.image.registry # will override image.registry for sepa-inst app (image repository and image name will be automatically appended)
+    imageLocation: custom.app.image.registry/custom-location/custom-name # will override image registry, repository and name (only image tag will be automatically appended)
   liquibase:
-    registry: custom.liquibase.image.registry # will override image.registry for Liquibase
+    registry: custom.liquibase.image.registry # will override image.registry for Liquibase (image repository and image name will be automatically appended)
+    imageLocation: custom.liquibase.image.registry/custom-location/custom-name # will override both image registry and repository (only image tag will be automatically appended)
 ```
 
 Default pull policy is set to `IfNotPresent` but can also be modified for one or both images, for example:
