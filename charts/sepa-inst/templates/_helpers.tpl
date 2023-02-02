@@ -181,9 +181,6 @@ Volumes
 - name: {{ include "sepa-inst.name" . }}-configmap
   configMap:
     name: {{ include "sepa-inst.name" . }}-configmap
-- name: liquibase-config
-  configMap:
-    name: {{ include "sepa-inst.name" . }}-liquibase-configmap
 - name: server-cert
 {{- if .Values.mountServerCertFromSecret.enabled }}
   secret:
