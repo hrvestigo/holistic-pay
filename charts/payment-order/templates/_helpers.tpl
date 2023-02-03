@@ -34,6 +34,7 @@ payment-order image repository
 {{- $psRepo }}
 {{- end }}
 {{- end }}
+{{- end }}
 
 {{/*
 payment-order image pull policy
@@ -56,6 +57,7 @@ Liquibase image
 {{- printf "%s/%s" $reg $liquiRepo }}
 {{- else }}
 {{- $liquiRepo }}
+{{- end }}
 {{- end }}
 {{- end }}
 
