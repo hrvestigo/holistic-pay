@@ -23,12 +23,16 @@ Defies fixed part of sirius-specific datasource schema name
 sirius-specific image repository
 */}}
 {{- define "sirius-specific.app.repository" -}}
+{{- if .Values.image.app.imageLocation }}
+{{- .Values.image.app.imageLocation }}
+{{- else }}
 {{- $psRepo := "hrvestigo/sirius-specific-ms" }}
 {{- $reg := default .Values.image.registry .Values.image.app.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $psRepo }}
 {{- else }}
 {{- $psRepo }}
+{{- end }}
 {{- end }}
 {{- end }}
 
@@ -44,12 +48,16 @@ sirius-specific image pull policy
 Liquibase image
 */}}
 {{- define "sirius-specific.liquibase.image" }}
+{{- if .Values.image.liquibase.imageLocation }}
+{{- printf "%s:%s" .Values.image.liquibase.imageLocation .Values.image.liquibase.tag }}
+{{- else }}
 {{- $liquiRepo := printf "%s%s" "hrvestigo/sirius-specific-lb:" $.Values.image.liquibase.tag }}
 {{- $reg := default $.Values.image.registry $.Values.image.liquibase.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $liquiRepo }}
 {{- else }}
 {{- $liquiRepo }}
+{{- end }}
 {{- end }}
 {{- end }}
 
@@ -193,9 +201,6 @@ Volumes
 - name: {{ include "sirius-specific.name" . }}-configmap
   configMap:
     name: {{ include "sirius-specific.name" . }}-configmap
-- name: liquibase-config
-  configMap:
-    name: {{ include "sirius-specific.name" . }}-liquibase-configmap
 - name: server-cert
 {{- if .Values.mountServerCertFromSecret.enabled }}
   secret:
