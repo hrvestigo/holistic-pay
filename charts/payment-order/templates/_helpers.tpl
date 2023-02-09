@@ -200,9 +200,6 @@ Volumes
 - name: {{ include "payment-order.name" . }}-configmap
   configMap:
     name: {{ include "payment-order.name" . }}-configmap
-- name: liquibase-config
-  configMap:
-    name: {{ include "payment-order.name" . }}-liquibase-configmap
 - name: server-cert
 {{- if .Values.mountServerCertFromSecret.enabled }}
   secret:
