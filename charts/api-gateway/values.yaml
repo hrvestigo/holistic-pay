@@ -9,6 +9,7 @@ image:
   pullPolicy: IfNotPresent
   app:
     registry: # defaults to image.registry
+    imageLocation: # overrides registry and image name
     tag: "" # overrides the image tag whose default is the chart appVersion.
     pullPolicy: # defaults to image.pullPolicy
 

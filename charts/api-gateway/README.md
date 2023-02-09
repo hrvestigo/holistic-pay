@@ -54,9 +54,10 @@ If mirror registry is used for example, image source can be modified for one or 
 
 ```yaml
 image:
-  registry: custom.image.registry # will be used as default for both images, docker.io is default
+  registry: custom.image.registry # will be used as default for all used images, docker.io is default
   app:
     registry: custom.app.image.registry # will override image.registry for API Gateway app
+    imageLocation: custom.app.image.registry/repository/image # will override registry, repository and image name
 ```
 
 Default pull policy is set to `IfNotPresent` but can also be modified for one or both images, for example:
