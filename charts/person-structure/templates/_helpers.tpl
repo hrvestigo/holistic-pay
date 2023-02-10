@@ -24,12 +24,16 @@ Defies fixed part of person-structure datasource schema name
 person-structure image repository
 */}}
 {{- define "person-structure.app.repository" -}}
+{{- if .Values.image.app.imageLocation }}
+{{- .Values.image.app.imageLocation }}
+{{- else }}
 {{- $psRepo := "hrvestigo/person-structure-ms" }}
 {{- $reg := default .Values.image.registry .Values.image.app.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $psRepo }}
 {{- else }}
 {{- $psRepo }}
+{{- end }}
 {{- end }}
 {{- end }}
 
@@ -45,6 +49,9 @@ person-structure image pull policy
 Liquibase image
 */}}
 {{- define "person-structure.liquibase.image" }}
+{{- if .Values.image.liquibase.imageLocation }}
+{{- printf "%s:%s" .Values.image.liquibase.imageLocation .Values.image.liquibase.tag }}
+{{- else }}
 {{- $liquiRepo := "hrvestigo/person-structure-lb" }}
 {{- $reg := default $.Values.image.registry $.Values.image.liquibase.registry }}
 {{- if $reg }}
@@ -53,7 +60,7 @@ Liquibase image
 {{- $liquiRepo }}
 {{- end }}
 {{- end }}
-
+{{- end }}
 {{/*
 Liquibase init container definition
 */}}
@@ -182,9 +189,6 @@ Volumes
 - name: {{ include "person-structure.name" . }}-configmap
   configMap:
     name: {{ include "person-structure.name" . }}-configmap
-- name: liquibase-config
-  configMap:
-    name: {{ include "person-structure.name" . }}-liquibase-configmap
 - name: server-cert
 {{- if .Values.mountServerCertFromSecret.enabled }}
   secret:
