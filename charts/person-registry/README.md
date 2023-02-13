@@ -819,6 +819,7 @@ Logging levels are used to categorize the entries in the log file, possible leve
 `TRACE`, `DEBUG`, `INFO`, `WARN` and `ERROR`. 
 It is possible to control which logging level will be visible in the log file for a specific category, these categories are:
 
+- `health` - health check logs
 - `kafka` - kafka-related logs
 - `rest` - rest-related logs
 - `database` - database access logs
@@ -828,6 +829,7 @@ It is possible to control which logging level will be visible in the log file fo
 ```yaml
 logger:
   level:
+    health: DEBUG # logs for DEBUG level and higher (DEBUG, INFO, WARN and ERROR) will be shown, default level is DEBUG
     kafka: TRACE # logs for TRACE level and higher (TRACE, DEBUG, INFO, WARN and ERROR) will be shown, default level is DEBUG
     rest:  DEBUG # logs for DEBUG level and higher (DEBUG, INFO, WARN and ERROR) will be shown, default level is DEBUG
     database: INFO # logs for INFO level and higher (INFO, WARN and ERROR) will be shown, default level is DEBUG
