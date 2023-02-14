@@ -220,6 +220,11 @@ kafka:
       consumerGroup: hr.vestigo.hp.paymentorderupdate # default value, set custom name if required
     paymentOrderEventFlow:
       name: hr.vestigo.hp.paymentordereventflow # default value, set custom name if required
+    # Parameterization synchronization functionality.
+    # Used to always keep the microservice up to date with all necessary parameterization.
+    parameterization:
+      name: hr.vestigo.hp.parameterization # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.parameterization # default value, set custom name if required
 ```
 
 

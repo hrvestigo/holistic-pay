@@ -159,6 +159,10 @@ spec:
               value: {{ .Values.paymentExternalChecks.topicRealNames.ecsSpecificChecks | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDEREVENTFLOW_NAME
               value: {{ .Values.kafka.topics.paymentOrderEventFlow.name | quote }}
+            - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}
             - name: AUTOMATIC_REJECTION_SCHEDULED
               value: {{ .Values.automaticRejection.scheduled | quote }}
             - name: AUTOMATIC_REJECTION_ENABLED
