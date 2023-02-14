@@ -107,6 +107,7 @@ secret:
   keyStorePassword: ''
 logger:
   level:
+    health: DEBUG
     kafka: DEBUG
     rest: DEBUG
     database: DEBUG

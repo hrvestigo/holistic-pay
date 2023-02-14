@@ -204,7 +204,7 @@ Kafka topics and consumer group names used by Payment order have default names d
 ```yaml
 kafka:
   topics:
-    paymentOrderFlow
+    paymentOrderFlow:
       name: hr.vestigo.hp.paymentorderflow # default value, set custom name if required
     paymentOrderEventIn:
       name: hr.vestigo.hp.paymentordereventin # default value, set custom name if required
@@ -771,6 +771,32 @@ logger:
 ```
 
 Note that any type of mount specification can be used by following standard Kubernetes mount specification, the only requirement is that it has to be defined under `logger.logDirMount.spec` attribute in values file.
+
+Logging levels are used to categorize the entries in the log file, possible levels include
+TRACE, DEBUG, INFO, WARN and ERROR.
+
+It is possible to control which logging level will be visible in the log file for a specific category, these categories are:
+
+
+* health - health check logs
+* kafka - kafka-related logs
+* rest - rest-related logs
+* database - database access logs
+* businessLogic - logs related to business logic
+* general - all other logs not included in the above categories
+
+```yaml
+logger:
+  level:
+    health: DEBUG # logs for DEBUG level and higher (DEBUG, INFO, WARN and ERROR) will be shown, default level is DEBUG
+    kafka: TRACE # logs for TRACE level and higher (TRACE, DEBUG, INFO, WARN and ERROR) will be shown, default level is DEBUG
+    rest:  DEBUG # logs for DEBUG level and higher (DEBUG, INFO, WARN and ERROR) will be shown, default level is DEBUG
+    database: INFO # logs for INFO level and higher (INFO, WARN and ERROR) will be shown, default level is DEBUG
+    businessLogic: WARN # logs for WARN level and higher (WARN and ERROR) will be shown, default level is DEBUG
+    general: ERROR # only ERROR level logs will be shown, default level is DEBUG
+```
+
+
 
 ### Modifying deployment strategy
 
