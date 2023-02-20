@@ -179,7 +179,8 @@ kafka:
     example:
       name: hr.vestigo.hp.example # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.example # default value, set custom name if required
-
+    personStructureInitial:
+      name: hr.vestigo.hp.perstrucinitial # default value, set custom name if required
 ```
 
 
