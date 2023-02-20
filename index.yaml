@@ -3608,6 +3608,16 @@ entries:
     version: 1.0.0
   person-registry:
   - apiVersion: v2
+    appVersion: 2.50.0
+    created: "2023-02-20T08:20:32.091324112Z"
+    description: Helm chart for person registry application
+    digest: 7bf0e148e4ea8a162e01a745aec4ba99df25cd9b8ebbcd44a36598489d458600
+    name: person-registry
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/person-registry-2.50.0/person-registry-2.50.0.tgz
+    version: 2.50.0
+  - apiVersion: v2
     appVersion: 2.49.0
     created: "2023-02-13T09:06:49.132898136Z"
     description: Helm chart for person registry application
@@ -7842,4 +7852,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-specific-1.0.1/sirius-specific-1.0.1.tgz
     version: 1.0.1
-generated: "2023-02-20T07:56:22.639040944Z"
+generated: "2023-02-20T08:20:32.096580171Z"
