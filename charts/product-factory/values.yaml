@@ -83,22 +83,23 @@ kafka:
     financiallimittype:
       name: hr.vestigo.hp.financiallimittype
       consumerGroup: hr.vestigo.hp.financiallimittype.profac
-    sidev:
+    sirspec:
       bankproducttype:
-        name: hr.vestigo.hp.bankproducttype.sidev
-        consumerGroup: hr.vestigo.hp.bankproducttype.sidev
+        name: hr.vestigo.hp.bankproducttype.sirspec
+        consumerGroup: hr.vestigo.hp.bankproducttype.sirspec
       purposesubtype:
-        name: hr.vestigo.hp.purposesubtype.sidev
-        consumerGroup: hr.vestigo.hp.purposesubtype.sidev
+        name: hr.vestigo.hp.purposesubtype.sirspec
+        consumerGroup: hr.vestigo.hp.purposesubtype.sirspec
       country:
-        name: hr.vestigo.hp.country.sidev
-        consumerGroup: hr.vestigo.hp.country.sidev
+        name: hr.vestigo.hp.country.sirspec
+        consumerGroup: hr.vestigo.hp.country.sirspec
       currency:
-        name: hr.vestigo.hp.currency.sidev
-        consumerGroup: hr.vestigo.hp.currency.sidev
+        name: hr.vestigo.hp.currency.sirspec
+        consumerGroup: hr.vestigo.hp.currency.sirspec
       bptstatussch:
-        name: hr.vestigo.hp.bptstatussch.sidev
-        consumerGroup: hr.vestigo.hp.bptstatussch.sidev
+        name: hr.vestigo.hp.bptstatussch.sirspec
+        consumerGroup: hr.vestigo.hp.bptstatussch.sirspec
+
 productFactory:
   cobaffschema:
     enabled: true
