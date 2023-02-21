@@ -198,6 +198,9 @@ kafka:
     paymentordereventflow:
       name: hr.vestigo.hp.paymentordereventflow  # default, set custom name if required
       consumerGroup: hr.vestigo.hp.sepins.paymentordereventflow  # default, set custom if required
+    sepainstmsgcheck:
+      name: hr.vestigo.hp.sepainstmsgcheck # default, set custom name if required
+      consumerGroup: hr.vestigo.hp.sepainstmsgcheck # default, set custom if required
 ```
 
 ### Configuring image source and pull secrets

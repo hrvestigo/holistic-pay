@@ -72,6 +72,9 @@ kafka:
     paymentordereventflow:
       name: hr.vestigo.hp.paymentordereventflow
       consumerGroup: hr.vestigo.hp.paymentordereventflow
+    sepainstmsgcheck:
+      name: hr.vestigo.hp.sepainstmsgcheck
+      consumerGroup: hr.vestigo.hp.sepainstmsgcheck
 csm:
   csmid: NKS9999998
   url: ''
