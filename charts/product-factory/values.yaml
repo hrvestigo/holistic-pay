@@ -4,11 +4,13 @@ image:
   pullPolicy: IfNotPresent
   app:
     registry: null
+    imageLocation: null
     tag: ''
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 3.9.0
+    imageLocation: null
+    tag: 3.14.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -81,6 +83,22 @@ kafka:
     financiallimittype:
       name: hr.vestigo.hp.financiallimittype
       consumerGroup: hr.vestigo.hp.financiallimittype.profac
+    sidev:
+      bankproducttype:
+        name: hr.vestigo.hp.bankproducttype.sidev
+        consumerGroup: hr.vestigo.hp.bankproducttype.sidev
+      purposesubtype:
+        name: hr.vestigo.hp.purposesubtype.sidev
+        consumerGroup: hr.vestigo.hp.purposesubtype.sidev
+      country:
+        name: hr.vestigo.hp.country.sidev
+        consumerGroup: hr.vestigo.hp.country.sidev
+      currency:
+        name: hr.vestigo.hp.currency.sidev
+        consumerGroup: hr.vestigo.hp.currency.sidev
+      bptstatussch:
+        name: hr.vestigo.hp.bptstatussch.sidev
+        consumerGroup: hr.vestigo.hp.bptstatussch.sidev
 productFactory:
   cobaffschema:
     enabled: true

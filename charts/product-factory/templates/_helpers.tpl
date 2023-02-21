@@ -23,12 +23,16 @@ Defies fixed part of product-factory datasource schema name
 product-factory image repository
 */}}
 {{- define "product-factory.app.repository" -}}
+{{- if .Values.image.app.imageLocation }}
+{{- .Values.image.app.imageLocation }}
+{{- else }}
 {{- $psRepo := "hrvestigo/product-factory-ms" }}
 {{- $reg := default .Values.image.registry .Values.image.app.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $psRepo }}
 {{- else }}
 {{- $psRepo }}
+{{- end }}
 {{- end }}
 {{- end }}
 
@@ -44,12 +48,16 @@ product-factory image pull policy
 Liquibase image
 */}}
 {{- define "product-factory.liquibase.image" }}
+{{- if .Values.image.liquibase.imageLocation }}
+{{- printf "%s:%s" .Values.image.liquibase.imageLocation .Values.image.liquibase.tag }}
+{{- else }}
 {{- $liquiRepo := printf "%s%s" "hrvestigo/product-factory-lb:" $.Values.image.liquibase.tag }}
 {{- $reg := default $.Values.image.registry $.Values.image.liquibase.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $liquiRepo }}
 {{- else }}
 {{- $liquiRepo }}
+{{- end }}
 {{- end }}
 {{- end }}
 
@@ -181,9 +189,6 @@ Volumes
 - name: {{ include "product-factory.name" . }}-configmap
   configMap:
     name: {{ include "product-factory.name" . }}-configmap
-- name: liquibase-config
-  configMap:
-    name: {{ include "product-factory.name" . }}-liquibase-configmap
 - name: server-cert
 {{- if .Values.mountServerCertFromSecret.enabled }}
   secret:
