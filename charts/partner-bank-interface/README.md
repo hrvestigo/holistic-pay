@@ -175,6 +175,13 @@ kafka:
   securityProtocol: SASL_SSL # default value, set custom protocol if required
 ```
 
+The auto offset reset consumer configuration defines how a consumer should behave when consuming from a topic partition when there is no initial offset:
+
+```yaml
+kafka:
+  autoOffsetReset: earliest # default value, can be changes to latest or none
+```
+
 Partner bank interface uses Kafka endpoint as a part of a readiness probe check.
 
 However, Kafka endpoint can be excluded from readiness probe by changing `kafka.readinessProbeEnabled` attribute value to `false`:
@@ -218,11 +225,13 @@ If mirror registry is used for example, image source can be modified for one or 
 
 ```yaml
 image:
-  registry: custom.image.registry # will be used as default for both images, docker.io is default
+  registry: custom.image.registry # will be used as default for both images, docker.io is default (image repository and image name will be automatically appended)
   app:
-    registry: custom.app.image.registry # will override image.registry for Partner bank interface app
+    registry: custom.app.image.registry # will override image.registry for sepa-inst app (image repository and image name will be automatically appended)
+    imageLocation: custom.app.image.registry/custom-location/custom-name # will override image registry, repository and name (only image tag will be automatically appended)
   liquibase:
-    registry: custom.liquibase.image.registry # will override image.registry for Liquibase
+    registry: custom.liquibase.image.registry # will override image.registry for Liquibase (image repository and image name will be automatically appended)
+    imageLocation: custom.liquibase.image.registry/custom-location/custom-name # will override both image registry and repository (only image tag will be automatically appended)
 ```
 
 Default pull policy is set to `IfNotPresent` but can also be modified for one or both images, for example:
@@ -720,6 +729,18 @@ When enabling logging to file, container will divide logs into four different fi
 - `health.log` - contains all incoming requests to health check endpoint (filtered out from `access.log`)
 
 - `access.log` - contains typical Web Server logs, except for health check endpoint
+
+To change logging level for different components, following attribute should be set in values file:
+
+```yaml
+  level:
+    kafka: DEBUG # default value
+    rest: DEBUG # default value
+    database: DEBUG # default value
+    businessLogic: DEBUG # default value
+    general: DEBUG # default value
+    health: DEBUG # default value
+```
 
 To enable logging to file, following attribute should be set in values file:
 
