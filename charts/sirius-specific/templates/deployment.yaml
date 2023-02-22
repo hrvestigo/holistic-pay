@@ -162,6 +162,30 @@ spec:
               value: {{ .Values.kafka.topics.paymentOrderEventFlow.name | quote }}
             - name: KAFKA_TOPIC_PERSONSTRUCTUREINITIAL_NAME
               value: {{ .Values.kafka.topics.personStructureInitial.name | quote }}
+            - name: KAFKA_TOPIC_CUSTOMERACCOUNT_NAME
+              value: {{ .Values.kafka.topics.customerAccount.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSTOMERACCOUNT_NAME
+              value: {{ .Values.kafka.topics.customerAccount.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CUSACCJRR_NAME
+              value: {{ .Values.kafka.topics.cusaccJrr.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSACCJRR_NAME
+              value: {{ .Values.kafka.topics.cusaccJrr.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CUSACCPAYOR_NAME
+              value: {{ .Values.kafka.topics.cusaccPayor.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSACCPAYOR_NAME
+              value: {{ .Values.kafka.topics.cusaccPayor.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_USERCODEVALUE_NAME
+              value: {{ .Values.kafka.topics.userCodeValue.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_USERCODEVALUE_NAME
+              value: {{ .Values.kafka.topics.userCodeValue.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CUSACCCURRENCY_NAME
+              value: {{ .Values.kafka.topics.cusaccCurrency.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSACCCURRENCY_NAME
+              value: {{ .Values.kafka.topics.cusaccCurrency.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CUSTOMER_NAME
+              value: {{ .Values.kafka.topics.customer.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSTOMER_NAME
+              value: {{ .Values.kafka.topics.customer.consumerGroup | quote }}
             - name: SIRIUS_SERVICE_URL
               value: {{ .Values.sirius.service.url | quote }}
             - name: SERVER_SSL_KEYSTORE
