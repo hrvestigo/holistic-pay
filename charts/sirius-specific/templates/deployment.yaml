@@ -186,6 +186,10 @@ spec:
               value: {{ .Values.kafka.topics.customer.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CUSTOMER_NAME
               value: {{ .Values.kafka.topics.customer.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}
             - name: SIRIUS_SERVICE_URL
               value: {{ .Values.sirius.service.url | quote }}
             - name: SERVER_SSL_KEYSTORE
