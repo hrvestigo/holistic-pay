@@ -5951,6 +5951,16 @@ entries:
     version: 0.1.0
   product-factory:
   - apiVersion: v2
+    appVersion: 3.16.0
+    created: "2023-02-22T10:14:24.640546987Z"
+    description: Helm chart for product factory application
+    digest: 4c2ddacfa6041dca2d8955428a30aed00880887fc0300a0cab5a7a473433f4cd
+    name: product-factory
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/product-factory-3.16.0/product-factory-3.16.0.tgz
+    version: 3.16.0
+  - apiVersion: v2
     appVersion: 3.15.0
     created: "2023-02-21T12:54:47.411073883Z"
     description: Helm chart for product factory application
@@ -7962,4 +7972,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-specific-1.0.1/sirius-specific-1.0.1.tgz
     version: 1.0.1
-generated: "2023-02-22T09:53:52.979587023Z"
+generated: "2023-02-22T10:14:24.646095402Z"
