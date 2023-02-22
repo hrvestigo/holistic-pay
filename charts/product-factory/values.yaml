@@ -137,6 +137,7 @@ logger:
     database: DEBUG
     businessLogic: DEBUG
     general: DEBUG
+    health: DEBUG
   logToFile: false
   rollingFileAppender: false
   logDir: /var/log/app

@@ -710,6 +710,18 @@ When enabling logging to file, container will divide logs into four different fi
 
 - `access.log` - contains typical Web Server logs, except for health check endpoint
 
+To change logging level for different components, following attribute should be set in values file:
+
+```yaml
+  level:
+    kafka: DEBUG # default value
+    rest: DEBUG # default value
+    database: DEBUG # default value
+    businessLogic: DEBUG # default value
+    general: DEBUG # default value
+    health: DEBUG # default value
+```
+
 To enable logging to file, following attribute should be set in values file:
 
 ```yaml
