@@ -55,6 +55,7 @@ kafka:
   servers: ''
   saslMechanism: PLAIN
   securityProtocol: SASL_SSL
+  autoOffsetReset: earliest
   schemaRegistry:
     credSource: USER_INFO
     user: ''

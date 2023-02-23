@@ -128,6 +128,8 @@ spec:
               value: {{ required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL
               value: {{ .Values.kafka.securityProtocol | quote }}
+            - name: SPRING_KAFKA_PROPERTIES_AUTO_OFFSET_RESET
+              value: {{ required "Please specify Kafka auto offset reset in kafka.autoOffsetReset" .Values.kafka.autoOffsetReset | quote }}
             - name: SPRING_KAFKA_PROPERTIES_BASIC_AUTH_CREDENTIALS_SOURCE
               value: {{ .Values.kafka.schemaRegistry.credSource | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_BASIC_AUTH_USER_INFO
@@ -165,6 +167,26 @@ spec:
               value: {{ .Values.kafka.topics.currency.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDINTACCTYPE_NAME
               value: {{ .Values.kafka.topics.crdintacctype.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_SIRIUS_BANKPRODUCTTYPE_NAME
+              value: {{ .Values.kafka.topics.sirspec.bankproducttype.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SIRIUS_BANKPRODUCTTYPE_NAME
+              value: {{ .Values.kafka.topics.sirspec.bankproducttype.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_SIRIUS_PURPOSESUBTYPE_NAME
+              value: {{ .Values.kafka.topics.sirspec.purposesubtype.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SIRIUS_PURPOSESUBTYPE_NAME
+              value: {{ .Values.kafka.topics.sirspec.purposesubtype.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_SIRIUS_CURRENCY_NAME
+              value: {{ .Values.kafka.topics.sirspec.currency.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SIRIUS_CURRENCY_NAME
+              value: {{ .Values.kafka.topics.sirspec.currency.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_SIRIUS_COUNTRY_NAME
+              value: {{ .Values.kafka.topics.sirspec.country.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SIRIUS_COUNTRY_NAME
+              value: {{ .Values.kafka.topics.sirspec.country.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_SIRIUS_BPTSTATUSSCH_NAME
+              value: {{ .Values.kafka.topics.sirspec.bptstatussch.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SIRIUS_BPTSTATUSSCH_NAME
+              value: {{ .Values.kafka.topics.sirspec.bptstatussch.consumerGroup | quote }}
             - name: PRODUCT_FACTORY_COBAFF_SCHEMA_ENABLED
               value: {{ .Values.productFactory.cobaffschema.enabled | quote }}
             - name: PRODUCT_FACTORY_COBAFF_SCHEMA_GATEWAY_PARAMS_ENABLED
