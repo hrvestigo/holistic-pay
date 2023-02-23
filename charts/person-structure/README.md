@@ -135,6 +135,27 @@ paramWarmup:
 If this value is set to true then warm up service will be triggered when starting application.
 This service is used for fetching and caching all data from parametrization tables.
 
+###Enable/Disable producing/publishing to personstructure topic
+```yaml
+personStructure:
+  produce: true  #default value, produces data on personstructure topic
+```
+If this value is set to true then every complete person structure is produced/published to personstructure topic.
+In case you want to stop publishing on personstructure topic then you need change the default value and set it to false.
+
+###Define search algorithm for account related data in person service
+```yaml
+personStructureInitial:
+  searchAlgorithm: account  #default value, searches person_structure only by acc_id 
+```
+This value is used in the logic of person structure service when inserting/updating new account related data into person_structure table.
+Default value `account` means that person_structure will only be searched for account id and member sign
+to see if data related to given account already exists in the table.
+With this default value, in case service doesn't find any data for given account id, it will insert a new record in the table.
+
+If you want to service to also check if there is data for given customer id after it doesn't find anything for account id in the table, then you have to
+change the `searchAlgorithm` to `customeraccount` value.
+
 ### Datasource connection setup
 
 All values required for PostgreSQL database connection are defined within `datasource` parent attribute.
@@ -231,6 +252,13 @@ If different connection type should be used, it's possible to override default s
 kafka:
   saslMechanism: PLAIN # default value, set custom mechanism if required
   securityProtocol: SASL_SSL # default value, set custom protocol if required
+```
+
+The auto offset reset consumer configuration defines how a consumer should behave when consuming from a topic partition when there is no initial offset:
+
+```yaml
+kafka:
+  autoOffsetReset: earliest # default value, can be changes to latest or none
 ```
 
 #### Topics and consumer groups setup
@@ -763,6 +791,18 @@ When enabling logging to file, container will divide logs into four different fi
 - `health.log` - contains all incoming requests to health check endpoint (filtered out from `access.log`)
 
 - `access.log` - contains typical Web Server logs, except for health check endpoint
+
+To change logging level for different components, following attribute should be set in values file:
+
+```yaml
+  level:
+    kafka: DEBUG # default value
+    rest: DEBUG # default value
+    database: DEBUG # default value
+    businessLogic: DEBUG # default value
+    general: DEBUG # default value
+    health: DEBUG # default value
+```
 
 To enable logging to file, following attribute should be set in values file:
 

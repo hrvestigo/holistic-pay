@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 3.42.0
+    tag: 3.43.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -55,6 +55,7 @@ kafka:
   servers: ''
   saslMechanism: PLAIN
   securityProtocol: SASL_SSL
+  autoOffsetReset: earliest
   schemaRegistry:
     credSource: USER_INFO
     user: ''
@@ -94,6 +95,10 @@ personStructureChecks:
       rate: 86400
 paramWarmup:
   enabled: false
+personStructure:
+  produce: true
+personStructureInitial:
+  searchAlgorithm: account
 oauth2:
   enabled: false
   resourceUri: ''
@@ -120,6 +125,7 @@ logger:
     database: DEBUG
     businessLogic: DEBUG
     general: DEBUG
+    health: DEBUG
   logToFile: false
   rollingFileAppender: false
   logDir: /var/log/app
