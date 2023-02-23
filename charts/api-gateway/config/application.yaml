@@ -71,7 +71,7 @@ spring:
             - SaveSession
         - id: payment-order-ms_route
           predicates:
-            - Path=/api/*/paymentOrder/**
+            - Path=/api/*/paymentOrder/**, /api/job/start/**
           uri: https://{{ required "Payment order application service name has to be defined in routes.paymentOrder.serviceName" .Values.routes.paymentOrder.serviceName }}:{{ required "Payment order application port number has to be defined in routes.paymentOrder.servicePortNumber" .Values.routes.paymentOrder.servicePortNumber }}
           filters:
             - TokenRelay
