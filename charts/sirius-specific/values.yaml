@@ -102,6 +102,12 @@ kafka:
     customer:
       name: gcp.ipt1.hp.evt.sirspec.customer
       consumerGroup: gcp.ipt1.hp.evt.sirspec.customer
+external:
+  core:
+    system:
+      member:
+        sign:
+          default: RB
 sirius:
   service:
     url: ''

@@ -190,6 +190,8 @@ spec:
               value: {{ .Values.kafka.topics.parameterization.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
               value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}
+            - name: EXTERNAL_CORE_SYSTEM_MEMBER_SIGN_DEFAULT
+              value: {{ .Values.external.core.system.member.sign.default | quote }}
             - name: SIRIUS_SERVICE_URL
               value: {{ .Values.sirius.service.url | quote }}
             - name: SERVER_SSL_KEYSTORE

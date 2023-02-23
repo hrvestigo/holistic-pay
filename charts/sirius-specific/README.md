@@ -608,6 +608,20 @@ members:
       dbName: "db3"
 ```
 
+### External core system default values
+
+Sirius specific application allows parameterized setup of the following default values to be used in cases external core
+system doesn't provide values for these properties.
+
+```yaml
+external:
+  core:
+    system:
+      member:
+        sign:
+          default: "RB" # Default member sign to be used for tables which have no member sign in the external core system
+```
+
 ### oAuth2
 
 Sirius specific application can use Keycloak implementation for oAuth2 authentication and
