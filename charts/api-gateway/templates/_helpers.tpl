@@ -46,7 +46,7 @@ api-gateway image repository
 {{- if .Values.image.app.imageLocation }}
 {{- .Values.image.app.imageLocation }}
 {{- else }}
-{{- $psRepo := "hrvestigo/api-gateway" }}
+{{- $psRepo := "hrvestigo/api-gateway-ms" }}
 {{- $reg := default .Values.image.registry .Values.image.app.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $psRepo }}
