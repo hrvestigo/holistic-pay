@@ -16,7 +16,7 @@ Create chart name and version as used by the chart label.
 person-registry-web image repository
 */}}
 {{- define "person-registry-web.app.repository" -}}
-{{- $psRepo := "hrvestigo/person-registry-web" }}
+{{- $psRepo := "hrvestigo/person-registry-web-ms" }}
 {{- $reg := default .Values.image.registry .Values.image.app.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $psRepo }}
