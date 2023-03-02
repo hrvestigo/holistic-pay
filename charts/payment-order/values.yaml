@@ -112,6 +112,7 @@ logger:
   level:
     health: DEBUG
     kafka: DEBUG
+    kafkaCore: INFO
     rest: DEBUG
     database: DEBUG
     businessLogic: DEBUG
