@@ -622,6 +622,20 @@ external:
           default: "RB" # Default member sign to be used for tables which have no member sign in the external core system
 ```
 
+### Caching custom configuration functionality
+
+Parametrization that is often used in Sirius specific application is cached or temporarily stored in the memory for the
+performance purposes. By default, application refreshes all cached data after a period of one day.
+That behaviour is modifiable by this attribute in seconds:
+
+```yaml
+sirius:
+  specific:
+    cache:
+      refresh:
+        rate: 86400 #default value, refreshes cache after 24 hours
+```
+
 ### oAuth2
 
 Sirius specific application can use Keycloak implementation for oAuth2 authentication and

@@ -115,6 +115,11 @@ sirius:
     response:
       logging:
         all: false
+  specific:
+    cache:
+      refresh:
+        rate: 86400
+
 keycloak:
   enabled: false
   realm: Holistic-Pay

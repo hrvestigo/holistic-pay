@@ -192,6 +192,8 @@ spec:
               value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}
             - name: EXTERNAL_CORE_SYSTEM_MEMBER_SIGN_DEFAULT
               value: {{ .Values.external.core.system.member.sign.default | quote }}
+            - name: SIRIUS_SPECIFIC_CACHE_EXPIREAFTERACCESS
+              value: {{ .Values.sirius.specific.cache.refresh.rate | quote }}
             - name: SIRIUS_SERVICE_URL
               value: {{ .Values.sirius.service.url | quote }}
             - name: SERVER_SSL_KEYSTORE
