@@ -156,6 +156,20 @@ With this default value, in case service doesn't find any data for given account
 If you want to service to also check if there is data for given customer id after it doesn't find anything for account id in the table, then you have to
 change the `searchAlgorithm` to `customeraccount` value.
 
+###Enabling initial account lifecycle status check
+```yaml
+initial:
+  account:
+    lifecycleCheck: false  #default value, disables initial account lifecycle check
+```
+Enables/disables initial account lifecycle status check.
+If the value is set to true, then when replicating account related data to person_structure table, initial value of account
+lifecycle is checked.
+In case the account is not already existing in the table, and it's lifecycle value is `X` then this account will not
+be replicated to person_structure table. Otherwise, if it's value is not `X`, or if account lifecycle is has value `X`
+but account already exists in the table (not initial value of lifecycle), then this account will be replicated.
+Default value is set to false, meaning no lifecycle check is done and if that is needed then you need to set to value to true.
+
 ### Datasource connection setup
 
 All values required for PostgreSQL database connection are defined within `datasource` parent attribute.
@@ -260,7 +274,11 @@ The auto offset reset consumer configuration defines how a consumer should behav
 kafka:
   autoOffsetReset: earliest # default value, can be changes to latest or none
 ```
-
+The ssl endpoint identification is disabled by default ([More info](https://docs.confluent.io/platform/current/kafka/authentication_ssl.html#id1)):
+```yaml
+kafka:
+  sslEndpointIdentAlg: "" # default value is empty string, set other ssl endpoint identification algorithm if required
+```
 #### Topics and consumer groups setup
 
 Kafka topics and consumer group names used by Person structure have default names defined in `values.yaml` file, but can be overridden with following setup:

@@ -130,6 +130,8 @@ spec:
               value: {{ .Values.kafka.securityProtocol | quote }}
             - name: SPRING_KAFKA_PROPERTIES_AUTO_OFFSET_RESET
               value: {{ required "Please specify Kafka auto offset reset in kafka.autoOffsetReset" .Values.kafka.autoOffsetReset | quote }}
+            - name: SPRING_KAFKA_PROPERTIES_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM
+              value: {{ .Values.kafka.sslEndpointIdentAlg | quote }}
             - name: SPRING_KAFKA_PROPERTIES_BASIC_AUTH_CREDENTIALS_SOURCE
               value: {{ .Values.kafka.schemaRegistry.credSource | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_BASIC_AUTH_USER_INFO
@@ -185,6 +187,8 @@ spec:
               value: {{ .Values.personStructure.produce | quote }}
             - name: PERSON_STRUCTURE_INITIAL_SEARCH_ALGORITHM
               value: {{ .Values.personStructureInitial.searchAlgorithm | quote }}
+            - name: INITIAL_ACCOUNT_LIFECYCLE_CHECK
+              value: {{ .Values.initial.account.lifecycleCheck | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
