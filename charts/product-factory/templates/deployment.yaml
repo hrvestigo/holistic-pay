@@ -168,25 +168,25 @@ spec:
             - name: KAFKA_CONSUMER_GROUP_CRDINTACCTYPE_NAME
               value: {{ .Values.kafka.topics.crdintacctype.consumerGroup | quote }}
             - name: KAFKA_TOPIC_SIRIUS_BANKPRODUCTTYPE_NAME
-              value: {{ .Values.kafka.topics.sirspec.bankproducttype.name | quote }}
+              value: {{ .Values.kafka.topics.sirius.bankproducttype.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_SIRIUS_BANKPRODUCTTYPE_NAME
-              value: {{ .Values.kafka.topics.sirspec.bankproducttype.consumerGroup | quote }}
+              value: {{ .Values.kafka.topics.sirius.bankproducttype.consumerGroup | quote }}
             - name: KAFKA_TOPIC_SIRIUS_PURPOSESUBTYPE_NAME
-              value: {{ .Values.kafka.topics.sirspec.purposesubtype.name | quote }}
+              value: {{ .Values.kafka.topics.sirius.purposesubtype.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_SIRIUS_PURPOSESUBTYPE_NAME
-              value: {{ .Values.kafka.topics.sirspec.purposesubtype.consumerGroup | quote }}
+              value: {{ .Values.kafka.topics.sirius.purposesubtype.consumerGroup | quote }}
             - name: KAFKA_TOPIC_SIRIUS_CURRENCY_NAME
-              value: {{ .Values.kafka.topics.sirspec.currency.name | quote }}
+              value: {{ .Values.kafka.topics.sirius.currency.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_SIRIUS_CURRENCY_NAME
-              value: {{ .Values.kafka.topics.sirspec.currency.consumerGroup | quote }}
+              value: {{ .Values.kafka.topics.sirius.currency.consumerGroup | quote }}
             - name: KAFKA_TOPIC_SIRIUS_COUNTRY_NAME
-              value: {{ .Values.kafka.topics.sirspec.country.name | quote }}
+              value: {{ .Values.kafka.topics.sirius.country.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_SIRIUS_COUNTRY_NAME
-              value: {{ .Values.kafka.topics.sirspec.country.consumerGroup | quote }}
+              value: {{ .Values.kafka.topics.sirius.country.consumerGroup | quote }}
             - name: KAFKA_TOPIC_SIRIUS_BPTSTATUSSCH_NAME
-              value: {{ .Values.kafka.topics.sirspec.bptstatussch.name | quote }}
+              value: {{ .Values.kafka.topics.sirius.bptstatussch.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_SIRIUS_BPTSTATUSSCH_NAME
-              value: {{ .Values.kafka.topics.sirspec.bptstatussch.consumerGroup | quote }}
+              value: {{ .Values.kafka.topics.sirius.bptstatussch.consumerGroup | quote }}
             - name: PRODUCT_FACTORY_COBAFF_SCHEMA_ENABLED
               value: {{ .Values.productFactory.cobaffschema.enabled | quote }}
             - name: PRODUCT_FACTORY_COBAFF_SCHEMA_GATEWAY_PARAMS_ENABLED

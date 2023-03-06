@@ -84,7 +84,7 @@ kafka:
     financiallimittype:
       name: hr.vestigo.hp.financiallimittype
       consumerGroup: hr.vestigo.hp.financiallimittype.profac
-    sirspec:
+    sirius:
       bankproducttype:
         name: hr.vestigo.hp.bankproducttype.sirspec
         consumerGroup: hr.vestigo.hp.bankproducttype.sirspec
