@@ -726,14 +726,8 @@ following attributes in values:
 ```yaml
 oauth2:
   enabled: true #default false
-  realm: Holistic-Pay # default value, specify other if required
-  serverUrl: "" # no default value
-  resource: aux # default value, specify other if required
-  cacheEnabled: true # enabled by default
   resourceUri: '' # has to be specified if enabled, no default value
   authorizationPrefix: ''
-secret:
-  keycloakClientToken: "" # no default value
 ```
 To configure oAuth2, it first has to be enabled with `oAuth2.enabled` parameter.
 When enabled, `oAuth2.resourceUri` should also be defined.
@@ -742,26 +736,6 @@ This URI should point to oAuth2 server with defined converter type and name, for
 considered as full role/scope name, this variable prefix should be defined. Every part of this
 variable part should be defined (e.g. if scopes are defined as MY_PREFIX:scope1 MY_PREFIX:scope2
 etc, then variable prefix is 'MY_PREFIX:')
-
-To configure Keycloak, it first has to be enabled with `oauth2.enabled` parameter.
-When enabled, other parameters should be defined.
-
-Realm parameter is realm name which is defined in Keycloak. Default value for this parameter is 
-`Holistic-Pay`, but it can be modified with `oAuth2.realm` attribute.
-
-ServerUrl parameter is Keycloak server URL which has to be defined (has no default value). URL 
-should contain Keycloak server FQDN, followed by `/auth` endpoint, for example: 
-`https://keycloak.custom.domain/auth`.
-
-Resource parameter is used to define Keycloak client ID, which is by default set to `aux`.
-This value can be modified with `oAuth2.resource` attribute.
-
-Cache Enabled parameter is used to define if token will be cached in application. Cache is enabled 
-by default but can be disabled by setting attribute `cacheEnabled` to `false`.
-
-KeycloakClientToken to set is Keycloak client token, which should be set with
-`secret.oauth2ClientToken` attribute. This is an AES encrypted token which is encrypted using
-7the same encryption key as other secrets (`secret.decryptionKey`).
 
 ### Request body sanitization and response body encoding
 

@@ -107,14 +107,8 @@ csm:
       xsdCheck: inherit
 oauth2:
   enabled: false
-  realm: Holistic-Pay
-  serverUrl: ''
-  resource: aux
-  cacheEnabled: true
   resourceUri: ''
   authorizationPrefix: ''
-keycloak:
-  enabled: false
 request:
   sanitization:
     enabled: true
