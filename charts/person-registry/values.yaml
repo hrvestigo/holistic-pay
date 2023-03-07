@@ -109,7 +109,7 @@ secret:
   liquibasePassword: ''
   trustStorePassword: ''
   keyStorePassword: ''
-  elasticsearchPassword: ''
+  searchenginePassword: ''
 logger:
   level:
     health: DEBUG
