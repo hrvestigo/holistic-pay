@@ -61,7 +61,7 @@ imagePullSecrets:
   - name: "image-pull-secret-name" # string value
 
 csm:
-  url: "http://sepa-inst-csm-url:port"
+  url: "https://server:port"
 ```
 
 One set of mandatory attributes is `env` block which describes environment to which application is installed.
@@ -251,21 +251,93 @@ imagePullSecrets:
 
 ### CSM configuration
 
-`SEPA inst` application can configured with `CSM` (Clearing & Settlement Management System) specific configuration:
+`SEPA inst` application can be configured with `CSM` (Clearing & Settlement Management System) parameters (default value are shown when possible):
 
 ```yaml
 csm:
-  csmid: "NKS9999998" # default value
-  url: "http://sepa-inst-csm-url:port" # required, base path to CSM
-  xsdCheckType: "enabled"   # default value, XSD check is performed on all endpoints.
+  id: NKS9999998                  # CSM id
+  url:                            # required, base path to CSM (https://server:port)
+  msgPath: /instant-core/api/msg  # request path on which messages to CSM are send
+  xsdCheck: inout                 # XSD check enabled for messages from and to CSM
 ```
 
-Using `csmid` you can configure the clearing system considered
-while fetching the parameterization.
-With configuration `xsdCheckType` you can configure if XSD check
-is done on all endpoints on which `XML` payload is received.<br>
-Default value is `enabled`. Option `disabled` disables XSD check
-from all endpoints where `XML` payload is received.
+Using `id` parameter we configure CSM id for which CSM specific parameters are
+loaded by the application.
+
+Parameter `url` is required and in should be in format `https://server:port`.
+This is the location where application sends requests to CSM.
+With `msgPath` we configure request path to CSM.
+<br>Application currently supports the following message types, which represents
+resources for `POST` to CSM:
+  - `camt_029`
+  - `camt_056`
+  - `info`
+  - `izvj`
+  - `pacs_002_negative`
+  - `pacs_002_nksinst`
+  - `pacs_002_positive`
+  - `pacs_004`
+  - `pacs_008`
+  - `pacs_028`
+  - `pacs_028_056`
+
+For example, with `url` set to `http://localhost:8080` and using defaults for other
+parameters, application sends `pacs008` message by sending `POST` request to CSM on
+`http://localhost:8080/instant-core/ap/msg/pacs_008`.
+
+Using parameter `xsdCheck` we configure if `XSD` check is needed when receiving or sending
+messages to CSM. This is global setting, meaning it is applied on all messages.
+The following values are applicable:
+ - `inout`  - XSD check is enabled for all messages
+ - `in`     - XSD check is enabled only for messages received from CSM
+ - `out`    - XSD check is enabled only for messages send to CSM
+ - `off`    - XSD check is disabled
+
+#### CSM configuration per message
+
+It is possible to configure certain aspects of CSM on message level.
+<br>The following is default configuration per message level:
+
+```yaml
+csm:
+  config:
+    camt_029:
+      xsdCheck: inherit
+    camt_056:
+      xsdCheck: inherit
+    izvj:
+      xsdCheck: inherit
+    pacs_002_negative:
+      xsdCheck: inherit
+    pacs_002_positive:
+      xsdCheck: inherit
+      responseMsgTimeout: 25s
+      requestMsgRetry: 10;5s
+    pacs_002_nksinst:
+      xsdCheck: inherit
+    pacs_004:
+      xsdCheck: inherit
+    pacs_008:
+      xsdCheck: inherit
+      responseMsgTimeout: 25s
+    pacs_028:
+      xsdCheck: inherit
+      requestMsgRetry: 10;5s
+    pacs_028_056:
+      xsdCheck: inherit
+```
+
+The parameter `xsdCheck` has the same meaning as the global parameter on CSM level,
+but with additional option `inherit`. This is a default option, which means that
+CSM level parameter value is applicable.
+<br>Using CMS level configuration `inout` and message level configuration `off`
+we can disable XSD check for single message only. To enable XSD check for single
+message we can set CSM level configuration to `off` and message level `inout`.
+
+The parameter `responseMsgTimeout` is currently applicable only for two messages (as shown above). If set to > 0 seconds, application performs check if response from CSM is received for message requested to CSM in this time frame. If response message from CSM is not received, application re-sends additional message back to CSM according to the business use case.
+
+The parameter `requestMsgRetry` is also currently applicable only for two messages (as shown above). It is connected to `responseMsgTimeout` parameter, by retrying additional messages back to CSM for fixed number of times in specified delays. If CSM response message
+is received during retry process, retry stops.
 
 ### TLS setup
 
@@ -749,6 +821,18 @@ When enabling logging to file, container will divide logs into four different fi
 
 - `access.log` - contains typical Web Server logs, except for health check endpoint
 
+To change logging level for different components, following attribute should be set in values file: 
+
+```yaml
+  level:
+    kafka: DEBUG          # default value, user for logging general kafka logic
+    kafkaCore: INFO       # default value, used for logging org.apache.kafka.*
+    rest: DEBUG           # default value, used for logging REST operations
+    database: DEBUG       # default value, used for logging DB operations
+    businessLogic: DEBUG  # default value, used for logging service business logic
+    health: DEBUG         # default value, used for logging health checks
+    general: DEBUG        # default value, used for logging other components
+```
 To enable logging to file, following attribute should be set in values file:
 
 ```yaml

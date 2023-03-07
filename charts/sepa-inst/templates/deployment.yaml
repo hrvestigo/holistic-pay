@@ -32,7 +32,7 @@ spec:
       automountServiceAccountToken: false
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
@@ -153,12 +153,17 @@ spec:
               value: {{ .Values.kafka.topics.paymentordereventflow.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_SEPAINSTMSGCHECK_NAME
               value: {{ .Values.kafka.topics.sepainstmsgcheck.consumerGroup | quote }}
-            - name: SEPA_INST_CSM_CSMID
-              value: {{ required "Please specify clearing system mechanism id in csm.csmid" .Values.csm.csmid | quote }}
+            - name: SEPA_INST_CSM_ID
+              value: {{ required "Please specify clearing system id in csm.id" .Values.csm.id | quote }}
             - name: SEPA_INST_CSM_URL
-              value: {{ .Values.csm.url | quote }}
-            - name: SEPA_INST_CSM_XSD_CHECK_TYPE
-              value: {{ .Values.csm.xsdCheckType | quote }}
+              value: {{ required "Please specify Clearing System base URL in cms.url" .Values.csm.url | quote }}
+            - name: SEPA_INST_CSM_MSG_PATH
+              value: {{ required "Please specify Clearing System message path in cms.msgPath" .Values.csm.msgPath | quote }}
+            - name: SEPA_INST_CSM_XSD_CHECK
+              value: {{ .Values.csm.xsdCheck | quote }}
+            {{- if (include "sepa-inst.endpoint.config" .) -}}
+            {{- include "sepa-inst.endpoint.config" . | nindent 12 -}}
+            {{- end }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

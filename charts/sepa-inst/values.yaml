@@ -76,9 +76,35 @@ kafka:
       name: hr.vestigo.hp.sepainstmsgcheck
       consumerGroup: hr.vestigo.hp.sepainstmsgcheck
 csm:
-  csmid: NKS9999998
+  id: NKS9999998
   url: ''
-  xsdCheckType: enabled
+  msgPath: /instant-core/api/msg
+  xsdCheck: inout
+  config:
+    camt_029:
+      xsdCheck: inherit
+    camt_056:
+      xsdCheck: inherit
+    izvj:
+      xsdCheck: inherit
+    pacs_002_negative:
+      xsdCheck: inherit
+    pacs_002_positive:
+      xsdCheck: inherit
+      responseMsgTimeout: 25s
+      requestMsgRetry: 10;5s
+    pacs_002_nksinst:
+      xsdCheck: inherit
+    pacs_004:
+      xsdCheck: inherit
+    pacs_008:
+      xsdCheck: inherit
+      responseMsgTimeout: 25s
+    pacs_028:
+      xsdCheck: inherit
+      requestMsgRetry: 10;5s
+    pacs_028_056:
+      xsdCheck: inherit
 oauth2:
   enabled: false
   realm: Holistic-Pay
@@ -107,9 +133,11 @@ secret:
 logger:
   level:
     kafka: DEBUG
+    kafkaCore: INFO
     rest: DEBUG
     database: DEBUG
     businessLogic: DEBUG
+    health: DEBUG
     general: DEBUG
   logToFile: false
   rollingFileAppender: false

@@ -330,3 +330,14 @@ Defines custom datasource connection parameters appended to URL
 {{- end }}
 {{- end }}
 
+{{/*
+SEPA Inst endpoint configuration
+*/}}
+{{- define "sepa-inst.endpoint.config" -}}
+{{- range $key, $value := .Values.csm.config }}
+{{- range $k, $v := $value }}
+- name: SEPA_INST_CSM_CONFIG_{{ $key | upper }}_{{ $k | snakecase | upper }}
+  value: {{ $v | quote }}
+{{ end -}}
+{{ end -}}
+{{- end }}
