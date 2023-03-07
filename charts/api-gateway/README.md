@@ -38,6 +38,9 @@ routes:
   paymentOrder:
     serviceName: payment-order # name of payment-order service, default is payment-order
     portNumber: "8443" # port number on which payment-order service is exposed, default is 8443
+  sepaInst:
+    serviceName: sepa-inst # name of sepa-inst service, default is sepa-inst
+    portNumber: "8443" # port number on which sepa-inst service is exposed, default is 8443
   personRegistryWeb:
     serviceName: person-structure-web # name of person-registry-web service, default is person-registry-web
     portNumber: "8443" # port number on which person-registry-web service is exposed, default is 8443

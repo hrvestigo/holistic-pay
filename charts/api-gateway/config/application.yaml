@@ -76,6 +76,13 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
+        - id: nks-inst-ms_route
+          predicates:
+            - Path=/nksInst/api/msg/**, /nksInst/api/info
+          uri: https://{{ required "Sepa Inst application service name has to be defined in routes.sepaInst.serviceName" .Values.routes.sepaInst.serviceName }}:{{ required "Sepa Inst application port number has to be defined in routes.sepaInst.servicePortNumber" .Values.routes.sepaInst.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
         - id: person-registry-web_route
           predicates:
             - Path=/**
