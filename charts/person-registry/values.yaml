@@ -21,7 +21,7 @@ datasource:
   user: ''
   globalSchemaPrefix: wo
   connTimeout: 60000
-  maxPoolSize: 2
+  maxPoolSize: 4
   minIdle: 0
   connectionParams: {}
 liquibase:
