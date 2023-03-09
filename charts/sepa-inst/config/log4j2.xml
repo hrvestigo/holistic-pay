@@ -107,13 +107,6 @@
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.hibernate" level={{ .level.database | upper | quote }} additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="${applicationAppender}"/>
-      {{- end }}
-      <AppenderRef ref="${consoleAppender}"/>
-    </Logger>
-
     <Logger name="org.hibernate.SQL" level={{ .level.database | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
@@ -121,7 +114,7 @@
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level={{ .level.database | upper | quote }} additivity="false">
+    <Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level={{ .level.databaseParam | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}

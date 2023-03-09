@@ -178,6 +178,12 @@ kafka:
   securityProtocol: SASL_SSL # default value, set custom protocol if required
 ```
 
+The ssl endpoint identification is set to default ([More info](https://docs.confluent.io/platform/current/kafka/authentication_ssl.html#id1)):
+```yaml
+kafka:
+  sslEndpointIdentAlg: HTTPS # default value is HTTPS , set other ssl endpoint identification algorithm if required
+```
+
 #### Topics and consumer groups setup
 
 Kafka topics and consumer group names used by `SEPA inst` have default names defined in 
@@ -803,6 +809,7 @@ To change logging level for different components, following attribute should be 
     kafkaCore: INFO       # default value, used for logging org.apache.kafka.*
     rest: DEBUG           # default value, used for logging REST operations
     database: DEBUG       # default value, used for logging DB operations
+    databaseParam: TRACE  # default value, used for logging parameters for DB operations
     businessLogic: DEBUG  # default value, used for logging service business logic
     health: DEBUG         # default value, used for logging health checks
     general: DEBUG        # default value, used for logging other components
