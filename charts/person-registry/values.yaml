@@ -8,7 +8,7 @@ image:
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 2.56.0
+    tag: 2.60.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -53,6 +53,7 @@ kafka:
   servers: ''
   saslMechanism: PLAIN
   securityProtocol: SASL_SSL
+  sslEndpointIdentAlg: HTTPS
   schemaRegistry:
     credSource: USER_INFO
     user: ''
