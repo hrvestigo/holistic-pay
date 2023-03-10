@@ -274,10 +274,10 @@ The auto offset reset consumer configuration defines how a consumer should behav
 kafka:
   autoOffsetReset: earliest # default value, can be changes to latest or none
 ```
-The ssl endpoint identification is disabled by default ([More info](https://docs.confluent.io/platform/current/kafka/authentication_ssl.html#id1)):
+The ssl endpoint identification is set to default ([More info](https://docs.confluent.io/platform/current/kafka/authentication_ssl.html#id1)):
 ```yaml
 kafka:
-  sslEndpointIdentAlg: "" # default value is empty string, set other ssl endpoint identification algorithm if required
+  sslEndpointIdentAlg: HTTPS # default value is HTTPS , set other ssl endpoint identification algorithm if required
 ```
 #### Topics and consumer groups setup
 
