@@ -178,6 +178,11 @@ kafka:
   autoOffsetReset: earliest # default value, can be changes to latest or none
 ```
 
+The ssl endpoint identification is set to default ([More info](https://docs.confluent.io/platform/current/kafka/authentication_ssl.html#id1)):
+```yaml
+kafka:
+  sslEndpointIdentAlg: HTTPS # default value is HTTPS, set other ssl endpoint identification algorithm if required
+   ```
 #### Topics and consumer groups setup
 
 Kafka topics and consumer group names used by ALC collect have default names defined in `values.yaml` file, but can be overridden with following setup:
