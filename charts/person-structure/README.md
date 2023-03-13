@@ -143,10 +143,21 @@ personStructure:
 If this value is set to true then every complete person structure is produced/published to personstructure topic.
 In case you want to stop publishing on personstructure topic then you need change the default value and set it to false.
 
+###Define conditions for completed person structure
+```yaml
+personStructure:
+  completenessFlagAlgorithm: DEBIT_GATEWAY  #default value, checks value of account and card attributes in person_structure table
+```
+`completenessFlagAlgorithm` value defines conditions by which person structure is to be declared completed.
+Default value of this attribute is 'DEBIT_GATEWAY' which checks basic account and card data values (account id, account code, etc.).
+Possible values of completeness flag algorithm are: DEBIT_GATEWAY, INSTANT_PAYMENT or NONE and their values can be seen
+in CompletenessFlagAlgorithm enum class. Value 'NONE' means no attributes are checked before declaring person structure completed.
+
+
 ###Define search algorithm for account related data in person service
 ```yaml
 personStructureInitial:
-  searchAlgorithm: account  #default value, searches person_structure only by acc_id 
+  searchAlgorithm: account  #default value, searches person_structure only by account id and member sign 
 ```
 This value is used in the logic of person structure service when inserting/updating new account related data into person_structure table.
 Default value `account` means that person_structure will only be searched for account id and member sign

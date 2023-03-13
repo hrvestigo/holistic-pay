@@ -189,6 +189,8 @@ spec:
               value: {{ .Values.personStructureInitial.searchAlgorithm | quote }}
             - name: INITIAL_ACCOUNT_LIFECYCLE_CHECK
               value: {{ .Values.initial.account.lifecycleCheck | quote }}
+            - name: PERSON_STRUCTURE_COMPLETENESS_FLAG_ALGORITHM
+              value: {{ .Values.personStructure.completenessFlagAlgorithm | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

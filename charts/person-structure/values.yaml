@@ -98,6 +98,7 @@ paramWarmup:
   enabled: false
 personStructure:
   produce: true
+  completenessFlagAlgorithm: DEBIT_GATEWAY
 personStructureInitial:
   searchAlgorithm: account
 initial:
