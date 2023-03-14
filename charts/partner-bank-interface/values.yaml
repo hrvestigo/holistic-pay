@@ -57,6 +57,7 @@ kafka:
   saslMechanism: PLAIN
   securityProtocol: SASL_SSL
   autoOffsetReset: earliest
+  sslEndpointIdentAlg: HTTPS
   schemaRegistry:
     credSource: USER_INFO
     user: ''

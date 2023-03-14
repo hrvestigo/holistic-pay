@@ -182,6 +182,12 @@ kafka:
   autoOffsetReset: earliest # default value, can be changes to latest or none
 ```
 
+The ssl endpoint identification is set to default ([More info](https://docs.confluent.io/platform/current/kafka/authentication_ssl.html#id1)):
+
+```yaml
+kafka:
+  sslEndpointIdentAlg: HTTPS # default value is HTTPS, set other ssl endpoint identification algorithm if required
+```
 Partner bank interface uses Kafka endpoint as a part of a readiness probe check.
 
 However, Kafka endpoint can be excluded from readiness probe by changing `kafka.readinessProbeEnabled` attribute value to `false`:
