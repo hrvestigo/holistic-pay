@@ -141,6 +141,14 @@ secret:
   keyStorePassword: ''
   datasourcePassword: ''
 logger:
+  level:
+    kafka: DEBUG
+    kafkaCore: INFO
+    rest: DEBUG
+    database: DEBUG
+    businessLogic: DEBUG
+    health: DEBUG
+    general: DEBUG
   logToFile: false
   rollingFileAppender: false
   logDir: /var/log/app
