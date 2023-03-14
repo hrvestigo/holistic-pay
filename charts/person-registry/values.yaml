@@ -93,7 +93,7 @@ searchengine:
       prefixName: ''
       shards: 1
       replicas: 0
-      version: 01
+      version: '01'
 technicalUserId: ''
 oauth2:
   enabled: false

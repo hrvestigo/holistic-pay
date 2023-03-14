@@ -178,7 +178,7 @@ spec:
             {{- range $k, $v := .Values.searchengine.index.perreg }}
             - name: SEARCHENGINE_INDEX_PERREG_NAME_{{ .memberSign }}
               value: "{{- required "Please specify index prefix name in searchengine.index.perreg.prefixName" .prefixName | lower -}}
-              .prereg
+              .perreg
               {{- required "Please specify member in searchengine.index.prereg.memberSign" .memberSign | lower -}}
               .
               {{- required "Please specify index version in searchengine.index.prereg.version" .version -}}"
