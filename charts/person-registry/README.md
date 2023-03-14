@@ -245,8 +245,12 @@ searchengine:
     enabled: false # defualt value, enable initial full load in search engine Values: true/false
     limit: 10000 # default value, set custom value for bulk load in search engine
   index:
-    perreg:    
+    perreg:
+    - memberSign: '' # no default value, member sign
+      prefixName: '' # no default value, index prefix name
+      shards: 1 # default number, set custom number of index shards depending on requirement and number of documents
       replicas: 0 # default number, set custom number of index replicas depending on requirement and number of servers
+      version: 01 # default version, set custom number of index version, starting from 01, 02, ... and increase by one while increasing index version
 ```
 
 As for database, passwords for search engine is also AES encrypted.
@@ -692,6 +696,28 @@ members:
     datasource:
       # host and port are not defined, same datasource.host and datasource.port will be used, so this member will end up in same host as default "connect" schema
       dbName: "db3"
+```
+
+#### Searchengine setup for multi-member
+
+Each member data are stored in different search engine index. For each application member next parameters must be defined
+(in case search engine is used): index name prefix, number of shards for index, number of replicas for index and index 
+version (example below).
+
+```yaml
+searchengine:  
+  index:
+    perreg:
+    - memberSign: 'CC' 
+      prefixName: 'gw.t1.spr.reg.cc.superpersona' 
+      shards: 3 
+      replicas: 2 
+      version: 02 
+    - memberSign: 'CE'
+      prefixName: 'gw.t1.spr.reg.ce.superpersona'
+      shards: 1
+      replicas: 2
+      version: 01 
 ```
 
 ### oAuth2

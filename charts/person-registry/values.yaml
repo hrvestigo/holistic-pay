@@ -89,7 +89,11 @@ searchengine:
     limit: 10000
   index:
     perreg:
+    - memberSign: ''
+      prefixName: ''
+      shards: 1
       replicas: 0
+      version: 01
 technicalUserId: ''
 oauth2:
   enabled: false

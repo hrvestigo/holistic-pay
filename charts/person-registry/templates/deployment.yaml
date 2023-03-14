@@ -82,7 +82,7 @@ spec:
               {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
               {{- include "person-registry.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
-              {{- include "person-registry.db.connectionParams" $ -}}"            												  	  
+              {{- include "person-registry.db.connectionParams" $ -}}"
                 {{- else }}
               value: "jdbc:postgresql://
               {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
@@ -175,24 +175,20 @@ spec:
               value: {{ .Values.searchengine.scheme | quote }}
             - name: SEARCHENGINE_USERNAME
               value: {{ .Values.searchengine.username | quote }}
-            {{- range $k, $v := .Values.members }}
+            {{- range $k, $v := .Values.searchengine.index.perreg }}
             - name: SEARCHENGINE_INDEX_PERREG_NAME_{{ .memberSign }}
-              {{- if .datasource.globalSchema }}
-              value: "per_reg_             
-              {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
-              {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
-              {{- include "person-registry.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"                      												  	  
-              {{- else }}
-              value: "per_reg_
-              {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
-              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
-              {{- include "person-registry.dbSchema" $ -}}
-              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}"                      
-              {{- end }}
+              value: "{{- required "Please specify index prefix name in searchengine.index.perreg.prefixName" .prefixName | lower -}}
+              .prereg
+              {{- required "Please specify member in searchengine.index.prereg.memberSign" .memberSign | lower -}}
+              .
+              {{- required "Please specify index version in searchengine.index.prereg.version" .version -}}"
+            - name: SEARCHENGINE_INDEX_PERREG_REPLICAS_{{ .memberSign }}  
+              value: {{ required "Please specify number of index replicas in searchengine.index.perreg.replicas" .replicas | quote }}
+            - name: SEARCHENGINE_INDEX_PERREG_SHARDS_{{ .memberSign }}
+              value: {{ required "Please specify number of index shards in searchengine.index.perreg.shards" .shards | quote }}
+            - name: SEARCHENGINE_INDEX_PERREG_VERSION_{{ .memberSign }}
+              value: {{ required "Please specify index version in searchengine.index.perreg.version" .version | quote }}
             {{- end }}
-            - name: SEARCHENGINE_INDEX_PERREG_REPLICAS
-              value: {{ .Values.searchengine.index.perreg.replicas | quote }}
             - name: PERSON_REGISTRY_TECHNICAL_USER_ID
               value: {{ .Values.technicalUseId | quote }}
             - name: SERVER_SSL_KEYSTORE
