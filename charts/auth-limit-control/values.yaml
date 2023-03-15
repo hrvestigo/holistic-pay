@@ -4,10 +4,12 @@ image:
   pullPolicy: IfNotPresent
   app:
     registry: null
+    imageLocation: null
     tag: ''
     pullPolicy: null
   liquibase:
     registry: null
+    imageLocation: null
     tag: 2.77.0
     pullPolicy: null
 imagePullSecrets: []
@@ -54,6 +56,8 @@ kafka:
   servers: ''
   saslMechanism: PLAIN
   securityProtocol: SASL_SSL
+  autoOffsetReset: earliest
+  sslEndpointIdentAlg: HTTPS
   schemaRegistry:
     credSource: USER_INFO
     user: ''
@@ -73,9 +77,6 @@ kafka:
       consumerGroup: hr.vestigo.hp.authprocgroupitem
     partnerbankinterface10s:
       name: hr.vestigo.hp.partnerbankinterface10s
-    crdauthtrxmatch:
-      name: hr.vestigo.hp.crdauthtrxmatch
-      consumerGroup: hr.vestigo.hp.crdauthtrxmatch
     risklimitdef:
       name: hr.vestigo.hp.risklimitdef
       consumerGroup: hr.vestigo.hp.risklimitdef
@@ -135,6 +136,7 @@ logger:
     database: DEBUG
     businessLogic: DEBUG
     general: DEBUG
+    health: DEBUG
   logToFile: false
   rollingFileAppender: false
   logDir: /var/log/app

@@ -23,12 +23,16 @@ Defies fixed part of auth-limit-control datasource schema name
 auth-limit-control image repository
 */}}
 {{- define "auth-limit-control.app.repository" -}}
+{{- if .Values.image.app.imageLocation }}
+{{- .Values.image.app.imageLocation }}
+{{- else }}
 {{- $psRepo := "hrvestigo/auth-limit-control-ms" }}
 {{- $reg := default .Values.image.registry .Values.image.app.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $psRepo }}
 {{- else }}
 {{- $psRepo }}
+{{- end }}
 {{- end }}
 {{- end }}
 
@@ -44,12 +48,16 @@ auth-limit-control image pull policy
 Liquibase image
 */}}
 {{- define "auth-limit-control.liquibase.image" }}
+{{- if .Values.image.liquibase.imageLocation }}
+{{- printf "%s:%s" .Values.image.liquibase.imageLocation .Values.image.liquibase.tag }}
+{{- else }}
 {{- $liquiRepo := printf "%s%s" "hrvestigo/auth-limit-control-lb:" $.Values.image.liquibase.tag }}
 {{- $reg := default $.Values.image.registry $.Values.image.liquibase.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $liquiRepo }}
 {{- else }}
 {{- $liquiRepo }}
+{{- end }}
 {{- end }}
 {{- end }}
 
