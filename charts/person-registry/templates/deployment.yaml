@@ -180,6 +180,7 @@ spec:
               value: "{{- required "Please specify index prefix name in searchengine.index.perreg.prefixName" .prefixName | lower -}}
               .perreg
               {{- required "Please specify member in searchengine.index.prereg.memberSign" .memberSign | lower -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
               .
               {{- required "Please specify index version in searchengine.index.prereg.version" .version -}}"
             - name: SEARCHENGINE_INDEX_PERREG_REPLICAS_{{ .memberSign }}  
@@ -191,6 +192,8 @@ spec:
             {{- end }}
             - name: PERSON_REGISTRY_TECHNICAL_USER_ID
               value: {{ .Values.technicalUseId | quote }}
+            - name: ENV_LABEL
+              value: {{ .Values.env.label | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
