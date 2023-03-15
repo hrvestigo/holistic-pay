@@ -107,13 +107,6 @@
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.hibernate" level={{ .level.database | upper | quote }} additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="${applicationAppender}"/>
-      {{- end }}
-      <AppenderRef ref="${consoleAppender}"/>
-    </Logger>
-
     <Logger name="org.hibernate.SQL" level={{ .level.database | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>

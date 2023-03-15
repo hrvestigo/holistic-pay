@@ -146,6 +146,7 @@ logger:
     kafkaCore: INFO
     rest: DEBUG
     database: DEBUG
+    databaseParam: TRACE
     businessLogic: DEBUG
     health: DEBUG
     general: DEBUG
