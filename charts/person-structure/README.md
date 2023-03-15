@@ -176,8 +176,8 @@ initial:
 Enables/disables initial account lifecycle status check.
 If the value is set to true, then when replicating account related data to person_structure table, initial value of account
 lifecycle is checked.
-In case the account is not already existing in the table, and it's lifecycle value is `X` then this account will not
-be replicated to person_structure table. Otherwise, if it's value is not `X`, or if account lifecycle is has value `X`
+In case the account is not already existing in the table, and it's lifecycle value is `X` or `C` then this account will not
+be replicated to person_structure table. Otherwise, if it's value is not `X` or `C`, or if account lifecycle is has value `X` or `C`
 but account already exists in the table (not initial value of lifecycle), then this account will be replicated.
 Default value is set to false, meaning no lifecycle check is done and if that is needed then you need to set to value to true.
 
