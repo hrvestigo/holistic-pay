@@ -117,15 +117,15 @@ sirius:
       logging:
         all: false
     uri:
-      pay-order-forward: /api/v2/paymentOrderForwardingXmlToEcs
-      pay-order-notification: /api/v2/paymentOrderNotificationPassedOrFailedTransaction
-      pay-order-posting: /api/v2/paymentOrderPosting
-      pay-order-cancellation: /api/v2/paymentOrderCancellation
-      pay-order-cre-pos-canc: /api/v2/paymentOrderCreationAndPostingOrCancellation
-      pay-order-cancellation-request: api/v2/paymentOrderCancellationRequest
-      pay-order-rjct-cancellation-request: api/v2/paymentOrderRejectedCancellationRequest
-      pay-order-return: api/v2/paymentOrderReturn
-      pay-order-cancellation-request-statu: api/v2/paymentOrderCancellationRequestStatus
+      payOrderForward: /api/v2/paymentOrderForwardingXmlToEcs
+      payOrderNotification: /api/v2/paymentOrderNotificationPassedOrFailedTransaction
+      payOrderPosting: /api/v2/paymentOrderPosting
+      payOrderCancellation: /api/v2/paymentOrderCancellation
+      payOrderCrePosCanc: /api/v2/paymentOrderCreationAndPostingOrCancellation
+      payOrderCancellationRequest: api/v2/paymentOrderCancellationRequest
+      payOrderRjctCancellationRequest: api/v2/paymentOrderRejectedCancellationRequest
+      payOrderReturn: api/v2/paymentOrderReturn
+      payOrderCancellationRequestStatu: api/v2/paymentOrderCancellationRequestStatus
   specific:
     cache:
       refresh:
