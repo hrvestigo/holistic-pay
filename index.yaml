@@ -2235,6 +2235,16 @@ entries:
     version: 0.2.0
   cms-interface:
   - apiVersion: v2
+    appVersion: 3.1.0
+    created: "2023-03-16T15:36:09.209045677Z"
+    description: Helm chart for CMS interface application
+    digest: 9538e9fd8334880baac39270a095bc333c0b002c5a76bcc415304fc6e8c60933
+    name: cms-interface
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/cms-interface-3.1.0/cms-interface-3.1.0.tgz
+    version: 3.1.0
+  - apiVersion: v2
     appVersion: 3.0.0
     created: "2023-03-14T10:53:09.581079164Z"
     description: Helm chart for CMS interface application
@@ -9202,4 +9212,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-specific-1.0.1/sirius-specific-1.0.1.tgz
     version: 1.0.1
-generated: "2023-03-16T15:16:44.868615382Z"
+generated: "2023-03-16T15:36:09.216225776Z"
