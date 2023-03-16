@@ -169,8 +169,8 @@ spec:
               value: {{ .Values.automaticRejection.scheduled | quote }}
             - name: AUTOMATIC_REJECTION_ENABLED
               value: {{ .Values.automaticRejection.enabled | quote }}
-            - name: SPRING_CACHE_CAFFEINE_SPEC
-              value: expireAfterAccess={{ .Values.cache.refresh.rate }}s
+            - name: SPRING_CACHE_CAFFEINE_SPEC_EXPIREAFTERACCESS
+              value: {{ .Values.cache.refresh.rate | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
