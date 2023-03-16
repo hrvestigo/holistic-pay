@@ -198,6 +198,24 @@ spec:
               value: {{ .Values.sirius.specific.cache.refresh.rate | quote }}
             - name: SIRIUS_SERVICE_URL
               value: {{ .Values.sirius.service.url | quote }}
+            - name: SIRIUS_REST_URI_PAY-ORD-FORWARD
+              value: {{ .Values.sirius.rest.uri.pay-order-forward | quote }}
+            - name: SIRIUS_REST_URI_PAY-ORDER-NOTIFICATION
+              value: {{ .Values.sirius.rest.uri.pay-order-notification | quote }}
+            - name: SIRIUS_REST_URI_PAY-ORDER-POSTING
+              value: {{ .Values.sirius.rest.uri.pay-order-posting | quote }}
+            - name: SIRIUS_REST_URI_PAY-ORDER-CANCELLATION
+              value: {{ .Values.sirius.rest.uri.pay-order-cancellation | quote }}
+            - name: SIRIUS_REST_URI_PAY-ORDER-CRE-POS-CANC
+              value: {{ .Values.sirius.rest.uri.pay-order-cre-pos-canc | quote }}
+            - name: SIRIUS_REST_URI_PAY-ORDER-CANCELLATION-REQUEST
+              value: {{ .Values.sirius.rest.uri.pay-order-cancellation-request | quote }}
+            - name: SIRIUS_REST_URI_PAY-ORDER-RJCT-CANCELLATION-REQUEST
+              value: {{ .Values.sirius.rest.uri.pay-order-rjct-cancellation-request | quote }}
+            - name: SIRIUS_REST_URI_PAY-ORDER-RETURN
+              value: {{ .Values.sirius.rest.uri.pay-order-return | quote }}
+            - name: SIRIUS_REST_URI_PAY-ORDER-CANCELLATION-REQUEST-STATUS
+              value: {{ .Values.sirius.rest.uri.pay-order-cancellation-request-statu | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
