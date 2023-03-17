@@ -114,12 +114,14 @@ spec:
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
               {{- end }}
-            - name: DELIVERY_CHANNEL_{{ .memberSign }}
-              value: {{ .deliveryChannel }}
-            - name: BRANCH_CODE_{{ .memberSign }}
-              value: {{ .branchCode }}
-            - name: MODULE_NAME_{{ .memberSign }}
-              value: {{ .moduleName }}
+            - name: DELIVERYCHANNEL_{{ .memberSign }}
+              value: {{ .deliveryChannel | quote }}
+            - name: BRANCHCODE_{{ .memberSign }}
+              value: {{ .branchCode | quote }}
+            - name: MODULENAME_{{ .memberSign }}
+              value: {{ .moduleName | quote }}
+            - name: USERID_{{ .memberSign }}
+              value: {{ .userId | quote }}
             {{- end }}
             - name: MEMBERS
               value: {{ include "sirius-specific.members" . }}

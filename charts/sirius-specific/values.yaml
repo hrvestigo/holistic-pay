@@ -40,6 +40,7 @@ members:
   deliveryChannel: ''
   branchCode: ''
   moduleName: ''
+  userId: ''
   liquibase:
     role: ''
     replicationRole: ''
