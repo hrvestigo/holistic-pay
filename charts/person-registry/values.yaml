@@ -71,6 +71,10 @@ kafka:
     personcrosscheck:
       name: hr.vestigo.hp.personcrosscheck
       consumerGroup: hr.vestigo.hp.personcrosscheck
+    personcrosscheckdelay:
+      name: hr.vestigo.hp.personcrosscheckdelay
+      consumerGroup: hr.vestigo.hp.personcrosscheckdelay
+      delayTime: 30
   outbox:
     deleteEntity: false
     scheduler:

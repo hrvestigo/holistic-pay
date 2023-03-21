@@ -155,6 +155,12 @@ spec:
               value: {{ .Values.kafka.topics.personcrosscheck.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PERSONCROSSCHECK_NAME
               value: {{ .Values.kafka.topics.personcrosscheck.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_PERSONCROSSCHECKDELAY_NAME
+              value: {{ .Values.kafka.topics.personcrosscheckdelay.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PERSONCROSSCHECKDELAY_NAME
+              value: {{ .Values.kafka.topics.personcrosscheckdelay.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_PERSONCROSSCHECKDELAY_DELAYTIME
+              value: {{ .Values.kafka.topics.personcrosscheckdelay.delayTime | quote }}
             - name: HR_VESTIGO_HP_OUTBOX_DELETEENTITY
               value: {{ .Values.kafka.outbox.deleteEntity | quote }}
             - name: HR_VESTIGO_HP_OUTBOX_SCHEDULER
