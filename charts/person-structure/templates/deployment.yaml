@@ -195,26 +195,12 @@ spec:
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
               value: PKCS12
-            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-              value: loggers,health,prometheus
-            - name: MANAGEMENT_ENDPOINTS_LOGGERS_ENABLED
-              value: "true"
-            - name: MANAGEMENT_ENDPOINTS_WEB_BASEPATH
-              value: /
-            - name: MANAGEMENT_HEALTH_PROBES_ENABLED
-              value: "true"
-            - name: MANAGEMENT_ENDPOINT_HEALTH_SHOWDETAILS
-              value: always
             - name: MANAGEMENT_ENDPOINT_HEALTH_STATUS_HTTPMAPPING_DOWN
               value: {{ .Values.healthStatusDownReturnCode | quote }}
             - name: MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE
               value: readinessState, db, kafka
             - name: SERVER_TOMCAT_ACCESSLOG_ENABLED
               value: {{ .Values.logger.logToFile | quote }}
-            - name: SERVER_TOMCAT_ACCESSLOG_SUFFIX
-              value: ".log"
-            - name: SERVER_TOMCAT_ACCESSLOG_PREFIX
-              value: access
             - name: SERVER_TOMCAT_BASEDIR
               {{- $logdir := .Values.logger.logDir | splitList "/" }}
               {{- if hasPrefix "/" .Values.logger.logDir }}
@@ -222,8 +208,6 @@ spec:
               {{- else }}
               value: "/{{ index $logdir 0 }}"
               {{- end }}
-            - name: SERVER_TOMCAT_ACCESSLOG_FILEDATEFORMAT
-              value: ""
             - name: SERVER_TOMCAT_ACCESSLOG_DIRECTORY
               {{- $logdir := .Values.logger.logDir | splitList "/" }}
               {{- if hasPrefix "/" .Values.logger.logDir }}
@@ -233,11 +217,6 @@ spec:
               {{- $rest := slice $logdir 1 | join "/" }}
               value: {{ $rest }}
               {{- end }}
-            - name: SERVER_TOMCAT_ACCESSLOG_PATTERN
-              value: >-
-                [%{yyyy-MM-dd HH:mm:ss.SSS}t] %h %l %u "%r" %s
-            - name: SERVER_TOMCAT_ACCESSLOG_CONDITIONUNLESS
-              value: access
             - name: LOGGING_CONFIG
               value: /usr/app/config/log4j2.xml
             - name: LOGGER_EXCLUDE_ENDPOINTS
@@ -250,8 +229,6 @@ spec:
               value: {{ .Values.datasource.minIdle | quote }}
             - name: SECRET_PROPERTIES
               value: /mnt/k8s/secrets/password.conf
-            - name: KAFKA_HEALTH_ENABLED
-              value: "true"
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
             {{- if (include "person-structure.trustStoreEnv" .) -}}
