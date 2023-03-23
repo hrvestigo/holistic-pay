@@ -219,6 +219,7 @@ datasource:
   connTimeout: 60000 # defines time (in ms) after which active connection will timeout and be closed
   maxPoolSize: 2 # defines max size of database connection pool
   minIdle: 0 # defines min number of retained idle connections
+  idleTimeout: 120000 # defines the maximum amount of time that a connection is allowed to sit idle in the pool
 ```
 
 Liquibase can be disabled if necessary with `liquibase.enabled` attribute (enabled by default):

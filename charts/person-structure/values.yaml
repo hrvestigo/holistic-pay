@@ -25,6 +25,7 @@ datasource:
   connTimeout: 60000
   maxPoolSize: 2
   minIdle: 0
+  idleTimeout: 120000
   connectionParams: {}
 liquibase:
   enabled: true
