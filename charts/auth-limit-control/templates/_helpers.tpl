@@ -189,9 +189,6 @@ Volumes
 - name: {{ include "auth-limit-control.name" . }}-configmap
   configMap:
     name: {{ include "auth-limit-control.name" . }}-configmap
-- name: liquibase-config
-  configMap:
-    name: {{ include "auth-limit-control.name" . }}-liquibase-configmap
 - name: server-cert
 {{- if .Values.mountServerCertFromSecret.enabled }}
   secret:

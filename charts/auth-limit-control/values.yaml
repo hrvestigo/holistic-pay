@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 2.77.0
+    tag: 3.3.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -25,6 +25,7 @@ datasource:
   connTimeout: 60000
   maxPoolSize: 2
   minIdle: 0
+  idleTimeout: 120000
   connectionParams: {}
 liquibase:
   enabled: true
