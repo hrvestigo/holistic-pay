@@ -47,9 +47,10 @@ members:
     dbName: ''
     user: ''
     password: ''
-    connTimeout: ''
-    maxPoolSize: ''
+    connTimeout: 60000
+    maxPoolSize: 2
     minIdle: 0
+    idleTimeout: 120000
 kafka:
   user: ''
   servers: ''
@@ -101,6 +102,14 @@ kafka:
       bptstatussch:
         name: hr.vestigo.hp.bptstatussch.sirspec
         consumerGroup: hr.vestigo.hp.bptstatussch.sirspec
+      calendar:
+        name: hr.vestigo.hp.calendar.sirspec
+        consumerGroup: hr.vestigo.hp.calendar.sirspec
+      calendaritem:
+        name: hr.vestigo.hp.calendaritem.sirspec
+        consumerGroup: hr.vestigo.hp.calendaritem.sirspec
+
+
 productFactory:
   cobaffschema:
     enabled: true
@@ -115,6 +124,10 @@ productFactory:
   currency:
     enabled: true
   crdintacctype:
+    enabled: true
+  calendar:
+    enabled: true
+  calendarItem:
     enabled: true
 request:
   sanitization:
