@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.107.0
+    tag: 1.118.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -34,13 +34,13 @@ liquibase:
   replicationRole: ''
   resources: {}
 members:
-- businessUnit: ''
-  applicationMember: ''
-  memberSign: ''
-  deliveryChannel: ''
-  branchCode: ''
-  moduleName: ''
-  userId: ''
+- businessUnit: RB
+  applicationMember: RB
+  memberSign: RB
+  deliveryChannel: IB
+  branchCode: '012'
+  moduleName: PAY
+  userId: HP0001
   liquibase:
     role: ''
     replicationRole: ''
@@ -118,15 +118,15 @@ sirius:
       logging:
         all: false
     uri:
-      payOrderForward: /api/v2/paymentOrderForwardingXmlToEcs
+      payOrderForward: WS9030
       payOrderNotification: /api/v2/paymentOrderNotificationPassedOrFailedTransaction
-      payOrderPosting: /api/v2/paymentOrderPosting
-      payOrderCancellation: /api/v2/paymentOrderCancellation
-      payOrderCrePosCanc: /api/v2/paymentOrderCreationAndPostingOrCancellation
-      payOrderCancellationRequest: api/v2/paymentOrderCancellationRequest
-      payOrderRjctCancellationRequest: api/v2/paymentOrderRejectedCancellationRequest
-      payOrderReturn: api/v2/paymentOrderReturn
-      payOrderCancellationRequestStatu: api/v2/paymentOrderCancellationRequestStatus
+      payOrderPosting: WS9018
+      payOrderCancellation: WS9019
+      payOrderCrePosCanc: WS9013
+      payOrderCancellationRequest: WS9014
+      payOrderRjctCancellationRequest: WS9015
+      payOrderReturn: WS9016
+      payOrderCancellationRequestStatu: WS9017
   specific:
     cache:
       refresh:
