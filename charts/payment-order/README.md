@@ -554,6 +554,8 @@ This setup is required and will define one member in application with default se
 Schema name for application member is auto-generated and will be in format `{members.businessUnit}{members.applicationMember}perstr{env.label}`.
 
 `members` attribute enables customization on database level. It is possible to override specific datasource and liquibase parameters for each member separately.
+It is also possible to override some domestic properties, such as country code which represents ALPHA-3 code of a country
+of origin for this member. This information is used when fetching country-based data, such as holidays for instance.
 
 List of all attributes which can be overridden:
 
@@ -562,6 +564,8 @@ members:
   - businessUnit: ""
     applicationMember: ""
     memberSign: ""
+    domestic:
+      countryCode: "" # domestic country of member
     liquibase:
       user: ""
       role: ""

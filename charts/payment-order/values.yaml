@@ -37,6 +37,8 @@ members:
 - businessUnit: ''
   applicationMember: ''
   memberSign: ''
+  domestic:
+    countryCode: HRV
   liquibase:
     role: ''
     replicationRole: ''

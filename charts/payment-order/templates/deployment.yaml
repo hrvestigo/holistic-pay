@@ -115,6 +115,8 @@ spec:
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
               {{- end }}
+            - name: DOMESTIC_COUNTRYCODE_{{ .memberSign }}
+              value: {{ .domestic.countryCode | quote }}
             {{- end }}
             - name: MEMBERS
               value: {{ include "payment-order.members" . }}
