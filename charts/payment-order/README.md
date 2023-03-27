@@ -196,7 +196,7 @@ kafka:
   saslMechanism: PLAIN # default value, set custom mechanism if required
   securityProtocol: SASL_SSL # default value, set custom protocol if required
 ```
-The ssl endpoint identification is set to default ([More info](https://docs.confluent.io/platform/current/kafka/authentication_ssl.html#id1)):
+The ssl endpoint identification is set to  default ([More info](https://docs.confluent.io/platform/current/kafka/authentication_ssl.html#id1)):
 
 ```yaml
 kafka:
@@ -824,7 +824,12 @@ logger:
     general: ERROR # only ERROR level logs will be shown, default level is DEBUG
 ```
 
-
+If you want to include in your logs, the name of the microservice which generates the logs, you can do so by setting the value of the name of the microservice in the attribute `logger.microserviceTag`.
+By default, this attribute is set to empty string.
+```yaml
+logger:
+  microserviceTag: ''
+```
 
 ### Modifying deployment strategy
 
