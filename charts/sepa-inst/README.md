@@ -866,6 +866,13 @@ logger:
 
 Note that any type of mount specification can be used by following standard Kubernetes mount specification, the only requirement is that it has to be defined under `logger.logDirMount.spec` attribute in values file.
 
+If you want to include in your logs, the name of the microservice which generates the logs, you can do so by setting the value of the name of the microservice in the attribute `logger.microserviceTag`.
+By default, this attribute is set to empty string.
+```yaml
+logger:
+  microserviceTag: ''
+```
+
 ### Modifying deployment strategy
 
 Default deployment strategy for `SEPA inst` application is `RollingUpdate`, but it can be overridden, along with other deployment parameters using following attributes (default values are shown):

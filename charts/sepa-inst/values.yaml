@@ -140,6 +140,7 @@ logger:
   logDir: /var/log/app
   logDirMount:
     enabled: false
+  microserviceTag: ''
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
 podAnnotations: {}
