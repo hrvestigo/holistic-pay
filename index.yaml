@@ -22,6 +22,16 @@ entries:
     - https://github.com/hrvestigo/holistic-pay/releases/download/alc-collect-2.43.0/alc-collect-2.43.0.tgz
     version: 2.43.0
   - apiVersion: v2
+    appVersion: 2.42.1
+    created: "2023-03-27T20:54:11.555348308Z"
+    description: Helm chart for ALC collect application
+    digest: 7ac7f9bb7f46d495d24275dd58c404dd7f4c2ae15480f9887b052df75222b1e6
+    name: alc-collect
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/alc-collect-2.42.1/alc-collect-2.42.1.tgz
+    version: 2.42.1
+  - apiVersion: v2
     appVersion: 2.42.0
     created: "2023-01-20T10:02:07.206453662Z"
     description: Helm chart for ALC collect application
@@ -9712,4 +9722,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-specific-1.0.1/sirius-specific-1.0.1.tgz
     version: 1.0.1
-generated: "2023-03-27T11:32:47.288136505Z"
+generated: "2023-03-27T20:54:11.56523575Z"
