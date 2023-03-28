@@ -67,15 +67,8 @@ spec:
               value: '8443'
             - name: SPRING_CONFIG_ADDITIONALLOCATION
               value: /opt/app/application.yaml
-            - name: PATH
-              value: >-
-                /usr/local/openjdk-8/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-            - name: JAVA_HOME
-              value: /usr/local/openjdk-8
             - name: LANG
               value: C.UTF-8
-            - name: JAVA_VERSION
-              value: 8u292
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
             {{- if (include "api-gateway.trustStoreEnv" .) -}}
