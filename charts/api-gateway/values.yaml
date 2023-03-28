@@ -25,6 +25,7 @@ logger:
   globalLogLevel: DEBUG
   logToFile: false # boolean value, default is false
   logDir: "/var/log/app"
+  format: "STRING" # defines log format for stdout logger. Valid values are ECS, LOGSTASH, GELF, GCP, STRING
   logDirMount:
     enabled: false # boolean value, default is false
     spec:
