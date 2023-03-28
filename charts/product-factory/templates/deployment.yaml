@@ -197,6 +197,10 @@ spec:
               value: {{ .Values.kafka.topics.sirius.calendaritem.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_SIRIUS_CALENDARITEM_NAME
               value: {{ .Values.kafka.topics.sirius.calendaritem.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_SIRIUS_CLEARINGSYSREG_NAME
+              value: {{ .Values.kafka.topics.sirius.clearingsysreg.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SIRIUS_CLEARINGSYSREG_NAME
+              value: {{ .Values.kafka.topics.sirius.clearingsysreg.consumerGroup | quote }}
             - name: PRODUCT_FACTORY_COBAFF_SCHEMA_ENABLED
               value: {{ .Values.productFactory.cobaffschema.enabled | quote }}
             - name: PRODUCT_FACTORY_COBAFF_SCHEMA_GATEWAY_PARAMS_ENABLED
@@ -215,6 +219,8 @@ spec:
               value: {{ .Values.productFactory.calendar.enabled | quote }}
             - name: PRODUCT_FACTORY_CALENDAR_ITEM_ENABLED
               value: {{ .Values.productFactory.calendarItem.enabled | quote }}
+            - name: PRODUCT_FACTORY_CLEARINGSYSREG_ENABLED
+              value: {{ .Values.productFactory.clearingsysreg.enabled | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

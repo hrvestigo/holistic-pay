@@ -108,6 +108,9 @@ kafka:
       calendaritem:
         name: hr.vestigo.hp.calendaritem.sirspec
         consumerGroup: hr.vestigo.hp.calendaritem.sirspec
+      clearingsysreg:
+        name: hr.vestigo.hp.clearingsysreg.sirspec
+        consumerGroup: hr.vestigo.hp.clearingsysreg.sirspec
 
 
 productFactory:
@@ -128,6 +131,8 @@ productFactory:
   calendar:
     enabled: true
   calendarItem:
+    enabled: true
+  clearingsysreg:
     enabled: true
 request:
   sanitization:
@@ -157,6 +162,7 @@ logger:
   logDir: /var/log/app
   logDirMount:
     enabled: false
+  microserviceTag: ''
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
 springActiveProfile: prod

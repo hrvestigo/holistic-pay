@@ -222,6 +222,9 @@ kafka:
     calendaritem:
       name: hr.vestigo.hp.calendaritem.sirspec # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.calendaritem.sirspec # default value, set custom name if required
+    clearingsysreg:
+      name: hr.vestigo.hp.clearingsysreg.sirspec # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.clearingsysreg.sirspec # default value, set custom name if required
 ```
 
 ### Enabling and disabling functionalities
@@ -248,6 +251,8 @@ productFactory:
   calendar:
     enabled: true # functionality enabled by default
   calendarItem:
+    enabled: true # functionality enabled by default
+  clearingsysreg:
     enabled: true # functionality enabled by default
 ```
 
@@ -797,6 +802,12 @@ logger:
 
 Note that any type of mount specification can be used by following standard Kubernetes mount specification, the only requirement is that it has to be defined under `logger.logDirMount.spec` attribute in values file.
 
+If you want to include in your logs, the name of the microservice which generates the logs, you can do so by setting the value of the name of the microservice in the attribute `logger.microserviceTag`.
+By default this attribute is set to empty string.
+```yaml
+logger:
+  microserviceTag: ''
+```
 ### Modifying deployment strategy
 
 Default deployment strategy for Product factory application is `RollingUpdate`, but it can be overridden, along with other deployment parameters using following attributes (default values are shown):
