@@ -647,7 +647,7 @@ Schema name for application member is auto-generated and will be in format `{mem
 
 `members` attribute enables customization on database level. It is possible to override specific datasource and liquibase parameters for each member separately.
 
-List of all attributes which can be overridden:
+List of all attributes which can be overridden (connTimeout, maxPoolSize, minIdle and idleTimeout are globally set the same for all members):
 
 ```yaml
 members:
@@ -666,9 +666,6 @@ members:
       dbName: ""
       user: ""
       password: ""
-      connTimeout: ""
-      maxPoolSize: ""
-      minIdle: 0
 ```
 
 Each attribute within `members.datasource` and `members.liquibase` can be defined to override same values defined in `datasource` and `liquibase` blocks.
@@ -885,6 +882,13 @@ logger:
 ```
 
 Note that any type of mount specification can be used by following standard Kubernetes mount specification, the only requirement is that it has to be defined under `logger.logDirMount.spec` attribute in values file.
+
+If you want to include in your logs, the name of the microservice which generates the logs, you can do so by setting the value of the name of the microservice in the attribute `logger.microserviceTag`.
+By default, this attribute is set to empty string.
+```yaml
+logger:
+  microserviceTag: ''
+```
 
 ### Modifying deployment strategy
 

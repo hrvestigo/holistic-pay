@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.0.0
+    tag: 4.6.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -48,9 +48,6 @@ members:
     dbName: ''
     user: ''
     password: ''
-    connTimeout: ''
-    maxPoolSize: ''
-    minIdle: 0
 kafka:
   user: ''
   servers: ''
@@ -137,6 +134,7 @@ logger:
   logDir: /var/log/app
   logDirMount:
     enabled: false
+  microserviceTag: ''
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
 springActiveProfile: prod
