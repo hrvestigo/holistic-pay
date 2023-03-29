@@ -111,6 +111,7 @@ datasource:
   connTimeout: 60000 # defines time (in ms) after which active connection will timeout and be closed
   maxPoolSize: 2 # defines max size of database connection pool
   minIdle: 0 # defines min number of retained idle connections
+  idleTimeout: 120000 # defines the maximum amount of time that a connection is allowed to sit idle in the pool
 ```
 
 Liquibase can be disabled if necessary with `liquibase.enabled` attribute (enabled by default):
@@ -764,6 +765,13 @@ logger:
 ```
 
 Note that any type of mount specification can be used by following standard Kubernetes mount specification, the only requirement is that it has to be defined under `logger.logDirMount.spec` attribute in values file.
+
+If you want to include in your logs, the name of the microservice which generates the logs, you can do so by setting the value of the name of the microservice in the attribute `logger.microserviceTag`.
+By default this attribute is set to empty string.
+```yaml
+logger:
+  microserviceTag: ''
+```
 
 ### Modifying deployment strategy
 

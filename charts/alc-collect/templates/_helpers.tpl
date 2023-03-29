@@ -189,9 +189,6 @@ Volumes
 - name: {{ include "alc-collect.name" . }}-configmap
   configMap:
     name: {{ include "alc-collect.name" . }}-configmap
-- name: liquibase-config
-  configMap:
-    name: {{ include "alc-collect.name" . }}-liquibase-configmap
 - name: server-cert
 {{- if .Values.mountServerCertFromSecret.enabled }}
   secret:

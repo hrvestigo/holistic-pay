@@ -8,13 +8,16 @@
     <Property name="fileNameTomcat">messages.log</Property>
     <Property name="fileNameHealth">health.log</Property>
     {{- end }}
-    <Property name="defaultPattern">[%d] [%X{correlationId}] %p %c{1.} %replace{%m}{[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}}{*****}%n</Property>
+    <Property name="microserviceTag">{{ .microserviceTag }}</Property>
+    <Property name="defaultPattern">[%d] [%X{correlationId}] %repeat{${microserviceTag}}{1} %p %c{1.} %replace{%m}{[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}}{*****}%n</Property>
     <Property name="healthPattern">[%d] [%X{correlationId}] %m%n</Property>
+
 
     <Property name="applicationAppender">Application</Property>
     <Property name="tomcatAppender">Tomcat</Property>
     <Property name="healthAppender">Health</Property>
     <Property name="consoleAppender">Console</Property>
+
   </Properties>
 
   <Appenders>
@@ -165,6 +168,27 @@
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
     {{- end }}
+
+    <Logger name="org.springframework.kafka.listener" level={{ .level.general | upper | quote }} additivity="false">
+      {{- if .logToFile }}
+      <AppenderRef ref="${applicationAppender}"/>
+        {{- end }}
+      <AppenderRef ref="${consoleAppender}"/>
+      <Filters>
+        <RegexFilter regex="^(Commit list: \{\}|Received: 0 records)$" onMatch="DENY" onMismatch="ACCEPT" />
+      </Filters>
+    </Logger>
+
+    <Logger name="com.zaxxer.hikari.pool.HikariPool" level={{ .level.database | upper | quote }} additivity="false">
+      {{- if .logToFile }}
+      <AppenderRef ref="${applicationAppender}"/>
+        {{- end }}
+      <AppenderRef ref="${consoleAppender}"/>
+      <Filters>
+        <ThresholdFilter level="DEBUG" onMatch="NEUTRAL" onMismatch="DENY"/>
+        <RegexFilter regex="^HikariPool.*" onMatch="DENY" onMismatch="ACCEPT"/>
+      </Filters>
+    </Logger>
 
     <Root level={{ .level.general | upper | quote }}>
       <AppenderRef ref="${consoleAppender}"/>
