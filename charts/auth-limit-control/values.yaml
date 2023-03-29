@@ -48,9 +48,6 @@ members:
     dbName: ''
     user: ''
     password: ''
-    connTimeout: ''
-    maxPoolSize: ''
-    minIdle: 0
 kafka:
   readinessProbeEnabled: true
   user: ''
