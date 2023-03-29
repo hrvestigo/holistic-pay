@@ -189,9 +189,6 @@ Volumes
 - name: {{ include "cms-interface.name" . }}-configmap
   configMap:
     name: {{ include "cms-interface.name" . }}-configmap
-- name: liquibase-config
-  configMap:
-    name: {{ include "cms-interface.name" . }}-liquibase-configmap
 - name: server-cert
 {{- if .Values.mountServerCertFromSecret.enabled }}
   secret:
