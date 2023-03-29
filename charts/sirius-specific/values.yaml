@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.118.0
+    tag: 1.126.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -66,8 +66,11 @@ kafka:
     url: ''
   topics:
     paymentOriginalMessage:
-      name: gcp.ipt1.hp.evt.paymentOriginalMessage
+      name: gcp.ipt1.hp.evt.paymentoriginalmessage
       consumerGroup: gcp.ipt1.hp.evt.sirspec1.paymentoriginalmessage
+    paymentOriginalMessageInbox:
+      name: gcp.ipt1.hp.evt.paymentoriginalmessageinbox
+      consumerGroup: gcp.ipt1.hp.evt.sirspec1.paymentoriginalmessageinbox
     paymentOrderFlow:
       name: gcp.ipt1.hp.evt.paymentorderflow
       consumerGroup: gcp.ipt1.hp.evt.sirspec1.paymentorderflow
