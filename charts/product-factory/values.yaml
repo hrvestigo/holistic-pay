@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.0.0
+    tag: 4.7.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -48,9 +48,6 @@ members:
     dbName: ''
     user: ''
     password: ''
-    connTimeout: ''
-    maxPoolSize: ''
-    minIdle: 0
 kafka:
   user: ''
   servers: ''
@@ -111,8 +108,6 @@ kafka:
       clearingsysreg:
         name: hr.vestigo.hp.clearingsysreg.sirspec
         consumerGroup: hr.vestigo.hp.clearingsysreg.sirspec
-
-
 productFactory:
   cobaffschema:
     enabled: true
