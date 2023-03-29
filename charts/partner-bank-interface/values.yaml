@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 2.19.0
+    tag: 3.2.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -25,6 +25,7 @@ datasource:
   connTimeout: 60000
   maxPoolSize: 2
   minIdle: 0
+  idleTimeout: 120000
   connectionParams: {}
 liquibase:
   enabled: true
@@ -119,6 +120,7 @@ logger:
   logDir: /var/log/app
   logDirMount:
     enabled: false
+  microserviceTag: ''
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
 springActiveProfile: prod

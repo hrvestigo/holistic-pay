@@ -189,9 +189,6 @@ Volumes
 - name: {{ include "partner-bank-interface.name" . }}-configmap
   configMap:
     name: {{ include "partner-bank-interface.name" . }}-configmap
-- name: liquibase-config
-  configMap:
-    name: {{ include "partner-bank-interface.name" . }}-liquibase-configmap
 - name: server-cert
 {{- if .Values.mountServerCertFromSecret.enabled }}
   secret:
