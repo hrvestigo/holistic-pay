@@ -546,7 +546,7 @@ Schema name for application member is auto-generated and will be in format `{mem
 
 `members` attribute enables customization on database level. It is possible to override specific datasource and liquibase parameters for each member separately.
 
-List of all attributes which can be overridden:
+List of all attributes which can be overridden (connTimeout, maxPoolSize, minIdle and idleTimeout are globally set the same for all members):
 
 ```yaml
 members:
@@ -565,9 +565,6 @@ members:
       dbName: ""
       user: ""
       password: ""
-      connTimeout: ""
-      maxPoolSize: ""
-      minIdle: 0
 ```
 
 Each attribute within `members.datasource` and `members.liquibase` can be defined to override same values defined in `datasource` and `liquibase` blocks.
