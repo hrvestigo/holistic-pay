@@ -1154,6 +1154,16 @@ entries:
     version: 0.2.0
   auth-limit-control:
   - apiVersion: v2
+    appVersion: 3.5.0
+    created: "2023-03-29T07:53:10.170964369Z"
+    description: Helm chart for auth limit control application
+    digest: 18f9edaae8ec7079a902836c75cb27cb6ce04b11bf69bf9ecbcc42f98b9c0451
+    name: auth-limit-control
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/auth-limit-control-3.5.0/auth-limit-control-3.5.0.tgz
+    version: 3.5.0
+  - apiVersion: v2
     appVersion: 3.4.0
     created: "2023-03-29T06:57:07.390163914Z"
     description: Helm chart for auth limit control application
@@ -9892,4 +9902,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-specific-1.0.1/sirius-specific-1.0.1.tgz
     version: 1.0.1
-generated: "2023-03-29T07:48:41.464882683Z"
+generated: "2023-03-29T07:53:10.180484458Z"
