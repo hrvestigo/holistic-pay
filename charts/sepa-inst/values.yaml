@@ -80,7 +80,10 @@ csm:
   id: NKS9999998
   url: ''
   msgPath: /instant-core/api/msg
+  info: ''
   xsdCheck: inout
+  msgSignature: inout
+  msgSignatureAlgorithm: SHA256withRSA
   config:
     camt_029:
       xsdCheck: inherit
@@ -125,6 +128,7 @@ secret:
   liquibasePassword: ''
   trustStorePassword: ''
   keyStorePassword: ''
+  keyStoreSignaturePassword: ''
 logger:
   level:
     kafka: DEBUG
@@ -242,6 +246,11 @@ mountServerCertFromSecret:
   certPath: ''
   keyPath: ''
 mountKeyStoreFromSecret:
+  enabled: false
+  secretName: ''
+  keyStoreName: ''
+  keyStoreType: JKS
+mountKeyStoreSignatureFromSecret:
   enabled: false
   secretName: ''
   keyStoreName: ''

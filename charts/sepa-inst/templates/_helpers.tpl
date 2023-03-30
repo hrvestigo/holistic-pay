@@ -137,6 +137,8 @@ Trust store env variables
   value: {{ $trustStorePath }}
 - name: SSL_TRUST_STORE_FILE
   value: {{ $trustStorePath }}
+- name: SSL_TRUST_STORE_TYPE
+  value: {{ .Values.mountTrustStoreFromSecret.trustStoreType }}
 - name: JAVAX_NET_SSL_TRUST_STORE
   value: {{ $trustStorePath }}
 {{- else if .Values.mountCaFromSecret.enabled -}}
@@ -214,6 +216,16 @@ Volumes
         key: {{ .Values.mountKeyStoreFromSecret.keyStoreName }}
 {{- end }}
 {{- end }}
+{{- if .Values.mountKeyStoreSignatureFromSecret.enabled }}
+- name: keystore-signature
+  secret:
+    secretName: {{ .Values.mountKeyStoreSignatureFromSecret.secretName }}
+{{- if .Values.mountKeyStoreSignatureFromSecret.keyStoreName }}
+    items:
+      - path: {{ .Values.mountKeyStoreSignatureFromSecret.keyStoreName }}
+        key: {{ .Values.mountKeyStoreSignatureFromSecret.keyStoreName }}
+{{- end }}
+{{- end }}
 {{- if .Values.mountTrustStoreFromSecret.enabled }}
 - name: truststore
   secret:
@@ -264,6 +276,10 @@ Mounts for sepa-inst application
 {{- if .Values.mountKeyStoreFromSecret.enabled }}
 - mountPath: /mnt/k8s/key-store
   name: keystore
+{{- end }}
+{{- if .Values.mountKeyStoreSignatureFromSecret.enabled }}
+- mountPath: /mnt/k8s/key-store-signature
+  name: keystore-signature
 {{- end }}
 {{- if .Values.mountTrustStoreFromSecret.enabled }}
 - mountPath: /mnt/k8s/trust-store

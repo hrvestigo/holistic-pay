@@ -261,10 +261,13 @@ imagePullSecrets:
 
 ```yaml
 csm:
-  id: NKS9999998                  # CSM id
-  url:                            # required, base path to CSM (https://server:port)
-  msgPath: /instant-core/api/msg  # request path on which messages to CSM are send
-  xsdCheck: inout                 # XSD check enabled for messages from and to CSM
+  id: NKS9999998                        # CSM id
+  url:                                  # required, base path to CSM (https://server:port)
+  msgPath: /instant-core/api/msg        # request path on which messages to CSM are send
+  info:                                 # optional resource to access via GET to CSM when application start
+  xsdCheck: inout                       # XSD check enabled for messages from and to CSM
+  msgSignature: inout                   # create/verify message signature for messages to/from CSM
+  msgSignatureAlgorithm: SHA256withRSA  # algorithm used for signature
 ```
 
 Using `id` parameter we configure CSM id for which CSM specific parameters are
@@ -289,7 +292,16 @@ resources for `POST` to CSM:
 
 For example, with `url` set to `http://localhost:8080` and using defaults for other
 parameters, application sends `pacs008` message by sending `POST` request to CSM on
-`http://localhost:8080/instant-core/ap/msg/pacs_008`.
+`http://localhost:8080/instant-core/api/msg/pacs_008`.
+
+Using parameter `info` we can configure CSM endpoint to call when application starts.
+Performing this call we can ensure that we can communicate via CSM.
+For example, with `info` set to `instant-core/api/info` application performs `GET`
+`http://localhost:8080/instant-core/api/info`. Currently two headers are send via this `GET` call:
+ - `Content-Type: application/json`
+ - `accept: */*`
+
+**NOTE**: if `GET` call to `info` resource fails, application will not start.
 
 Using parameter `xsdCheck` we configure if `XSD` check is needed when receiving or sending
 messages to CSM. This is global setting, meaning it is applied on all messages.
@@ -298,6 +310,13 @@ The following values are applicable:
  - `in`     - XSD check is enabled only for messages received from CSM
  - `out`    - XSD check is enabled only for messages send to CSM
  - `off`    - XSD check is disabled
+  
+Using parameter `msgSignature` we configure if message signature is created or validated.
+The following values are applicable:
+ - `inout`  - signature is created for messages to CSM and validated for messages from CSM
+ - `in`     - signature is not created for messages to CSM but validated from messages from CSM
+ - `out`    - signature is created for messages to CSM and not validated for messages from CSM
+ - `off`    - signature is not created nor validated
 
 #### CSM configuration per message
 
@@ -336,7 +355,7 @@ csm:
 The parameter `xsdCheck` has the same meaning as the global parameter on CSM level,
 but with additional option `inherit`. This is a default option, which means that
 CSM level parameter value is applicable.
-<br>Using CMS level configuration `inout` and message level configuration `off`
+<br>Using CSM level configuration `inout` and message level configuration `off`
 we can disable XSD check for single message only. To enable XSD check for single
 message we can set CSM level configuration to `off` and message level `inout`.
 
@@ -596,6 +615,39 @@ Password should be encrypted with the key defined in `secret.decryptionKey`.
 ```yaml
 secret:
   keyStorePassword: "{aes}KeyStorePassword" # AES encoded trust store password
+```
+
+When using secret to mount key store, no additional custom setup is required.
+
+#### Provide signature key store from predefined secret
+
+`SEPA inst` application exchange messages with Clearing & Settlement System (see [CSM](#csm-configuration) section). On `CSM` level we configure if message signature is created and/or verified using signature key store.
+
+Signature key store required for message signature creation/verification can be provided via predefined secret.
+**Note that this secret has to be created in target namespace prior to installation of `SEPA inst` application.**
+
+When adding signature key store from secret, following values have to be provided:
+
+```yaml
+mountKeyStoreSignatureFromSecret:
+  enabled: true # boolean value, default is false
+  secretName: "name-of-key-store-secret" # string value
+  keyStoreName: "name-of-key-store-file-from-secret" # string value
+  keyStoreType: "type-of-key-store" # string value, default is JKS
+```
+
+`keyStoreName` is the actual name of the key store file itself, as defined in secret.
+
+Those two parameters are joined together to form an absolute path to key store file.
+
+Default key store type is JKS and if other type of key store file is provided, it has to be specified in `keyStoreType` attribute, for example "PKCS12".
+
+Signature key store password has to be provided as AES encoded string in `secret.keyStoreSignaturePassword` attribute.
+Password should be encrypted with the key defined in `secret.decryptionKey`.
+
+```yaml
+secret:
+  keyStoreSignaturePassword: "{aes}KeyStorePassword" # AES encoded key store password
 ```
 
 When using secret to mount key store, no additional custom setup is required.

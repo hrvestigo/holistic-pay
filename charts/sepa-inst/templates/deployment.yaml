@@ -161,8 +161,14 @@ spec:
               value: {{ required "Please specify Clearing System base URL in cms.url" .Values.csm.url | quote }}
             - name: SEPA_INST_CSM_MSG_PATH
               value: {{ required "Please specify Clearing System message path in cms.msgPath" .Values.csm.msgPath | quote }}
+            - name: SEPA_INST_CSM_INFO
+              value: {{ .Values.csm.info | quote }}
             - name: SEPA_INST_CSM_XSD_CHECK
               value: {{ .Values.csm.xsdCheck | quote }}
+            - name: SEPA_INST_CSM_MSG_SIGNATURE
+              value: {{ .Values.csm.msgSignature | quote }}
+            - name: SEPA_INST_CSM_MSG_SIGNATURE_ALGORITHM
+              value: {{ .Values.csm.msgSignatureAlgorithm | quote }}
             {{- if (include "sepa-inst.endpoint.config" .) -}}
             {{- include "sepa-inst.endpoint.config" . | nindent 12 -}}
             {{- end }}
@@ -233,10 +239,16 @@ spec:
             {{- include "sepa-inst.trustStoreEnv" . | nindent 12 -}}
             {{- end }}
             {{- if .Values.mountKeyStoreFromSecret.enabled }}
-            - name: SERVER_SSL_KEY_STORE_FILE
-              value: {{ required "Please specify key store location in mountKeyStoreFromSecret.location" .Values.mountKeyStoreFromSecret.location }}/{{ required "Please specify key store file name in mountKeyStoreFromSecret.keyStoreName" .Values.mountKeyStoreFromSecret.keyStoreName }}
+            - name: SSL_KEY_STORE_FILE
+              value: /mnt/k8s/key-store/{{ required "Please specify mTLS key store file name in mountKeyStoreFromSecret.keyStoreName" .Values.mountKeyStoreFromSecret.keyStoreName }}
             - name: SSL_KEY_STORE_TYPE
               value: {{ required "Please specify key store type in mountKeyStoreFromSecret.keyStoreType" .Values.mountKeyStoreFromSecret.keyStoreType }}
+            {{- end }}
+            {{- if .Values.mountKeyStoreSignatureFromSecret.enabled }}
+            - name: SSL_KEY_STORE_SIGNATURE_FILE
+              value: /mnt/k8s/key-store-signature/{{ required "Please specify signature key store file name in mountKeyStoreSignatureFromSecret.keyStoreName" .Values.mountKeyStoreSignatureFromSecret.keyStoreName }}
+            - name: SSL_KEY_STORE_SIGNATURE_TYPE
+              value: {{ required "Please specify signature key store type in mountKeyStoreSignatureFromSecret.keyStoreType" .Values.mountKeyStoreSignatureFromSecret.keyStoreType }}
             {{- end }}
             {{- if .Values.oauth2.enabled }}
             - name: SECURITY_AUTHENTICATION
