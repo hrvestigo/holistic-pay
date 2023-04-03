@@ -117,7 +117,10 @@ datasource:
   connTimeout: 60000 # defines time (in ms) after which active connection will timeout and be closed
   maxPoolSize: 2 # defines max size of database connection pool
   minIdle: 0 # defines min number of retained idle connections
+  idleTimeout: 120000 # defines the maximum amount of time that a connection is allowed to sit idle in the pool
 ```
+
+Above properties are same in case of multi-member DB configuration.
 
 Liquibase can be disabled if necessary with `liquibase.enabled` attribute (enabled by default):
 
@@ -298,7 +301,7 @@ Using parameter `info` we can configure CSM endpoint to call when application st
 Performing this call we can ensure that we can communicate via CSM.
 For example, with `info` set to `instant-core/api/info` application performs `GET`
 `http://localhost:8080/instant-core/api/info`. Currently two headers are send via this `GET` call:
- - `Content-Type: application/json`
+ - `Content-Type: text/xml;charset=UTF-8`
  - `accept: */*`
 
 **NOTE**: if `GET` call to `info` resource fails, application will not start.
@@ -691,9 +694,6 @@ members:
       dbName: ""
       user: ""
       password: ""
-      connTimeout: ""
-      maxPoolSize: ""
-      minIdle: 0
 ```
 
 Each attribute within `members.datasource` and `members.liquibase` can be defined to override same values defined in `datasource` and `liquibase` blocks.
