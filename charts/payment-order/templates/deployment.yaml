@@ -116,7 +116,7 @@ spec:
               value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
               {{- end }}
             - name: DOMESTIC_COUNTRYCODE_{{ .memberSign }}
-              value: {{ .domestic.countryCode | quote }}
+              value: {{ .domestic.countryCode | default "HRV" | quote }}
             {{- end }}
             - name: MEMBERS
               value: {{ include "payment-order.members" . }}

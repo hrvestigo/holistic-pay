@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.78.0
+    tag: 1.80.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -127,7 +127,7 @@ logger:
     enabled: false
   microserviceTag: ''
 healthStatusDownReturnCode: '418'
-javaOpts: -Xms256M -Xmx256M
+javaOpts: -Xms256M -Xmx512M
 podAnnotations: {}
 deploymentAnnotations: {}
 serviceAnnotations: {}
@@ -155,7 +155,7 @@ ingress:
 resources:
   limits:
     cpu: 500m
-    memory: 512Mi
+    memory: 1Gi
   requests:
     cpu: 50m
     memory: 256Mi
