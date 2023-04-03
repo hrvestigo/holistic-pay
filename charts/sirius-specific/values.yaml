@@ -22,9 +22,6 @@ datasource:
   dbName: ''
   user: ''
   globalSchemaPrefix: wo
-  connTimeout: 60000
-  maxPoolSize: 2
-  minIdle: 0
   connectionParams: {}
 liquibase:
   enabled: false
@@ -51,9 +48,6 @@ members:
     dbName: ''
     user: ''
     password: ''
-    connTimeout: ''
-    maxPoolSize: ''
-    minIdle: 0
 kafka:
   user: ''
   servers: ''
