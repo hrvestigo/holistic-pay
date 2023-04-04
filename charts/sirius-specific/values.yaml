@@ -120,8 +120,8 @@ sirius:
       payOrderPosting: WS9018
       payOrderCancellation: WS9019
       payOrderCrePosCanc: WS9013
-      payOrderCancellationRequest: WS9014
-      payOrderRjctCancellationRequest: WS9015
+      payOrderCancellationRequest: WS9024
+      payOrderRjctCancellationRequest: WS9025
       payOrderReturn: WS9016
       payOrderCancellationRequestStatu: WS9017
   specific:
