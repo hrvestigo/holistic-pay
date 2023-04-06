@@ -221,6 +221,16 @@ spec:
               value: {{ .Values.productFactory.calendarItem.enabled | quote }}
             - name: PRODUCT_FACTORY_CLEARINGSYSREG_ENABLED
               value: {{ .Values.productFactory.clearingsysreg.enabled | quote }}
+            - name: PRODUCT_FACTORY_SIRIUS_CURRENCY_ENABLED
+              value: {{ .Values.productFactory.sirius.currency.enabled | quote }}
+            - name: PRODUCT_FACTORY_SIRIUS_COUNTRY_ENABLED
+              value: {{ .Values.productFactory.sirius.country.enabled | quote }}
+            - name: PRODUCT_FACTORY_BANKPRODUCTTYPE_ENABLED
+              value: {{ .Values.productFactory.sirius.bankproducttype.enabled | quote }}
+            - name: PRODUCT_FACTORY_PURPOSESUBTYPE_ENABLED
+              value: {{ .Values.productFactory.sirius.purposesubtype.enabled | quote }}
+            - name: PRODUCT_FACTORY_BPTSTATUSSCH_ENABLED
+              value: {{ .Values.productFactory.sirius.bptStatusSch.enabled | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.7.0
+    tag: 4.8.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -110,25 +110,36 @@ kafka:
         consumerGroup: hr.vestigo.hp.clearingsysreg.sirspec
 productFactory:
   cobaffschema:
-    enabled: true
+    enabled: false
   cobaffschemagatewayparams:
-    enabled: true
+    enabled: false
   cobaffschemalimit:
-    enabled: true
+    enabled: false
   financiallimittype:
-    enabled: true
+    enabled: false
   country:
-    enabled: true
+    enabled: false
+  sirius:
+    country:
+      enabled: false
+    currency:
+      enabled: false
+    bankproducttype:
+      enabled: false
+    purposesubtype:
+      enabled: false
+    bptStatusSch:
+      enabled: false
   currency:
-    enabled: true
+    enabled: false
   crdintacctype:
-    enabled: true
+    enabled: false
   calendar:
-    enabled: true
+    enabled: false
   calendarItem:
-    enabled: true
+    enabled: false
   clearingsysreg:
-    enabled: true
+    enabled: false
 request:
   sanitization:
     enabled: true
