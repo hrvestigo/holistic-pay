@@ -178,7 +178,9 @@ spec:
             - name: RISK_LIMITS_ENABLED
               value: {{ .Values.riskLimits.enabled | quote }}
             - name: STATUS_MANAGEMENT_ENABLED
-              value: {{ .Values.statusManagement.enabled | quote }}
+              value: {{ .Values.status.management.enabled | quote }}
+            - name: STATUS_AUDIT_LOG_ENABLED
+              value: {{ .Values.status.auditLog.enabled | quote }}
             - name: PERSON_STRUCTURE_CHECKS_ENABLED
               value: {{ .Values.personStructureChecks.enabled | quote }}
             - name: PARAM_WARMUP_ENABLED
@@ -191,6 +193,10 @@ spec:
               value: {{ .Values.initial.account.lifecycleCheck | quote }}
             - name: PERSON_STRUCTURE_COMPLETENESS_FLAG_ALGORITHM
               value: {{ .Values.personStructure.completenessFlagAlgorithm | quote }}
+            - name: MS_SEQUENCE_NAME
+              value: {{ .Values.ms.sequence | quote }}
+            - name: APP_MODULE_NAME
+              value: {{ .Values.ms.appModuleName | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

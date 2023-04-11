@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.8.0
+    tag: 4.9.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -83,10 +83,16 @@ cms:
   moduleName: BOS
   deliveryChannel: DCC
   userId: HPTECH001
+ms:
+  sequence: perstr_seq
+  appModuleName: PERSTR
 riskLimits:
   enabled: false
-statusManagement:
-  enabled: false
+status:
+  management:
+    enabled: false
+  auditLog:
+    enabled: false
 personStructureChecks:
   enabled: false
   cache:

@@ -89,6 +89,17 @@ cms:
   `moduleName` and `deliveryChannel` attributes are related to CMS application itself and have to be set in correspondence with it.
   Attribute `userId` should point to technical user for HolisticPay.
 
+
+###Define microservice specifics
+```yaml
+ms:
+  sequence: perstr_seq #default value
+  appModuleName: PERSTR  #default value
+ ```
+`sequence` value defines this microservice database sequence name which has default value 'perstr_seq'.
+`appModuleName` value defines application module name of microservice which has default value 'PERSTR'.
+
+
 ###Enabling risk limit functionalities
 ```yaml
 riskLimits:
@@ -96,13 +107,19 @@ riskLimits:
 ```
 Enables/disables all risk limits functionalities in the microservice.
 
-###Enabling status management functionalities
+###Enabling status functionalities
 ```yaml
-statusManagement:
-  enabled: false  #default value, disables all status management functionalities
+status:
+  management:
+    enabled: false  #default value, disables all status management functionalities
+  auditLog:
+    enabled: false  #default value, disables audit log functionality
 ```
-Enables/disables status management functionalities.
+`management` value enables/disables status management functionalities.
 Additionally, consumer group for personstructure topic should be specified.
+`auditLog` enables/disables audit log functionality in the microservice.
+This functionality is used for tracking changes on "status_applied" and "status_effect" tables
+by saving old and new values of different attributes in audit_log table.
 
 ###Enabling person structure checks functionalities
 ```yaml
