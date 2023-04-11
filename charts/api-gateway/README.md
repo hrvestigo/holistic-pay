@@ -141,7 +141,7 @@ The only requirement is to set secret name and names of certificate and key file
 
 #### Provide trust store with custom `initContainer`
 
-If outbound resources (Kafka or database) require TLS connection, trust store with required certificates should also be provided.
+If outbound resources (oAuth2 provider or other) require TLS connection, trust store with required certificates should also be provided.
 
 One of the options is to provide trust store via custom `initContainer`.
 
@@ -183,18 +183,14 @@ customMounts:
 Note that `mountPath` variable is used to specify a location of trust store in api-gateway container.
 Suggested location is: `/mnt/k8s/trust-store`.
 
-To make trust store available to underlying application server, its location (absolute path - `mountPath` and file name) should be defined in following environment variables:
+To make trust store is available to underlying application server, its location (absolute path - `mountPath` and file name) and type should be defined in following environment variables:
 
 ```yaml
 customEnv:
-  - name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_LOCATION
-    value: /some/mount/path/trust-store-file # path defined in volumeMount, has to contain full trust store file location
-  - name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_TYPE
-    value: JKS # defines provided trust store type (PKCS12, JKS, or other)
-  - name: SSL_TRUST_STORE_FILE
-    value: /some/mount/path/trust-store-file # path defined in volumeMount, has to contain full trust store file location
   - name: JAVAX_NET_SSL_TRUST_STORE
     value: /some/mount/path/trust-store-file # path defined in volumeMount, has to contain full trust store file location
+  - name: JAVAX_NET_SSL_TRUST_STORE_TYPE
+    value: JKS # defines provided trust store type (PKCS12, JKS, or other)
 ```
 
 Trust store password should be AES encrypted with key provided in `secret.decryptionKey` and set to `secret.trustStorePassword`:
@@ -208,7 +204,6 @@ secret:
 
 Trust store can also be provided by using predefined secret.
 **Note that this secret has to be created in target namespace prior to installation of API Gateway application.**
-Additionally, both certificate and key files should be in one single secret.
 
 When adding trust store as secret, following values have to be provided:
 
@@ -221,8 +216,6 @@ mountTrustStoreFromSecret:
 ```
 
 `trustStoreName` is the actual name of the trust store file itself, as defined in secret.
-
-Those two parameters are joined together to form an absolute path to trust store file.
 
 Default trust store type is JKS and if other type of trust store file is provided, it has to be specified in `trustStoreType` attribute, for example "PKCS12".
 
@@ -250,7 +243,10 @@ mountCaFromSecret:
   secretName: "secret-with-certificates"
 ```
 
-When `mountCaFromSecret` is enabled, application will import all certificate files from secret to existing trust store.
+When `mountCaFromSecret` is enabled, application will import all certificate files from secret to existing, Java's default, trust store.
+
+When multiple certificates are added, they have to be added to a single secret as separate files.
+Application will not load multiple certificates from one file, only first one will be imported.
 
 Note that either `mountTrustStoreFromSecret` or `mountCaFromSecret` can be used, if both are enabled, `mountTrustStoreFromSecret` will be used.
 
@@ -295,14 +291,13 @@ customMounts:
 Note that `mountPath` variable is used to specify a location of key store in api-gateway container.
 Suggested location is: `/mnt/k8s/trust-store`.
 
-To make key store available to underlying application server, its location (absolute path - `mountPath` and file name) should be defined in environment variable.
-Additionally, key store type should also be defined, for example:
+To make key store available to underlying application server, its location (absolute path - `mountPath` and file name) and type should be defined in environment variable, for example:
 
 ```yaml
 customEnv:
-  - name: SERVER_SSL_KEY_STORE_FILE
+  - name: JAVAX_NET_SSL_KEY_STORE
     value: /some/mount/path/key-store-file # path defined in volumeMount, has to contain full key store file location
-  - name: SSL_KEY_STORE_TYPE
+  - name: JAVAX_NET_SSL_KEY_STORE_TYPE
     value: PKCS12 # defines key store type (PKCS12, JKS, or other)
 ```
 
@@ -331,8 +326,6 @@ mountKeyStoreFromSecret:
 ```
 
 `keyStoreName` is the actual name of the key store file itself, as defined in secret.
-
-Those two parameters are joined together to form an absolute path to key store file.
 
 Default key store type is JKS and if other type of key store file is provided, it has to be specified in `keyStoreType` attribute, for example "PKCS12".
 
@@ -842,13 +835,13 @@ Finally, since API Gateway is an Java application, there's a possibility to set 
 There is a predefined value which specifies `Xms` and `Xmx` JVM parameters:
 
 ```yaml
-javaOpts: "-Xms256M -Xmx256M" -Dreactor.netty.http.server.accessLogEnabled=true -Dlogging.config=/opt/app/logback.xml # default value, do not modify!
+javaOpts: "-Xms256M -Xmx256M" # default value
 ```
 
 This value can be changed by modifying existing parameters or adding custom, for example:
 
 ```yaml
-javaOpts: "-Xms256M -Xmx512M -Dreactor.netty.http.server.accessLogEnabled=true -Dlogging.config=/opt/app/logback.xml -Dcustom.jvm.param=true"
+javaOpts: "-Xms256M -Xmx512M -Dcustom.jvm.param=true"
 ```
 
-Note that defining custom `javaOpts` attribute will override default one, so make sure to keep `Xms`, `Xmx`, `-Dreactor.netty.http.server.accessLogEnabled=true` and `-Dlogging.config=/opt/app/logback.xml` parameters.
+Note that defining custom `javaOpts` attribute will override default one, so make sure to keep `Xms` and `Xmx` parameters.

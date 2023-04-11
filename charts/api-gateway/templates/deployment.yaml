@@ -67,21 +67,20 @@ spec:
               value: '8443'
             - name: SPRING_CONFIG_ADDITIONALLOCATION
               value: /opt/app/application.yaml
+            - name: LOGGING_CONFIG
+              value: /opt/app/log4j2.xml
+            - name: SECRET_PROPERTIES
+              value: /mnt/k8s/secrets/password.conf
             - name: LANG
               value: C.UTF-8
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
-            {{- if (include "api-gateway.trustStoreEnv" .) -}}
-            {{- include "api-gateway.trustStoreEnv" . | nindent 12 -}}
-            {{- end -}}
-            {{- if .Values.mountKeyStoreFromSecret.enabled }}
-            - name: SERVER_SSL_KEY_STORE_FILE
-              value: {{ required "Please specify key store location in mountKeyStoreFromSecret.location" .Values.mountKeyStoreFromSecret.location }}/{{ required "Please specify key store file name in mountKeyStoreFromSecret.keyStoreName" .Values.mountKeyStoreFromSecret.keyStoreName }}
-            - name: SSL_KEY_STORE_TYPE
-              value: {{ required "Please specify key store type in mountKeyStoreFromSecret.keyStoreType" .Values.mountKeyStoreFromSecret.keyStoreType }}
+            {{- if (include "api-gateway.trustStoreEnv" .) }}
+            {{- include "api-gateway.trustStoreEnv" . | nindent 12 }}
             {{- end }}
-            - name: SPRING_PROFILES_ACTIVE
-              value: {{ .Values.springActiveProfile | quote }}
+            {{- if (include "api-gateway.keyStoreEnv" .) }}
+            {{- include "api-gateway.keyStoreEnv" . | nindent 12 }}
+            {{- end }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

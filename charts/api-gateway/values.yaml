@@ -18,6 +18,7 @@ imagePullSecrets: []
 timezone: ""
 
 secret:
+  decryptionKey: ""
   trustStorePassword: ""
   keyStorePassword: ""
 
@@ -66,7 +67,7 @@ oauth2:
 
 healthStatusDownReturnCode: "418"
 
-javaOpts: "-Xms256M -Xmx256M -Dreactor.netty.http.server.accessLogEnabled=true"
+javaOpts: "-Xms256M -Xmx256M"
 
 podAnnotations: {}
 

@@ -6,5 +6,5 @@ data:
   application.yaml: |-
     {{- include "api-gateway.appConfig" . | nindent 4 }}
     
-  logback.xml: |-
+  log4j2.xml: |-
     {{- include "api-gateway.logger" . | nindent 4 }}

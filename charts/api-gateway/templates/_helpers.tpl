@@ -20,22 +20,31 @@ Trust store env variables
 {{- if .Values.mountTrustStoreFromSecret.enabled -}}
 {{- $trustStoreName := required "Please specify trust store file name in mountTrustStoreFromSecret.trustStoreName" .Values.mountTrustStoreFromSecret.trustStoreName }}
 {{- $trustStorePath := printf "%s%s" $trustStoreLocation $trustStoreName -}}
-- name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_TYPE
-  value: {{ required "Please specify trust store type in mountTrustStoreFromSecret.trustStoreType" .Values.mountTrustStoreFromSecret.trustStoreType }}
-- name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_LOCATION
-  value: {{ $trustStorePath }}
-- name: SSL_TRUST_STORE_FILE
-  value: {{ $trustStorePath }}
 - name: JAVAX_NET_SSL_TRUST_STORE
   value: {{ $trustStorePath }}
+- name: JAVAX_NET_SSL_TRUST_STORE_TYPE
+  value: {{ .Values.mountTrustStoreFromSecret.trustStoreType }}
 {{- else if .Values.mountCaFromSecret.enabled -}}
 {{- $trustStorePath := printf "%s%s" $trustStoreLocation "cacerts" -}}
-- name: SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_LOCATION
-  value: {{ $trustStorePath }}
-- name: SSL_TRUST_STORE_FILE
-  value: {{ $trustStorePath }}
 - name: JAVAX_NET_SSL_TRUST_STORE
   value: {{ $trustStorePath }}
+- name: JAVAX_NET_SSL_TRUST_STORE_TYPE
+  value: JKS
+{{- end -}}
+{{- end }}
+
+{{/*
+Key store env variables
+*/}}
+{{- define "api-gateway.keyStoreEnv" -}}
+{{- $keyStoreLocation := "/mnt/k8s/key-store/" }}
+{{- if .Values.mountKeyStoreFromSecret.enabled -}}
+{{- $keyStoreName := required "Please specify key store file name in mountKeyStoreFromSecret.keyStoreName" .Values.mountKeyStoreFromSecret.keyStoreName }}
+{{- $keyStorePath := printf "%s%s" $keyStoreLocation $keyStoreName -}}
+- name: JAVAX_NET_SSL_KEY_STORE
+  value: {{ $keyStorePath }}
+- name: JAVAX_NET_SSL_KEY_STORE_TYPE
+  value: {{ .Values.mountKeyStoreFromSecret.keyStoreType }}
 {{- end -}}
 {{- end }}
 
@@ -94,6 +103,12 @@ Volumes
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
+- name: {{ include "api-gateway.name" . }}-secret
+  secret:
+    secretName: {{ include "api-gateway.name" . }}-secret
+    items:
+      - path: password.conf
+        key: password.conf
 - name: {{ include "api-gateway.name" . }}-configmap
   configMap:
     name: {{ include "api-gateway.name" . }}-configmap
@@ -150,12 +165,14 @@ Mounts for api-gateway application
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
+- mountPath: /mnt/k8s/secrets/
+  name: {{ include "api-gateway.name" . }}-secret
 - mountPath: /opt/app/application.yaml
   name: {{ include "api-gateway.name" . }}-configmap
   subPath: application.yaml
-- mountPath: /opt/app/logback.xml
+- mountPath: /opt/app/log4j2.xml
   name: {{ include "api-gateway.name" . }}-configmap
-  subPath: logback.xml
+  subPath: log4j2.xml
 {{- if .Values.mountServerCertFromSecret.enabled }}
 - mountPath: /mnt/k8s/tls-server/key.pem
   name: server-cert
@@ -199,7 +216,7 @@ Application secrets
 Application logger
 */}}
 {{- define "api-gateway.logger" -}}
-{{ tpl (.Files.Get "config/logback.xml") . }}
+{{ tpl (.Files.Get "config/log4j2.xml") . }}
 {{- end }}
 
 {{/*
