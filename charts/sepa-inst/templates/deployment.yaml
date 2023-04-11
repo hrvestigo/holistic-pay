@@ -231,6 +231,10 @@ spec:
               value: {{ .Values.datasource.minIdle | quote }}
             - name: SPRING_DATASOURCE_HIKARI_IDLETIMEOUT
               value: {{ .Values.datasource.idleTimeout | quote }}
+            {{- if .Values.logger.databaseSlowQueryThreshold }}
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_SESSION_EVENTS_LOG_LOG_QUERIES_SLOWER_THAN_MS
+              value: {{ .Values.logger.databaseSlowQueryThreshold | quote }}
+            {{- end }}
             - name: SECRET_PROPERTIES
               value: /mnt/k8s/secrets/password.conf
             - name: KAFKA_HEALTH_ENABLED
