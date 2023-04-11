@@ -69,8 +69,10 @@ spec:
               value: /opt/app/application.yaml
             - name: LOGGING_CONFIG
               value: /opt/app/log4j2.xml
+            {{- if or .Values.mountKeyStoreFromSecret.enabled .Values.mountTrustStoreFromSecret.enabled }}
             - name: SECRET_PROPERTIES
               value: /mnt/k8s/secrets/password.conf
+            {{- end }}
             - name: LANG
               value: C.UTF-8
             - name: JAVA_OPTS
