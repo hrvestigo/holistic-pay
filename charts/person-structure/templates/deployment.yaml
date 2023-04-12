@@ -195,7 +195,7 @@ spec:
               value: {{ .Values.personStructure.completenessFlagAlgorithm | quote }}
             - name: MS_SEQUENCE_NAME
               value: {{ .Values.ms.sequence | quote }}
-            - name: APP_MODULE_NAME
+            - name: MS_APP_MODULE_NAME
               value: {{ .Values.ms.appModuleName | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
