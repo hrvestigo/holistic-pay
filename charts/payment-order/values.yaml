@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.80.0
+    tag: 1.81.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -112,6 +112,7 @@ secret:
   trustStorePassword: ''
   keyStorePassword: ''
 logger:
+  format: STRING
   level:
     health: DEBUG
     kafka: DEBUG
@@ -125,7 +126,7 @@ logger:
   logDir: /var/log/app
   logDirMount:
     enabled: false
-  microserviceTag: ''
+  microserviceTag: PAYORD
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx512M
 podAnnotations: {}
