@@ -83,31 +83,24 @@ kafka:
     financiallimittype:
       name: hr.vestigo.hp.financiallimittype
       consumerGroup: hr.vestigo.hp.financiallimittype.profac
-    sirius:
-      bankproducttype:
-        name: hr.vestigo.hp.bankproducttype.sirspec
-        consumerGroup: hr.vestigo.hp.bankproducttype.sirspec
-      purposesubtype:
-        name: hr.vestigo.hp.purposesubtype.sirspec
-        consumerGroup: hr.vestigo.hp.purposesubtype.sirspec
-      country:
-        name: hr.vestigo.hp.country.sirspec
-        consumerGroup: hr.vestigo.hp.country.sirspec
-      currency:
-        name: hr.vestigo.hp.currency.sirspec
-        consumerGroup: hr.vestigo.hp.currency.sirspec
-      bptstatussch:
-        name: hr.vestigo.hp.bptstatussch.sirspec
-        consumerGroup: hr.vestigo.hp.bptstatussch.sirspec
-      calendar:
-        name: hr.vestigo.hp.calendar.sirspec
-        consumerGroup: hr.vestigo.hp.calendar.sirspec
-      calendaritem:
-        name: hr.vestigo.hp.calendaritem.sirspec
-        consumerGroup: hr.vestigo.hp.calendaritem.sirspec
-      clearingsysreg:
-        name: hr.vestigo.hp.clearingsysreg.sirspec
-        consumerGroup: hr.vestigo.hp.clearingsysreg.sirspec
+    bankproducttype:
+      name: hr.vestigo.hp.bankproducttype.sirspec
+      consumerGroup: hr.vestigo.hp.bankproducttype.sirspec
+    purposesubtype:
+      name: hr.vestigo.hp.purposesubtype.sirspec
+      consumerGroup: hr.vestigo.hp.purposesubtype.sirspec
+    bptstatussch:
+      name: hr.vestigo.hp.bptstatussch.sirspec
+      consumerGroup: hr.vestigo.hp.bptstatussch.sirspec
+    calendar:
+      name: hr.vestigo.hp.calendar.sirspec
+      consumerGroup: hr.vestigo.hp.calendar.sirspec
+    calendaritem:
+      name: hr.vestigo.hp.calendaritem.sirspec
+      consumerGroup: hr.vestigo.hp.calendaritem.sirspec
+    clearingsysreg:
+      name: hr.vestigo.hp.clearingsysreg.sirspec
+      consumerGroup: hr.vestigo.hp.clearingsysreg.sirspec
 productFactory:
   cobaffschema:
     enabled: false
@@ -118,19 +111,20 @@ productFactory:
   financiallimittype:
     enabled: false
   country:
-    enabled: false
-  sirius:
-    country:
+    sirspe:
       enabled: false
-    currency:
-      enabled: false
-    bankproducttype:
-      enabled: false
-    purposesubtype:
-      enabled: false
-    bptStatusSch:
+    ccms:
       enabled: false
   currency:
+    sirspe:
+      enabled: false
+    ccms:
+      enabled: false
+  bankproducttype:
+    enabled: false
+  purposesubtype:
+    enabled: false
+  bptStatusSch:
     enabled: false
   crdintacctype:
     enabled: false

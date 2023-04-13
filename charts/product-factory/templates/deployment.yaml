@@ -147,10 +147,6 @@ spec:
               value: {{ .Values.kafka.topics.cobaffschlimit.name | quote }}
             - name: KAFKA_TOPIC_FINANCIALLIMITTYPE_NAME
               value: {{ .Values.kafka.topics.financiallimittype.name | quote }}
-            - name: KAFKA_TOPIC_COUNTRY_NAME
-              value: {{ .Values.kafka.topics.country.name | quote }}
-            - name: KAFKA_TOPIC_CURRENCY_NAME
-              value: {{ .Values.kafka.topics.currency.name | quote }}
             - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
               value: {{ .Values.kafka.topics.parameterization.name | quote }}
             - name: KAFKA_TOPIC_CRDINTACCTYPE_NAME
@@ -163,44 +159,40 @@ spec:
               value: {{ .Values.kafka.topics.cobaffschlimit.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_FINANCIALLIMITTYPE_NAME
               value: {{ .Values.kafka.topics.financiallimittype.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_COUNTRY_NAME
-              value: {{ .Values.kafka.topics.country.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CURRENCY_NAME
-              value: {{ .Values.kafka.topics.currency.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDINTACCTYPE_NAME
               value: {{ .Values.kafka.topics.crdintacctype.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_SIRIUS_BANKPRODUCTTYPE_NAME
-              value: {{ .Values.kafka.topics.sirius.bankproducttype.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_SIRIUS_BANKPRODUCTTYPE_NAME
-              value: {{ .Values.kafka.topics.sirius.bankproducttype.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_SIRIUS_PURPOSESUBTYPE_NAME
-              value: {{ .Values.kafka.topics.sirius.purposesubtype.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_SIRIUS_PURPOSESUBTYPE_NAME
-              value: {{ .Values.kafka.topics.sirius.purposesubtype.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_SIRIUS_CURRENCY_NAME
-              value: {{ .Values.kafka.topics.sirius.currency.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_SIRIUS_CURRENCY_NAME
-              value: {{ .Values.kafka.topics.sirius.currency.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_SIRIUS_COUNTRY_NAME
-              value: {{ .Values.kafka.topics.sirius.country.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_SIRIUS_COUNTRY_NAME
-              value: {{ .Values.kafka.topics.sirius.country.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_SIRIUS_BPTSTATUSSCH_NAME
-              value: {{ .Values.kafka.topics.sirius.bptstatussch.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_SIRIUS_BPTSTATUSSCH_NAME
-              value: {{ .Values.kafka.topics.sirius.bptstatussch.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_SIRIUS_CALENDAR_NAME
-              value: {{ .Values.kafka.topics.sirius.calendar.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_SIRIUS_CALENDAR_NAME
-              value: {{ .Values.kafka.topics.sirius.calendar.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_SIRIUS_CALENDARITEM_NAME
-              value: {{ .Values.kafka.topics.sirius.calendaritem.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_SIRIUS_CALENDARITEM_NAME
-              value: {{ .Values.kafka.topics.sirius.calendaritem.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_SIRIUS_CLEARINGSYSREG_NAME
-              value: {{ .Values.kafka.topics.sirius.clearingsysreg.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_SIRIUS_CLEARINGSYSREG_NAME
-              value: {{ .Values.kafka.topics.sirius.clearingsysreg.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_BANKPRODUCTTYPE_NAME
+              value: {{ .Values.kafka.topics.bankproducttype.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_BANKPRODUCTTYPE_NAME
+              value: {{ .Values.kafka.topics.bankproducttype.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_PURPOSESUBTYPE_NAME
+              value: {{ .Values.kafka.topics.purposesubtype.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PURPOSESUBTYPE_NAME
+              value: {{ .Values.kafka.topics.purposesubtype.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CURRENCY_NAME
+              value: {{ .Values.kafka.topics.currency.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CURRENCY_NAME
+              value: {{ .Values.kafka.topics.currency.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_COUNTRY_NAME
+              value: {{ .Values.kafka.topics.country.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_COUNTRY_NAME
+              value: {{ .Values.kafka.topics.country.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_BPTSTATUSSCH_NAME
+              value: {{ .Values.kafka.topics.bptstatussch.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_BPTSTATUSSCH_NAME
+              value: {{ .Values.kafka.topics.bptstatussch.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CALENDAR_NAME
+              value: {{ .Values.kafka.topics.calendar.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CALENDAR_NAME
+              value: {{ .Values.kafka.topics.calendar.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CALENDARITEM_NAME
+              value: {{ .Values.kafka.topics.calendaritem.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CALENDARITEM_NAME
+              value: {{ .Values.kafka.topics.calendaritem.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CLEARINGSYSREG_NAME
+              value: {{ .Values.kafka.topics.clearingsysreg.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CLEARINGSYSREG_NAME
+              value: {{ .Values.kafka.topics.clearingsysreg.consumerGroup | quote }}
             - name: PRODUCT_FACTORY_COBAFF_SCHEMA_ENABLED
               value: {{ .Values.productFactory.cobaffschema.enabled | quote }}
             - name: PRODUCT_FACTORY_COBAFF_SCHEMA_GATEWAY_PARAMS_ENABLED
@@ -209,10 +201,14 @@ spec:
               value: {{ .Values.productFactory.cobaffschemalimit.enabled | quote }}
             - name: PRODUCT_FACTORY_FINANCIAL_LIMIT_TYPE_ENABLED
               value: {{ .Values.productFactory.financiallimittype.enabled | quote }}
-            - name: PRODUCT_FACTORY_COUNTRY_ENABLED
-              value: {{ .Values.productFactory.country.enabled | quote }}
-            - name: PRODUCT_FACTORY_CURRENCY_ENABLED
-              value: {{ .Values.productFactory.currency.enabled | quote }}
+            - name: PRODUCT_FACTORY_COUNTRY_CCMS_ENABLED
+              value: {{ .Values.productFactory.country.ccms.enabled | quote }}
+            - name: PRODUCT_FACTORY_CURRENCY_CCMS_ENABLED
+              value: {{ .Values.productFactory.currency.ccms.enabled | quote }}
+            - name: PRODUCT_FACTORY_COUNTRY_SIRSPE_ENABLED
+              value: { { .Values.productFactory.country.sirspe.enabled | quote }}
+            - name: PRODUCT_FACTORY_CURRENCY_SIRSPE_ENABLED
+              value: { { .Values.productFactory.currency.sirspe.enabled | quote }}
             - name: PRODUCT_FACTORY_CRDINTACC_TYPE_ENABLED
               value: {{ .Values.productFactory.crdintacctype.enabled | quote }}
             - name: PRODUCT_FACTORY_CALENDAR_ENABLED
@@ -221,16 +217,12 @@ spec:
               value: {{ .Values.productFactory.calendarItem.enabled | quote }}
             - name: PRODUCT_FACTORY_CLEARINGSYSREG_ENABLED
               value: {{ .Values.productFactory.clearingsysreg.enabled | quote }}
-            - name: PRODUCT_FACTORY_SIRIUS_CURRENCY_ENABLED
-              value: {{ .Values.productFactory.sirius.currency.enabled | quote }}
-            - name: PRODUCT_FACTORY_SIRIUS_COUNTRY_ENABLED
-              value: {{ .Values.productFactory.sirius.country.enabled | quote }}
             - name: PRODUCT_FACTORY_BANKPRODUCTTYPE_ENABLED
-              value: {{ .Values.productFactory.sirius.bankproducttype.enabled | quote }}
+              value: {{ .Values.productFactory.bankproducttype.enabled | quote }}
             - name: PRODUCT_FACTORY_PURPOSESUBTYPE_ENABLED
-              value: {{ .Values.productFactory.sirius.purposesubtype.enabled | quote }}
+              value: {{ .Values.productFactory.purposesubtype.enabled | quote }}
             - name: PRODUCT_FACTORY_BPTSTATUSSCH_ENABLED
-              value: {{ .Values.productFactory.sirius.bptStatusSch.enabled | quote }}
+              value: {{ .Values.productFactory.bptStatusSch.enabled | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
