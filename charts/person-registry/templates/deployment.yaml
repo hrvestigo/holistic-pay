@@ -198,6 +198,10 @@ spec:
             {{- end }}
             - name: PERSON_REGISTRY_TECHNICAL_USER_ID
               value: {{ .Values.technicalUseId | quote }}
+            - name: PERSON_REGISTRY_DELIVERY_CHANNEL
+              value: {{ .Values.deliveryChannel | quote }}
+            - name: PERSON_REGISTRY_APP_MODULE
+              value: {{ .Values.appModule | quote }}
             - name: ENV_LABEL
               value: {{ .Values.env.label | quote }}
             - name: SERVER_SSL_KEYSTORE
@@ -257,6 +261,8 @@ spec:
               value: {{ .Values.datasource.maxPoolSize | quote }}
             - name: SPRING_DATASOURCE_HIKARI_MINIMUMIDLE
               value: {{ .Values.datasource.minIdle | quote }}
+            - name: SPRING_DATASOURCE_HIKARI_IDLETIMEOUT
+              value: {{ .Values.datasource.idleTimeout | quote }}
             - name: SECRET_PROPERTIES
               value: /mnt/k8s/secrets/password.conf
             - name: KAFKA_HEALTH_ENABLED
