@@ -108,6 +108,15 @@ personStructureInitial:
 initial:
   account:
     lifecycleCheck: false
+grpc:
+  server:
+    enabled: false
+    port: 9090
+    security:
+      enabled: false
+      certificate:
+      key:
+
 oauth2:
   enabled: false
   resourceUri: ''

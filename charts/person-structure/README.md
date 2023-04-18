@@ -144,6 +144,27 @@ personStructureChecks:
 ```
 Person structure checks functionalities must be enabled for this configuration to work.
 
+####Person structure checks functionalities using gRPC
+
+Person structure checks functionalities can also be set through gRPC instead of Kafka.
+This is enabled through the following configuration:
+
+```yaml
+grpc:
+  server:
+    enabled: false #default value signifying gRPC server is shut down
+    port: 9090 #default value for the port the server runs on
+    security:
+      enabled: false #default value for the connection to the gRPC server
+      certificate: #path to TLS server certificate
+      key: #path to TLS server key file
+```
+
+`grpc.server.enabled` should be set to true if you want gRPC server to start and external checks to be executed through it.
+`grpc.server.security.enabled` should be set to true if you want this connection to use TLS protocol.
+If security enabled, `grpc.server.security.certificate` and `grpc.server.security.key` should also be provided and represent 
+TLS certificate and key files location.
+
 ###Enabling warm up for parametrization caching
 ```yaml
 paramWarmup:

@@ -163,6 +163,18 @@ spec:
             - name: PERSON_STRUCTURE_CHECKS_CACHE_EXPIREAFTERACCESS
               value: {{ .Values.personStructureChecks.cache.refresh.rate | quote }}
             {{- end }}
+            {{- if .Values.grpc.server.enabled }}
+            - name: GRPC_SERVER_PORT
+              value: {{ .Values.grpc.server.port | default "9090" | quote }}
+            - name: GRPC_SERVER_SECURITY_ENABLED
+              value: {{ .Values.grpc.server.security.enabled | default "false" | quote }}
+              {{- if .Values.grpc.server.security.enabled }}
+            - name: GRPC_SERVER_SECURITY_CERTIFICATECHAIN
+              value: "file:{{ .Values.grpc.server.security.certificate | quote }}"
+            - name: GRPC_SERVER_SECURITY_PRIVATEKEY
+              value: "file:{{ .Values.grpc.server.security.key | quote }}"
+              {{- end }}
+            {{- end }}
             - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
               value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_PERSTRUCINITIAL_NAME
@@ -185,6 +197,8 @@ spec:
               value: {{ .Values.personStructureChecks.enabled | quote }}
             - name: PARAM_WARMUP_ENABLED
               value: {{ .Values.paramWarmup.enabled | quote }}
+            - name: GRPC_SERVER_ENABLED
+              value: {{ .Values.grpc.server.enabled | default "false" | quote }}
             - name: PERSON_STRUCTURE_PRODUCE
               value: {{ .Values.personStructure.produce | quote }}
             - name: PERSON_STRUCTURE_INITIAL_SEARCH_ALGORITHM
