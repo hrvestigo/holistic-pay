@@ -74,17 +74,38 @@ Additionally, liquibase is enabled by default, which requires some information i
 
 Payment order (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one application member has to be defined in `members` structure for complete setup. Please refer to [Multi-member setup](#multi-member-setup) for details.
 
-###Payment external checks functionalities
+###Payment external checks functionalities through Kafka or gRPC
+
+Represents all payment external checks functionalities in the microservice. They can be executed either through Kafka or
+gRPC.
+
+Kafka configuration is set like this:
+
 ```yaml
 paymentExternalChecks:
   topicRealNames:
     personStructureChecks: hr.vestigo.hp.personstructurechecks # default value, set custom name if required
     ecsSpecificChecks: hr.vestigo.hp.ecsspecificchecks # default value, set custom name if required
 ```
-Represents all payment external checks functionalities in the microservice.
+
 In topicRealNames value you can define properties that map business names of topics to their real names.
 So in personStructureChecks value you should map real name for the topic personstructurechecks, and in ecsSpecificChecks
 value you should map real name for the topic ecsspecificchecks.
+
+gRPC configuration is set like this:
+
+```yaml
+grpc:
+  enabled: false # default value, set to true if you want external checks to be executed through gRPC
+  timeout: 250 # default value, it represents the upper limit in milliseconds for the duration of each gRPC request 
+  negotiation: TLS # default value for the connection to the gRPC servers
+  personstructurechecks: # properties specific to person structure checks
+    address: "dns:///person-structure-server:port" # dns address on which the person structure checks gRPC server runs
+  ecsspecificchecks: # properties specific to ecs specific checks
+    address: "dns:///ecs-specific-server:port" # dns address on which the ecs specific checks gRPC server runs
+```
+
+Instead of dns, a static address can also be given following the next pattern: "static://person-structure-server:port".
 
 ### Scheduled task
 

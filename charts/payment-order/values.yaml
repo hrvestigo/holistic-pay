@@ -92,6 +92,14 @@ automaticRejection:
 cache:
   refresh:
     rate: 600
+grpc:
+  enabled: false
+  timeout: 250
+  negotiation: TLS
+  personstructurechecks:
+    address: ''
+  ecsspecificchecks:
+    address: ''
 oauth2:
   enabled: false
   resourceUri: ''

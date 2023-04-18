@@ -173,6 +173,20 @@ spec:
               value: {{ .Values.automaticRejection.enabled | quote }}
             - name: SPRING_CACHE_CAFFEINE_SPEC_EXPIREAFTERACCESS
               value: {{ .Values.cache.refresh.rate | quote }}
+            - name: GRPC_ENABLED
+              value: {{ .Values.grpc.enabled | default "false" | quote }}
+            {{- if .Values.grpc.enabled }}
+            - name: GRPC_TIMEOUT
+              value: {{ .Values.grpc.timeout | default "250" | quote }}
+            - name: GRPC_CLIENT_PERSONSTRUCTURECHECKS_ADDRESS
+              value: {{ required "Please specify address for person structure checks gRPC server in grpc.personstructurechecks.address" .Values.grpc.personstructurechecks.address | quote }}
+            - name: GRPC_CLIENT_PERSONSTRUCTURECHECKS_NEGOTIATIONTYPE
+              value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
+            - name: GRPC_CLIENT_ECSSPECIFICCHECKS_ADDRESS
+              value: {{ required "Please specify address for ecs specific checks gRPC server in grpc.ecsspecificchecks.address" .Values.grpc.ecsspecificchecks.address | quote }}
+            - name: GRPC_CLIENT_ECSSPECIFICCHECKS_NEGOTIATIONTYPE
+              value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
+            {{- end }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
