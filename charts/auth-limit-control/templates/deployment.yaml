@@ -128,6 +128,10 @@ spec:
               value: {{ required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL
               value: {{ .Values.kafka.securityProtocol | quote }}
+            - name: SPRING_KAFKA_PROPERTIES_AUTO_OFFSET_RESET
+              value: {{ required "Please specify Kafka auto offset reset in kafka.autoOffsetReset" .Values.kafka.autoOffsetReset | quote }}
+            - name: SPRING_KAFKA_PROPERTIES_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM
+              value: {{ .Values.kafka.sslEndpointIdentAlg | quote }}
             - name: SPRING_KAFKA_PROPERTIES_BASIC_AUTH_CREDENTIALS_SOURCE
               value: {{ .Values.kafka.schemaRegistry.credSource | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_BASIC_AUTH_USER_INFO
@@ -145,8 +149,6 @@ spec:
               value: {{ .Values.kafka.topics.authprocgroupitem.name | quote }}
             - name: KAFKA_TOPIC_PARTNERBANKINTERFACE10S_NAME
               value: {{ .Values.kafka.topics.partnerbankinterface10s.name | quote }}
-            - name: KAFKA_TOPIC_CRDAUTHTRXMATCH_NAME
-              value: {{ .Values.kafka.topics.crdauthtrxmatch.name | quote }}
             - name: KAFKA_TOPIC_RISKLIMITDEF_NAME
               value: {{ .Values.kafka.topics.risklimitdef.name | quote }}
             - name: KAFKA_TOPIC_EXPIREDAUTH_NAME
@@ -167,8 +169,6 @@ spec:
               value: {{ .Values.kafka.topics.authprocgroupfinctrllim.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_AUTHPROCGROUPITEM_NAME
               value: {{ .Values.kafka.topics.authprocgroupitem.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CRDAUTHTRXMATCH_NAME
-              value: {{ .Values.kafka.topics.crdauthtrxmatch.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITDEF_NAME
               value: {{ .Values.kafka.topics.risklimitdef.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_EXPIREDAUTH_NAME
@@ -193,26 +193,12 @@ spec:
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
               value: PKCS12
-            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-              value: loggers,health,prometheus
-            - name: MANAGEMENT_ENDPOINTS_LOGGERS_ENABLED
-              value: "true"
-            - name: MANAGEMENT_ENDPOINTS_WEB_BASEPATH
-              value: /
-            - name: MANAGEMENT_HEALTH_PROBES_ENABLED
-              value: "true"
-            - name: MANAGEMENT_ENDPOINT_HEALTH_SHOWDETAILS
-              value: always
             - name: MANAGEMENT_ENDPOINT_HEALTH_STATUS_HTTPMAPPING_DOWN
               value: {{ .Values.healthStatusDownReturnCode | quote }}
             - name: MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE
               value: {{ include "auth-limit-control.readinessProbes" . }}
             - name: SERVER_TOMCAT_ACCESSLOG_ENABLED
               value: {{ .Values.logger.logToFile | quote }}
-            - name: SERVER_TOMCAT_ACCESSLOG_SUFFIX
-              value: ".log"
-            - name: SERVER_TOMCAT_ACCESSLOG_PREFIX
-              value: access
             - name: SERVER_TOMCAT_BASEDIR
               {{- $logdir := .Values.logger.logDir | splitList "/" }}
               {{- if hasPrefix "/" .Values.logger.logDir }}
@@ -220,8 +206,6 @@ spec:
               {{- else }}
               value: "/{{ index $logdir 0 }}"
               {{- end }}
-            - name: SERVER_TOMCAT_ACCESSLOG_FILEDATEFORMAT
-              value: ""
             - name: SERVER_TOMCAT_ACCESSLOG_DIRECTORY
               {{- $logdir := .Values.logger.logDir | splitList "/" }}
               {{- if hasPrefix "/" .Values.logger.logDir }}
@@ -231,11 +215,6 @@ spec:
               {{- $rest := slice $logdir 1 | join "/" }}
               value: {{ $rest }}
               {{- end }}
-            - name: SERVER_TOMCAT_ACCESSLOG_PATTERN
-              value: >-
-                [%{yyyy-MM-dd HH:mm:ss.SSS}t] %h %l %u "%r" %s
-            - name: SERVER_TOMCAT_ACCESSLOG_CONDITIONUNLESS
-              value: access
             - name: LOGGING_CONFIG
               value: /usr/app/config/log4j2.xml
             - name: LOGGER_EXCLUDE_ENDPOINTS
@@ -246,10 +225,10 @@ spec:
               value: {{ .Values.datasource.maxPoolSize | quote }}
             - name: SPRING_DATASOURCE_HIKARI_MINIMUMIDLE
               value: {{ .Values.datasource.minIdle | quote }}
+            - name: SPRING_DATASOURCE_HIKARI_IDLETIMEOUT
+              value: {{ .Values.datasource.idleTimeout | quote }}
             - name: SECRET_PROPERTIES
               value: /mnt/k8s/secrets/password.conf
-            - name: KAFKA_HEALTH_ENABLED
-              value: "true"
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
             {{- if (include "auth-limit-control.trustStoreEnv" .) -}}

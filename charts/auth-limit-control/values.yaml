@@ -4,11 +4,13 @@ image:
   pullPolicy: IfNotPresent
   app:
     registry: null
+    imageLocation: null
     tag: ''
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 2.77.0
+    imageLocation: null
+    tag: 2.94.2
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -23,6 +25,7 @@ datasource:
   connTimeout: 60000
   maxPoolSize: 2
   minIdle: 0
+  idleTimeout: 120000
   connectionParams: {}
 liquibase:
   enabled: true
@@ -45,15 +48,14 @@ members:
     dbName: ''
     user: ''
     password: ''
-    connTimeout: ''
-    maxPoolSize: ''
-    minIdle: 0
 kafka:
   readinessProbeEnabled: true
   user: ''
   servers: ''
   saslMechanism: PLAIN
   securityProtocol: SASL_SSL
+  autoOffsetReset: earliest
+  sslEndpointIdentAlg: HTTPS
   schemaRegistry:
     credSource: USER_INFO
     user: ''
@@ -73,9 +75,6 @@ kafka:
       consumerGroup: hr.vestigo.hp.authprocgroupitem
     partnerbankinterface10s:
       name: hr.vestigo.hp.partnerbankinterface10s
-    crdauthtrxmatch:
-      name: hr.vestigo.hp.crdauthtrxmatch
-      consumerGroup: hr.vestigo.hp.crdauthtrxmatch
     risklimitdef:
       name: hr.vestigo.hp.risklimitdef
       consumerGroup: hr.vestigo.hp.risklimitdef
@@ -135,11 +134,13 @@ logger:
     database: DEBUG
     businessLogic: DEBUG
     general: DEBUG
+    health: DEBUG
   logToFile: false
   rollingFileAppender: false
   logDir: /var/log/app
   logDirMount:
     enabled: false
+  microserviceTag: ''
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
 springActiveProfile: prod
