@@ -128,6 +128,8 @@ spec:
               value: {{ required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL
               value: {{ .Values.kafka.securityProtocol | quote }}
+            - name: SPRING_KAFKA_PROPERTIES_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM
+              value: {{ .Values.kafka.sslEndpointIdentAlg | quote }}
             - name: SPRING_KAFKA_PROPERTIES_BASIC_AUTH_CREDENTIALS_SOURCE
               value: {{ .Values.kafka.schemaRegistry.credSource | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_BASIC_AUTH_USER_INFO

@@ -202,6 +202,19 @@ kafka:
   securityProtocol: SASL_SSL # default value, set custom protocol if required
 ```
 
+The auto offset reset consumer configuration defines how a consumer should behave when consuming from a topic partition when there is no initial offset:
+
+```yaml
+kafka:
+  autoOffsetReset: earliest # default value, can be changes to latest or none
+```
+The ssl endpoint identification is disabled by default ([More info](https://docs.confluent.io/platform/current/kafka/authentication_ssl.html#id1)):
+
+```yaml
+kafka:
+  sslEndpointIdentAlg: HTTPS # default value is HTTPS, set other ssl endpoint identification algorithm if required
+```
+
 #### Topics and consumer groups setup
 
 Kafka topics and consumer group names used by CMS interface have default names defined in `values.yaml` file, but can be overridden with following setup:
