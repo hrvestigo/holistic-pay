@@ -2,5 +2,5 @@ apiVersion: v2
 name: sirius-specific
 description: Helm chart for sirius-specific application
 type: application
-version: 1.140.0
-appVersion: 1.140.0
+version: 1.141.0
+appVersion: 1.141.0
