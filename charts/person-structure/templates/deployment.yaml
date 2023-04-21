@@ -170,9 +170,9 @@ spec:
               value: {{ .Values.grpc.server.security.enabled | default "false" | quote }}
               {{- if .Values.grpc.server.security.enabled }}
             - name: GRPC_SERVER_SECURITY_CERTIFICATECHAIN
-              value: "file:{{ .Values.grpc.server.security.certificate | quote }}"
+              value: "file:{{ .Values.grpc.server.security.certificate }}"
             - name: GRPC_SERVER_SECURITY_PRIVATEKEY
-              value: "file:{{ .Values.grpc.server.security.key | quote }}"
+              value: "file:{{ .Values.grpc.server.security.key }}"
               {{- end }}
             {{- end }}
             - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
@@ -293,6 +293,9 @@ spec:
           ports:
             - name: http
               containerPort: 8443
+              protocol: TCP
+            - name: grpc
+              containerPort: 9090
               protocol: TCP
           livenessProbe:
             {{- toYaml .Values.deployment.livenessProbe | nindent 12 }}
