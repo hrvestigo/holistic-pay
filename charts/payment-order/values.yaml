@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.81.0
+    tag: 1.84.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -126,7 +126,11 @@ logger:
     kafka: DEBUG
     kafkaCore: INFO
     rest: DEBUG
-    database: DEBUG
+    database: ERROR
+    databaseSql: DEBUG
+    databaseBind: TRACE
+    databaseExtract: TRACE
+    databaseSlowQuery: INFO
     businessLogic: DEBUG
     general: DEBUG
   logToFile: false
@@ -135,6 +139,7 @@ logger:
   logDirMount:
     enabled: false
   microserviceTag: PAYORD
+  databaseSlowQueryThreshold: 0
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx512M
 podAnnotations: {}
