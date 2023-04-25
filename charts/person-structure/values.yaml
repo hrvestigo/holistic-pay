@@ -137,6 +137,7 @@ secret:
   trustStorePassword: ''
   keyStorePassword: ''
 logger:
+  format: STRING
   level:
     kafka: DEBUG
     rest: DEBUG
@@ -149,7 +150,7 @@ logger:
   logDir: /var/log/app
   logDirMount:
     enabled: false
-  microserviceTag: ''
+  microserviceTag: PERSTR
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
 springActiveProfile: prod
