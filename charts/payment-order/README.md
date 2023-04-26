@@ -156,9 +156,10 @@ Additional datasource connection properties can be set by overriding following d
 
 ```yaml
 datasource:
-  connTimeout: 60000 # defines time (in ms) after which active connection will timeout and be closed
+  connTimeout: 60000 # defines time (in ms) after which active connection will time out and be closed
   maxPoolSize: 2 # defines max size of database connection pool
   minIdle: 0 # defines min number of retained idle connections
+  idleTimeout: 120000 # defines the maximum amount of time that a connection is allowed to sit idle in the pool
 ```
 
 Liquibase can be disabled if necessary with `liquibase.enabled` attribute (enabled by default):
@@ -578,7 +579,7 @@ Schema name for application member is auto-generated and will be in format `{mem
 It is also possible to override some domestic properties, such as country code which represents ALPHA-3 code of a country
 of origin for this member. This information is used when fetching country-based data, such as holidays for instance.
 
-List of all attributes which can be overridden:
+List of all attributes which can be overridden (connTimeout, maxPoolSize, minIdle and idleTimeout are globally set the same for all members):
 
 ```yaml
 members:
@@ -599,9 +600,6 @@ members:
       dbName: ""
       user: ""
       password: ""
-      connTimeout: ""
-      maxPoolSize: ""
-      minIdle: 0
 ```
 
 Each attribute within `members.datasource` and `members.liquibase` can be defined to override same values defined in `datasource` and `liquibase` blocks.

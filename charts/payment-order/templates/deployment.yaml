@@ -171,7 +171,7 @@ spec:
               value: {{ .Values.automaticRejection.scheduled | quote }}
             - name: AUTOMATIC_REJECTION_ENABLED
               value: {{ .Values.automaticRejection.enabled | quote }}
-            - name: SPRING_CACHE_CAFFEINE_SPEC_EXPIREAFTERACCESS
+            - name: SPRING_CACHE_CAFFEINE_SPEC_EXPIREAFTERWRITE
               value: {{ .Values.cache.refresh.rate | quote }}
             - name: GRPC_ENABLED
               value: {{ .Values.grpc.enabled | default "false" | quote }}
@@ -244,6 +244,8 @@ spec:
               value: {{ .Values.datasource.maxPoolSize | quote }}
             - name: SPRING_DATASOURCE_HIKARI_MINIMUMIDLE
               value: {{ .Values.datasource.minIdle | quote }}
+            - name: SPRING_DATASOURCE_HIKARI_IDLETIMEOUT
+              value: {{ .Values.datasource.idleTimeout | quote }}
             {{- if .Values.logger.databaseSlowQueryThreshold }}
             - name: SPRING_JPA_PROPERTIES_HIBERNATE_SESSION_EVENTS_LOG_LOG_QUERIES_SLOWER_THAN_MS
               value: {{ .Values.logger.databaseSlowQueryThreshold | quote }}
