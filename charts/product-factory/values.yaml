@@ -54,6 +54,8 @@ kafka:
   saslMechanism: PLAIN
   securityProtocol: SASL_SSL
   autoOffsetReset: earliest
+  maxPollInterval: 300000
+  trxTimeout: 60000
   sslEndpointIdentAlg: HTTPS
   schemaRegistry:
     credSource: USER_INFO
@@ -150,6 +152,7 @@ secret:
   trustStorePassword: ''
   keyStorePassword: ''
 logger:
+  format: STRING
   level:
     kafka: DEBUG
     rest: DEBUG
@@ -162,7 +165,7 @@ logger:
   logDir: /var/log/app
   logDirMount:
     enabled: false
-  microserviceTag: ''
+  microserviceTag: PROFAC
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
 springActiveProfile: prod
