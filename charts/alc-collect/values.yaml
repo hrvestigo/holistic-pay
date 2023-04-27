@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 3.3.0
+    tag: 3.4.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -54,6 +54,8 @@ kafka:
   saslMechanism: PLAIN
   securityProtocol: SASL_SSL
   autoOffsetReset: earliest
+  maxPollInterval: 300000
+  trxTimeout: 60000
   sslEndpointIdentAlg: HTTPS
   schemaRegistry:
     credSource: USER_INFO
@@ -99,6 +101,7 @@ secret:
   trustStorePassword: ''
   keyStorePassword: ''
 logger:
+  format: STRING
   level:
     kafka: DEBUG
     rest: DEBUG
@@ -111,7 +114,7 @@ logger:
   logDir: /var/log/app
   logDirMount:
     enabled: false
-  microserviceTag: ''
+  microserviceTag: ALCCOL
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
 springActiveProfile: prod
