@@ -2986,6 +2986,16 @@ entries:
     version: 1.0.0
   partner-bank-interface:
   - apiVersion: v2
+    appVersion: 3.4.0
+    created: "2023-04-27T09:54:18.821407689Z"
+    description: Helm chart for partner bank interface application
+    digest: 6165f43b23d53cf4346fa8015be1bc168bca3861278034b7583192ba05c0019f
+    name: partner-bank-interface
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/partner-bank-interface-3.4.0/partner-bank-interface-3.4.0.tgz
+    version: 3.4.0
+  - apiVersion: v2
     appVersion: 3.3.0
     created: "2023-03-29T11:40:09.298823777Z"
     description: Helm chart for partner bank interface application
@@ -10712,4 +10722,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-specific-1.0.1/sirius-specific-1.0.1.tgz
     version: 1.0.1
-generated: "2023-04-27T09:42:24.409603703Z"
+generated: "2023-04-27T09:54:18.829509063Z"
