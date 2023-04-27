@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.9.0
+    tag: 4.17.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -54,6 +54,8 @@ kafka:
   saslMechanism: PLAIN
   securityProtocol: SASL_SSL
   autoOffsetReset: earliest
+  maxPollInterval: 300000
+  trxTimeout: 60000
   sslEndpointIdentAlg: HTTPS
   schemaRegistry:
     credSource: USER_INFO
@@ -114,9 +116,8 @@ grpc:
     port: 9090
     security:
       enabled: false
-      certificate:
-      key:
-
+      certificate: null
+      key: null
 oauth2:
   enabled: false
   resourceUri: ''
