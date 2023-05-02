@@ -337,6 +337,9 @@ spec:
             - name: http
               containerPort: 8443
               protocol: TCP
+            - name: grpc
+              containerPort: 9090
+              protocol: TCP
           livenessProbe:
             {{- toYaml .Values.deployment.livenessProbe | nindent 12 }}
           readinessProbe:
