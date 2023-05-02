@@ -222,6 +222,18 @@ spec:
               value: {{ .Values.sirius.rest.uri.payOrderReturn | quote }}
             - name: SIRIUS_REST_URI_PAYORDERCANCELLATIONREQUESTSTATUS
               value: {{ .Values.sirius.rest.uri.payOrderCancellationRequestStatu | quote }}
+            {{- if .Values.grpc.server.enabled }}
+            - name: GRPC_SERVER_PORT
+              value: {{ .Values.grpc.server.port | default "9090" | quote }}
+            - name: GRPC_SERVER_SECURITY_ENABLED
+              value: {{ .Values.grpc.server.security.enabled | default "false" | quote }}
+              {{- if .Values.grpc.server.security.enabled }}
+            - name: GRPC_SERVER_SECURITY_CERTIFICATECHAIN
+              value: "file:{{ .Values.grpc.server.security.certificate }}"
+            - name: GRPC_SERVER_SECURITY_PRIVATEKEY
+              value: "file:{{ .Values.grpc.server.security.key }}"
+              {{- end }}
+            {{- end }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

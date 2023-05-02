@@ -132,6 +132,14 @@ sirius:
     cache:
       refresh:
         rate: 86400
+grpc:
+  server:
+    enabled: false
+    port: 9090
+    security:
+      enabled: false
+      certificate: null
+      key: null
 keycloak:
   enabled: false
   realm: Holistic-Pay

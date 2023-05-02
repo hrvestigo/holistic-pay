@@ -641,6 +641,32 @@ sirius:
         rate: 86400 #default value, refreshes cache after 24 hours
 ```
 
+###External core system specific checks functionalities
+
+Sirius specific application provides business logic checks for payment orders. This is configured through Kafka by 
+default, but it can also be explicitly set using gRPC.
+
+####External core system specific checks functionalities using gRPC
+
+External core system specific checks functionalities can be set through gRPC.
+This is enabled through the following configuration:
+
+```yaml
+grpc:
+  server:
+    enabled: false #default value signifying gRPC server is shut down
+    port: 9090 #default value for the port the server runs on
+    security:
+      enabled: false #default value for the connection to the gRPC server
+      certificate: #path to TLS server certificate
+      key: #path to TLS server key file
+```
+
+`grpc.server.enabled` should be set to true if you want gRPC server to start and external checks to be executed through it.
+`grpc.server.security.enabled` should be set to true if you want this connection to use TLS protocol.
+If security enabled, `grpc.server.security.certificate` and `grpc.server.security.key` should also be provided and represent
+TLS certificate and key files location.
+
 ### oAuth2
 
 Sirius specific application can use Keycloak implementation for oAuth2 authentication and
