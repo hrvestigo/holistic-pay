@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.46.0
+    tag: 1.49.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -91,12 +91,14 @@ csm:
       xsdCheck: inherit
     pacs_002_negative:
       xsdCheck: inherit
+      responseMsgRetry: 3;0.1s
     pacs_002_positive:
       xsdCheck: inherit
-      responseMsgTimeout: 25s
       requestMsgRetry: 10;5s
+      responseMsgTimeout: 25s
     pacs_002_nksinst:
       xsdCheck: inherit
+      responseMsgRetry: 3;0.1s
     pacs_004:
       xsdCheck: inherit
     pacs_008:
@@ -128,6 +130,7 @@ secret:
   keyStorePassword: ''
   keyStoreSignaturePassword: ''
 logger:
+  format: STRING
   level:
     kafka: DEBUG
     kafkaCore: INFO
@@ -145,7 +148,7 @@ logger:
   logDir: /var/log/app
   logDirMount:
     enabled: false
-  microserviceTag: ''
+  microserviceTag: SEPINS
   databaseSlowQueryThreshold: 0
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx512M

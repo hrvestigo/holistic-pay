@@ -337,12 +337,14 @@ csm:
       xsdCheck: inherit
     pacs_002_negative:
       xsdCheck: inherit
+      responseMsgRetry: 3;0.1s
     pacs_002_positive:
       xsdCheck: inherit
-      responseMsgTimeout: 25s
       requestMsgRetry: 10;5s
+      responseMsgTimeout: 25s
     pacs_002_nksinst:
       xsdCheck: inherit
+      responseMsgRetry: 3;0.1s
     pacs_004:
       xsdCheck: inherit
     pacs_008:
@@ -362,10 +364,84 @@ CSM level parameter value is applicable.
 we can disable XSD check for single message only. To enable XSD check for single
 message we can set CSM level configuration to `off` and message level `inout`.
 
-The parameter `responseMsgTimeout` is currently applicable only for two messages (as shown above). If set to > 0 seconds, application performs check if response from CSM is received for message requested to CSM in this time frame. If response message from CSM is not received, application re-sends additional message back to CSM according to the business use case.
+##### Request message retry configuration
 
-The parameter `requestMsgRetry` is also currently applicable only for two messages (as shown above). It is connected to `responseMsgTimeout` parameter, by retrying additional messages back to CSM for fixed number of times in specified delays. If CSM response message
-is received during retry process, retry stops.
+With parameter `requestMsgRetry` we configure retry policy to be applied
+on messages sent to CSM and retried to CSM if response message from CSM is not received.
+First retry is done after `responseMsgTimeout`.
+<br>Request message retry is currently implemented for the following business use cases:
+
+- `pacs.008` message is sent to CSM, response `pacs.002` message from CSM is not received
+  
+  ```mermaid
+  sequenceDiagram
+    Sepa Inst->>CSM: pacs_008
+    note over Sepa Inst,CSM: responseMsgTimeout
+    loop until requestMsgRetry or pacs_002 is received
+      Sepa Inst->>CSM: pacs_028
+    end
+    CSM->>Sepa Inst: pacs_002
+  ```
+
+- `pacs.002` message is sent to CSM, response `pacs.002` message from CSM is not received
+
+  ```mermaid
+  sequenceDiagram
+    Sepa Inst->>CSM: pacs_002
+    note over Sepa Inst,CSM: responseMsgTimeout
+    loop until requestMsgRetry or pacs_002 is received
+      Sepa Inst->>CSM: pacs_002
+    end
+    CSM->>Sepa Inst: pacs_002
+  ```
+
+Request message retry functionality can be disabled by setting `requestMsgRetry` value to `0;0s` or `0`. Meaning, no retry messages are send to CSM. To configure retry intervals on millisecond level, convert to seconds. For example, 100ms should be configured as 0.1s.
+
+##### Response message retry configuration
+
+With parameter `responseMsgRetry` we configure retry policy for processing received response message from CSM. This functionality can be useful when original request messages was sent to CSM but not yet fully processed and committed in application.
+In the meantime response message is received from CSM and fails in processing due to
+not processed original message.
+
+<br>Response message retry is applicable for the following business use cases:
+
+- `pacs.008` message is sent to CSM, still in processing, response `pacs.002` message from CSM is received
+  
+  ```mermaid
+  sequenceDiagram
+    Sepa Inst->>CSM: pacs_008
+    note over Sepa Inst: processing pacs_008
+    CSM->>Sepa Inst: pacs_002
+    loop until responseMsgRetry or pacs_008 is processed
+      note over Sepa Inst,CSM: processing pacs_002
+    end
+    note over Sepa Inst: processing done pacs_008
+    note over Sepa Inst: processing done pacs_002
+  ```
+
+- `pacs.002` message is sent to CSM, still in processing, response `pacs.002` message from CSM is received
+
+  ```mermaid
+  sequenceDiagram
+    Sepa Inst->>CSM: pacs_002 (A)
+    note over Sepa Inst: processing pacs_002 (A)
+    CSM->>Sepa Inst: pacs_002 (B)
+    loop until responseMsgRetry or pacs_002 (A) is processed
+      note over Sepa Inst,CSM: processing pacs_002 (B)
+    end
+    note over Sepa Inst: processing done pacs_002 (A)
+    note over Sepa Inst: processing done pacs_002 (B)
+  ```
+
+Response message retry functionality can be disabled by setting `responseMsgRetry` value to `0;0s` or `0`.
+To configure retry intervals on millisecond level, convert to seconds. For example, 100ms should be configured as 0.1s.
+
+##### Response message timeout configuration
+
+With parameter `responseMsgTimeout` we configure timeout to wait for response message from CSM after which request message retry functionality is triggered.
+
+Response message timeout can be disabled by setting `responseMsgTimeout` value to `0s`.
+To configure timeout on millisecond level, convert to seconds. For example, 100ms should be configured as 0.1s.
 
 ### TLS setup
 
@@ -940,6 +1016,65 @@ By default, this attribute is set to empty string.
 logger:
   microserviceTag: ''
 ```
+Log format for STDOUT logger can be modified by changing attribute:
+```yaml
+logger:
+  format: "STRING" # default value
+ ```
+
+Supported values for this parameter are: `STRING`,`ECS`,`LOGSTASH`,`GELF`,`GCP`.
+
+# Examples of how log entries would look like for each value:
+
+* `STRING`
+  * with stacktrace
+  ```log
+  2023-03-27 16:00:20,140 [6af3546625fd473bbd95482b18f2caec,620676f56f76c5b6] ERROR h.v.s.a.e.SomeClass Error
+  jakarta.validation.ConstraintViolationException: must not be null
+  at org.springframework.validation.beanvalidation.MethodValidationInterceptor.invoke(MethodValidationInterceptor.java:138) ~[spring-context-6.0.6.jar:6.0.6]
+  at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.0.6.jar:6.0.6]
+  at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750) ~[spring-aop-6.0.6.jar:6.0.6]
+  ```
+  * without stacktrace
+  ```log
+  2023-03-27 16:03:48,368 [7baee9c3042043cd3116a2bcf51b872e,ed1297a561d6ab6d] DEBUG o.s.o.j.JpaTransactionManager Exposing JPA transaction as JDBC [org.springframework.orm.jpa.vendor.HibernateJpaDialect$HibernateConnectionHandle@1d8f102d]
+  ```
+* `ECS`
+  * with stacktrace
+  ```log
+  {"@timestamp":"2023-03-17T10:05:47.074367100Z","ecs.version":"1.2.0","log.level":"ERROR","message":"[379b4af3-1]  500 Server Error for HTTP GET","process.thread.name":"reactor-http-nio-5","log.logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler","spanId":"0000000000000000","traceId":"00000000000000000000000000000000","error.type":"io.netty.channel.AbstractChannel.AnnotatedConnectException","error.message":"Connection refused: no further information: /127.0.0.1:3000","error.stack_trace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\n"}
+  ```
+  * without stacktrace
+  ```log
+  {"mdc":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"@timestamp":"2023-03-17T07:37:27.535267800Z","ecs.version":"1.2.0","log.level":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","process.thread.name":"main","log.logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
+  ```
+* `LOGSTASH`
+  * with stacktrace
+  ```log
+  {"mdc":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"exception":{"exception_class":"io.netty.channel.AbstractChannel.AnnotatedConnectException","exception_message":"Connection refused: no further information: /127.0.0.1:3000","stacktrace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t"},"@version":1,"source_host":"HOST","message":"[70e82a4a-1]  500 Server Error for HTTP GET","thread_name":"reactor-http-nio-5","@timestamp":"2023-03-17T11:26:22.416121900Z","level":"ERROR","logger_name":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler"}
+  ```
+  * without stacktrace
+  ```log
+  {"@version":1,"source_host":"HOST","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","thread_name":"main","@timestamp":"2023-03-17T11:24:17.730772400Z","level":"DEBUG","logger_name":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
+  ```
+* `GELF`
+  * with stacktrace
+  ```log
+  {"version":"1.1","host":"HOST","short_message":"[3440fdd5-1]  500 Server Error for HTTP GET","full_message":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\n","timestamp":1679049090.535760400,"level":3,"_logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler","_thread":"reactor-http-nio-5","_spanId":"0000000000000000","_traceId":"00000000000000000000000000000000"}
+  ```
+  * without stacktrace
+  ```log
+  {"version":"1.1","host":"HOST","short_message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","timestamp":1679049030.468963200,"level":7,"_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean","_thread":"main"}
+  ```
+* `GCP`
+  * with stacktrace
+  ```log
+  {"timestamp":"2023-03-17T10:33:42.531673100Z","severity":"ERROR","message":"[3e916f02-1]  500 Server Error for HTTP GET  io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t","logging.googleapis.com/labels":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"logging.googleapis.com/sourceLocation":{"function":"org.springframework.core.log.CompositeLog.error"},"logging.googleapis.com/insertId":"1106","_exception":{"class":"io.netty.channel.AbstractChannel.AnnotatedConnectException","message":"Connection refused: no further information: /127.0.0.1:3000","stackTrace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t"},"_thread":"reactor-http-nio-5","_logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler"}
+  ```
+  * without stacktrace
+  ```log
+  {"timestamp":"2023-03-17T10:33:14.218078900Z","severity":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","logging.googleapis.com/sourceLocation":{"function":"org.springframework.boot.availability.ApplicationAvailabilityBean.onApplicationEvent"},"logging.googleapis.com/insertId":"1051","_exception":{"stackTrace":""},"_thread":"main","_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
+  ```
 
 ### Modifying deployment strategy
 
