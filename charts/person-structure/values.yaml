@@ -140,12 +140,12 @@ secret:
 logger:
   format: STRING
   level:
-    kafka: DEBUG
-    rest: DEBUG
-    database: DEBUG
-    businessLogic: DEBUG
-    general: DEBUG
-    health: DEBUG
+    kafka: INFO
+    rest: INFO
+    database: INFO
+    businessLogic: INFO
+    general: INFO
+    health: INFO
   logToFile: false
   rollingFileAppender: false
   logDir: /var/log/app
