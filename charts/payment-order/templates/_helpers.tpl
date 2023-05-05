@@ -51,7 +51,7 @@ Liquibase image
 {{- if .Values.image.liquibase.imageLocation }}
 {{- printf "%s:%s" .Values.image.liquibase.imageLocation .Values.image.liquibase.tag }}
 {{- else }}
-{{- $liquiRepo := printf "%s%s" "hrvestigo/payment-order-lb:" $.Values.image.liquibase.tag }}
+{{- $liquiRepo := "hrvestigo/payment-order-lb" }}
 {{- $reg := default $.Values.image.registry $.Values.image.liquibase.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $liquiRepo }}
@@ -69,7 +69,7 @@ Liquibase init container definition
 - name: liquibase-{{ .memberSign | lower }}
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
-  image: {{ include "payment-order.liquibase.image" $ }}
+  image: {{ printf "%s%s%s%s%s" (include "payment-order.liquibase.image" $) "-" ($member.businessUnit | lower ) ":" $.Values.image.liquibase.tag }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   resources:
     {{- include "payment-order.liquibase.initContainer.resources" $ | nindent 4 }}
