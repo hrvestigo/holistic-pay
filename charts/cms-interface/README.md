@@ -202,6 +202,20 @@ kafka:
   securityProtocol: SASL_SSL # default value, set custom protocol if required
 ```
 
+The Kafka consumer maximum pool interval which controls the maximum time between poll invocations before the consumer will proactively leave the group:
+
+```yaml
+kafka:
+  maxPollInterval: 300000 # default value, can be increased if needed regarding Aiven (Karapace) update.
+```
+
+The maximum amount of time in ms that the transaction coordinator will wait for a transaction status update from the producer before proactively aborting the ongoing transaction.
+
+```yaml
+kafka:
+  trxTimeout: 60000 # default value, can be increased if needed regarding Aiven (Karapace) update. Must not be grater then transaction.max.timeout.ms (defoult 900000 ms) 
+```
+
 The auto offset reset consumer configuration defines how a consumer should behave when consuming from a topic partition when there is no initial offset:
 
 ```yaml
