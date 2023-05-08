@@ -186,6 +186,11 @@ The maximum amount of time in ms that the transaction coordinator will wait for 
 kafka:
   trxTimeout: 60000 # default value, can be increased if needed regarding Aiven (Karapace) update. Must not be grater then transaction.max.timeout.ms (defoult 900000 ms) 
 ```
+The ssl endpoint identification is set to default ([More info](https://docs.confluent.io/platform/current/kafka/authentication_ssl.html#id1)):
+```yaml
+kafka:
+  sslEndpointIdentAlg: HTTPS # default value is HTTPS , set other ssl endpoint identification algorithm if required
+```
 
 #### Topics and consumer groups setup
 
