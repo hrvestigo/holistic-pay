@@ -173,6 +173,20 @@ kafka:
   securityProtocol: SASL_SSL # default value, set custom protocol if required
 ```
 
+The Kafka consumer maximum pool interval which controls the maximum time between poll invocations before the consumer will proactively leave the group:
+
+```yaml
+kafka:
+  maxPollInterval: 300000 # default value, can be increased if needed regarding Aiven (Karapace) update.
+```
+
+The maximum amount of time in ms that the transaction coordinator will wait for a transaction status update from the producer before proactively aborting the ongoing transaction.
+
+```yaml
+kafka:
+  trxTimeout: 60000 # default value, can be increased if needed regarding Aiven (Karapace) update. Must not be grater then transaction.max.timeout.ms (defoult 900000 ms) 
+```
+
 #### Topics and consumer groups setup
 
 Kafka topics and consumer group names used by Product factory have default names defined in `values.yaml` file, but can be overridden with following setup:
