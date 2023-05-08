@@ -128,8 +128,6 @@ spec:
               value: {{ required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL
               value: {{ .Values.kafka.securityProtocol | quote }}
-            - name: SPRING_KAFKA_PROPERTIES_AUTO_OFFSET_RESET
-              value: {{ required "Please specify Kafka auto offset reset in kafka.autoOffsetReset" .Values.kafka.autoOffsetReset | quote }}
             - name: SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_POLL_INTERVAL_MS
               value: {{ required "Please specify Kafka consumer maximum pool interval in kafka.maxPollInterval" .Values.kafka.maxPollInterval | quote }}
             - name: SPRING_KAFKA_PRODUCER_PROPERTIES_TRANSACTION_TIMEOUT_MS
