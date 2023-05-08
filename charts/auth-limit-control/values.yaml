@@ -55,6 +55,8 @@ kafka:
   saslMechanism: PLAIN
   securityProtocol: SASL_SSL
   autoOffsetReset: earliest
+  maxPollInterval: 300000
+  trxTimeout: 60000
   sslEndpointIdentAlg: HTTPS
   schemaRegistry:
     credSource: USER_INFO
