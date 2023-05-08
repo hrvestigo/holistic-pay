@@ -175,6 +175,20 @@ kafka:
   securityProtocol: SASL_SSL # default value, set custom protocol if required
 ```
 
+The Kafka consumer maximum pool interval which controls the maximum time between poll invocations before the consumer will proactively leave the group:
+
+```yaml
+kafka:
+  maxPollInterval: 720000 # can be increased if needed regarding Aiven (Karapace) update.
+```
+
+The maximum amount of time in ms that the transaction coordinator will wait for a transaction status update from the producer before proactively aborting the ongoing transaction.
+
+```yaml
+kafka:
+  trxTimeout: 60000 # default value, can be increased if needed regarding Aiven (Karapace) update. Must not be grater then transaction.max.timeout.ms (defoult 900000 ms) 
+```
+
 The ssl endpoint identification is set to default ([More info](https://docs.confluent.io/platform/current/kafka/authentication_ssl.html#id1)):
 ```yaml
 kafka:
