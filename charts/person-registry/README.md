@@ -197,6 +197,10 @@ kafka:
     personcrosscheck:
       name: hr.vestigo.hp.personcrosscheck # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.personcrosscheck # default value, set custom name if required
+    personcrosscheckdelay:
+      name: hr.vestigo.hp.personcrosscheckdelay # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.personcrosscheckdelay # default value, set custom name if required
+      delayTime: 30 # Duration of delay in consumption of a message published on event broker topic personCrossCheck. Default value, set custom value if required
 ```
 
 #### Kafka message producer setup
