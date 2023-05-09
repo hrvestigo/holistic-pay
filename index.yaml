@@ -6110,6 +6110,16 @@ entries:
     version: 0.9.0
   person-structure:
   - apiVersion: v2
+    appVersion: 4.24.0
+    created: "2023-05-09T07:29:54.941725543Z"
+    description: Helm chart for person structure application
+    digest: 38121d55c6cd72d6c78254ee4349e609485c3475c5d0ea1f312a985a34cf396c
+    name: person-structure
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/person-structure-4.24.0/person-structure-4.24.0.tgz
+    version: 4.24.0
+  - apiVersion: v2
     appVersion: 4.23.0
     created: "2023-05-08T11:09:23.691118563Z"
     description: Helm chart for person structure application
@@ -11172,4 +11182,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-specific-1.0.1/sirius-specific-1.0.1.tgz
     version: 1.0.1
-generated: "2023-05-08T14:27:19.500684789Z"
+generated: "2023-05-09T07:29:54.950384462Z"
