@@ -73,7 +73,7 @@ Liquibase init container definition
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   resources:
       {{- include "sirius-specific.liquibase.initContainer.resources" $ | nindent 4 }}
-  volumeMounts:s
+  volumeMounts:
     - mountPath: /liquibase/secret/
       name: {{ include "sirius-specific.name" $ }}-secret
   env:
@@ -287,7 +287,7 @@ Mounts for sirius-specific application
 {{- if and .Values.logger.logDirMount.enabled .Values.logger.logDirMount.spec }}
 - mountPath: {{ .Values.logger.logDir }}
   name: logdir
-{{- end}}
+{{- end }}
 {{- end }}
 
 {{/*
