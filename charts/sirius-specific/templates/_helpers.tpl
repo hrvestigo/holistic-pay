@@ -126,7 +126,7 @@ Liquibase init container definition
 {{/*
 Liquibase init container resources
 */}}
-{{- define " sirius-specific.liquibase.initContainer.resources" -}}
+{{- define "sirius-specific.liquibase.initContainer.resources" -}}
 {{- if .Values.liquibase.resources }}
 {{- toYaml .Values.liquibase.resources }}
 {{- else }}
