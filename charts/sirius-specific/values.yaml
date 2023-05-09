@@ -28,7 +28,7 @@ datasource:
   idleTimeout: 120000
   connectionParams: {}
 liquibase:
-  enabled: false
+  enabled: true
   syncOnly: false
   user: ''
   role: ''
