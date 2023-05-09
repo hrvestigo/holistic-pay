@@ -121,16 +121,6 @@ This scheduled task is run by default every 30 minutes from 8 a.m. to 6 p.m.
 Schedule can be modified with `automaticRejection.scheduled` attribute. Note that this is Spring cron schedule format, which unlike Unix cron schedule has a seconds definition (first parameter). Other than that, schedule can be customized as any other standard cron job.
 To enable this scheduled task you must change `automaticRejection.enabled` attribute to true.
 
-### Batch output location
-
-Here must be specified the location of files produced by batch.
-
-```yaml
-batch:
-  logs:
-    location: //location/path/
-```
-
 ### Datasource connection setup
 
 All values required for PostgreSQL database connection are defined within `datasource` parent attribute.

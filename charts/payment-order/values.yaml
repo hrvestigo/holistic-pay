@@ -84,9 +84,6 @@ paymentExternalChecks:
   topicRealNames:
     personStructureChecks: hr.vestigo.hp.personstructurechecks
     ecsSpecificChecks: hr.vestigo.hp.ecsspecificchecks
-batch:
-  logs:
-    location: ''
 automaticRejection:
   scheduled: 0 0/30 8-18 * * *
   enabled: false
