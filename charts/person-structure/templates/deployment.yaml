@@ -185,9 +185,9 @@ spec:
               value: {{ .Values.kafka.topics.perstrucinitial.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTURE_NAME
               value: {{ .Values.kafka.topics.personstructure.consumerGroup | quote }}
-            - name: CMS_CDC_MODULE_NAME
+            - name: CMS_CDC_MODULENAME
               value: {{ .Values.cms.moduleName | quote }}
-            - name: CMS_CDC_DELIVERY_CHANNEL
+            - name: CMS_CDC_DELIVERYCHANNEL
               value: {{ .Values.cms.deliveryChannel | quote }}
             - name: CMS_CDC_USERID
               value: {{ .Values.cms.userId | quote }}
