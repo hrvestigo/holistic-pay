@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.159.0
+    tag: 1.160.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -120,7 +120,7 @@ sirius:
         all: false
     uri:
       payOrderForward: WS9030
-      payOrderNotification: /api/v2/paymentOrderNotificationPassedOrFailedTransaction
+      payOrderNotification: notUsed
       payOrderPosting: WS9018
       payOrderCancellation: WS9019
       payOrderCrePosCanc: WS9013
