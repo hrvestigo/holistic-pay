@@ -9703,6 +9703,16 @@ entries:
     version: 0.1.0
   sirius-specific:
   - apiVersion: v2
+    appVersion: 1.160.0
+    created: "2023-05-10T12:05:16.432627472Z"
+    description: Helm chart for sirius-specific application
+    digest: 54e68472f30a7a36ad4b36750785f66a1bc9db843ab74683e60fb3e251168a4e
+    name: sirius-specific
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-specific-1.160.0/sirius-specific-1.160.0.tgz
+    version: 1.160.0
+  - apiVersion: v2
     appVersion: 1.159.0
     created: "2023-05-10T11:40:02.816816739Z"
     description: Helm chart for sirius-specific application
@@ -11382,4 +11392,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-specific-1.0.1/sirius-specific-1.0.1.tgz
     version: 1.0.1
-generated: "2023-05-10T11:54:40.531348297Z"
+generated: "2023-05-10T12:05:16.442246386Z"
