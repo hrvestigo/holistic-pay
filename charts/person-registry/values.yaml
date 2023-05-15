@@ -89,6 +89,8 @@ searchengine:
   load:
     enabled: false
     limit: 10000
+    reloadFixedRate: 300000
+    reloadLimit: 1
   index:
     perreg:
     - memberSign: ''

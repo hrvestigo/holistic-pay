@@ -249,6 +249,8 @@ searchengine:
   load:
     enabled: false # defualt value, enable initial full load in search engine Values: true/false
     limit: 10000 # default value, set custom value for bulk load in search engine
+    reloadFixedRate: 300000 # default value (every 5 minutes), set custom value for delay between reload to search engine that will be used in case of search engine unavailability (store & forward functionality)
+    reloadLimit: 1 # default value, set custom value for number of records that will be sent to search engine in one bulk request (store & forward functionality)
   index:
     perreg:
     - memberSign: '' # no default value, member sign

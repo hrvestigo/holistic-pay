@@ -173,6 +173,10 @@ spec:
               value: {{ .Values.searchengine.load.enabled | quote }}
             - name: SEARCHENGINE_LOAD_LIMIT
               value: {{ .Values.searchengine.load.limit | quote }}
+            - name: SEARCHENGINE_LOAD_RELOADFIXEDRATE
+              value: { { .Values.searchengine.load.reloadFixedRate | quote } }
+            - name: SEARCHENGINE_LOAD_RELOADLIMIT
+                value: { { .Values.searchengine.load.reloadLimit | quote } }
             - name: SEARCHENGINE_HOSTNAMES
               value: {{ .Values.searchengine.hostnames | quote }}
             - name: SEARCHENGINE_PORT
