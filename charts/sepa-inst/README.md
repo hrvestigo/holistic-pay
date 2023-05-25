@@ -333,6 +333,7 @@ csm:
       xsdCheck: inherit
     camt_056:
       xsdCheck: inherit
+      responseMsgRetry: 3;0.1s
     izvj:
       xsdCheck: inherit
     pacs_002_negative:
@@ -355,6 +356,7 @@ csm:
       requestMsgRetry: 10;5s
     pacs_028_056:
       xsdCheck: inherit
+      responseMsgRetry: 3;0.1s
 ```
 
 The parameter `xsdCheck` has the same meaning as the global parameter on CSM level,

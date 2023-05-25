@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.51.0
+    tag: 1.52.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -87,6 +87,7 @@ csm:
       xsdCheck: inherit
     camt_056:
       xsdCheck: inherit
+      responseMsgRetry: 3;0.1s
     izvj:
       xsdCheck: inherit
     pacs_002_negative:
@@ -109,6 +110,7 @@ csm:
       requestMsgRetry: 10;5s
     pacs_028_056:
       xsdCheck: inherit
+      responseMsgRetry: 3;0.1s
 oauth2:
   enabled: false
   resourceUri: ''

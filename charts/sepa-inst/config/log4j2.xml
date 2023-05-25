@@ -154,6 +154,9 @@
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
+      <Filters>
+        <RegexFilter regex=".*\[VARBINARY\].*" onMatch="DENY" onMismatch="ACCEPT" />
+      </Filters>
     </Logger>
 
     <Logger name="org.hibernate.orm.jdbc.extract" level={{ .level.databaseExtract | upper | quote }} additivity="false">
@@ -212,7 +215,7 @@
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.springframework.kafka.listener" level={{ .level.general | upper | quote }} additivity="false">
+    <Logger name="org.springframework.kafka.listener" level={{ .level.kafka | upper | quote }} additivity="false">
       {{- if .logToFile }}
     <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
