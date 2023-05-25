@@ -105,6 +105,8 @@ kafka:
     customer:
       name: gcp.ipt1.hp.evt.sirspec.customer
       consumerGroup: gcp.ipt1.hp.evt.sirspec.customer
+    bicexclusion:
+       name: gcp.ipt1.hp.evt.sirspec.bicexclusion
 external:
   core:
     system:
