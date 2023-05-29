@@ -103,6 +103,9 @@ kafka:
     clearingsysreg:
       name: hr.vestigo.hp.clearingsysreg.sirspec
       consumerGroup: hr.vestigo.hp.clearingsysreg.sirspec
+    bicexclusion:
+      name: hr.vestigo.hp.bicexclusion.sirspec
+      consumerGroup: hr.vestigo.hp.bicexclusion.sirspec
 productFactory:
   cobaffschema:
     enabled: false
@@ -135,6 +138,8 @@ productFactory:
   calendarItem:
     enabled: false
   clearingsysreg:
+    enabled: false
+  bicexclusion:
     enabled: false
 request:
   sanitization:
