@@ -17,7 +17,7 @@ spring:
       routes:
         - id: alc_route
           predicates:
-            - Path=/api/*/riskLimits/**, /api/*/riskLimitHistoryOfChanges/**
+            - Path=/api/*/riskLimitHistoryOfChanges/**
             - Method=GET
           uri: https://{{ required "ALC collect application service name has to be defined in routes.alcCollect.serviceName" .Values.routes.alcCollect.serviceName }}:{{ required "ALC collect application port number has to be defined in routes.alcCollect.servicePortNumber" .Values.routes.alcCollect.servicePortNumber }}
           filters:
