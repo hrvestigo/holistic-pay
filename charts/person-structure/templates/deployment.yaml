@@ -185,6 +185,8 @@ spec:
               value: {{ .Values.kafka.topics.perstrucinitial.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTURE_NAME
               value: {{ .Values.kafka.topics.personstructure.consumerGroup | quote }}
+            - name: RISK_LIMIT_ALC_URL
+              value: {{ required "Please specify risk limit alc url in riskLimitAlcUrl" .Values.url.riskLimitAlcUrl }}
             - name: CMS_CDC_MODULENAME
               value: {{ .Values.cms.moduleName | quote }}
             - name: CMS_CDC_DELIVERYCHANNEL

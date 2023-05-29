@@ -74,6 +74,14 @@ Additionally, liquibase is enabled by default, which requires some information i
 
 Person structure (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one application member has to be defined in `members` structure for complete setup. Please refer to [Multi-member setup](#multi-member-setup) for details.
 
+### ALC url setting regarding synchronously limit transfer
+```yaml
+url:
+  riskLimitAlcUrl: https://auth-limit-control:8443 # default value, should point to auth-limit-control Service name and port number
+```
+Starting from chart version 4.27.2, interface for setting risk and customer limits in person-structure also requires mandatory URL of ALC application to be defined with attribute `riskLimitAlcUrl`.
+This is needed to ensure that limits are synchronously updated in ALC when they are updated in person structure.
+
 ### CMS connectivity setup
 
 Hardcoded values used when populating kafka header before publishing complete person structure to personstructure topic.
