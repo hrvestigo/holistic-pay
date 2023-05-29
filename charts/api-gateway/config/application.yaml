@@ -38,6 +38,14 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
+        - id: auth-limit-control_route_new
+          predicates:
+            - Path=/api/*/riskLimits/**
+            - Method=GET
+          uri: https://{{ required "Auth limit control application service name has to be defined in routes.authLimitControl.serviceName" .Values.routes.authLimitControl.serviceName }}:{{ required "Auth limit control application port number has to be defined in routes.authLimitControl.servicePortNumber" .Values.routes.authLimitControl.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
         - id: auth-limit-control_route_old
           predicates:
             - Path=/auth-limit-control/**
