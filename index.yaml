@@ -944,6 +944,16 @@ entries:
     version: 1.24.0
   - apiVersion: v2
     appVersion: 1.23.0
+    created: "2023-05-31T12:55:56.80336398Z"
+    description: Helm chart for API gateway application
+    digest: a55e82d22c13a34773520c6680d18f47169fe957ff4673d47f28ec7deb8cac0a
+    name: api-gateway
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/api-gateway-1.23.1/api-gateway-1.23.1.tgz
+    version: 1.23.1
+  - apiVersion: v2
+    appVersion: 1.23.0
     created: "2023-01-30T08:20:46.822711586Z"
     description: Helm chart for API gateway application
     digest: a5e56510a06411b73532c1946978b98bd7f0c285bd663fa2163c88686c2229fa
@@ -11952,4 +11962,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-specific-1.0.1/sirius-specific-1.0.1.tgz
     version: 1.0.1
-generated: "2023-05-31T12:54:38.541828203Z"
+generated: "2023-05-31T12:55:56.815897256Z"
