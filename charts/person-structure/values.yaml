@@ -81,6 +81,8 @@ kafka:
     parameterization:
       name: hr.vestigo.hp.parameterization
       consumerGroup: hr.vestigo.hp.parameterization.perstr
+url:
+  riskLimitAlcUrl: https://auth-limit-control:8443
 cms:
   moduleName: BOS
   deliveryChannel: DCC
