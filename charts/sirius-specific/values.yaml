@@ -90,21 +90,27 @@ kafka:
     customerAccount:
       name: gcp.ipt1.hp.evt.sirspec.customer.account
       consumerGroup: gcp.ipt1.hp.evt.sirspec.customer.account
+      env: sit
     cusaccJrr:
       name: gcp.ipt1.hp.evt.cusacc.jrr
       consumerGroup: gcp.ipt1.hp.evt.sirspec.cusacc.jrr
+      env: sit
     cusaccPayor:
       name: gcp.ipt1.hp.evt.cusacc.payor
       consumerGroup: gcp.ipt1.hp.evt.sirspec.cusacc.payor
+      env: sit
     userCodeValue:
       name: gcp.ipt1.hp.evt.sirspec.user.code.value
       consumerGroup: gcp.ipt1.hp.evt.sirspec.user.code.value
+      env: sit
     cusaccCurrency:
       name: gcp.ipt1.hp.evt.cusacc.currency
       consumerGroup: gcp.ipt1.hp.evt.sirspec.cusacc.currency
+      env: sit
     customer:
       name: gcp.ipt1.hp.evt.sirspec.customer
       consumerGroup: gcp.ipt1.hp.evt.sirspec.customer
+      env: sit
     bicexclusion:
        name: gcp.ipt1.hp.evt.sirspec.bicexclusion
 external:

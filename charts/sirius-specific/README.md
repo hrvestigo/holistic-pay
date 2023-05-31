@@ -188,6 +188,26 @@ kafka:
       name: hr.vestigo.hp.perstrucinitial # default value, set custom name if required
 ```
 
+Some topics also give the option of choosing environment that decides which schema is to be used, those topics are:
+```yaml
+kafka:
+  topics:
+    customerAccount:
+      env: sit
+    cusaccJrr:
+      env: sit
+    cusaccPayor:
+      env: sit
+    userCodeValue:
+      env: sit
+    cusaccCurrency:
+      env: sit
+    customer:
+      env: sit
+```
+
+Valid environments are dev, sit, uat and prod. Default is sit.
+
 
 ### Configuring image source and pull secrets
 
