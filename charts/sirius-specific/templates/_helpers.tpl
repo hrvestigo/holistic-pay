@@ -69,7 +69,11 @@ Liquibase init container definition
 - name: liquibase-{{ .memberSign | lower }}
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
+  {{- if $.Values.image.liquibase.imageLocation }}
+  image: {{ include "sirius-specific.liquibase.image" $ }}
+  {{- else }}
   image: {{ printf "%s%s%s%s%s" (include "sirius-specific.liquibase.image" $) "-" ($member.businessUnit | lower ) ":" $.Values.image.liquibase.tag }}
+  {{- end }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   resources:
       {{- include "sirius-specific.liquibase.initContainer.resources" $ | nindent 4 }}
