@@ -69,10 +69,14 @@ Liquibase init container definition
 - name: liquibase-{{ .memberSign | lower }}
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
+  {{- if $.Values.image.liquibase.imageLocation }}
   image: {{ include "product-factory.liquibase.image" $ }}
+  {{- else }}
+  image: {{ printf "%s%s%s%s%s" (include "product-factory.liquibase.image" $) "-" ($member.businessUnit | lower ) ":" $.Values.image.liquibase.tag }}
+  {{- end }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   resources:
-  {{- include "product-factory.liquibase.initContainer.resources" $ | nindent 4 }}
+    {{- include "product-factory.liquibase.initContainer.resources" $ | nindent 4 }}
   volumeMounts:
     - mountPath: /liquibase/secret/
       name: {{ include "product-factory.name" $ }}-secret
