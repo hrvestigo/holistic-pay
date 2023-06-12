@@ -76,7 +76,7 @@ Liquibase init container definition
   {{- end }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   resources:
-      {{- include "sirius-specific.liquibase.initContainer.resources" $ | nindent 4 }}
+    {{- include "sirius-specific.liquibase.initContainer.resources" $ | nindent 4 }}
   volumeMounts:
     - mountPath: /liquibase/secret/
       name: {{ include "sirius-specific.name" $ }}-secret
