@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.165.0
+    tag: 1.183.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -112,7 +112,7 @@ kafka:
       consumerGroup: gcp.ipt1.hp.evt.sirspec.customer
       env: sit
     bicexclusion:
-       name: gcp.ipt1.hp.evt.sirspec.bicexclusion
+      name: gcp.ipt1.hp.evt.sirspec.bicexclusion
 external:
   core:
     system:
