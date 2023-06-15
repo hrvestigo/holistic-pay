@@ -90,6 +90,9 @@ automaticRejection:
 cache:
   refresh:
     rate: 600
+batch:
+  bpor01:
+    zip: false
 grpc:
   enabled: false
   timeout: 250
