@@ -520,7 +520,24 @@ Examples of how log entries wood look like for particular option:
   ```log
   {"timestamp":"2023-03-17T10:33:14.218078900Z","severity":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","logging.googleapis.com/sourceLocation":{"function":"org.springframework.boot.availability.ApplicationAvailabilityBean.onApplicationEvent"},"logging.googleapis.com/insertId":"1051","_exception":{"stackTrace":""},"_thread":"main","_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
+  
+#### Logging request and response body
 
+By default, api-gateway logs only basic information for every request and response that go through it - correlation_id, http_method, path and response_status_code.
+
+If needed, it also has the ability to log body of every request and response, which is disabled by default. If needed, this can be overriden by passing next environment variable: :
+
+```yaml
+customEnv:
+  - name: HTTP_LOG_BODY_ENABLED
+    value: "true"
+```
+
+---
+> ❗ **IMPORTANT**
+>
+> When body logging is enabled, potentially sensitive data will also be logged.
+---
 ### Modifying deployment strategy
 
 Default deployment strategy for API Gateway application is `RollingUpdate`, but it can be overridden, along with other deployment parameters using following attributes (default values are shown):
