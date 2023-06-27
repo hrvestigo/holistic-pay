@@ -169,6 +169,7 @@ secret:
   keyStorePassword: ''
   datasourcePassword: ''
 logger:
+  format: "STRING" # defines log format for stdout logger. Valid values are ECS, LOGSTASH, GELF, GCP, STRING
   level:
     kafka: DEBUG
     kafkaCore: INFO
@@ -183,7 +184,7 @@ logger:
   logDir: /var/log/app
   logDirMount:
     enabled: false
-  microserviceTag: ''
+  microserviceTag: 'SIRSPE'
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx512M
 springActiveProfile: prod
