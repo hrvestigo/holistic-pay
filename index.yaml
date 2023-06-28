@@ -12512,4 +12512,15 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-specific-1.0.1/sirius-specific-1.0.1.tgz
     version: 1.0.1
-generated: "2023-06-28T08:30:26.225030134Z"
+  transaction-streaming:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2023-06-28T08:36:05.45988693Z"
+    description: Helm chart for transaction-streaming application
+    digest: 04ec1165321919079f2f21eb2e4fe0bfba4e0cd01dc9a18fd87c1f038197c1af
+    name: transaction-streaming
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
+    version: 1.0.0
+generated: "2023-06-28T08:36:05.469918455Z"
