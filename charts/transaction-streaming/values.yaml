@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.0.0
+    tag: 1.1.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -62,7 +62,7 @@ kafka:
     replication:
       factor: '3'
     application:
-      id: 'transaction-streaming'
+      id: transaction-streaming
     state:
       directory: /var/state/RocksDb
   topics:
@@ -82,6 +82,13 @@ kafka:
       name: hr.vestigo.hp.event
     interfaceCollTbl:
       name: hr.vestigo.hp.interfaceCollTbl
+    customer:
+      name: hr.vestigo.hp.customer
+    customerAccount:
+      name: hr.vestigo.hp.customerAccount
+    country:
+      name: hr.vestigo.hp.country
+      consumerGroup: hr.vestigo.hp.country
 oauth2:
   enabled: false
   resourceUri: ''

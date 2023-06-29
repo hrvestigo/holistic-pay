@@ -194,9 +194,9 @@ kafka:
   sslEndpointIdentAlg: HTTPS # default value is HTTPS, set other ssl endpoint identification algorithm if required
 ```
 
-#### Topics setup
+#### Topics and consumer groups setup 
 
-Kafka topics names used by Transaction streaming have default names defined in `values.yaml` file, but can be overridden with following setup:
+Kafka topics and consumer group names used by Transaction streaming have default names defined in `values.yaml` file, but can be overridden with following setup:
 
 ```yaml
 kafka:
@@ -217,6 +217,13 @@ kafka:
       name: hr.vestigo.hp.event # default value, set custom name if required
     interfaceCollTbl:
       name: hr.vestigo.hp.interfaceCollTbl # default value, set custom name if required
+    customer:
+      name: hr.vestigo.hp.customer # default value, set custom name if required
+    customerAccount:
+      name: hr.vestigo.hp.customerAccount # default value, set custom name if required
+    country:
+      name: hr.vestigo.hp.country # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.country # default value, set custom name if required
 ```
 
 

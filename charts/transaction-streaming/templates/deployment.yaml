@@ -161,6 +161,14 @@ spec:
               value: {{ .Values.kafka.topics.event.name | quote }}
             - name: KAFKA_TOPIC_INTERFACECOLLTBL_NAME
               value: {{ .Values.kafka.topics.interfaceCollTbl.name | quote }}
+            - name: KAFKA_TOPIC_CUSTOMER_NAME
+              value: {{ .Values.kafka.topics.customer.name | quote }}
+            - name: KAFKA_TOPIC_CUSTOMERACCOUNT_NAME
+              value: {{ .Values.kafka.topics.customerAccount.name | quote }}
+            - name: KAFKA_TOPIC_COUNTRY_NAME
+              value: {{ .Values.kafka.topics.country.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_COUNTRY_NAME
+              value: {{ .Values.kafka.topics.country.consumerGroup | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
