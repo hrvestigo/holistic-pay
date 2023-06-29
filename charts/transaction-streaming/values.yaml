@@ -63,8 +63,6 @@ kafka:
       factor: '3'
     application:
       id: transaction-streaming
-    state:
-      directory: /var/state/RocksDb
   topics:
     paymentOrder:
       name: hr.vestigo.hp.paymentorder

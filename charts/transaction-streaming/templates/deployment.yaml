@@ -143,8 +143,6 @@ spec:
               value: {{ .Values.kafka.streams.replication.factor | default "3" | quote }}
             - name: SPRING_KAFKA_STREAMS_APPLICATIONID
               value: {{ .Values.kafka.streams.application.id | default "transaction-streaming" | quote }}
-            - name: SPRING_KAFKA_STREAMS_STATEDIR
-              value: {{ required "Please specify Kafka Streams state directory in kafka.streams.state.directory" .Values.kafka.streams.state.directory | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDER_NAME
               value: {{ .Values.kafka.topics.paymentOrder.name | quote }}
             - name: KAFKA_TOPIC_TURNOVER_NAME

@@ -61,8 +61,6 @@ kafka:
       factor: '3' # string value
     application:
       id: 'transaction-streaming' # string value
-    state:
-      directory: "/" # string value, path
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value
@@ -147,7 +145,7 @@ Transaction streaming uses Kafka as event stream backend and Kafka Streams for s
 Other than Kafka cluster itself, Transaction streaming application also uses Kafka Schema Registry, which setup also has to be provided in order to establish required connection.
 
 To connect to Kafka cluster, several attributes have to be defined in values file.
-Kafka Streams state directory has to be defined under `kafka.streams.state.directory` value.
+Kafka Streams state directory has to be defined under Custom Volumes `customVolumes.nfs.path` value.
 All attributes under `kafka` parent attribute are required:
 
 ```yaml
@@ -162,8 +160,11 @@ kafka:
       factor: "3" # replication factor needed for Kafka Streams fault tolerance
     application:
       id: "transaction-streaming" # Kafka Streams application identification
-    state:
-      directory: "/var/state/RocksDb" # Kafka Streams state local directory
+
+customVolumes:
+  - name: statedir
+    nfs:
+      path: /exports/app/hpRBRB/t1/StateDir/
 ```
 
 Passwords for Kafka cluster and Kafka Schema Registry are also AES encrypted.
