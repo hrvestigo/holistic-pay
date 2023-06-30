@@ -163,6 +163,36 @@ spec:
               value: {{ .Values.kafka.topics.customer.name | quote }}
             - name: KAFKA_TOPIC_CUSTOMERACCOUNT_NAME
               value: {{ .Values.kafka.topics.customerAccount.name | quote }}
+            - name: KAFKA_TOPIC_EXTTURNOVERTYPE_NAME
+              value: {{ .Values.kafka.topics.extTurnoverType.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_EXTTURNOVERTYPE_NAME
+              value: {{ .Values.kafka.topics.extTurnoverType.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_ORGANIZATIONUNIT_NAME
+              value: {{ .Values.kafka.topics.organizationUnit.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_ORGANIZATIONUNIT_NAME
+              value: {{ .Values.kafka.topics.organizationUnit.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_POSTOFFICE_NAME
+              value: {{ .Values.kafka.topics.postOffice.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_POSTOFFICE_NAME
+              value: {{ .Values.kafka.topics.postOffice.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_TERMINAL_NAME
+              value: {{ .Values.kafka.topics.terminal.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_TERMINAL_NAME
+              value: {{ .Values.kafka.topics.terminal.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_TURNOVERTYPE_NAME
+              value: {{ .Values.kafka.topics.turnoverType.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_TURNOVERTYPE_NAME
+              value: {{ .Values.kafka.topics.turnoverType.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_PAYMCASHCURR_NAME
+              value: {{ .Values.kafka.paymCashCurr.terminal.name | quote }}
+            - name: KAFKA_TOPIC_TRXANNOUNCE_NAME
+              value: {{ .Values.kafka.topics.trxAnnounce.name | quote }}
+            - name: KAFKA_TOPIC_TURNCUSTOMER_NAME
+              value: {{ .Values.kafka.topics.turnCustomer.name | quote }}
+            - name: KAFKA_TOPIC_CURRENCY_NAME
+              value: {{ .Values.kafka.topics.currency.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CURRENCY_NAME
+              value: {{ .Values.kafka.topics.currency.consumerGroup | quote }}
             - name: KAFKA_TOPIC_COUNTRY_NAME
               value: {{ .Values.kafka.topics.country.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_COUNTRY_NAME

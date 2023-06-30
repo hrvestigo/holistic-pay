@@ -84,6 +84,30 @@ kafka:
       name: hr.vestigo.hp.customer
     customerAccount:
       name: hr.vestigo.hp.customerAccount
+    extTurnoverType:
+      name: hr.vestigo.hp.extturnovertype
+      consumerGroup: hr.vestigo.hp.extturnovertype
+    organizationUnit:
+      name: hr.vestigo.hp.organizationunit
+      consumerGroup: hr.vestigo.hp.organizationunit
+    postOffice:
+      name: hr.vestigo.hp.postoffice
+      consumerGroup: hr.vestigo.hp.postoffice
+    terminal:
+      name: hr.vestigo.hp.terminal
+      consumerGroup: hr.vestigo.hp.terminal
+    turnoverType:
+      name: hr.vestigo.hp.turnovertype
+      consumerGroup: hr.vestigo.hp.turnovertype
+    paymCashCurr:
+      name: hr.vestigo.hp.paymcashcurr
+    trxAnnounce:
+      name: hr.vestigo.hp.trxannounce
+    turnCustomer:
+      name: hr.vestigo.hp.turncustomer
+    currency:
+      name: hr.vestigo.hp.currency
+      consumerGroup: hr.vestigo.hp.currency
     country:
       name: hr.vestigo.hp.country
       consumerGroup: hr.vestigo.hp.country
