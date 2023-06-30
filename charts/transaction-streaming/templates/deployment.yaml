@@ -184,7 +184,7 @@ spec:
             - name: KAFKA_CONSUMER_GROUP_TURNOVERTYPE_NAME
               value: {{ .Values.kafka.topics.turnoverType.consumerGroup | quote }}
             - name: KAFKA_TOPIC_PAYMCASHCURR_NAME
-              value: {{ .Values.kafka.paymCashCurr.name | quote }}
+              value: {{ .Values.kafka.topics.paymCashCurr.name | quote }}
             - name: KAFKA_TOPIC_TRXANNOUNCE_NAME
               value: {{ .Values.kafka.topics.trxAnnounce.name | quote }}
             - name: KAFKA_TOPIC_TURNCUSTOMER_NAME
