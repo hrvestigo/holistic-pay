@@ -10553,6 +10553,16 @@ entries:
     version: 0.1.0
   sirius-specific:
   - apiVersion: v2
+    appVersion: 1.190.0
+    created: "2023-07-03T12:35:15.368575425Z"
+    description: Helm chart for sirius-specific application
+    digest: f2d38f7424f4edb99f756d5ecb11c3eae715fc86629089f7c8a472ba8c1717f9
+    name: sirius-specific
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-specific-1.190.0/sirius-specific-1.190.0.tgz
+    version: 1.190.0
+  - apiVersion: v2
     appVersion: 1.189.0
     created: "2023-06-27T07:11:20.631884917Z"
     description: Helm chart for sirius-specific application
@@ -12633,4 +12643,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2023-07-03T11:51:15.698647242Z"
+generated: "2023-07-03T12:35:15.379696572Z"
