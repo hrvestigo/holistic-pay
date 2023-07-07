@@ -225,6 +225,8 @@ kafka:
     country:
       name: hr.vestigo.hp.country # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.country # default value, set custom name if required
+    turnCustomer:
+      name: hr.vestigo.hp.turncustomer # default value, set custom name if required
 ```
 
 
