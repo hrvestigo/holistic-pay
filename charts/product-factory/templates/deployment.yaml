@@ -215,6 +215,8 @@ spec:
               value: {{ .Values.productFactory.currency.ccms.enabled | quote }}
             - name: PRODUCT_FACTORY_COUNTRY_SIRSPE_ENABLED
               value: {{ .Values.productFactory.country.sirspe.enabled | quote }}
+            - name: PRODUCT_FACTORY_COUNTRY_ENABLED
+              value: {{ .Values.productFactory.country.enabled | quote }}
             - name: PRODUCT_FACTORY_CURRENCY_SIRSPE_ENABLED
               value: {{ .Values.productFactory.currency.sirspe.enabled | quote }}
             - name: PRODUCT_FACTORY_CRDINTACC_TYPE_ENABLED

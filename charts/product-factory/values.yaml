@@ -116,6 +116,7 @@ productFactory:
   financiallimittype:
     enabled: false
   country:
+    enabled: false
     sirspe:
       enabled: false
     ccms:
