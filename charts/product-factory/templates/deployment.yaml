@@ -209,22 +209,24 @@ spec:
               value: {{ .Values.productFactory.cobaffschemalimit.enabled | quote }}
             - name: PRODUCT_FACTORY_FINANCIAL_LIMIT_TYPE_ENABLED
               value: {{ .Values.productFactory.financiallimittype.enabled | quote }}
+            - name: PRODUCT_FACTORY_CRDINTACC_TYPE_ENABLED
+              value: {{ .Values.productFactory.crdintacctype.enabled | quote }}
             - name: PRODUCT_FACTORY_COUNTRY_CCMS_ENABLED
               value: {{ .Values.productFactory.country.ccms.enabled | quote }}
             - name: PRODUCT_FACTORY_CURRENCY_CCMS_ENABLED
               value: {{ .Values.productFactory.currency.ccms.enabled | quote }}
             - name: PRODUCT_FACTORY_COUNTRY_SIRSPE_ENABLED
               value: {{ .Values.productFactory.country.sirspe.enabled | quote }}
-            - name: PRODUCT_FACTORY_COUNTRY_ENABLED
-              value: {{ .Values.productFactory.country.enabled | quote }}
             - name: PRODUCT_FACTORY_CURRENCY_SIRSPE_ENABLED
               value: {{ .Values.productFactory.currency.sirspe.enabled | quote }}
-            - name: PRODUCT_FACTORY_CRDINTACC_TYPE_ENABLED
-              value: {{ .Values.productFactory.crdintacctype.enabled | quote }}
+            - name: PRODUCT_FACTORY_COUNTRY_UNIVERSAL_ENABLED
+              value: {{ .Values.productFactory.country.universal.enabled | quote }}
+            - name: PRODUCT_FACTORY_CURRENCY_UNIVERSAL_ENABLED
+              value: {{ .Values.productFactory.currency.universal.enabled | quote }}
             - name: PRODUCT_FACTORY_CALENDAR_ENABLED
               value: {{ .Values.productFactory.calendar.enabled | quote }}
-            - name: PRODUCT_FACTORY_CALENDAR_ITEM_ENABLED
-              value: {{ .Values.productFactory.calendarItem.enabled | quote }}
+            - name: PRODUCT_FACTORY_CALENDARITEM_ENABLED
+              value: {{ .Values.productFactory.calendaritem.enabled | quote }}
             - name: PRODUCT_FACTORY_CLEARINGSYSREG_ENABLED
               value: {{ .Values.productFactory.clearingsysreg.enabled | quote }}
             - name: PRODUCT_FACTORY_BANKPRODUCTTYPE_ENABLED
@@ -233,6 +235,18 @@ spec:
               value: {{ .Values.productFactory.purposesubtype.enabled | quote }}
             - name: PRODUCT_FACTORY_BPTSTATUSSCH_ENABLED
               value: {{ .Values.productFactory.bptStatusSch.enabled | quote }}
+            - name: PRODUCT_FACTORY_CALENDAR_UNIVERSAL_ENABLED
+              value: {{ .Values.productFactory.calendar.universal.enabled | quote }}
+            - name: PRODUCT_FACTORY_CALENDARITEM_UNIVERSAL_ENABLED
+              value: {{ .Values.productFactory.calendaritem.universal.enabled | quote }}
+            - name: PRODUCT_FACTORY_CLEARINGSYSREG_UNIVERSAL_ENABLED
+              value: {{ .Values.productFactory.clearingsysreg.universal.enabled | quote }}
+            - name: PRODUCT_FACTORY_BANKPRODUCTTYPE_UNIVERSAL_ENABLED
+              value: {{ .Values.productFactory.bankproducttype.universal.enabled | quote }}
+            - name: PRODUCT_FACTORY_PURPOSESUBTYPE_UNIVERSAL_ENABLED
+              value: {{ .Values.productFactory.purposesubtype.universal.enabled | quote }}
+            - name: PRODUCT_FACTORY_BPTSTATUSSCH_UNIVERSAL_ENABLED
+              value: {{ .Values.productFactory.bptStatusSch.universal.enabled | quote }}
             - name: PRODUCT_FACTORY_BICEXCLUSION_ENABLED
               value: {{ .Values.productFactory.bicexclusion.enabled | quote }}
             - name: SERVER_SSL_KEYSTORE

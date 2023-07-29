@@ -115,31 +115,48 @@ productFactory:
     enabled: false
   financiallimittype:
     enabled: false
-  country:
+  crdintacctype:
     enabled: false
+    universal:
+      enabled: false
+  country:
+    universal:
+      enabled: false
     sirspe:
       enabled: false
     ccms:
       enabled: false
   currency:
+    universal:
+      enabled: false
     sirspe:
       enabled: false
     ccms:
       enabled: false
   bankproducttype:
     enabled: false
+    universal:
+      enabled: false
   purposesubtype:
     enabled: false
+    universal:
+      enabled: false
   bptStatusSch:
     enabled: false
-  crdintacctype:
-    enabled: false
+    universal:
+      enabled: false
   calendar:
     enabled: false
-  calendarItem:
+    universal:
+      enabled: false
+  calendaritem:
     enabled: false
+    universal:
+      enabled: false
   clearingsysreg:
     enabled: false
+    universal:
+      enabled: false
   bicexclusion:
     enabled: false
 request:
