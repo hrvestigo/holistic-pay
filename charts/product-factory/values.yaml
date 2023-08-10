@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.32.0
+    tag: 4.39.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -106,6 +106,9 @@ kafka:
     bicexclusion:
       name: hr.vestigo.hp.bicexclusion.sirspec
       consumerGroup: hr.vestigo.hp.bicexclusion.sirspec
+    tipsdirectory:
+      name: hr.vestigo.hp.tipsdirectory.profac
+      consumerGroup: hr.vestigo.hp.tipsdirectory.profac
 productFactory:
   cobaffschema:
     enabled: false
@@ -159,6 +162,10 @@ productFactory:
       enabled: false
   bicexclusion:
     enabled: false
+  tipsdirectory:
+    enabled: false
+    universal:
+      enabled: false
 request:
   sanitization:
     enabled: true

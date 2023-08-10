@@ -239,6 +239,12 @@ kafka:
     clearingsysreg:
       name: hr.vestigo.hp.clearingsysreg.sirspec # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.clearingsysreg.sirspec # default value, set custom name if required
+    bicexclusion:
+      name: hr.vestigo.hp.bicexclusion.sirspec # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.bicexclusion.sirspec # default value, set custom name if required
+    tipsdirectory:
+      name: hr.vestigo.hp.tipsdirectory.profac # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.tipsdirectory.profac # default value, set custom name if required
 ```
 
 ### Enabling and disabling functionalities
@@ -267,6 +273,10 @@ productFactory:
   calendarItem:
     enabled: true # functionality enabled by default
   clearingsysreg:
+    enabled: true # functionality enabled by default
+  bicexclusion:
+    enabled: true # functionality enabled by default
+  tipsdirectory:
     enabled: true # functionality enabled by default
 ```
 
