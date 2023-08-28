@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.57.0
+    tag: 1.66.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -83,12 +83,20 @@ csm:
   msgSignature: inout
   msgSignatureAlgorithm: SHA256withRSA
   config:
+    camt_025:
+      xsdCheck: inherit
     camt_029:
+      xsdCheck: inherit
+    camt_050:
       xsdCheck: inherit
     camt_056:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
     izvj:
+      xsdCheck: inherit
+    liq_req:
+      xsdCheck: inherit
+    liq_sts:
       xsdCheck: inherit
     pacs_002_negative:
       xsdCheck: inherit

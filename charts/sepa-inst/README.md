@@ -282,9 +282,11 @@ With `msgPath` we configure request path to CSM.
 <br>Application currently supports the following message types, which represents
 resources for `POST` to CSM:
   - `camt_029`
+  - `camt_050`
   - `camt_056`
   - `info`
   - `izvj`
+  - `liq_req`
   - `pacs_002_negative`
   - `pacs_002_nksinst`
   - `pacs_002_positive`
@@ -329,12 +331,20 @@ It is possible to configure certain aspects of CSM on message level.
 ```yaml
 csm:
   config:
+    camt_025:
+      xsdCheck: inherit
     camt_029:
+      xsdCheck: inherit
+    camt_050:
       xsdCheck: inherit
     camt_056:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
     izvj:
+      xsdCheck: inherit
+    liq_req:
+      xsdCheck: inherit
+    liq_sts:
       xsdCheck: inherit
     pacs_002_negative:
       xsdCheck: inherit
