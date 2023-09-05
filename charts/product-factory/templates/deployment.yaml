@@ -205,6 +205,10 @@ spec:
               value: {{ .Values.kafka.topics.tipsdirectory.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_TIPSDIRECTORY_NAME
               value: {{ .Values.kafka.topics.tipsdirectory.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_IBANPLUS_NAME
+              value: {{ .Values.kafka.topics.ibanplus.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_IBANPLUS_NAME
+              value: {{ .Values.kafka.topics.ibanplus.consumerGroup | quote }}
             - name: PRODUCT_FACTORY_COBAFF_SCHEMA_ENABLED
               value: {{ .Values.productFactory.cobaffschema.enabled | quote }}
             - name: PRODUCT_FACTORY_COBAFF_SCHEMA_GATEWAY_PARAMS_ENABLED
@@ -257,6 +261,10 @@ spec:
               value: {{ .Values.productFactory.tipsdirectory.enabled | quote }}
             - name: PRODUCT_FACTORY_TIPSDIRECTORY_UNIVERSAL_ENABLED
               value: {{ .Values.productFactory.tipsdirectory.universal.enabled | quote }}
+            - name: PRODUCT_FACTORY_IBANPLUS_ENABLED
+              value: {{ .Values.productFactory.ibanplus.enabled | quote }}
+            - name: PRODUCT_FACTORY_IBANPLUS_UNIVERSAL_ENABLED
+              value: {{ .Values.productFactory.ibanplus.universal.enabled | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

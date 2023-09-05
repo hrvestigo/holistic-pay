@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.39.0
+    tag: 4.41.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -109,6 +109,9 @@ kafka:
     tipsdirectory:
       name: hr.vestigo.hp.tipsdirectory.profac
       consumerGroup: hr.vestigo.hp.tipsdirectory.profac
+    ibanplus:
+      name: hr.vestigo.hp.ibanplus.profac
+      consumerGroup: hr.vestigo.hp.ibanplus.profac
 productFactory:
   cobaffschema:
     enabled: false
@@ -163,6 +166,10 @@ productFactory:
   bicexclusion:
     enabled: false
   tipsdirectory:
+    enabled: false
+    universal:
+      enabled: false
+  ibanplus:
     enabled: false
     universal:
       enabled: false
