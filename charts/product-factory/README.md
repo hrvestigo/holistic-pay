@@ -245,9 +245,15 @@ kafka:
     tipsdirectory:
       name: hr.vestigo.hp.tipsdirectory.profac # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.tipsdirectory.profac # default value, set custom name if required
+    ibanstructure:
+      name: hr.vestigo.hp.ibanstructure.profac # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.ibanstructure.profac # default value, set custom name if required
     ibanplus:
       name: hr.vestigo.hp.ibanplus.profac # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.ibanplus.profac # default value, set custom name if required
+    exclusionlist:
+      name: hr.vestigo.hp.exclusionlist.profac # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.exclusionlist.profac # default value, set custom name if required
 ```
 
 ### Enabling and disabling functionalities
@@ -281,7 +287,11 @@ productFactory:
     enabled: true # functionality enabled by default
   tipsdirectory:
     enabled: true # functionality enabled by default
+ ` ibanstructure:
+    enabled: true # functionality enabled by default`
   ibanplus:
+    enabled: true # functionality enabled by default
+  exclusionlist:
     enabled: true # functionality enabled by default
 ```
 

@@ -109,9 +109,15 @@ kafka:
     tipsdirectory:
       name: hr.vestigo.hp.tipsdirectory.profac
       consumerGroup: hr.vestigo.hp.tipsdirectory.profac
+    ibanstructure:
+      name: hr.vestigo.hp.ibanstructure.profac
+      consumerGroup: hr.vestigo.hp.ibanstructure.profac
     ibanplus:
       name: hr.vestigo.hp.ibanplus.profac
       consumerGroup: hr.vestigo.hp.ibanplus.profac
+    exclusionlist:
+      name: hr.vestigo.hp.exclusionlist.profac
+      consumerGroup: hr.vestigo.hp.exclusionlist.profac
 productFactory:
   cobaffschema:
     enabled: false
@@ -169,7 +175,15 @@ productFactory:
     enabled: false
     universal:
       enabled: false
+  ibanstructure:
+    enabled: false
+    universal:
+      enabled: false
   ibanplus:
+    enabled: false
+    universal:
+      enabled: false
+  exclusionlist:
     enabled: false
     universal:
       enabled: false
