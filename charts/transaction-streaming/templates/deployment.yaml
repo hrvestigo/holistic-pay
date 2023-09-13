@@ -143,6 +143,10 @@ spec:
               value: {{ .Values.kafka.streams.replication.factor | default "3" | quote }}
             - name: SPRING_KAFKA_STREAMS_APPLICATIONID
               value: {{ .Values.kafka.streams.application.id | default "transaction-streaming" | quote }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_APPLICATIONID
+              value: {{ .Values.kafka.streams.delete.application.id | default "transaction-streaming-delete" | quote }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_AUTOSTARTUP
+              value: {{ .Values.kafka.streams.delete.auto.startup | default "false" | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDER_NAME
               value: {{ .Values.kafka.topics.paymentOrder.name | quote }}
             - name: KAFKA_TOPIC_TURNOVER_NAME

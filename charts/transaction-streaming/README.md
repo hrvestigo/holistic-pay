@@ -61,6 +61,11 @@ kafka:
       factor: '3' # string value
     application:
       id: 'transaction-streaming' # string value
+    delete:
+      application:
+        id: 'transaction-streaming-delete' # string value
+      auto:
+        startup: false # boolean value, default is false
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value
@@ -160,6 +165,11 @@ kafka:
       factor: "3" # replication factor needed for Kafka Streams fault tolerance
     application:
       id: "transaction-streaming" # Kafka Streams application identification
+    delete:
+      application:
+        id: 'transaction-streaming-delete' # Kafka Streams application identification for data purging
+      auto:
+        startup: false # boolean value, default is false
 
 customVolumes:
   - name: statedir

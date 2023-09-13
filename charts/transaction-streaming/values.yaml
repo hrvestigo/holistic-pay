@@ -63,6 +63,11 @@ kafka:
       factor: '3'
     application:
       id: transaction-streaming
+    delete:
+      application:
+        id: transaction-streaming-delete
+      auto:
+        startup: false
   topics:
     paymentOrder:
       name: hr.vestigo.hp.paymentorder
