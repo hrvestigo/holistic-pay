@@ -1094,6 +1094,7 @@ Default deployment strategy for `SEPA inst` application is `RollingUpdate`, but 
 
 ```yaml
 deployment:
+  labels: {}
   annotations: {}
   replicaCount: 1
   strategy:
