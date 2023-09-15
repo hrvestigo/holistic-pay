@@ -79,8 +79,8 @@ kafka:
       name: hr.vestigo.hp.fpayment
     paymentListQ:
       name: hr.vestigo.hp.paymentlistq
-    suspendedTransaction:
-      name: hr.vestigo.hp.suspendedtransaction
+    futuristicForeignPayment:
+      name: hr.vestigo.hp.futuristicForeignPayment
     event:
       name: hr.vestigo.hp.event
     interfaceCollTbl:
@@ -219,6 +219,7 @@ affinity:
 deployment:
   replicaCount: 1
   annotations: {}
+  labels: {}
   strategy:
     type: RollingUpdate
     rollingUpdate:

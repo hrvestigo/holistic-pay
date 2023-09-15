@@ -4,6 +4,9 @@ metadata:
   name: {{ include "transaction-streaming.name" . }}
   labels:
     {{- include "transaction-streaming.labels" . | nindent 4 }}
+{{- with .Values.deployment.labels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
 {{- with .Values.deployment.annotations }}
   annotations:
 {{ toYaml . | indent 4 }}
@@ -157,8 +160,8 @@ spec:
               value: {{ .Values.kafka.topics.fPayment.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTLISTQ_NAME
               value: {{ .Values.kafka.topics.paymentListQ.name | quote }}
-            - name: KAFKA_TOPIC_SUSPENDEDTRANSACTION_NAME
-              value: {{ .Values.kafka.topics.suspendedTransaction.name | quote }}
+            - name: KAFKA_TOPIC_FUTURISTICFOREIGNPAYMENT_NAME
+              value: {{ .Values.kafka.topics.futuristicForeignPayment.name | quote }}
             - name: KAFKA_TOPIC_EVENT_NAME
               value: {{ .Values.kafka.topics.event.name | quote }}
             - name: KAFKA_TOPIC_INTERFACECOLLTBL_NAME

@@ -222,8 +222,8 @@ kafka:
       name: hr.vestigo.hp.fpayment # default value, set custom name if required
     paymentListQ:
       name: hr.vestigo.hp.paymentlistq # default value, set custom name if required
-    suspendedTransaction:
-      name: hr.vestigo.hp.suspendedtransaction # default value, set custom name if required
+    futuristicForeignPayment:
+      name: hr.vestigo.hp.futuristicForeignPayment # default value, set custom name if required
     event:
       name: hr.vestigo.hp.event # default value, set custom name if required
     interfaceCollTbl:
