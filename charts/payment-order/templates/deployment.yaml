@@ -178,6 +178,10 @@ spec:
               value: {{ .Values.cache.refresh.rate | quote }}
             - name: BATCH_BPOR01_ZIPFILE
               value: {{ .Values.batch.bpor01.zip | quote }}
+            - name: BATCH_BPOR01_SCHEDULED_NATIONAL
+              value: {{ .Values.batch.bpor01.scheduled.national | quote }}
+            - name: BATCH_BPOR01_SCHEDULED_CROSSBORDER
+              value: {{ .Values.batch.bpor01.scheduled.crossborder | quote }}
             - name: GRPC_ENABLED
               value: {{ .Values.grpc.enabled | default "false" | quote }}
             {{- if .Values.grpc.enabled }}

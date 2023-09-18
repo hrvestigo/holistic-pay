@@ -93,6 +93,9 @@ cache:
 batch:
   bpor01:
     zip: false
+    scheduled:
+      national: '0 30 7 ? * *'
+      crossborder: '0 45 7 ? * *'
 grpc:
   enabled: false
   timeout: 250

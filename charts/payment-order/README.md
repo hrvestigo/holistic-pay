@@ -132,6 +132,17 @@ batch:
   ```
 In case we want to produce the compressed file, the flag should be set from false to true.
 
+
+Batch job is scheduled to run automatically for national and cross-border payments.
+
+```yaml
+batch:
+  bpor01:
+    scheduled:
+      national: "0 30 7 ? * *" #default value, runs at 7.30h for national payments made the day before
+      crossborder: "0 45 7 ? * *" #default value, runs at 7.45h for cross-border payments made the day before
+  ```
+
 ### Datasource connection setup
 
 All values required for PostgreSQL database connection are defined within `datasource` parent attribute.
