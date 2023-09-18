@@ -62,16 +62,11 @@ kafka:
     application:
       id: 'transaction-streaming' # string value
     delete:
-      application:
-        id: 'transaction-streaming-delete' # string value
       auto:
         startup: false # boolean value, default is false
     join:
       window: 60 # default value is 60
       grace: 40 # default value is 40
-    null:
-      value:
-        frequency: 30 # default value is 30
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value
@@ -159,6 +154,18 @@ To connect to Kafka cluster, several attributes have to be defined in values fil
 Kafka Streams state directory has to be defined under Custom Volumes `customVolumes.nfs.path` value.
 All attributes under `kafka` parent attribute are required:
 
+If the `kafka.streams.delete.auto.startup` attribute is set to true, additional Kafka Streams topology is run that 
+performs scan for old turnover and turn customer records and removes them from state store.
+Its id can be set through `kafka.streams.delete.application.id`.
+Scan frequency can be set through `kafka.streams.delete.scanFrequency` in hours.
+Default value is 12 hours.
+Maximum age for turnover and turn customer records can be set through `kafka.streams.delete.maximumAge` in minutes.
+Default value is 1440 minutes or 1 day.
+With this setup, additionally it is required to set `kafka.topics.tombstone` topic names for turnover and turn customer.
+These should be different from original topics for turnover and turn customer as they may contain null values, a.k.a.
+tombstones.
+This topics need not be set if `kafka.streams.delete.auto.startup` is false.
+
 ```yaml
 kafka:
   user: "kafka-user" # user used to connect to Kafka cluster
@@ -176,12 +183,14 @@ kafka:
         id: 'transaction-streaming-delete' # Kafka Streams application identification for data purging
       auto:
         startup: false # boolean value, default is false
+      scanFrequency: 12 # in hours, default value is 12
+      maximumAge:
+        turnover: 1440 # in minutes, default value is 1440
+        turnCustomer: 1440 # in minutes, default value is 1440
     join:
       window: 60 # default value is 60
       grace: 40 # default value is 40
-    null:
-      value:
-        frequency: 30 # default value is 30
+    nullValueFrequency: 30 # default value is 30
 
 customVolumes:
   - name: statedir
@@ -249,6 +258,11 @@ kafka:
       consumerGroup: hr.vestigo.hp.country # default value, set custom name if required
     turnCustomer:
       name: hr.vestigo.hp.turncustomer # default value, set custom name if required
+    tombstone: # only mandatory if kafka.streams.delete.auto.startup is set to true
+      turnover:
+        name: hr.vestigo.hp.turnover # default value, set custom name if required
+      turnCustomer:
+        name: hr.vestigo.hp.turncustomer # default value, set custom name if required
 ```
 
 

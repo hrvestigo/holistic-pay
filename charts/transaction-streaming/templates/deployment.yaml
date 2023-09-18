@@ -146,16 +146,33 @@ spec:
               value: {{ .Values.kafka.streams.replication.factor | default "3" | quote }}
             - name: SPRING_KAFKA_STREAMS_APPLICATIONID
               value: {{ .Values.kafka.streams.application.id | default "transaction-streaming" | quote }}
-            - name: SPRING_KAFKA_STREAMS_DELETE_APPLICATIONID
-              value: {{ .Values.kafka.streams.delete.application.id | default "transaction-streaming-delete" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_AUTOSTARTUP
               value: {{ .Values.kafka.streams.delete.auto.startup | default "false" | quote }}
+            {{- if .Values.kafka.streams.delete.auto.startup }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_APPLICATIONID
+              value: {{ .Values.kafka.streams.delete.application.id | default "transaction-streaming-delete" | quote }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_SCANFREQUENCY
+              value: {{ .Values.kafka.streams.delete.scanFrequency | default "12" | quote }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_TURNOVER
+              value: {{ .Values.kafka.streams.delete.maximumAge.turnover | default "1440" | quote }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_TURNCUSTOMER
+              value: {{ .Values.kafka.streams.delete.maximumAge.turnCustomer | default "1440" | quote }}
+            - name: KAFKA_TOPIC_TURNOVER_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.tombstone.turnover.name | quote }}
+            - name: KAFKA_TOPIC_TURCUSTOMER_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.tombstone.turnCustomer.name | quote }}
+            {{- else }}
+            - name: KAFKA_TOPIC_TURNOVER_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.turnover.name | quote }}
+            - name: KAFKA_TOPIC_TURCUSTOMER_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.turnCustomer.name | quote }}
+            {{- end }}
             - name: SPRING_KAFKA_STREAMS_JOIN_WINDOW
               value: {{ .Values.kafka.streams.join.window | default "60" | quote }}
             - name: SPRING_KAFKA_STREAMS_JOIN_GRACE
               value: {{ .Values.kafka.streams.join.grace | default "40" | quote }}
             - name: SPRING_KAFKA_STREAMS_NULL_VALUE_FREQUENCY
-              value: {{ .Values.kafka.streams.null.value.frequency | default "30" | quote }}
+              value: {{ .Values.kafka.streams.nullValueFrequency | default "30" | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDER_NAME
               value: {{ .Values.kafka.topics.paymentOrder.name | quote }}
             - name: KAFKA_TOPIC_TURNOVER_NAME

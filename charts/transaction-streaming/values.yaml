@@ -68,12 +68,14 @@ kafka:
         id: transaction-streaming-delete
       auto:
         startup: false
+      scanFrequency: 12
+      maximumAge:
+        turnover: 1440
+        turnCustomer: 1440
     join:
       window: 60
       grace: 40
-    null:
-      value:
-        frequency: 30
+    nullValueFrequency: 30
   topics:
     paymentOrder:
       name: hr.vestigo.hp.paymentorder
@@ -122,6 +124,11 @@ kafka:
     country:
       name: hr.vestigo.hp.country
       consumerGroup: hr.vestigo.hp.country
+    tombstone:
+      turnover:
+        name: hr.vestigo.hp.turnover
+      turnCustomer:
+        name: hr.vestigo.hp.turncustomer
 oauth2:
   enabled: false
   resourceUri: ''
