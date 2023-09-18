@@ -66,6 +66,12 @@ kafka:
         id: 'transaction-streaming-delete' # string value
       auto:
         startup: false # boolean value, default is false
+    join:
+      window: 60 # default value is 60
+      grace: 40 # default value is 40
+    null:
+      value:
+        frequency: 30 # default value is 30
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value
@@ -170,6 +176,12 @@ kafka:
         id: 'transaction-streaming-delete' # Kafka Streams application identification for data purging
       auto:
         startup: false # boolean value, default is false
+    join:
+      window: 60 # default value is 60
+      grace: 40 # default value is 40
+    null:
+      value:
+        frequency: 30 # default value is 30
 
 customVolumes:
   - name: statedir
