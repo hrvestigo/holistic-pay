@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.30.0
+    tag: 1.47.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -129,6 +129,9 @@ kafka:
         name: hr.vestigo.hp.turnover
       turnCustomer:
         name: hr.vestigo.hp.turncustomer
+    banproamotype:
+      name: hr.vestigo.hp.banproamotype
+      consumerGroup: hr.vestigo.hp.banproamotype
 oauth2:
   enabled: false
   resourceUri: ''

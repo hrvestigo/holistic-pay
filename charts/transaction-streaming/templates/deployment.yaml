@@ -205,6 +205,10 @@ spec:
               value: {{ .Values.kafka.topics.postOffice.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_POSTOFFICE_NAME
               value: {{ .Values.kafka.topics.postOffice.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_BANPROAMOTYPE_NAME
+              value: {{ .Values.kafka.topics.banproamotype.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_BANPROAMOTYPE_NAME
+              value: {{ .Values.kafka.topics.banproamotype.consumerGroup | quote }}
             - name: KAFKA_TOPIC_TERMINAL_NAME
               value: {{ .Values.kafka.topics.terminal.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_TERMINAL_NAME
