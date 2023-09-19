@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.29.0
+    tag: 4.37.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -144,7 +144,11 @@ logger:
   level:
     kafka: INFO
     rest: INFO
-    database: INFO
+    database: ERROR
+    databaseSql: DEBUG
+    databaseBind: TRACE
+    databaseExtract: TRACE
+    databaseSlowQuery: INFO
     businessLogic: INFO
     general: INFO
     health: INFO
@@ -218,6 +222,7 @@ affinity:
 deployment:
   replicaCount: 1
   annotations: {}
+  labels: {}
   strategy:
     type: RollingUpdate
     rollingUpdate:
