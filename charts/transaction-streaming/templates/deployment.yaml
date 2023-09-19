@@ -159,12 +159,12 @@ spec:
               value: {{ .Values.kafka.streams.delete.maximumAge.turnCustomer | default "1440" | quote }}
             - name: KAFKA_TOPIC_TURNOVER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.tombstone.turnover.name | quote }}
-            - name: KAFKA_TOPIC_TURCUSTOMER_TOMBSTONE_NAME
+            - name: KAFKA_TOPIC_TURNCUSTOMER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.tombstone.turnCustomer.name | quote }}
             {{- else }}
             - name: KAFKA_TOPIC_TURNOVER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.turnover.name | quote }}
-            - name: KAFKA_TOPIC_TURCUSTOMER_TOMBSTONE_NAME
+            - name: KAFKA_TOPIC_TURNCUSTOMER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.turnCustomer.name | quote }}
             {{- end }}
             - name: SPRING_KAFKA_STREAMS_JOIN_WINDOW
