@@ -251,6 +251,7 @@ riskLimits:
 deployment:
   replicaCount: 1
   annotations: {}
+  labels: {}
   strategy:
     type: RollingUpdate
     rollingUpdate:
