@@ -154,18 +154,24 @@ spec:
             - name: SPRING_KAFKA_STREAMS_DELETE_SCANFREQUENCY
               value: {{ .Values.kafka.streams.delete.scanFrequency | default "12" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_TURNOVER
-              value: {{ .Values.kafka.streams.delete.maximumAge.turnover | default "1440" | quote }}
+              value: {{ .Values.kafka.streams.delete.maximumAge.turnover | default "1" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_TURNCUSTOMER
-              value: {{ .Values.kafka.streams.delete.maximumAge.turnCustomer | default "1440" | quote }}
+              value: {{ .Values.kafka.streams.delete.maximumAge.turnCustomer | default "1" | quote }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_CUSTOMERACCOUNTSTATEMENT
+              value: {{ .Values.kafka.streams.delete.maximumAge.customerAccountStatement | default "30" | quote }}
             - name: KAFKA_TOPIC_TURNOVER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.tombstone.turnover.name | quote }}
             - name: KAFKA_TOPIC_TURNCUSTOMER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.tombstone.turnCustomer.name | quote }}
+            - name: KAFKA_TOPIC_CUSTOMERACCOUNTSTATEMENT_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.tombstone.customerAccountStatement.name | quote }}
             {{- else }}
             - name: KAFKA_TOPIC_TURNOVER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.turnover.name | quote }}
             - name: KAFKA_TOPIC_TURNCUSTOMER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.turnCustomer.name | quote }}
+            - name: KAFKA_TOPIC_CUSTOMERACCOUNTSTATEMENT_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.customerAccountStatement.name | quote }}
             {{- end }}
             - name: SPRING_KAFKA_STREAMS_JOIN_WINDOW
               value: {{ .Values.kafka.streams.join.window | default "60" | quote }}

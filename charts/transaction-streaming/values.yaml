@@ -70,8 +70,9 @@ kafka:
         startup: false
       scanFrequency: 12
       maximumAge:
-        turnover: 1440
-        turnCustomer: 1440
+        turnover: 1
+        turnCustomer: 1
+        customerAccountStatement: 30
     join:
       window: 60
       grace: 40
@@ -129,6 +130,8 @@ kafka:
         name: hr.vestigo.hp.turnover
       turnCustomer:
         name: hr.vestigo.hp.turncustomer
+      customerAccountStatement:
+        name: hr.vestigo.hp.customeraccountstatement
     banproamotype:
       name: hr.vestigo.hp.banproamotype
       consumerGroup: hr.vestigo.hp.banproamotype

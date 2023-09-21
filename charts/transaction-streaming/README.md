@@ -148,7 +148,8 @@ Setup from this example would result with string "&ssl=true&sslmode=enable" appe
 ### Kafka setup
 
 Transaction streaming uses Kafka as event stream backend and Kafka Streams for storing data in the Kafka cluster.
-Other than Kafka cluster itself, Transaction streaming application also uses Kafka Schema Registry, which setup also has to be provided in order to establish required connection.
+Other than Kafka cluster itself, Transaction streaming application also uses Kafka Schema Registry, which setup also has 
+to be provided in order to establish required connection.
 
 To connect to Kafka cluster, several attributes have to be defined in values file.
 Kafka Streams state directory has to be defined under Custom Volumes `customVolumes.nfs.path` value.
@@ -159,12 +160,14 @@ performs scan for old turnover and turn customer records and removes them from s
 Its id can be set through `kafka.streams.delete.application.id`.
 Scan frequency can be set through `kafka.streams.delete.scanFrequency` in hours.
 Default value is 12 hours.
-Maximum age for turnover and turn customer records can be set through `kafka.streams.delete.maximumAge` in minutes.
-Default value is 1440 minutes or 1 day.
-With this setup, additionally it is required to set `kafka.topics.tombstone` topic names for turnover and turn customer.
-These should be different from original topics for turnover and turn customer as they may contain null values, a.k.a.
-tombstones.
-This topics need not be set if `kafka.streams.delete.auto.startup` is false.
+Maximum age for turnover, turn customer and customer account statement records can be set through 
+`kafka.streams.delete.maximumAge` in days.
+Default value is 1 day for turnover and turn customer and 30 days for customer account statement.
+With this setup, additionally it is required to set `kafka.topics.tombstone` topic names for turnover, turn customer and
+customer account statement.
+These should be different from original topics for turnover, turn customer and customer account statement as they may
+contain null values, a.k.a. tombstones.
+These topics need not be set if `kafka.streams.delete.auto.startup` is false.
 
 ```yaml
 kafka:
@@ -185,8 +188,9 @@ kafka:
         startup: false # boolean value, default is false
       scanFrequency: 12 # in hours, default value is 12
       maximumAge:
-        turnover: 1440 # in minutes, default value is 1440
-        turnCustomer: 1440 # in minutes, default value is 1440
+        turnover: 1 # in days, default value is 1
+        turnCustomer: 1 # in days, default value is 1
+        customerAccountStatement: 30 # in days, default value is 30
     join:
       window: 60 # default value is 60
       grace: 40 # default value is 40
@@ -263,6 +267,8 @@ kafka:
         name: hr.vestigo.hp.turnover # default value, set custom name if required
       turnCustomer:
         name: hr.vestigo.hp.turncustomer # default value, set custom name if required
+      customerAccountStatement:
+        name: hr.vestigo.hp.customeraccountstatement # default value, set custom name if required
 ```
 
 
