@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.122.0
+    tag: 1.138.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -94,8 +94,8 @@ batch:
   bpor01:
     zip: false
     scheduled:
-      national: '0 30 7 ? * *'
-      crossborder: '0 45 7 ? * *'
+      national: 0 30 7 ? * *
+      crossborder: 0 45 7 ? * *
 grpc:
   enabled: false
   timeout: 250
