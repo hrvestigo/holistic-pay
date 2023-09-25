@@ -3797,6 +3797,16 @@ entries:
     version: 0.3.0
   payment-order:
   - apiVersion: v2
+    appVersion: 1.139.0
+    created: "2023-09-25T15:56:17.900236216Z"
+    description: Helm chart for payment order application
+    digest: 2924783c3644d196e34b58a802c220e715bf454765bcde43622d4d1bb89a9426
+    name: payment-order
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/payment-order-1.139.0/payment-order-1.139.0.tgz
+    version: 1.139.0
+  - apiVersion: v2
     appVersion: 1.138.0
     created: "2023-09-25T11:12:01.33436641Z"
     description: Helm chart for payment order application
@@ -13603,4 +13613,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2023-09-25T12:46:29.737561251Z"
+generated: "2023-09-25T15:56:17.919049413Z"
