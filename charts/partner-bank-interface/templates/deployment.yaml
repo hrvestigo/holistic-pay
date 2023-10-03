@@ -4,6 +4,9 @@ metadata:
   name: {{ include "partner-bank-interface.name" . }}
   labels:
     {{- include "partner-bank-interface.labels" . | nindent 4 }}
+{{- with .Values.deployment.labels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
 {{- with .Values.deployment.annotations }}
   annotations:
 {{ toYaml . | indent 4 }}
