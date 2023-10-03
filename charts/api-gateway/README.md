@@ -41,6 +41,9 @@ routes:
   sepaInst:
     serviceName: sepa-inst # name of sepa-inst service, default is sepa-inst
     portNumber: "8443" # port number on which sepa-inst service is exposed, default is 8443
+  crdPayInstIss:
+    serviceName: crd-pay-inst-iss # name of crd-pay-inst-iss service, default is crd-pay-inst-iss
+    servicePortNumber: "8443"  # port number on which crd-pay-inst-iss service is exposed, default is 8443
   personRegistryWeb:
     serviceName: person-structure-web # name of person-registry-web service, default is person-registry-web
     portNumber: "8443" # port number on which person-registry-web service is exposed, default is 8443

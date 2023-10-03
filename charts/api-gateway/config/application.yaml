@@ -94,6 +94,13 @@ spring:
             - SaveSession
             - RewritePath=/?.*/api/(?<segment>.*),/api/$\{segment}
             - PrefixPath=/sepaInst
+        - id: crd-pay-inst-iss-ms_route
+          predicates:
+            - Path=/api/*/trxPans
+          uri: https://{{ required "Card payment instrument issuance application service name has to be defined in routes.crdPayInstIss.serviceName" .Values.routes.crdPayInstIss.serviceName }}:{{ required "Card payment instrument issuance application port number has to be defined in routes.crdPayInstIss.servicePortNumber" .Values.routes.crdPayInstIss.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
         - id: person-registry-web_route
           predicates:
             - Path=/**
