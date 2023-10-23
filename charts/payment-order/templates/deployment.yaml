@@ -192,8 +192,12 @@ spec:
             - name: GRPC_CLIENT_PERSONSTRUCTURECHECKS_NEGOTIATIONTYPE
               value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
             - name: GRPC_CLIENT_ECSSPECIFICCHECKS_ADDRESS
-              value: {{ required "Please specify address for ecs specific checks gRPC server in grpc.ecsspecificchecks.address" .Values.grpc.ecsspecificchecks.address | quote }}
+              value: {{ required "Please specify address for ecs gRPC server in grpc.ecsspecificchecks.address" .Values.grpc.ecsspecificchecks.address | quote }}
             - name: GRPC_CLIENT_ECSSPECIFICCHECKS_NEGOTIATIONTYPE
+              value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
+            - name: GRPC_CLIENT_ECSDIGITALCHANNELS_ADDRESS
+              value: {{ required "Please specify address for ecs gRPC server in grpc.ecsspecificchecks.address" .Values.grpc.ecsspecificchecks.address | quote }}
+            - name: GRPC_CLIENT_ECSDIGITALCHANNELS_NEGOTIATIONTYPE
               value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
             {{- end }}
             - name: SERVER_SSL_KEYSTORE
