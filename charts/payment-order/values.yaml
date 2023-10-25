@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.142.0
+    tag: 1.143.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -77,6 +77,9 @@ kafka:
       consumerGroup: hr.vestigo.hp.paymentorderupdate
     paymentOrderEventFlow:
       name: hr.vestigo.hp.paymentordereventflow
+    paymentOrderOutgoing:
+      name: hr.vestigo.hp.paymentorderoutgoing
+      consumerGroup: hr.vestigo.hp.paymentorderoutgoing
     parameterization:
       name: hr.vestigo.hp.parameterization
       consumerGroup: hr.vestigo.hp.parameterization
