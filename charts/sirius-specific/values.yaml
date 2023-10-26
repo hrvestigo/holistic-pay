@@ -136,6 +136,7 @@ sirius:
       payOrderRjctCancellationRequest: WS9025
       payOrderReturn: WS9016
       payOrderCancellationRequestStatu: WS9017
+      payOrderReceivingOutboundTransfer: WS9004
   specific:
     cache:
       refresh:

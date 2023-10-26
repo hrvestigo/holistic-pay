@@ -239,6 +239,8 @@ spec:
               value: {{ .Values.sirius.rest.uri.payOrderReturn | quote }}
             - name: SIRIUS_REST_URI_PAYORDERCANCELLATIONREQUESTSTATUS
               value: {{ .Values.sirius.rest.uri.payOrderCancellationRequestStatu | quote }}
+            - name: SIRIUS_REST_URI_PAYORDERRECEIVINGOUTBOUNDTRANSFER
+              value: {{ .Values.sirius.rest.uri.payOrderReceivingOutboundTransfer | quote }}
             {{- if .Values.grpc.server.enabled }}
             - name: GRPC_SERVER_PORT
               value: {{ .Values.grpc.server.port | default "9090" | quote }}
