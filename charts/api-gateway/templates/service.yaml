@@ -8,12 +8,12 @@ metadata:
     {{- if .Values.service.labels }}
     {{ toYaml .Values.service.labels | indent 4 }}
     {{- end }}
-  {{- with .Values.service.annotations }}
   annotations:
     prometheus.io/path: /prometheus
-    prometheus.io/port: {{ .Values.service.port }}
+    prometheus.io/port: {{ .Values.service.port | quote }}
     prometheus.io/scheme: https
     prometheus.io/scrape: 'true'
+  {{- with .Values.service.annotations -}}
   {{ toYaml . | nindent 4 }}
   {{- end }}
 spec:
