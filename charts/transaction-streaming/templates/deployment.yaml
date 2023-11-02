@@ -144,8 +144,12 @@ spec:
               value: {{ required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
             - name: SPRING_KAFKA_STREAMS_REPLICATIONFACTOR
               value: {{ .Values.kafka.streams.replication.factor | default "3" | quote }}
+            - name: SPRING_KAFKA_STREAMS_AUTOSTARTUP
+              value: {{ .Values.kafka.streams.auto.startup | default "true" | quote }}
+            {{- if .Values.kafka.streams.auto.startup }}
             - name: SPRING_KAFKA_STREAMS_APPLICATIONID
               value: {{ .Values.kafka.streams.application.id | default "transaction-streaming" | quote }}
+            {{- end }}
             - name: SPRING_KAFKA_STREAMS_DELETE_AUTOSTARTUP
               value: {{ .Values.kafka.streams.delete.auto.startup | default "false" | quote }}
             {{- if .Values.kafka.streams.delete.auto.startup }}
@@ -172,6 +176,12 @@ spec:
               value: {{ .Values.kafka.topics.turnCustomer.name | quote }}
             - name: KAFKA_TOPIC_CUSTOMERACCOUNTSTATEMENT_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.customerAccountStatement.name | quote }}
+            {{- end }}
+            - name: SPRING_KAFKA_STREAMS_SECONDARY_AUTOSTARTUP
+              value: {{ .Values.kafka.streams.secondary.auto.startup | default "false" | quote }}
+            {{- if .Values.kafka.streams.secondary.auto.startup }}
+            - name: SPRING_KAFKA_STREAMS_SECONDARY_APPLICATIONID
+              value: {{ .Values.kafka.streams.secondary.application.id | default "transaction-streaming-secondary" | quote }}
             {{- end }}
             - name: SPRING_KAFKA_STREAMS_JOIN_WINDOW
               value: {{ .Values.kafka.streams.join.window | default "60" | quote }}
