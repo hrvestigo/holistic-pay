@@ -102,6 +102,8 @@ batch:
 grpc:
   enabled: false
   timeout: 250
+  externalWebServiceCall:
+    timeout: 15000
   negotiation: TLS
   personstructurechecks:
     address: ''

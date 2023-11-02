@@ -191,6 +191,8 @@ spec:
             {{- if .Values.grpc.enabled }}
             - name: GRPC_TIMEOUT
               value: {{ .Values.grpc.timeout | default "250" | quote }}
+            - name: GRPC_EXTERNALWEBSERVICECALL_TIMEOUT
+              value: {{ .Values.grpc.externalWebServiceCall.timeout | default "15000" | quote }}
             - name: GRPC_CLIENT_PERSONSTRUCTURECHECKS_ADDRESS
               value: {{ required "Please specify address for person structure checks gRPC server in grpc.personstructurechecks.address" .Values.grpc.personstructurechecks.address | quote }}
             - name: GRPC_CLIENT_PERSONSTRUCTURECHECKS_NEGOTIATIONTYPE

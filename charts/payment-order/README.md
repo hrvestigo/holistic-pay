@@ -98,6 +98,9 @@ gRPC configuration is set like this:
 grpc:
   enabled: false # default value, set to true if you want external checks to be executed through gRPC
   timeout: 250 # default value, it represents the upper limit in milliseconds for the duration of each gRPC request 
+  externalWebServiceCall:
+    timeout: 15000 # default value, it represents the upper limit in milliseconds for the duration of each gRPC request 
+                   # made to external web service
   negotiation: TLS # default value for the connection to the gRPC servers
   personstructurechecks: # properties specific to person structure checks
     address: "dns:///person-structure-server:port" # dns address on which the person structure checks gRPC server runs
