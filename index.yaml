@@ -13474,6 +13474,16 @@ entries:
     version: 1.0.1
   transaction-streaming:
   - apiVersion: v2
+    appVersion: 1.60.0
+    created: "2023-11-06T09:57:02.363566136Z"
+    description: Helm chart for transaction-streaming application
+    digest: 74f6a995fb8287a01687b5697be396c2ef93bf969183dfca75d81e9a8677f4f4
+    name: transaction-streaming
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.60.0/transaction-streaming-1.60.0.tgz
+    version: 1.60.0
+  - apiVersion: v2
     appVersion: 1.59.0
     created: "2023-11-02T13:23:57.786222341Z"
     description: Helm chart for transaction-streaming application
@@ -14053,4 +14063,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2023-11-06T08:15:22.126278643Z"
+generated: "2023-11-06T09:57:02.381590503Z"
