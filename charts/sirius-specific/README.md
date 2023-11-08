@@ -186,6 +186,8 @@ kafka:
       consumerGroup: hr.vestigo.hp.example # default value, set custom name if required
     personStructureInitial:
       name: hr.vestigo.hp.perstrucinitial # default value, set custom name if required
+    customerAccountStatement:
+      name: hr.vestigo.hp.customeraccountstatement # default value, set custom name if required
 ```
 
 Some topics also give the option of choosing environment that decides which schema is to be used, those topics are:

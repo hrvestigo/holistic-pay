@@ -113,6 +113,8 @@ kafka:
       env: sit
     bicexclusion:
       name: gcp.ipt1.hp.evt.sirspec.bicexclusion
+    customerAccountStatement:
+      name: hr.vestigo.hp.customeraccountstatement
 external:
   core:
     system:

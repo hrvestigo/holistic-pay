@@ -215,6 +215,8 @@ spec:
               value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}
             - name: KAFKA_TOPIC_BICEXCLUSION_NAME
               value: {{ .Values.kafka.topics.bicexclusion.name | quote }}
+            - name: KAFKA_TOPIC_CUSTOMERACCOUNTSTATEMENT_NAME
+              value: {{ .Values.kafka.topics.customerAccountStatement.name | quote }}
             - name: EXTERNAL_CORE_SYSTEM_MEMBER_SIGN_DEFAULT
               value: {{ .Values.external.core.system.member.sign.default | quote }}
             - name: SIRIUS_SPECIFIC_CACHE_EXPIREAFTERACCESS
