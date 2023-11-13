@@ -185,7 +185,7 @@ kafka:
       application:
         id: 'transaction-streaming-delete' # Kafka Streams application identification for data purging
       auto:
-        startup: false # boolean value, default is false
+        startup: false # boolean value, default is true
       scanFrequency: 12 # in hours, default value is 12
       maximumAge:
         turnover: 1 # in days, default value is 1

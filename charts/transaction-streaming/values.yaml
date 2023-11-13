@@ -75,15 +75,9 @@ kafka:
         turnover: 1
         turnCustomer: 1
         customerAccountStatement: 30
-    secondary:
-      application:
-        id: transaction-streaming-secondary
-      auto:
-        startup: false
     join:
       window: 60
       grace: 40
-    nullValueFrequency: 30
   topics:
     paymentOrder:
       name: hr.vestigo.hp.paymentorder
