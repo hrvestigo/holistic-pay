@@ -74,7 +74,14 @@ kafka:
       maximumAge:
         turnover: 1
         turnCustomer: 1
+        paymentOrder: 1
+        fPayment: 1
+        paymentListQ: 1
+        event: 1
+        interfaceCollTbl: 1
+        trxAnnounce: 1
         customerAccountStatement: 30
+        futuristicForeignPayment: 30
     join:
       window: 60
       grace: 40
@@ -133,6 +140,20 @@ kafka:
         name: hr.vestigo.hp.turncustomer
       customerAccountStatement:
         name: hr.vestigo.hp.customeraccountstatement
+      paymentOrder:
+        name:  hr.vestigo.hp.paymentorder
+      fPayment:
+        name:  hr.vestigo.hp.fpayment
+      paymentListQ:
+        name:  hr.vestigo.hp.paymentlistq
+      futuristicForeignPayment:
+        name:  hr.vestigo.hp.futuristicforeignpayment
+      event:
+        name:  hr.vestigo.hp.event
+      interfaceCollTbl:
+        name:  hr.vestigo.hp.interfacecolltbl
+      trxAnnounce:
+        name:  hr.vestigo.hp.trxannounce
     banproamotype:
       name: hr.vestigo.hp.banproamotype
       consumerGroup: hr.vestigo.hp.banproamotype

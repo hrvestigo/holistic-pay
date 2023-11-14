@@ -156,17 +156,16 @@ Kafka Streams state directory has to be defined under Custom Volumes `customVolu
 All attributes under `kafka` parent attribute are required:
 
 If the `kafka.streams.delete.auto.startup` attribute is set to true, additional Kafka Streams topology is run that 
-performs scan for old turnover and turn customer records and removes them from state store.
+performs scan for old records and removes them from state store.
 Its id can be set through `kafka.streams.delete.application.id`.
 Scan frequency can be set through `kafka.streams.delete.scanFrequency` in hours.
-Default value is 12 hours.
-Maximum age for turnover, turn customer and customer account statement records can be set through 
-`kafka.streams.delete.maximumAge` in days.
-Default value is 1 day for turnover and turn customer and 30 days for customer account statement.
-With this setup, additionally it is required to set `kafka.topics.tombstone` topic names for turnover, turn customer and
-customer account statement.
-These should be different from original topics for turnover, turn customer and customer account statement as they may
-contain null values, a.k.a. tombstones.
+Default value is 12 hours, meaning old data is deleted every 12 hours. 
+Maximum age for these records can be set through `kafka.streams.delete.maximumAge` in days.
+Default value is 1 day for input topics (`turnover`, `turnCustomer`, `paymentOrder`, `fPayment`, `paymentListQ`, 
+`event`, `interfaceCollTbl` and `trxAnnounce`) and 30 days for output topics (`customerAccountStatement` and 
+`futuristicForeignPayment`).
+With this setup, additionally it is required to set `kafka.topics.tombstone` topic names for these topics.
+These should be different from original topics as they may contain null values, a.k.a. tombstones.
 These topics need not be set if `kafka.streams.delete.auto.startup` is false.
 
 ```yaml
@@ -190,7 +189,14 @@ kafka:
       maximumAge:
         turnover: 1 # in days, default value is 1
         turnCustomer: 1 # in days, default value is 1
+        paymentOrder: 1 # in days, default value is 1
+        fPayment: 1 # in days, default value is 1
+        paymentListQ: 1 # in days, default value is 1
+        event: 1 # in days, default value is 1
+        interfaceCollTbl: 1 # in days, default value is 1
+        trxAnnounce: 1 # in days, default value is 1
         customerAccountStatement: 30 # in days, default value is 30
+        futuristicForeignPayment: 30 # in days, default value is 30
     join:
       window: 60 # default value is 60
       grace: 40 # default value is 40
@@ -269,6 +275,20 @@ kafka:
         name: hr.vestigo.hp.turncustomer # default value, set custom name if required
       customerAccountStatement:
         name: hr.vestigo.hp.customeraccountstatement # default value, set custom name if required
+      paymentOrder:
+        name:  hr.vestigo.hp.paymentorder # default value, set custom name if required
+      fPayment:
+        name:  hr.vestigo.hp.fpayment # default value, set custom name if required
+      paymentListQ:
+        name:  hr.vestigo.hp.paymentlistq # default value, set custom name if required
+      futuristicForeignPayment:
+        name:  hr.vestigo.hp.futuristicforeignpayment # default value, set custom name if required
+      event:
+        name:  hr.vestigo.hp.event # default value, set custom name if required
+      interfaceCollTbl:
+        name:  hr.vestigo.hp.interfacecolltbl # default value, set custom name if required
+      trxAnnounce:
+        name:  hr.vestigo.hp.trxannounce # default value, set custom name if required
 ```
 
 
