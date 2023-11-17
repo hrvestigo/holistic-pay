@@ -188,6 +188,7 @@ logger:
   logDirMount:
     enabled: false
   microserviceTag: SIRSPE
+  maskSensitive: false
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx512M
 springActiveProfile: prod
