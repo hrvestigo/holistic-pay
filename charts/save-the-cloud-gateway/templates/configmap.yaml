@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+  application.yaml: |-
+    {{- include "save-the-cloud-gateway.appConfig" . | nindent 4 }}
+    
+  logback.xml: |-
+    {{- include "save-the-cloud-gateway.logger" . | nindent 4 }}

@@ -1,0 +1,197 @@
+# Default values for save-the-cloud-gateway.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+
+image:
+  registry: docker.io
+  pullPolicy: IfNotPresent
+  app:
+    registry: # defaults to image.registry
+    imageLocation: # overrides registry and image name
+    tag: "" # overrides the image tag whose default is the chart appVersion.
+    pullPolicy: # defaults to image.pullPolicy
+
+imagePullSecrets: []
+
+timezone: ""
+
+secret:
+  trustStorePassword: ""
+  keyStorePassword: ""
+
+logger:
+  globalLogLevel: DEBUG
+  logToFile: false # boolean value, default is false
+  logDir: "/var/log/app"
+  format: "STRING" # defines log format for stdout logger. Valid values are ECS, LOGSTASH, GELF, GCP, STRING
+  logDirMount:
+    enabled: false # boolean value, default is false
+    spec:
+      # emptyDir: {}
+      # flexVolume:
+        # driver: ""
+        # fsType: ""
+        # options:
+          # basepath: ""
+          # basename: ""
+
+spring:
+  cloud:
+    gateway:
+      ssl:
+        useInsecureTrustManager: true
+
+logging:
+  level:
+    reactor:
+      netty: INFO
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE
+
+kubernetes:
+  client:
+    apikey: "pGR0jtw88ntw0iJnPfxL9qPqbhgLDcYdbUSuaLiRy--L"
+
+healthStatusDownReturnCode: "418"
+
+javaOpts: "-Xms256M -Xmx256M -Dreactor.netty.http.server.accessLogEnabled=true"
+
+podAnnotations: {}
+
+deploymentAnnotations: {}
+
+serviceAnnotations: {}
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+
+securityContext: {}
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 8443
+  nodePort: ""
+  clusterIP: ""
+  loadBalancerIP: ""
+  loadBalancerSourceRanges: []
+  annotations: {}
+  labels: {}
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts: []
+  tls: []
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 50m
+    memory: 256Mi
+
+initContainers: []
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/arch
+              operator: In
+              values:
+                - amd64
+            - key: kubernetes.io/os
+              operator: In
+              values:
+                - linux
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - save-the-cloud-gateway
+          topologyKey: kubernetes.io/hostname
+
+deployment:
+  replicaCount: 1
+  annotations: {}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  minReadySeconds: 60
+  terminationGracePeriodSeconds: 60
+  restartPolicy: Always
+  readinessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 60
+    timeoutSeconds: 10
+    successThreshold: 1
+    failureThreshold: 2
+    httpGet:
+      path: /health/readiness
+      port: http
+      scheme: HTTPS
+  livenessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 60
+    timeoutSeconds: 10
+    failureThreshold: 3
+    httpGet:
+      path: /health/liveness
+      port: http
+      scheme: HTTPS
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+mountServerCertFromSecret:
+  enabled: false
+  secretName: ""
+  certPath: ""
+  keyPath: ""
+
+mountKeyStoreFromSecret:
+  enabled: false
+  secretName: ""
+  keyStoreName: ""
+  keyStoreType: JKS
+
+mountTrustStoreFromSecret:
+  enabled: false
+  secretName: ""
+  trustStoreName: ""
+  trustStoreType: JKS
+
+mountCaFromSecret:
+  enabled: false
+  secretName: ""
+
+customVolumes: []
+
+customMounts: []
+
+customEnv: []

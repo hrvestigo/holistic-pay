@@ -1,0 +1,51 @@
+spring:
+  cloud:
+    gateway:
+      httpclient:
+        ssl:
+          useInsecureTrustManager: {{ required "SSL config has to be defined in spring.cloud.gateway.ssl.useInsecureTrustManager" .Values.spring.cloud.gateway.ssl.useInsecureTrustManager }}
+        wiretap: true
+      httpserver:
+        wiretap: true
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: '*'
+            allowedMethods:
+              - GET
+              - POST
+              - PATCH
+            allowedHeaders: '*'
+            maxAge: 30
+      routes:
+        - id: ibm_cloud_iam
+          predicates:
+            - Path=/ibm-cloud-iam/identity/token
+          uri: https://iam.cloud.ibm.com
+          filters:
+            - StripPrefix=1
+        - id: ibm_cloud_containers
+          predicates:
+            - Path=/ibm-cloud-containers/global/v2/applyRBACAndGetKubeconfig
+          uri: https://containers.cloud.ibm.com
+          filters:
+            - StripPrefix=1
+        - id: ibm_cloud_c111_eu_de
+          predicates:
+            - Path=/ibm-cloud-c111-eu-de/**
+          uri: https://c111.eu-de.containers.cloud.ibm.com:32399
+          filters:
+            - StripPrefix=1
+
+logging:
+  level:
+    reactor:
+      netty: {{ required "reactor netty log lvl has to be defined in logging.level.reactor.netty" .Values.logging.level.reactor.netty }}
+    org:
+      springframework:
+        cloud:
+          gateway: {{ required "cloud gateway log lvl has to be defined in logging.level.org.springframework.cloud.gateway" .Values.logging.level.org.springframework.cloud.gateway }}
+
+kubernetes:
+  client:
+    apikey: {{ required "technical user for accesing k8s API has to be defined in kubernetes.client.apikey" .Values.kubernetes.client.apikey }}
