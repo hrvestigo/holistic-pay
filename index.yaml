@@ -10070,6 +10070,17 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/product-factory-0.2.0/product-factory-0.2.0.tgz
     version: 0.2.0
+  save-the-cloud-gateway:
+  - apiVersion: v1
+    appVersion: 0.0.1
+    created: "2023-11-23T10:41:56.333578321Z"
+    description: Helm chart for save-the-cloud-gateway application
+    digest: 82596db0e2fe76d1155649dcc8962839759cf53d70a7b78e4c6851d5791af681
+    name: save-the-cloud-gateway
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/save-the-cloud-gateway-0.0.1/save-the-cloud-gateway-0.0.1.tgz
+    version: 0.0.1
   sepa-inst:
   - apiVersion: v2
     appVersion: 1.74.0
@@ -14393,4 +14404,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2023-11-22T08:08:43.695282043Z"
+generated: "2023-11-23T10:41:56.343396974Z"
