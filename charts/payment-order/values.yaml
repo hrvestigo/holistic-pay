@@ -148,7 +148,7 @@ logger:
   logDirMount:
     enabled: false
   microserviceTag: PAYORD
-  maskSensitive: true
+  maskSensitive: false
   databaseSlowQueryThreshold: 0
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx512M
