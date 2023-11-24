@@ -5,3 +5,7 @@ metadata:
 data:
   log4j2.xml: |-
     {{- include "person-structure.logger" . | nindent 4 }}
+  {{- if .Values.logger.maskSensitive }}
+  log4j2.component.properties: |-
+    {{- include "person-structure.sensitive.data.logger" . | nindent 4 }}
+  {{- end }}

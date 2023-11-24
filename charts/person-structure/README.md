@@ -1028,6 +1028,15 @@ Examples of how log entries would look like for each value:
   {"timestamp":"2023-03-17T10:33:14.218078900Z","severity":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","logging.googleapis.com/sourceLocation":{"function":"org.springframework.boot.availability.ApplicationAvailabilityBean.onApplicationEvent"},"logging.googleapis.com/insertId":"1051","_exception":{"stackTrace":""},"_thread":"main","_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
 
+If it is required to mask sensitive data whilst logging, it can be configured by parameter:
+```yaml
+logger:
+  maskSensitive: false # boolean value, default is false
+```
+
+What is treated as sensitive is implementation specific and is defined inside the code.
+
+
 ### Modifying deployment strategy
 
 Default deployment strategy for Person structure application is `RollingUpdate`, but it can be overridden, along with other deployment parameters using following attributes (default values are shown):
