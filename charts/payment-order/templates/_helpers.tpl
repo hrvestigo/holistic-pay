@@ -319,6 +319,13 @@ Application logger
 {{- end }}
 
 {{/*
+Sensitive data
+*/}}
+{{- define "payment-order.sensitive.data.logger" -}}
+{{ tpl (.Files.Get "config/log4j2.component.properties") . }}
+{{- end }}
+
+{{/*
 Defines custom datasource connection parameters appended to URL
 */}}
 {{- define "payment-order.db.connectionParams" -}}
