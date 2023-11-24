@@ -7240,6 +7240,16 @@ entries:
     version: 0.9.0
   person-structure:
   - apiVersion: v2
+    appVersion: 4.42.0
+    created: "2023-11-24T09:45:22.928952563Z"
+    description: Helm chart for person structure application
+    digest: 8f09135d3508c287ab84b304123164526db23a94992086037df3841eb3567159
+    name: person-structure
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/person-structure-4.42.0/person-structure-4.42.0.tgz
+    version: 4.42.0
+  - apiVersion: v2
     appVersion: 4.41.0
     created: "2023-10-09T13:43:40.81917129Z"
     description: Helm chart for person structure application
@@ -14454,4 +14464,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2023-11-24T09:26:32.309691106Z"
+generated: "2023-11-24T09:45:22.937968623Z"
