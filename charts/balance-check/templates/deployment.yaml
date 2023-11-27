@@ -85,9 +85,6 @@ spec:
               value: {{ .Values.redis.transaction.wait.replicaNo | quote }}
             - name: REDIS_TRANSACTION_WAIT_TIMEOUT
               value: {{ .Values.redis.transaction.wait.timeout | quote }}
-            {{- if (include "balance-check.endpoint.config" .) -}}
-            {{- include "balance-check.endpoint.config" . | nindent 12 -}}
-            {{- end }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
