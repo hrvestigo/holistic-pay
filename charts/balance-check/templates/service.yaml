@@ -26,10 +26,6 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-    - port: {{ .Values.grpc.server.port }}
-      targetPort: grpc
-      protocol: TCP
-      name: grpc
   {{- if .Values.service.clusterIP }}
   clusterIP: {{ .Values.service.clusterIP }}
   {{- end }}
