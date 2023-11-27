@@ -2753,6 +2753,17 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/auth-limit-control-0.2.0/auth-limit-control-0.2.0.tgz
     version: 0.2.0
+  balance-check:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2023-11-27T13:27:41.907903485Z"
+    description: Helm chart for balance-check application
+    digest: 742dffa3705f426856d7ae62193ff5f9a60e069f15876eaad020d0fca1ad263f
+    name: balance-check
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/balance-check-1.0.0/balance-check-1.0.0.tgz
+    version: 1.0.0
   cms-interface:
   - apiVersion: v2
     appVersion: 3.8.0
@@ -14494,4 +14505,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2023-11-27T11:01:11.503418324Z"
+generated: "2023-11-27T13:27:41.917719705Z"
