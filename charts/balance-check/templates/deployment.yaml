@@ -85,11 +85,11 @@ spec:
               value: {{ .Values.kafka.topics.balanceaccount.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_BALANCEACCOUNTEFFECT_NAME
               value: {{ .Values.kafka.topics.balanceaccounteffect.consumerGroup | quote }}
-            - name: REDIS_URI
+            - name: BALANCE_CHECK_REDIS_URI
               value: {{ .Values.redis.uri | quote }}
-            - name: REDIS_TRANSACTION_WAIT_REPLICANO
+            - name: BALANCE_CHECK_REDIS_WAIT_FOR_REPLICAS
               value: {{ .Values.redis.transaction.wait.replicaNo | quote }}
-            - name: REDIS_TRANSACTION_WAIT_TIMEOUT
+            - name: BALANCE_CHECK_REDIS_WAIT_FOR_REPLICAS_TIMEOUT
               value: {{ .Values.redis.transaction.wait.timeout | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12

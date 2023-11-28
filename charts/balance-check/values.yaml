@@ -37,7 +37,7 @@ redis:
   transaction:
     wait:
       replicaNo: 3
-      timeout: 5000
+      timeout: 5s
 oauth2:
   enabled: false
   resourceUri: ''
