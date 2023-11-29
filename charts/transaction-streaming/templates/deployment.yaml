@@ -151,7 +151,7 @@ spec:
               value: {{ .Values.kafka.streams.application.id | default "transaction-streaming" | quote }}
             {{- end }}
             - name: SPRING_KAFKA_STREAMS_DELETE_AUTOSTARTUP
-              value: {{ .Values.kafka.streams.delete.auto.startup | default "false" | quote }}
+              value: {{ .Values.kafka.streams.delete.auto.startup | default "true" | quote }}
             {{- if .Values.kafka.streams.delete.auto.startup }}
             - name: SPRING_KAFKA_STREAMS_DELETE_APPLICATIONID
               value: {{ .Values.kafka.streams.delete.application.id | default "transaction-streaming-delete" | quote }}
@@ -267,6 +267,10 @@ spec:
               value: {{ .Values.kafka.topics.country.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_COUNTRY_NAME
               value: {{ .Values.kafka.topics.country.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CUSTOMER_INTERNAL_NAME
+              value: {{ .Values.kafka.topics.internal.customer.name | quote }}
+            - name: KAFKA_TOPIC_CUSTOMERACCOUNT_INTERNAL_NAME
+              value: {{ .Values.kafka.topics.internal.customerAccount.name | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

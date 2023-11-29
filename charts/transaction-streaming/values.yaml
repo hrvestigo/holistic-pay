@@ -157,6 +157,11 @@ kafka:
     banproamotype:
       name: hr.vestigo.hp.banproamotype
       consumerGroup: hr.vestigo.hp.banproamotype
+    internal:
+      customer:
+        name: hr.vestigo.hp.customer.internal
+      customerAccount:
+        name: hr.vestigo.hp.customeraccount.internal
 oauth2:
   enabled: false
   resourceUri: ''

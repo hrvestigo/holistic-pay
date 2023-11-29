@@ -63,7 +63,7 @@ kafka:
       id: 'transaction-streaming' # string value
     delete:
       auto:
-        startup: false # boolean value, default is false
+        startup: false # boolean value, default is true
     join:
       window: 60 # default value is 60
       grace: 40 # default value is 40
@@ -167,6 +167,7 @@ Default value is 1 day for input topics (`turnover`, `turnCustomer`, `paymentOrd
 With this setup, additionally it is required to set `kafka.topics.tombstone` topic names for these topics.
 These should be different from original topics as they may contain null values, a.k.a. tombstones.
 These topics need not be set if `kafka.streams.delete.auto.startup` is false.
+With current implementation, `kafka.streams.delete.auto.startup` is required to be true so that application can run correctly.
 
 ```yaml
 kafka:
@@ -289,6 +290,11 @@ kafka:
         name:  hr.vestigo.hp.interfacecolltbl # default value, set custom name if required
       trxAnnounce:
         name:  hr.vestigo.hp.trxannounce # default value, set custom name if required
+    internal: # mandatory, used for global tables creation
+      customer:
+        name: hr.vestigo.hp.customer.internal # default value, set custom name if required
+      customerAccount:
+        name: hr.vestigo.hp.customeraccount.internal # default value, set custom name if required
 ```
 
 
