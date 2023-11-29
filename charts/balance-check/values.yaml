@@ -32,6 +32,9 @@ kafka:
       balanceaccounteffect:
         name: hr.vestigo.hp.balanceaccounteffect
         consumerGroup: hr.vestigo.hp.balanceaccounteffect
+      parameterization:
+        name: hr.vestigo.hp.parameterization
+        consumerGroup: hr.vestigo.hp.parameterization
 redis:
   uri: ''
   transaction:
