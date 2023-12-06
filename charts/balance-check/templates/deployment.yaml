@@ -89,6 +89,10 @@ spec:
               value: {{ .Values.kafka.topics.balanceaccount.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_BALANCE_ACCOUNT_EFFECT_NAME
               value: {{ .Values.kafka.topics.balanceaccounteffect.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_BALANCE_CHANGE_REQUEST_NAME
+              value: {{ .Values.kafka.topics.balancechangerequest.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_BALANCE_CHANGE_REQUEST_NAME
+              value: {{ .Values.kafka.topics.balancechangerequest.consumerGroup | quote }}
             - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
               value: {{ .Values.kafka.topics.parameterization.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME

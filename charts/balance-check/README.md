@@ -195,21 +195,18 @@ Kafka topics and consumer group names used by `SEPA inst` have default names def
 ```yaml
 kafka:
   topics:
-    paymentorderflow:
-      name: hr.vestigo.hp.paymentorderflow  # default, set custom name if required
-      consumerGroup: hr.vestigo.hp.sepins.paymentorderflow  # default, set custom if required
-    originalpaymentmessage:
-      name: hr.vestigo.hp.originalpaymentmessage  # default, set custom name if required
-    paymentordereventin:
-      name: hr.vestigo.hp.paymentordereventin  # default, set custom name if required
-    paymentorderincoming:
-      name: hr.vestigo.hp.paymentorderincoming #default, set custom name if required
-    paymentordereventflow:
-      name: hr.vestigo.hp.paymentordereventflow  # default, set custom name if required
-      consumerGroup: hr.vestigo.hp.sepins.paymentordereventflow  # default, set custom if required
-    sepainstmsgcheck:
-      name: hr.vestigo.hp.sepainstmsgcheck # default, set custom name if required
-      consumerGroup: hr.vestigo.hp.sepainstmsgcheck # default, set custom if required
+    balanceaccount:
+      name: hr.vestigo.hp.balanceaccount # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.balanceaccount # default value, set custom consumer group if required
+    balanceaccounteffect:
+      name: hr.vestigo.hp.balanceaccounteffect # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.balanceaccounteffect # default value, set custom consumer group if required
+    balancechangerequest:
+      name: hr.vestigo.hp.balancechangerequest # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.balancechangerequest # default value, set custom consumer group if required
+    parameterization:
+      name: hr.vestigo.hp.parameterization # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.parameterization # default value, set custom consumer group if required
 ```
 
 ### Configuring image source and pull secrets

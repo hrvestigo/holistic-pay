@@ -32,6 +32,9 @@ kafka:
       balanceaccounteffect:
         name: hr.vestigo.hp.balanceaccounteffect
         consumerGroup: hr.vestigo.hp.balanceaccounteffect
+      balancechangerequest:
+        name: hr.vestigo.hp.balancechangerequest
+        consumerGroup: hr.vestigo.hp.balancechangerequest
       parameterization:
         name: hr.vestigo.hp.parameterization
         consumerGroup: hr.vestigo.hp.parameterization
