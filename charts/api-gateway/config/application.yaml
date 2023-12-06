@@ -108,3 +108,10 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
+        - id: balance-check-ms_route
+          predicates:
+            - Path=/api/*/balanceChangeRequest
+          uri: https://{{ required "Balance check application service name has to be defined in routes.balanceCheck.serviceName" .Values.routes.balanceCheck.serviceName }}:{{ required "Balance check application port number has to be defined in routes.balanceCheck.servicePortNumber" .Values.routes.balanceCheck.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession

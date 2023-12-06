@@ -63,6 +63,9 @@ routes:
   personRegistryWeb:
     serviceName: person-registry-web
     servicePortNumber: "8443"
+  balanceCheck:
+    serviceName: balance-check
+    servicePortNumber: "8443"
 
 oauth2:
   enabled: false

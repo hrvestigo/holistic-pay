@@ -47,6 +47,9 @@ routes:
   personRegistryWeb:
     serviceName: person-structure-web # name of person-registry-web service, default is person-registry-web
     portNumber: "8443" # port number on which person-registry-web service is exposed, default is 8443
+  balanceCheck:
+    serviceName: balance-check # name of balance-check service, default is balance-check
+    portNumber: "8443" # port number on which balance-check service is exposed, default is 8443
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value, no default value
