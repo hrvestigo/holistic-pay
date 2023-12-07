@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "save-the-cloud-web.name" . }}
+  labels:
+    {{- include "save-the-cloud-web.labels" . | nindent 4 }}
+{{- with .Values.deployment.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.deployment.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "save-the-cloud-web.selectorLabels" . | nindent 6 }}
+  strategy:
+    {{- toYaml .Values.deployment.strategy | nindent 4 }}
+  minReadySeconds: {{ .Values.deployment.minReadySeconds }}
+  template:
+    metadata:
+      annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "save-the-cloud-web.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      terminationGracePeriodSeconds: {{ .Values.deployment.terminationGracePeriodSeconds }}
+      restartPolicy: {{ .Values.deployment.restartPolicy }}
+      {{- if .Values.initContainers }}
+      initContainers:
+        {{- with .Values.initContainers }}
+        {{- toYaml . | trim | nindent 8 }}
+        {{- end }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ include "save-the-cloud-web.app.repository" . }}:{{ .Values.image.app.tag | default .Chart.AppVersion }}
+          imagePullPolicy: {{ include "save-the-cloud-web.app.imagePullPolicy" . }}
+          env:
+            {{- if .Values.timezone }}
+            - name: TZ
+              value: {{ .Values.timezone }}
+            {{- end }}
+            - name: REACT_APP_API_GATEWAY_URL
+              value: {{ required "Please specify API Gateway URL apiGatewayUrl" .Values.apiGatewayUrl | quote }}
+            - name: REACT_APP_IBM_CLOUD_IAM_API_URL
+              value: {{ required "Please specify IBM Cloud IAM API URL ibmCloudIamApiUrl" .Values.ibmCloudIamApiUrl | quote }}
+            - name: REACT_APP_IBM_CLOUD_CONTAINERS_API_URL
+              value: {{ required "Please specify IBM Cloud containers API URL ibmCloudContainersApiUrl" .Values.ibmCloudContainersApiUrl | quote }}
+            - name: REACT_APP_IBM_CLOUD_C111_API_URL
+              value: {{ required "Please specify IBM Cloud C111 server API URL ibmCloudC111ServerApiUrl" .Values.ibmCloudC111ServerApiUrl | quote }}
+            - name: REACT_APP_CLUSTER_NAME
+              value: {{ required "Please specify k8s cluster name k8sClusterName" .Values.k8sClusterName | quote }}
+            - name: REACT_APP_ENVIRONMENT
+              value: {{ required "Please specify environment name in environmentName" .Values.environmentName | quote }}
+            - name: REACT_APP_SESSION_TIMEOUT_IN_SECONDS
+              value: {{ required "Please specify HTTP session timeout in httpSessionTimeout" .Values.httpSessionTimeout | quote }}
+            - name: REACT_APP_SESSION_TIMEOUT_MESSAGE
+              value: "Session expired! Please login."
+            {{- with .Values.customEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: 8443
+              protocol: TCP
+          livenessProbe:
+            {{- toYaml .Values.deployment.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.deployment.readinessProbe | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            {{- include "save-the-cloud-web.mounts" . | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        {{- include "save-the-cloud-web.volumes" . | nindent 8 }}

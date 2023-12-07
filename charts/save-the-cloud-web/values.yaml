@@ -1,0 +1,151 @@
+# Default values for save-the-cloud-web.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+
+image:
+  registry: docker.io
+  pullPolicy: IfNotPresent
+  app:
+    registry: # defaults to image.registry
+    tag: "" # overrides the image tag whose default is the chart appVersion.
+    pullPolicy: # defaults to image.pullPolicy
+
+imagePullSecrets: []
+
+apiGatewayUrl: ""
+
+ibmCloudIamApiUrl: ""
+
+ibmCloudContainersApiUrl: ""
+
+ibmCloudC111ServerApiUrl: ""
+
+k8sClusterName: ""
+
+environmentName: "TEST"
+
+httpSessionTimeout: "14400"
+
+timezone: ""
+
+podAnnotations: {}
+
+deploymentAnnotations: {}
+
+serviceAnnotations: {}
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+
+securityContext: {}
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 8443
+  nodePort: ""
+  clusterIP: ""
+  loadBalancerIP: ""
+  loadBalancerSourceRanges: []
+  annotations: {}
+  labels: {}
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts: []
+  tls: []
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 64Mi
+  requests:
+    cpu: 50m
+    memory: 16Mi
+
+initContainers: []
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/arch
+              operator: In
+              values:
+                - amd64
+            - key: kubernetes.io/os
+              operator: In
+              values:
+                - linux
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - alc-collect
+          topologyKey: kubernetes.io/hostname
+
+deployment:
+  replicaCount: 1
+  annotations: {}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  minReadySeconds: 60
+  terminationGracePeriodSeconds: 60
+  restartPolicy: Always
+  readinessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 60
+    timeoutSeconds: 10
+    successThreshold: 1
+    failureThreshold: 2
+    httpGet:
+      path: /health/readiness
+      port: http
+      scheme: HTTPS
+  livenessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 60
+    timeoutSeconds: 10
+    failureThreshold: 3
+    httpGet:
+      path: /health/liveness
+      port: http
+      scheme: HTTPS
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+mountServerCertFromSecret:
+  enabled: false
+  secretName: ""
+  certPath: ""
+  keyPath: ""
+
+customVolumes: []
+
+customMounts: []
+
+customEnv: []
