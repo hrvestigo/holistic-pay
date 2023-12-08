@@ -55,11 +55,15 @@ service:
   labels: {}
 
 ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-  hosts: []
-  tls: []
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+  hosts:
+    - host: save-the-cloud-web.monitor.k8s.vestigo.hr
+      paths:
+        - path: /
+          pathType: Prefix
 
 resources:
   limits:
