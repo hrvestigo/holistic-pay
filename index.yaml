@@ -10504,6 +10504,16 @@ entries:
     version: 0.0.1
   save-the-cloud-web:
   - apiVersion: v1
+    appVersion: 0.2.0
+    created: "2023-12-11T15:15:46.659622488Z"
+    description: Helm chart for Save The Cloud web application
+    digest: 94716c8c3c732c550887b655c25a0177ef6816a74f575b9aff0450a6532da6fe
+    name: save-the-cloud-web
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/save-the-cloud-web-0.2.0/save-the-cloud-web-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v1
     appVersion: 0.1.0
     created: "2023-12-08T12:45:05.802700847Z"
     description: Helm chart for Save The Cloud web application
@@ -14956,4 +14966,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2023-12-11T10:15:01.808382665Z"
+generated: "2023-12-11T15:15:46.670444556Z"
