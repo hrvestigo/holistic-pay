@@ -12,30 +12,31 @@ spring:
           '[/**]':
             allowedOrigins: '*'
             allowedMethods:
+              - OPTIONS
               - GET
               - POST
               - PATCH
+              - PUT
+              - DELETE
             allowedHeaders: '*'
-            maxAge: 30
+            maxAge: 3600
       routes:
-        - id: ibm_cloud_iam
-          predicates:
-            - Path=/ibm-cloud-iam/identity/token
-          uri: https://iam.cloud.ibm.com
-          filters:
-            - StripPrefix=1
         - id: ibm_cloud_containers
           predicates:
             - Path=/ibm-cloud-containers/global/v2/applyRBACAndGetKubeconfig
-          uri: https://containers.cloud.ibm.com
+          uri: https://{{ required "IBM cloud containers domain has to be defined in routes.ibmCloudContainers.domain" .Values.routes.ibmCloudContainers.domain }}
           filters:
             - StripPrefix=1
+            - RemoveRequestHeader=Authorization
+            - MapRequestHeader=X-Auth, Authorization
         - id: ibm_cloud_c111_eu_de
           predicates:
             - Path=/ibm-cloud-c111-eu-de/**
-          uri: https://c111.eu-de.containers.cloud.ibm.com:32399
+          uri: https://{{ required "IBM cloud C111 eu-de server domain has to be defined in routes.ibmCloudC111EuDe.domain" .Values.routes.ibmCloudC111EuDe.domain }}
           filters:
             - StripPrefix=1
+            - RemoveRequestHeader=Authorization
+            - MapRequestHeader=X-Auth, Authorization
 
 logging:
   level:

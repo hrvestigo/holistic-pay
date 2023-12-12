@@ -43,6 +43,12 @@ spring:
       ssl:
         useInsecureTrustManager: true
 
+routes:
+  ibmCloudContainers:
+    domain: containers.cloud.ibm.com
+  ibmCloudC111EuDe:
+    domain: c111.eu-de.containers.cloud.ibm.com:32399
+
 logging:
   level:
     reactor:
