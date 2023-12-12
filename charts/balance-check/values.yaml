@@ -38,6 +38,9 @@ kafka:
       parameterization:
         name: hr.vestigo.hp.parameterization
         consumerGroup: hr.vestigo.hp.parameterization
+      balanceaccountlimit:
+        name: hr.vestigo.hp.balanceaccountlimit
+        consumerGroup: hr.vestigo.hp.balanceaccountlimit
 redis:
   uri: ''
   transaction:

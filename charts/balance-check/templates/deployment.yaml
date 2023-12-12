@@ -97,6 +97,10 @@ spec:
               value: {{ .Values.kafka.topics.parameterization.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
               value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_BALANCE_ACCOUNT_LIMIT_NAME
+              value: {{ .Values.kafka.topics.balanceaccountlimit.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_BALANCE_ACCOUNT_LIMIT_NAME
+              value: {{ .Values.kafka.topics.balanceaccountlimit.consumerGroup | quote }}
             - name: BALANCE_CHECK_REDIS_URI
               value: {{ .Values.redis.uri | quote }}
             - name: BALANCE_CHECK_REDIS_WAIT_FOR_REPLICAS

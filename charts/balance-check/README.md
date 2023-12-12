@@ -207,6 +207,9 @@ kafka:
     parameterization:
       name: hr.vestigo.hp.parameterization # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.parameterization # default value, set custom consumer group if required
+    balanceaccountlimit:
+      name: hr.vestigo.hp.balanceaccountlimit # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.balanceaccountlimit # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets
