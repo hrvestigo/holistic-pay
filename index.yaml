@@ -10463,6 +10463,16 @@ entries:
     version: 0.2.0
   save-the-cloud-gateway:
   - apiVersion: v1
+    appVersion: 0.6.0
+    created: "2023-12-12T11:54:26.329438677Z"
+    description: Helm chart for save-the-cloud-gateway application
+    digest: 148ef74e0a7c002c74681befde4b90cece3ee794e9bb06bfd0ddeb6dd03e3f40
+    name: save-the-cloud-gateway
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/save-the-cloud-gateway-0.6.0/save-the-cloud-gateway-0.6.0.tgz
+    version: 0.6.0
+  - apiVersion: v1
     appVersion: 0.5.0
     created: "2023-12-06T07:15:16.520769072Z"
     description: Helm chart for save-the-cloud-gateway application
@@ -14996,4 +15006,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2023-12-12T10:58:20.686418366Z"
+generated: "2023-12-12T11:54:26.339183779Z"
