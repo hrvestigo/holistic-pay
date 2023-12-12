@@ -44,6 +44,10 @@ redis:
     wait:
       replicaNo: 3
       timeout: 5s
+changeRequest:
+  webService:
+    producer:
+      enabled: true
 oauth2:
   enabled: false
   resourceUri: ''

@@ -103,6 +103,8 @@ spec:
               value: {{ .Values.redis.transaction.wait.replicaNo | quote }}
             - name: BALANCE_CHECK_REDIS_WAIT_FOR_REPLICAS_TIMEOUT
               value: {{ .Values.redis.transaction.wait.timeout | quote }}
+            - name: BALANCE_CHECK_CHANGE_REQUEST_WEB_SERVICE_PRODUCER_ENABLED
+              value: {{ .Values.changeRequest.webService.producer.enabled | default "true" | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
