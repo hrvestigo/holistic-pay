@@ -55,6 +55,8 @@ spec:
             - name: TZ
               value: {{ .Values.timezone }}
             {{- end }}
+            - name: SECRET_PROPERTIES
+              value: /mnt/k8s/secrets/password.conf
             - name: SERVER_SSL_ENABLED
               value: 'TRUE'
             - name: SERVER_SSL_KEYSTORE

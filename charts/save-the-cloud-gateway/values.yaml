@@ -18,8 +18,8 @@ imagePullSecrets: []
 timezone: ""
 
 secret:
-  trustStorePassword: ""
-  keyStorePassword: ""
+  decryptionKey: ""
+  kubernetesClientApiKey: ""
 
 logger:
   globalLogLevel: DEBUG

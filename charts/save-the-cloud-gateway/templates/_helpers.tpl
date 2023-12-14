@@ -94,6 +94,12 @@ Volumes
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
+- name: {{ include "save-the-cloud-gateway.name" . }}-secret
+  secret:
+    secretName: {{ include "save-the-cloud-gateway.name" . }}-secret
+    items:
+      - path: password.conf
+        key: password.conf
 - name: {{ include "save-the-cloud-gateway.name" . }}-configmap
   configMap:
     name: {{ include "save-the-cloud-gateway.name" . }}-configmap
@@ -150,6 +156,8 @@ Mounts for save-the-cloud-gateway application
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
+- mountPath: /mnt/k8s/secrets/
+  name: {{ include "save-the-cloud-gateway.name" . }}-secret
 - mountPath: /opt/app/application.yaml
   name: {{ include "save-the-cloud-gateway.name" . }}-configmap
   subPath: application.yaml
