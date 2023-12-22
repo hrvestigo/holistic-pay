@@ -62,6 +62,13 @@ kafka:
     credSource: USER_INFO
     user: ''
     url: ''
+  streams:
+    replication:
+      factor: '3'
+    application:
+      id: sirius-specific
+    auto:
+      startup: true
   topics:
     paymentOriginalMessage:
       name: gcp.ipt1.hp.evt.paymentoriginalmessage
@@ -115,6 +122,8 @@ kafka:
       name: gcp.ipt1.hp.evt.sirspec.bicexclusion
     customerAccountStatement:
       name: hr.vestigo.hp.customeraccountstatement
+    balanceChangeRequest:
+      name: hr.vestigo.hp.balancechangerequest
 external:
   core:
     system:

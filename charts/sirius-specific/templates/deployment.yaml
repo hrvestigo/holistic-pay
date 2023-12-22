@@ -147,6 +147,16 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
+            - name: SPRING_KAFKA_STREAMS_BOOTSTRAPSERVERS
+              value: {{ required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
+            - name: SPRING_KAFKA_STREAMS_REPLICATIONFACTOR
+              value: {{ .Values.kafka.streams.replication.factor | default "3" | quote }}
+            - name: SPRING_KAFKA_STREAMS_AUTOSTARTUP
+              value: {{ .Values.kafka.streams.auto.startup | default "true" | quote }}
+            {{- if .Values.kafka.streams.auto.startup }}
+            - name: SPRING_KAFKA_STREAMS_APPLICATIONID
+              value: {{ .Values.kafka.streams.application.id | default "sirius-specific" | quote }}
+            {{ - end }}
             - name: KAFKA_TOPIC_PAYMENTORIGINALMESSAGE_NAME
               value: {{ .Values.kafka.topics.paymentOriginalMessage.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORIGINALMESSAGE_NAME
@@ -217,6 +227,8 @@ spec:
               value: {{ .Values.kafka.topics.bicexclusion.name | quote }}
             - name: KAFKA_TOPIC_CUSTOMERACCOUNTSTATEMENT_NAME
               value: {{ .Values.kafka.topics.customerAccountStatement.name | quote }}
+            - name: KAFKA_TOPIC_BALANCECHANGEREQUEST_NAME
+              value: {{ .Values.kafka.topics.balanceChangeRequest.name | quote }}
             - name: EXTERNAL_CORE_SYSTEM_MEMBER_SIGN_DEFAULT
               value: {{ .Values.external.core.system.member.sign.default | quote }}
             - name: SIRIUS_SPECIFIC_CACHE_EXPIREAFTERACCESS
