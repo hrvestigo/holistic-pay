@@ -156,7 +156,7 @@ spec:
             {{- if .Values.kafka.streams.auto.startup }}
             - name: SPRING_KAFKA_STREAMS_APPLICATIONID
               value: {{ .Values.kafka.streams.application.id | default "sirius-specific" | quote }}
-            {{ - end }}
+            {{- end }}
             - name: KAFKA_TOPIC_PAYMENTORIGINALMESSAGE_NAME
               value: {{ .Values.kafka.topics.paymentOriginalMessage.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORIGINALMESSAGE_NAME
