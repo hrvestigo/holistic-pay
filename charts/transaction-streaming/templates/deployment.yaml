@@ -204,6 +204,20 @@ spec:
               value: {{ .Values.kafka.topics.turnCustomer.name | quote }}
             - name: KAFKA_TOPIC_CUSTOMERACCOUNTSTATEMENT_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.customerAccountStatement.name | quote }}
+            - name: KAFKA_TOPIC_PAYMENTORDER_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.paymentOrder.name | quote }}
+            - name: KAFKA_TOPIC_FPAYMENT_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.fPayment.name | quote }}
+            - name: KAFKA_TOPIC_PAYMENTLISTQ_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.paymentListQ.name | quote }}
+            - name: KAFKA_TOPIC_FUTURISTICFOREIGNPAYMENT_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.futuristicForeignPayment.name | quote }}
+            - name: KAFKA_TOPIC_EVENT_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.event.name | quote }}
+            - name: KAFKA_TOPIC_INTERFACECOLLTBL_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.interfaceCollTbl.name | quote }}
+            - name: KAFKA_TOPIC_TRXANNOUNCE_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.trxAnnounce.name | quote }}
             {{- end }}
             - name: SPRING_KAFKA_STREAMS_JOIN_WINDOW
               value: {{ .Values.kafka.streams.join.window | default "60" | quote }}
