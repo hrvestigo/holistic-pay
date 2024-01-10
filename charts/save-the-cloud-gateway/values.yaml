@@ -23,7 +23,7 @@ secret:
 
 logger:
   globalLogLevel: DEBUG
-  logToFile: false # boolean value, default is false
+  logToFile: true # boolean value, default is true
   logDir: "/var/log/app"
   format: "STRING" # defines log format for stdout logger. Valid values are ECS, LOGSTASH, GELF, GCP, STRING
   logDirMount:
@@ -46,8 +46,6 @@ spring:
 routes:
   ibmCloudContainers:
     domain: containers.cloud.ibm.com
-  ibmCloudC111EuDe:
-    domain: c111.eu-de.containers.cloud.ibm.com:32399
 
 logging:
   level:
@@ -56,7 +54,7 @@ logging:
     org:
       springframework:
         cloud:
-          gateway: TRACE
+          gateway: INFO
 
 kubernetes:
   client:

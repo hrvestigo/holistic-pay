@@ -400,7 +400,7 @@ However, using custom configuration, logs can be redirected to log files also (i
 
 When enabling logging to file, container will divide logs into three different files:
 
-- `messages.log` - contains application server's logs
+- `actions.log` - contains logs of actions initiated by client app
 
 - `health.log` - contains all incoming requests to health check endpoint (filtered out from `access.log`)
 
@@ -474,7 +474,7 @@ Possible values for this parameter are: `STRING`,`ECS`,`LOGSTASH`,`GELF` or `GCP
 
 String format is defined as:
 ```
-[%d] [%X{correlationId}] %p %c{1.} %replace{%m}{[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}}{*****}%n
+[%d] %p %c{1.} %replace{%m}{[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}}{*****}%n
 ```
 
 Examples of how log entries wood look like for particular option:
