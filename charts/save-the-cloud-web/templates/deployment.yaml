@@ -58,8 +58,8 @@ spec:
               value: {{ required "Please specify IBM Cloud IAM API URL ibmCloudIamApiUrl" .Values.ibmCloudIamApiUrl | quote }}
             - name: REACT_APP_IBM_CLOUD_CONTAINERS_API_URL
               value: {{ required "Please specify IBM Cloud containers API URL ibmCloudContainersApiUrl" .Values.ibmCloudContainersApiUrl | quote }}
-            - name: REACT_APP_IBM_CLOUD_C111_API_URL
-              value: {{ required "Please specify IBM Cloud C111 server API URL ibmCloudC111ServerApiUrl" .Values.ibmCloudC111ServerApiUrl | quote }}
+            - name: REACT_APP_IBM_CLOUD_CLUSTER_API_URL
+              value: {{ required "Please specify IBM Cloud C111 server API URL ibmCloudClusterApiUrl" .Values.ibmCloudClusterApiUrl | quote }}
             - name: REACT_APP_CLUSTER_NAME
               value: {{ required "Please specify k8s cluster name k8sClusterName" .Values.k8sClusterName | quote }}
             - name: REACT_APP_ENVIRONMENT

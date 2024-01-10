@@ -20,7 +20,7 @@ ibmCloudIamApiUrl: ""
 
 ibmCloudContainersApiUrl: ""
 
-ibmCloudC111ServerApiUrl: ""
+ibmCloudClusterApiUrl: ""
 
 k8sClusterName: ""
 
