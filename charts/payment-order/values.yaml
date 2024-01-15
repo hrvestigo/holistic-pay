@@ -80,6 +80,8 @@ kafka:
     paymentOrderOutgoing:
       name: hr.vestigo.hp.paymentorderoutgoing
       consumerGroup: hr.vestigo.hp.paymentorderoutgoing
+    ecsPaymentCallLog:
+      name: hr.vestigo.hp.ecsPaymentCallLog
     parameterization:
       name: hr.vestigo.hp.parameterization
       consumerGroup: hr.vestigo.hp.parameterization
@@ -109,6 +111,10 @@ grpc:
     address: ''
   ecsspecificchecks:
     address: ''
+payment:
+  compensation:
+    service:
+      enabled: false
 oauth2:
   enabled: false
   resourceUri: ''
