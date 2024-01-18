@@ -26,7 +26,7 @@ k8sClusterName: ""
 
 environmentName: "TEST"
 
-httpSessionTimeout: "14400"
+httpSessionTimeout: "2592000000"
 
 timezone: ""
 

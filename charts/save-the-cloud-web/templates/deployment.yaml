@@ -64,10 +64,12 @@ spec:
               value: {{ required "Please specify k8s cluster name k8sClusterName" .Values.k8sClusterName | quote }}
             - name: REACT_APP_ENVIRONMENT
               value: {{ required "Please specify environment name in environmentName" .Values.environmentName | quote }}
-            - name: REACT_APP_SESSION_TIMEOUT_IN_SECONDS
+            - name: REACT_APP_SESSION_TIMEOUT
               value: {{ required "Please specify HTTP session timeout in httpSessionTimeout" .Values.httpSessionTimeout | quote }}
-            - name: REACT_APP_SESSION_TIMEOUT_MESSAGE
-              value: "Session expired! Please login."
+            - name: REACT_APP_SESSION_TIMEOUT_PRIMARY_MESSAGE
+              value: "Session expired!"
+            - name: REACT_APP_SESSION_TIMEOUT_SECONDARY_MESSAGE
+              value: "Please login."
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

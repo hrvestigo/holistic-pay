@@ -138,7 +138,7 @@ By default, HTTP session timeout in application is set to 4 hours (14400 seconds
 This time can be modified by changing `httpSessionTimeout` attribute to a desired value:
 
 ```yaml
-httpSessionTimeout: "3600"
+httpSessionTimeout: "2592000000"
 ```
 
 Note that value is defined in seconds, which means that with this example timeout will be set to 1 hour.
