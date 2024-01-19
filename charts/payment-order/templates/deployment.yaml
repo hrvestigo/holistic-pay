@@ -142,6 +142,26 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
+            - name: PAYMENT_COMPENSATION_SERVICE_ENABLED
+              value: {{ .Values.payment.compensation.service.enabled | default "false" | quote }}
+            - name: SPRING_KAFKA_STREAMS_AUTOSTARTUP
+              value: {{ .Values.payment.compensation.service.enabled | default "false" | quote }}
+            {{- if .Values.payment.compensation.service.enabled }}
+            - name: KAFKA_TOPIC_ECSPAYMENTCALLLOG_NAME
+              value: {{ .Values.kafka.topics.ecsPaymentCallLog.name | quote }}
+            - name: KAFKA_TOPIC_ECSPAYMENTCOMPENSATION_NAME
+              value: {{ .Values.kafka.topics.ecsPaymentCompensation.name | quote }}
+            - name: SPRING_KAFKA_STREAMS_BOOTSTRAPSERVERS
+              value: {{ required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
+            - name: SPRING_KAFKA_STREAMS_REPLICATIONFACTOR
+              value: {{ .Values.kafka.streams.replication.factor | default "3" | quote }}
+            - name: SPRING_KAFKA_STREAMS_APPLICATIONID
+              value: {{ .Values.kafka.streams.application.id | default "payment-order-compensation" | quote }}
+            - name: SPRING_KAFKA_STREAMS_JOIN_WINDOW
+              value: {{ .Values.kafka.streams.join.window | default "60" | quote }}
+            - name: SPRING_KAFKA_STREAMS_JOIN_GRACE
+              value: {{ .Values.kafka.streams.join.grace | default "30" | quote }}
+            {{- end }}
             - name: KAFKA_TOPIC_PAYMENTORDERFLOW_NAME
               value: {{ .Values.kafka.topics.paymentOrderFlow.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDEREVENTIN_NAME
@@ -174,8 +194,6 @@ spec:
               value: {{ .Values.kafka.topics.paymentOrderOutgoing.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORDEROUTGOING_NAME
               value: {{ .Values.kafka.topics.paymentOrderOutgoing.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_ECSPAYMENTCALLLOG_NAME
-              value: {{ .Values.kafka.topics.ecsPaymentCallLog.name | quote }}
             - name: AUTOMATIC_REJECTION_SCHEDULED
               value: {{ .Values.automaticRejection.scheduled | quote }}
             - name: AUTOMATIC_REJECTION_ENABLED
@@ -208,8 +226,6 @@ spec:
             - name: GRPC_CLIENT_ECSDIGITALCHANNELS_NEGOTIATIONTYPE
               value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
             {{- end }}
-            - name: PAYMENT_COMPENSATION_SERVICE_ENABLED
-              value: {{ .Values.payment.compensation.service.enabled | default "false" | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

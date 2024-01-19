@@ -60,6 +60,14 @@ kafka:
     credSource: USER_INFO
     user: ''
     url: ''
+  streams:
+    replication:
+      factor: '3'
+    application:
+      id: payment-order-compensation
+    join:
+      window: 60
+      grace: 30
   topics:
     paymentOrderFlow:
       name: hr.vestigo.hp.paymentorderflow
@@ -80,11 +88,13 @@ kafka:
     paymentOrderOutgoing:
       name: hr.vestigo.hp.paymentorderoutgoing
       consumerGroup: hr.vestigo.hp.paymentorderoutgoing
-    ecsPaymentCallLog:
-      name: hr.vestigo.hp.ecsPaymentCallLog
     parameterization:
       name: hr.vestigo.hp.parameterization
       consumerGroup: hr.vestigo.hp.parameterization
+    ecsPaymentCallLog:
+      name: hr.vestigo.hp.ecspaymentcalllog
+    ecsPaymentCompensation:
+      name: hr.vestigo.hp.ecspaymentcompensation
 paymentExternalChecks:
   topicRealNames:
     personStructureChecks: hr.vestigo.hp.personstructurechecks

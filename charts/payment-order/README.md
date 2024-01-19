@@ -56,6 +56,14 @@ kafka:
   schemaRegistry:
     user: "kafka-schema-registry-user" # string value
     url: "kafka-schema-registry-url" # string value
+  streams:
+    replication:
+      factor: '3' # string value
+    application:
+      id: 'payment-order-compensation' # string value
+    join:
+      window: 60 # default value is 60
+      grace: 40 # default value is 40
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value
@@ -74,7 +82,7 @@ Additionally, liquibase is enabled by default, which requires some information i
 
 Payment order (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one application member has to be defined in `members` structure for complete setup. Please refer to [Multi-member setup](#multi-member-setup) for details.
 
-###Payment external checks functionalities through Kafka or gRPC
+### Payment external checks functionalities through Kafka or gRPC
 
 Represents all payment external checks functionalities in the microservice. They can be executed either through Kafka or
 gRPC.
@@ -109,6 +117,34 @@ grpc:
 ```
 
 Instead of dns, a static address can also be given following the next pattern: "static://person-structure-server:port".
+
+### Outgoing payment order compensation between HolisticPay and External Core System (ECS) through Kafka Streams
+
+HolisticPay can perform automatic near real time compensation of outgoing payment order in extreme case in which HP 
+fails after successful External Core System call. A prerequisite for automatic compensation processing is the enabled 
+configuration for this processing through the following properties:
+
+```yaml
+payment:
+  compensation:
+    service:
+      enabled: true # default value is set to false
+# following values need to be set only if the previous value is set to true
+kafka:
+  streams:
+    replication:
+      factor: '3' # replication factor needed for Kafka Streams fault tolerance
+    application:
+      id: payment-order-compensation # Kafka Streams application identification
+    join:
+      window: 60 # default value is 60
+      grace: 30 # default value is 30
+  topics:
+    ecsPaymentCallLog:
+      name: hr.vestigo.hp.ecspaymentcalllog # default value, set custom name if required
+    ecsPaymentCompensation:
+      name: hr.vestigo.hp.ecspaymentcompensation # default value, set custom name if required
+```
 
 ### Scheduled task
 
@@ -276,6 +312,12 @@ kafka:
     paymentOrderOutgoing:
       name: hr.vestigo.hp.paymentorderoutgoing # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.paymentorderoutgoing # default value, set custom name if required
+    # Payment order compensation functionality.
+    # Used to compensate outgoing payment order in extreme case in which HP fails after successful ECS call.
+    ecsPaymentCallLog:
+      name: hr.vestigo.hp.ecspaymentcalllog # default value, set custom name if required
+    ecsPaymentCompensation:
+      name: hr.vestigo.hp.ecspaymentcompensation # default value, set custom name if required
     # Parameterization synchronization functionality.
     # Used to always keep the microservice up to date with all necessary parameterization.
     parameterization:
