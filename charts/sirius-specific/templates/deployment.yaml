@@ -229,6 +229,10 @@ spec:
               value: {{ .Values.kafka.topics.customerAccountStatement.name | quote }}
             - name: KAFKA_TOPIC_BALANCECHANGEREQUEST_NAME
               value: {{ .Values.kafka.topics.balanceChangeRequest.name | quote }}
+            - name: KAFKA_TOPIC_ECSPAYMENTCOMPENSATION_NAME
+              value: {{ .Values.kafka.topics.ecsPaymentCompensation.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_ECSPAYMENTCOMPENSATION_NAME
+              value: {{ .Values.kafka.topics.ecsPaymentCompensation.consumerGroup | quote }}
             - name: EXTERNAL_CORE_SYSTEM_MEMBER_SIGN_DEFAULT
               value: {{ .Values.external.core.system.member.sign.default | quote }}
             - name: SIRIUS_SPECIFIC_CACHE_EXPIREAFTERACCESS

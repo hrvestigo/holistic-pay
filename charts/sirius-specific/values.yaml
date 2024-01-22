@@ -124,6 +124,9 @@ kafka:
       name: hr.vestigo.hp.customeraccountstatement
     balanceChangeRequest:
       name: hr.vestigo.hp.balancechangerequest
+    ecsPaymentCompensation:
+      name: hr.vestigo.hp.ecspaymentcompensation
+      consumerGroup: gcp.ipt1.hp.evt.sirspec.ecs.payment.compensation
 external:
   core:
     system:
