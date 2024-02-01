@@ -2,5 +2,5 @@ apiVersion: v2
 name: product-factory
 description: Helm chart for product factory application
 type: application
-version: 4.48.0
-appVersion: 4.48.0
+version: 4.49.0
+appVersion: 4.49.0
