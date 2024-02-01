@@ -41,10 +41,13 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       terminationGracePeriodSeconds: {{ .Values.deployment.terminationGracePeriodSeconds }}
       restartPolicy: {{ .Values.deployment.restartPolicy }}
-      {{- if .Values.initContainers }}
+      {{- if or .Values.liquibase.enabled .Values.initContainers }}
       initContainers:
         {{- with .Values.initContainers }}
           {{- toYaml . | trim | nindent 8 }}
+          {{- end }}
+          {{- if .Values.liquibase.enabled }}
+          {{- include "balance-check.liquibase.initContainer" . | trim | nindent 8 }}
           {{- end }}
       {{- end }}
       containers:
@@ -60,6 +63,64 @@ spec:
             {{- end }}
             - name: SERVER_PORT
               value: "8443"
+            {{- if .Values.datasource }}
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://{{- required "Please specify DB host name in datasource.host" .Values.datasource.host -}}:
+              {{- required "Please specify DB port in datasource.port" .Values.datasource.port -}}/
+              {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}?currentSchema=CONNECT
+              {{- include "balance-check.db.connectionParams" $ -}}"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: {{ required "Please specify DB user in datasource.user" .Values.datasource.user | quote }}
+            {{- range $k, $v := .Values.members }}
+            - name: SPRING_DATASOURCE_URL_{{ .memberSign }}
+              {{- if .datasource }}
+                {{- if .datasource.globalSchema }}
+              value: "jdbc:postgresql://
+              {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
+              :
+              {{- default (required "Please specify DB port in datasource.port or override with member specific in members.datasource.port" $.Values.datasource.port) .datasource.port -}}
+              /
+              {{- default (required "Please specify database name in datasource.dbName or override with member specific in members.datasource.dbName" $.Values.datasource.dbName) .datasource.dbName -}}
+              ?currentSchema=
+              {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
+              {{- include "balance-check.dbSchema" $ -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
+              {{- include "balance-check.db.connectionParams" $ -}}"
+                {{- else }}
+              value: "jdbc:postgresql://
+              {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
+              :
+              {{- default (required "Please specify DB port in datasource.port or override with member specific in members.datasource.port" $.Values.datasource.port) .datasource.port -}}
+              /
+              {{- default (required "Please specify database name in datasource.dbName or override with member specific in members.datasource.dbName" $.Values.datasource.dbName) .datasource.dbName -}}
+              ?currentSchema=
+              {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
+              {{- include "balance-check.dbSchema" $ -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
+              {{- include "balance-check.db.connectionParams" $ -}}"
+                {{- end }}
+            - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
+              value: {{ default (required "Please specify DB user in datasource.user" $.Values.datasource.user | quote) .datasource.user }}
+              {{- else }}
+              value: "jdbc:postgresql://
+              {{- required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host -}}
+              :
+              {{- required "Please specify DB port in datasource.port or override with member specific in members.datasource.port" $.Values.datasource.port -}}
+              /
+              {{- required "Please specify database name in datasource.dbName or override with member specific in members.datasource.dbName" $.Values.datasource.dbName -}}
+              ?currentSchema=
+              {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
+              {{- include "balance-check.dbSchema" $ -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
+              {{- include "balance-check.db.connectionParams" $ -}}"
+            - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
+              value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
+                {{- end }}
+              {{- end }}
+            {{- end }}
             - name: MEMBERS
               value: {{ include "balance-check.members" . }}
             - name: SPRING_KAFKA_PROPERTIES_SASL_MECHANISM
@@ -101,12 +162,17 @@ spec:
               value: {{ .Values.kafka.topics.balanceaccountlimit.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_BALANCE_ACCOUNT_LIMIT_NAME
               value: {{ .Values.kafka.topics.balanceaccountlimit.consumerGroup | quote }}
-            - name: BALANCE_CHECK_REDIS_URI
-              value: {{ .Values.redis.uri | quote }}
-            - name: BALANCE_CHECK_REDIS_WAIT_FOR_REPLICAS
+            {{- if .Values.redis }}
+            - name: REDIS_URI
+              value: "redis://
+              ${redis.password}}@
+              {{- required "Please specify Redis host in redis.host" .Values.redis.host -}}:
+              {{- required "Please specify Redis port in redis.port" .Values.redis.port -}}"
+            - name: REDIS_TRANSACTION_WAIT_REPLICANO
               value: {{ .Values.redis.transaction.wait.replicaNo | quote }}
-            - name: BALANCE_CHECK_REDIS_WAIT_FOR_REPLICAS_TIMEOUT
+            - name: REDIS_TRANSACTION_WAIT_TIMEOUT
               value: {{ .Values.redis.transaction.wait.timeout | quote }}
+            {{- end }}
             - name: BALANCE_CHECK_CHANGE_REQUEST_WEB_SERVICE_PRODUCER_ENABLED
               value: {{ .Values.changeRequest.webService.producer.enabled | default "true" | quote }}
             - name: SERVER_SSL_KEYSTORE
@@ -160,6 +226,16 @@ spec:
               value: /usr/app/config/log4j2.xml
             - name: LOGGER_EXCLUDE_ENDPOINTS
               value: /, /health, /health/liveness, /health/readiness, /prometheus
+            {{- if .Values.datasource }}
+            - name: SPRING_DATASOURCE_HIKARI_CONNECTIONTIMEOUT
+              value: {{ .Values.datasource.connTimeout | quote }}
+            - name: SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE
+              value: {{ .Values.datasource.maxPoolSize | quote }}
+            - name: SPRING_DATASOURCE_HIKARI_MINIMUMIDLE
+              value: {{ .Values.datasource.minIdle | quote }}
+            - name: SPRING_DATASOURCE_HIKARI_IDLETIMEOUT
+              value: {{ .Values.datasource.idleTimeout | quote }}
+            {{- end }}
             {{- if .Values.logger.databaseSlowQueryThreshold }}
             - name: SPRING_JPA_PROPERTIES_HIBERNATE_SESSION_EVENTS_LOG_LOG_QUERIES_SLOWER_THAN_MS
               value: {{ .Values.logger.databaseSlowQueryThreshold | quote }}

@@ -1,23 +1,23 @@
-# SEPA instant payment gateway application
+# Balance check application
 
 ## Purpose
 
-This Helm chart installs SEPA instant payment gateway (`SEPA inst`) application  into your Kubernetes cluster.
+This Helm chart installs Balance check application into your Kubernetes cluster.
 
 Helm release name set during installation will be used for naming all resources created by this Helm chart.
 For example, if Chart is installed with name "my-chart", deployment name will have "my-chart" prefix, as well as all configmaps, secrets and other resources created by this chart.
 It is possible to override this behavior and to set custom name for resources using attribute `nameOverride` in custom values file.
 If this attribute is set, it's value will be used to name all the resources, and release name will be ignored.
 
-It is not possible to install application using default values only, there is a list of required attributes which should be applied when installing `SEPA inst`.
+It is not possible to install application using default values only, there is a list of required attributes which should be applied when installing Balance check.
 
 ## Required setup
 
 Required attributes should be defined in custom values file in `yaml` format (recommended) or propagated with `--set key=value` command during CLI installation, for example:
 
-`helm upgrade --install sepa-inst holisticpay/sepa-inst -f my-values.yaml` or
+`helm upgrade --install balance-check holisticpay/balance-check -f my-values.yaml` or
 
-`helm upgrade --install sepa-inst holisticpay/sepa-inst --set required-key1=value1 --set required-key2=value2 ...`
+`helm upgrade --install balance-check holisticpay/balance-check --set required-key1=value1 --set required-key2=value2 ...`
 
 Required values are (in `yaml` format):
 
@@ -32,6 +32,7 @@ secret:
   kafkaPassword: "AES-encoded-kafka-password" # string value
   kafkaSchemaRegistryPassword: "AES-encoded-kafka-schema-registry-password" # string value
   liquibasePassword: "AES-encoded-liquibase-password" # string value
+  redisPassword: "AES-encoded-redis-password" # string value
 
 datasource:
   host: "datasource-host" # string value
@@ -43,7 +44,7 @@ liquibase:
   user: "liquibase-user"  # string value
   role: "database-role"  # string value
   replicationRole: "database-replication-role" # string value
-  syncOnly: false
+  syncOnly: false  # boolean value
 
 members:
   - businessUnit: "BU"
@@ -59,9 +60,6 @@ kafka:
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value
-
-csm:
-  url: "https://server:port"
 ```
 
 One set of mandatory attributes is `env` block which describes environment to which application is installed.
@@ -70,14 +68,12 @@ Attribute `env.type` defines environment type. This attribute has a list of supp
 
 Other environment attribute is `env.label` which should hold short environment label, for instance `t1` for first test environment, or `d2` for second development environment. This attribute is used to generate database schema name.
 
-`SEPA inst` relies on Kafka and PostgreSQL backends.
+Balance check relies on Kafka and PostgreSQL backends.
 In order to assure connectivity to those backends, it's required to set basic info into values file.
 
 Additionally, liquibase is enabled by default, which requires some information in order to run successfully. Either this information has to be provided, or liquibase has to be disabled with `liquibase.enabled` attribute set to `false`.
 
-`SEPA inst` (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one application member has to be defined in `members` structure for complete setup. Please refer to [Multi-member setup](#multi-member-setup) for details.
-
-Mock url is used for sending requests and getting mock responses.
+Balance check (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one application member has to be defined in `members` structure for complete setup. Please refer to [Multi-member setup](#multi-member-setup) for details.
 
 ### Datasource connection setup
 
@@ -145,8 +141,8 @@ connection URL.
 
 ### Kafka setup
 
-`SEPA inst` uses Kafka as event stream backend.
-Other than Kafka cluster itself, `SEPA inst` application also uses Kafka Schema Registry, which setup also has to be provided in order to establish required connection.
+Balance check uses Kafka as event stream backend.
+Other than Kafka cluster itself, Balance check application also uses Kafka Schema Registry, which setup also has to be provided in order to establish required connection.
 
 To connect to Kafka cluster, several attributes have to be defined in values file.
 All attributes under `kafka` parent attribute are required:
@@ -172,7 +168,7 @@ secret:
 
 Note that same `secret` attribute is used for both datasource and Kafka, so the same encryption/decryption key is used for encrypting passwords for both backends.
 
-Default Kafka cluster and Kafka Schema registry connection type used by `SEPA inst` is Basic auth (username and password).
+Default Kafka cluster and Kafka Schema registry connection type used by Balance check is Basic auth (username and password).
 If different connection type should be used, it's possible to override default setup by changing following attributes:
 
 ```yaml
@@ -189,7 +185,7 @@ kafka:
 
 #### Topics and consumer groups setup
 
-Kafka topics and consumer group names used by `SEPA inst` have default names defined in 
+Kafka topics and consumer group names used by Balance check have default names defined in 
 `values.yaml` file, but can be overridden with following setup:
 
 ```yaml
@@ -214,14 +210,14 @@ kafka:
 
 ### Configuring image source and pull secrets
 
-By default, `SEPA inst` image is pulled directly from Vestigo's repository hosted by Docker Hub.
+By default, Balance check image is pulled directly from Vestigo's repository hosted by Docker Hub.
 If mirror registry is used for example, image source can be modified using following attributes:
 
 ```yaml
 image:
   registry: custom.image.registry # will be used as default for both images, docker.io is default (image repository and image name will be automatically appended)
   app:
-    registry: custom.app.image.registry # will override image.registry for sepa-inst app (image repository and image name will be automatically appended)
+    registry: custom.app.image.registry # will override image.registry for balance-check app (image repository and image name will be automatically appended)
     imageLocation: custom.app.image.registry/custom-location/custom-name # will override image registry, repository and name (only image tag will be automatically appended)
   liquibase:
     registry: custom.liquibase.image.registry # will override image.registry for Liquibase (image repository and image name will be automatically appended)
@@ -234,12 +230,12 @@ Default pull policy is set to `IfNotPresent` but can also be modified for one or
 image:
   pullPolicy: Always # will be used as default for both images, default is IfNotPresent
   app:
-    pullPolicy: Never # will override image.pullPolicy for sepa-inst image
+    pullPolicy: Never # will override image.pullPolicy for Balance check image
   liquibase:
     pullPolicy: IfNotPresent # will override image.pullPolicy for Liquibase image
 ```
 
-`SEPA inst` image tag is normally read from Chart definition, but if required, it can be overridden with attribute `image.app.tag`, for example:
+Balance check image tag is normally read from Chart definition, but if required, it can be overridden with attribute `image.app.tag`, for example:
 
 ```yaml
 image:
@@ -247,8 +243,8 @@ image:
     tag: custom-tag
 ```
 
-`SEPA inst` image is located on Vestigo's private Docker Hub registry, and if image registry is set to docker.io, pull secret has to be defined.
-Pull secret is not set by default, and it should be created prior to `SEPA inst` installation in target namespace.
+Balance check image is located on Vestigo's private Docker Hub registry, and if image registry is set to docker.io, pull secret has to be defined.
+Pull secret is not set by default, and it should be created prior to Balance check installation in target namespace.
 Secret should contain credentials provided by Vestigo.
 
 Once secret is created, it should be set with `imagePullSecrets.name` attribute, for example:
@@ -258,206 +254,9 @@ imagePullSecrets:
   - name: vestigo-dockerhub-secret
 ```
 
-### CSM configuration
-
-`SEPA inst` application can be configured with `CSM` (Clearing & Settlement Management System) parameters (default value are shown when possible):
-
-```yaml
-csm:
-  id: NKS9999998                        # CSM id
-  url:                                  # required, base path to CSM (https://server:port)
-  msgPath: /instant-core/api/msg        # request path on which messages to CSM are send
-  info:                                 # optional resource to access via GET to CSM when application start
-  xsdCheck: inout                       # XSD check enabled for messages from and to CSM
-  msgSignature: inout                   # create/verify message signature for messages to/from CSM
-  msgSignatureAlgorithm: SHA256withRSA  # algorithm used for signature
-```
-
-Using `id` parameter we configure CSM id for which CSM specific parameters are
-loaded by the application.
-
-Parameter `url` is required and in should be in format `https://server:port`.
-This is the location where application sends requests to CSM.
-With `msgPath` we configure request path to CSM.
-<br>Application currently supports the following message types, which represents
-resources for `POST` to CSM:
-  - `camt_029`
-  - `camt_050`
-  - `camt_056`
-  - `info`
-  - `izvj`
-  - `liq_req`
-  - `pacs_002_negative`
-  - `pacs_002_nksinst`
-  - `pacs_002_positive`
-  - `pacs_004`
-  - `pacs_008`
-  - `pacs_028`
-  - `pacs_028_056`
-
-For example, with `url` set to `http://localhost:8080` and using defaults for other
-parameters, application sends `pacs008` message by sending `POST` request to CSM on
-`http://localhost:8080/instant-core/api/msg/pacs_008`.
-
-Using parameter `info` we can configure CSM endpoint to call when application starts.
-Performing this call we can ensure that we can communicate via CSM.
-For example, with `info` set to `instant-core/api/info` application performs `GET`
-`http://localhost:8080/instant-core/api/info`. Currently two headers are send via this `GET` call:
- - `Content-Type: text/xml;charset=UTF-8`
- - `accept: */*`
-
-**NOTE**: if `GET` call to `info` resource fails, application will not start.
-
-Using parameter `xsdCheck` we configure if `XSD` check is needed when receiving or sending
-messages to CSM. This is global setting, meaning it is applied on all messages.
-The following values are applicable:
- - `inout`  - XSD check is enabled for all messages
- - `in`     - XSD check is enabled only for messages received from CSM
- - `out`    - XSD check is enabled only for messages send to CSM
- - `off`    - XSD check is disabled
-  
-Using parameter `msgSignature` we configure if message signature is created or validated.
-The following values are applicable:
- - `inout`  - signature is created for messages to CSM and validated for messages from CSM
- - `in`     - signature is not created for messages to CSM but validated from messages from CSM
- - `out`    - signature is created for messages to CSM and not validated for messages from CSM
- - `off`    - signature is not created nor validated
-
-#### CSM configuration per message
-
-It is possible to configure certain aspects of CSM on message level.
-<br>The following is default configuration per message level:
-
-```yaml
-csm:
-  config:
-    camt_025:
-      xsdCheck: inherit
-    camt_029:
-      xsdCheck: inherit
-    camt_050:
-      xsdCheck: inherit
-    camt_056:
-      xsdCheck: inherit
-      responseMsgRetry: 3;0.1s
-    izvj:
-      xsdCheck: inherit
-    liq_req:
-      xsdCheck: inherit
-    liq_sts:
-      xsdCheck: inherit
-    pacs_002_negative:
-      xsdCheck: inherit
-      responseMsgRetry: 3;0.1s
-    pacs_002_positive:
-      xsdCheck: inherit
-      requestMsgRetry: 10;5s
-      responseMsgTimeout: 25s
-    pacs_002_nksinst:
-      xsdCheck: inherit
-      responseMsgRetry: 3;0.1s
-    pacs_004:
-      xsdCheck: inherit
-    pacs_008:
-      xsdCheck: inherit
-      responseMsgTimeout: 25s
-    pacs_028:
-      xsdCheck: inherit
-      requestMsgRetry: 10;5s
-    pacs_028_056:
-      xsdCheck: inherit
-      responseMsgRetry: 3;0.1s
-```
-
-The parameter `xsdCheck` has the same meaning as the global parameter on CSM level,
-but with additional option `inherit`. This is a default option, which means that
-CSM level parameter value is applicable.
-<br>Using CSM level configuration `inout` and message level configuration `off`
-we can disable XSD check for single message only. To enable XSD check for single
-message we can set CSM level configuration to `off` and message level `inout`.
-
-##### Request message retry configuration
-
-With parameter `requestMsgRetry` we configure retry policy to be applied
-on messages sent to CSM and retried to CSM if response message from CSM is not received.
-First retry is done after `responseMsgTimeout`.
-<br>Request message retry is currently implemented for the following business use cases:
-
-- `pacs.008` message is sent to CSM, response `pacs.002` message from CSM is not received
-  
-  ```mermaid
-  sequenceDiagram
-    Sepa Inst->>CSM: pacs_008
-    note over Sepa Inst,CSM: responseMsgTimeout
-    loop until requestMsgRetry or pacs_002 is received
-      Sepa Inst->>CSM: pacs_028
-    end
-    CSM->>Sepa Inst: pacs_002
-  ```
-
-- `pacs.002` message is sent to CSM, response `pacs.002` message from CSM is not received
-
-  ```mermaid
-  sequenceDiagram
-    Sepa Inst->>CSM: pacs_002
-    note over Sepa Inst,CSM: responseMsgTimeout
-    loop until requestMsgRetry or pacs_002 is received
-      Sepa Inst->>CSM: pacs_002
-    end
-    CSM->>Sepa Inst: pacs_002
-  ```
-
-Request message retry functionality can be disabled by setting `requestMsgRetry` value to `0;0s` or `0`. Meaning, no retry messages are send to CSM. To configure retry intervals on millisecond level, convert to seconds. For example, 100ms should be configured as 0.1s.
-
-##### Response message retry configuration
-
-With parameter `responseMsgRetry` we configure retry policy for processing received response message from CSM. This functionality can be useful when original request messages was sent to CSM but not yet fully processed and committed in application.
-In the meantime response message is received from CSM and fails in processing due to
-not processed original message.
-
-<br>Response message retry is applicable for the following business use cases:
-
-- `pacs.008` message is sent to CSM, still in processing, response `pacs.002` message from CSM is received
-  
-  ```mermaid
-  sequenceDiagram
-    Sepa Inst->>CSM: pacs_008
-    note over Sepa Inst: processing pacs_008
-    CSM->>Sepa Inst: pacs_002
-    loop until responseMsgRetry or pacs_008 is processed
-      note over Sepa Inst,CSM: processing pacs_002
-    end
-    note over Sepa Inst: processing done pacs_008
-    note over Sepa Inst: processing done pacs_002
-  ```
-
-- `pacs.002` message is sent to CSM, still in processing, response `pacs.002` message from CSM is received
-
-  ```mermaid
-  sequenceDiagram
-    Sepa Inst->>CSM: pacs_002 (A)
-    note over Sepa Inst: processing pacs_002 (A)
-    CSM->>Sepa Inst: pacs_002 (B)
-    loop until responseMsgRetry or pacs_002 (A) is processed
-      note over Sepa Inst,CSM: processing pacs_002 (B)
-    end
-    note over Sepa Inst: processing done pacs_002 (A)
-    note over Sepa Inst: processing done pacs_002 (B)
-  ```
-
-Response message retry functionality can be disabled by setting `responseMsgRetry` value to `0;0s` or `0`.
-To configure retry intervals on millisecond level, convert to seconds. For example, 100ms should be configured as 0.1s.
-
-##### Response message timeout configuration
-
-With parameter `responseMsgTimeout` we configure timeout to wait for response message from CSM after which request message retry functionality is triggered.
-
-Response message timeout can be disabled by setting `responseMsgTimeout` value to `0s`.
-To configure timeout on millisecond level, convert to seconds. For example, 100ms should be configured as 0.1s.
-
 ### TLS setup
 
-`SEPA inst` application is prepared to use TLS, but requires provided server certificate.
+Balance check application is prepared to use TLS, but requires provided server certificate.
 Server certificate is not provided by default (expected to be provided manually) and there are no predefined trust or key stores for TLS/mTLS.
 However, there are several different possibilities for customizing TLS setup.
 
@@ -487,7 +286,7 @@ When using initContainer for server certificate, volume will be stored in memory
 #### Provide server certificate from predefined secret
 
 Server certificate can be provided using predefined secret.
-**Note that this secret has to be created in target namespace prior to installation of `SEPA inst` application.**
+**Note that this secret has to be created in target namespace prior to installation of Balance check application.**
 Additionally, both certificate and key files should be in one single secret.
 
 When using secret for server certificate, following values have to be provided:
@@ -531,20 +330,20 @@ Defined `volumeMounts.name` from `initContainer` should also be used to define c
 
 ```yaml
 customVolumes:
-  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in sepa-inst container
+  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in balance-check container
     emptyDir: # any other volume type is OK
       medium: "Memory"
 ```
 
-`SEPA inst` container should also mount this volume, so a custom `volumeMount` is required, for example:
+balance-check container should also mount this volume, so a custom `volumeMount` is required, for example:
 
 ```yaml
 customMounts:
-  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in sepa-inst container
+  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in balance-check container
     mountPath: /some/mount/path # this path should be used for custom environment variables
 ```
 
-Note that `mountPath` variable is used to specify a location of trust store in `SEPA inst` container.
+Note that `mountPath` variable is used to specify a location of trust store in balance-check container.
 Suggested location is: `/mnt/k8s/trust-store`.
 
 To make trust store available to underlying application server, its location (absolute path - `mountPath` and file name) should be defined in following environment variables:
@@ -571,7 +370,7 @@ secret:
 #### Provide trust store from predefined secret
 
 Trust store can also be provided by using predefined secret.
-**Note that this secret has to be created in target namespace prior to installation of `SEPA inst` application.**
+**Note that this secret has to be created in target namespace prior to installation of Balance check application.**
 Additionally, both certificate and key files should be in one single secret.
 
 When adding trust store as secret, following values have to be provided:
@@ -620,7 +419,7 @@ Note that either `mountTrustStoreFromSecret` or `mountCaFromSecret` can be used,
 
 #### Provide mTLS key store from `initContainer`
 
-mTLS support can be added to `SEPA inst` application in two different ways.
+mTLS support can be added to Balance check application in two different ways.
 
 As for trust store, key store could also be provided via custom `initContainer`, with similar requirements.
 
@@ -643,20 +442,20 @@ Defined `volumeMounts.name` from `initContainer` should also be used to define c
 
 ```yaml
 customVolumes:
-  - name: key-store-volume-name # has to match name in initContainer and volumeMount in sepa-inst container
+  - name: key-store-volume-name # has to match name in initContainer and volumeMount in balance-check container
     emptyDir: # any other volume type is OK
       medium: "Memory"
 ```
 
-`SEPA inst` container should also mount this volume, so a custom `volumeMount` is required, for example:
+balance-check container should also mount this volume, so a custom `volumeMount` is required, for example:
 
 ```yaml
 customMounts:
-  - name: key-store-volume-name # has to match name in initContainer and volumeMount in sepa-inst container
+  - name: key-store-volume-name # has to match name in initContainer and volumeMount in balance-check container
     mountPath: /some/mount/path # this path should be used for custom environment variables
 ```
 
-Note that `mountPath` variable is used to specify a location of key store in `SEPA inst` container.
+Note that `mountPath` variable is used to specify a location of key store in balance-check container.
 Suggested location is: `/mnt/k8s/trust-store`.
 
 To make key store available to underlying application server, its location (absolute path - `mountPath` and file name) should be defined in environment variable.
@@ -682,7 +481,7 @@ Password should be encoded using key defined in `secret.decryptionKey`.
 #### Provide mTLS key store from predefined secret
 
 Key store required for mTLS can also be provided via predefined secret.
-**Note that this secret has to be created in target namespace prior to installation of `SEPA inst` application.**
+**Note that this secret has to be created in target namespace prior to installation of Balance check application.**
 
 When adding key store from secret, following values have to be provided:
 
@@ -712,10 +511,10 @@ When using secret to mount key store, no additional custom setup is required.
 
 #### Provide signature key store from predefined secret
 
-`SEPA inst` application exchange messages with Clearing & Settlement System (see [CSM](#csm-configuration) section). On `CSM` level we configure if message signature is created and/or verified using signature key store.
+Balance check application exchange messages with Clearing & Settlement System (see [CSM](#csm-configuration) section). On `CSM` level we configure if message signature is created and/or verified using signature key store.
 
 Signature key store required for message signature creation/verification can be provided via predefined secret.
-**Note that this secret has to be created in target namespace prior to installation of `SEPA inst` application.**
+**Note that this secret has to be created in target namespace prior to installation of Balance check application.**
 
 When adding signature key store from secret, following values have to be provided:
 
@@ -745,11 +544,11 @@ When using secret to mount key store, no additional custom setup is required.
 
 ## Customizing installation
 
-Besides required attributes, installation of `SEPA inst` can be customized in different ways.
+Besides required attributes, installation of Balance check can be customized in different ways.
 
 ### Multi-member setup
 
-`SEPA inst` application (along with all other HolisticPay applications) supports multi-member setup. In order to complete application setup, at least a mandatory set of attributes has to be defined:
+Balance check application (along with all other HolisticPay applications) supports multi-member setup. In order to complete application setup, at least a mandatory set of attributes has to be defined:
 
 ```yaml
 members:
@@ -791,7 +590,7 @@ Same logic is applied for all attributes.
 
 #### Database setup for multi-member
 
-Person structure provides option to setup database in several different flavors:
+Balance check provides option to setup database in several different flavors:
 
 - all members in one database and one schema
 - all members in one database with multiple member-specific schemas
@@ -865,7 +664,7 @@ members:
 
 ### oAuth2
 
-Sepa inst application can use Keycloak implementation for oAuth2 authentication and 
+Balance check application can use Keycloak implementation for oAuth2 authentication and 
 authorization. By default, this option is disabled, but can easily be enabled by specifying 
 following attributes in values:
 
@@ -875,6 +674,7 @@ oauth2:
   resourceUri: '' # has to be specified if enabled, no default value
   authorizationPrefix: ''
 ```
+
 To configure oAuth2, it first has to be enabled with `oAuth2.enabled` parameter.
 When enabled, `oAuth2.resourceUri` should also be defined.
 This URI should point to oAuth2 server with defined converter type and name, for example
@@ -885,7 +685,7 @@ etc, then variable prefix is 'MY_PREFIX:')
 
 ### Request body sanitization and response body encoding
 
-`SEPA inst` application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
+Balance check application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
 
 ```yaml
 request:
@@ -899,7 +699,7 @@ response:
 
 ### Adding custom environment variables
 
-Custom environment variables can be added to `SEPA inst` container by applying `customEnv` value, for example:
+Custom environment variables can be added to balance-check container by applying `customEnv` value, for example:
 
 ```yaml
 customEnv:
@@ -911,24 +711,24 @@ customEnv:
 
 ### Adding custom mounts
 
-Values file can be used to specify additional custom `volume` and `volumeMounts` to be added to `SEPA inst` container.
+Values file can be used to specify additional custom `volume` and `volumeMounts` to be added to balance-check container.
 
 For example, custom volume mount could be added by defining this setup:
 
 ```yaml
 customVolumes:
-  - name: my-custom-volume # has to match name in initContainer and volumeMount in sepa-inst container
+  - name: my-custom-volume # has to match name in initContainer and volumeMount in balance-check container
     emptyDir: # any other volume type is OK
       medium: "Memory"
 
 customMounts:
-  - name: my-custom-volume # has to match name in initContainer and volumeMount in sepa-inst container
+  - name: my-custom-volume # has to match name in initContainer and volumeMount in balance-check container
     mountPath: /some/mount/path # this path should be used for custom environment variables
 ```
 
 ### Customizing container logs
 
-`SEPA inst` application is predefined to redirect all logs to `stdout` expect for Web Server logs (`access.log`) and health check logs, which are not logged by default.
+Balance check application is predefined to redirect all logs to `stdout` expect for Web Server logs (`access.log`) and health check logs, which are not logged by default.
 However, using custom configuration, logs can be redirected to log files also (in addition to `stdout`).
 
 When enabling logging to file, container will divide logs into four different files:
@@ -941,7 +741,7 @@ When enabling logging to file, container will divide logs into four different fi
 
 - `access.log` - contains typical Web Server logs, except for health check endpoint
 
-To change logging level for different components, following attribute should be set in values file: 
+To change logging level for different components, following attribute should be set in values file:
 
 ```yaml
   level:
@@ -1090,7 +890,7 @@ Supported values for this parameter are: `STRING`,`ECS`,`LOGSTASH`,`GELF`,`GCP`.
 
 ### Modifying deployment strategy
 
-Default deployment strategy for `SEPA inst` application is `RollingUpdate`, but it can be overridden, along with other deployment parameters using following attributes (default values are shown):
+Default deployment strategy for Balance check application is `RollingUpdate`, but it can be overridden, along with other deployment parameters using following attributes (default values are shown):
 
 ```yaml
 deployment:
@@ -1107,11 +907,11 @@ deployment:
   restartPolicy: Always
 ```
 
-By default, one replica of `SEPA inst` is installed on Kubernetes cluster. Number of replicas can be statically modified with above configuration, or `HorizontalPodAutoscaler` option can be used to let Kubernetes automatically scale application when required.
+By default, one replica of Balance check is installed on Kubernetes cluster. Number of replicas can be statically modified with above configuration, or `HorizontalPodAutoscaler` option can be used to let Kubernetes automatically scale application when required.
 
 #### Customizing pod resource requests and limits
 
-Following are the default values for `SEPA inst` requests and limits:
+Following are the default values for Balance check requests and limits:
 
 ```yaml
 resources:
@@ -1167,13 +967,13 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80 # not used by default
 ```
 
-CPU and/or memory utilization metrics can be used to autoscale `SEPA inst` pod.
+CPU and/or memory utilization metrics can be used to autoscale Balance check pod.
 It's possible to define one or both of those metrics.
 If only `autoscaling.enabled` attribute is set to `true`, without setting other attributes, only CPU utilization metric will be used with percentage set to 80.
 
 ### Customizing probes
 
-`SEPA inst` application has predefined health check probes (readiness and liveness).
+Balance check application has predefined health check probes (readiness and liveness).
 Following are the default values:
 
 ```yaml
@@ -1218,12 +1018,12 @@ deployment:
           value: localhost
 ```
 
-Note that `SEPA inst` has health checks available within the `/health` endpoint (`/health/readiness` for readiness and `/health/liveness` for liveness), and this base paths should not modified, only query parameters are subject to change.
+Note that Balance check has health checks available within the `/health` endpoint (`/health/readiness` for readiness and `/health/liveness` for liveness), and this base paths should not modified, only query parameters are subject to change.
 `scheme` attribute should also be set to `HTTPS` at all times, as well as `http` value for `port` attribute.
 
 ### Customizing security context
 
-Security context for `SEPA inst` can be set on pod and/or on container level.
+Security context for Balance check can be set on pod and/or on container level.
 By default, pod security context is defined with following values:
 
 ```yaml
@@ -1242,13 +1042,13 @@ securityContext:
   runAsGroup: 0
 ```
 
-Note that container level security context will be applied to both containers in `SEPA inst` pod (Liquibase init container and `SEPA inst` container).
+Note that container level security context will be applied to both containers in Balance check pod (Liquibase init container and Balance check container).
 
 ### Customizing network setup
 
 #### Service setup
 
-When installing `SEPA inst` using default setup, a `Service` object will be created of `ClusterIP` type exposed on port 8443.
+When installing Balance check using default setup, a `Service` object will be created of `ClusterIP` type exposed on port 8443.
 Those values can be modified by setting following attributes in custom values file, for example for `NodePort`:
 
 ```yaml
@@ -1315,7 +1115,7 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
   hosts:
-    - host: sepa-inst.custom.url
+    - host: balance-check.custom.url
       paths:
         - path: /
           pathType: Prefix
@@ -1347,7 +1147,7 @@ Init container can have all standard Kubernetes attributes in its specification.
 
 ### Customizing affinity rules, node selector and tolerations
 
-`SEPA inst` deployment has some predefined affinity rules, as listed below:
+Balance check deployment has some predefined affinity rules, as listed below:
 
 ```yaml
 affinity:
@@ -1372,7 +1172,7 @@ affinity:
               - key: app
                 operator: In
                 values:
-                  - sepa-inst
+                  - balance-check
           topologyKey: kubernetes.io/hostname
 ```
 
@@ -1413,7 +1213,7 @@ deployment:
 
 ### Additional custom configuration
 
-There are some other customizable attributes predefined in `SEPA inst` application.
+There are some other customizable attributes predefined in Balance check application.
 
 One of them is related to HTTP return code which is returned by application if health check fails.
 Default value for this attribute is 418 but it can be customized if necessary, for example:
@@ -1428,7 +1228,7 @@ There's a possibility to define a custom timezone (there is no default one), by 
 timezone: Europe/London
 ```
 
-Finally, since `SEPA inst` is an Java application, there's a possibility to set custom JVM parameters.
+Finally, since Balance check is an Java application, there's a possibility to set custom JVM parameters.
 There is a predefined value which specifies `Xms` and `Xmx` JVM parameters:
 
 ```yaml
