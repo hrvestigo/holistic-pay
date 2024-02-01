@@ -226,16 +226,6 @@ spec:
             - name: GRPC_CLIENT_ECSDIGITALCHANNELS_NEGOTIATIONTYPE
               value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
             {{- end }}
-            - name: BALANCE_CHECK_BASE_URL
-              value: {{ .Values.balance.check.url.base | quote }}
-            - name: BALANCE_CHECK_AUTHORIZATION_URL
-              value: {{ .Values.balance.check.url.authorization | quote }}
-            - name: BALANCE_CHECK_RESERVATION_URL
-              value: {{ .Values.balance.check.url.reservation | quote }}
-            - name: REST_DEVELOP_USERNAME
-              value: {{ .Values.balance.check.auth.username | quote }}
-            - name: REST_DEVELOP_PASSWORD
-              value: ${mambu.password}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

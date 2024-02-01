@@ -125,14 +125,6 @@ payment:
   compensation:
     service:
       enabled: false
-balance:
-  check:
-    url:
-      base: ''
-      authorization: ''
-      reservation: ''
-    auth:
-      username: ''
 oauth2:
   enabled: false
   resourceUri: ''
