@@ -237,6 +237,8 @@ spec:
               value: {{ .Values.kafka.topics.ecsPaymentCompensation.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_ECSPAYMENTCOMPENSATION_NAME
               value: {{ .Values.kafka.topics.ecsPaymentCompensation.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_ECS_PAYMENT_COMPENSATION_ENABLED
+              value: {{ .Values.kafkaConsumer.ecsPaymentCompensation.enabled | quote }}
             - name: EXTERNAL_CORE_SYSTEM_MEMBER_SIGN_DEFAULT
               value: {{ .Values.external.core.system.member.sign.default | quote }}
             - name: SIRIUS_SPECIFIC_CACHE_EXPIREAFTERACCESS
