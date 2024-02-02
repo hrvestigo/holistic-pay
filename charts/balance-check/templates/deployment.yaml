@@ -63,7 +63,7 @@ spec:
             {{- end }}
             - name: SERVER_PORT
               value: "8443"
-            {{- if .Values.datasource }}
+            {{- if and .Values.datasource .Values.datasource.enabled }}
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:postgresql://{{- required "Please specify DB host name in datasource.host" .Values.datasource.host -}}:
               {{- required "Please specify DB port in datasource.port" .Values.datasource.port -}}/
@@ -74,7 +74,8 @@ spec:
             {{- range $k, $v := .Values.members }}
             - name: SPRING_DATASOURCE_URL_{{ .memberSign }}
               {{- if .datasource }}
-                {{- if .datasource.globalSchema }}
+                {{- if .datasource.enabled }}
+                  {{- if .datasource.globalSchema }}
               value: "jdbc:postgresql://
               {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
               :
@@ -118,6 +119,7 @@ spec:
               {{- include "balance-check.db.connectionParams" $ -}}"
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
+                  {{- end }}
                 {{- end }}
               {{- end }}
             {{- end }}
@@ -162,7 +164,7 @@ spec:
               value: {{ .Values.kafka.topics.balanceaccountlimit.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_BALANCE_ACCOUNT_LIMIT_NAME
               value: {{ .Values.kafka.topics.balanceaccountlimit.consumerGroup | quote }}
-            {{- if .Values.redis }}
+            {{- if and .Values.redis .Values.redis.enabled }}
             - name: REDIS_URI
               value: "redis://
               ${redis.password}}@
@@ -226,7 +228,7 @@ spec:
               value: /usr/app/config/log4j2.xml
             - name: LOGGER_EXCLUDE_ENDPOINTS
               value: /, /health, /health/liveness, /health/readiness, /prometheus
-            {{- if .Values.datasource }}
+            {{- if and .Values.datasource .Values.datasource.enabled }}
             - name: SPRING_DATASOURCE_HIKARI_CONNECTIONTIMEOUT
               value: {{ .Values.datasource.connTimeout | quote }}
             - name: SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE

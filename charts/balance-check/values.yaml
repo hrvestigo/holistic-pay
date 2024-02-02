@@ -17,6 +17,7 @@ env:
   type: ''
   label: ''
 datasource:
+  enabled: true
   host: ''
   port: ''
   dbName: ''
@@ -75,6 +76,7 @@ kafka:
       name: hr.vestigo.hp.balanceaccountlimit
       consumerGroup: hr.vestigo.hp.balanceaccountlimit
 redis:
+  enabled: false
   host: ''
   port: ''
   transaction:
