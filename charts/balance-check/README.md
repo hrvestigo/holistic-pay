@@ -206,6 +206,8 @@ kafka:
     balanceaccountlimit:
       name: hr.vestigo.hp.balanceaccountlimit # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.balanceaccountlimit # default value, set custom name if required
+    balancechangeresponse:
+      name: hr.vestigo.hp.balancechangeresponse # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets

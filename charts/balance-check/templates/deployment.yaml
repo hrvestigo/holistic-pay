@@ -74,8 +74,7 @@ spec:
             {{- range $k, $v := .Values.members }}
             - name: SPRING_DATASOURCE_URL_{{ .memberSign }}
               {{- if .datasource }}
-                {{- if .datasource.enabled }}
-                  {{- if .datasource.globalSchema }}
+                {{- if .datasource.globalSchema }}
               value: "jdbc:postgresql://
               {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
               :
@@ -119,7 +118,6 @@ spec:
               {{- include "balance-check.db.connectionParams" $ -}}"
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
-                  {{- end }}
                 {{- end }}
               {{- end }}
             {{- end }}
@@ -164,6 +162,8 @@ spec:
               value: {{ .Values.kafka.topics.balanceaccountlimit.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_BALANCE_ACCOUNT_LIMIT_NAME
               value: {{ .Values.kafka.topics.balanceaccountlimit.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_BALANCE_CHANGE_RESPONSE_NAME
+              value: {{ .Values.kafka.topics.balancechangeresponse.name | quote }}
             {{- if and .Values.redis .Values.redis.enabled }}
             - name: REDIS_URI
               value: "redis://

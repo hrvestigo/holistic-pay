@@ -75,6 +75,8 @@ kafka:
     balanceaccountlimit:
       name: hr.vestigo.hp.balanceaccountlimit
       consumerGroup: hr.vestigo.hp.balanceaccountlimit
+    balancechangeresponse:
+      name: hr.vestigo.hp.balancechangeresponse
 redis:
   enabled: false
   host: ''
