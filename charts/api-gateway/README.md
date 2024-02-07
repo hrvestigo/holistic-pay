@@ -544,6 +544,21 @@ customEnv:
 >
 > When body logging is enabled, potentially sensitive data will also be logged.
 ---
+
+### Distributed tracing
+Api gateway also supports distributed tracing via OTLP protocol. It uses Micrometer and OpenTelemetry to instrument and export traces to designated backend. By default, instrumentation is disabled, but that can be overridden by providing values in following structure (listed below are default values):
+```yaml
+tracing:
+  enabled: false # true or false
+  endpoint: ""
+  samplingProbability: 0.1 # allowed values are [0.0, 1.0]
+```
+
+Parameter `tracing.endpoint` must point to the tracing backend into which traces will be uploaded. Tracing backend must be compatible with OTLP protocol.
+
+Parameter `tracing.samplingProbability` must be a decimal number with values in range `[0.0, 1.0]` and it dictates which percentage of recorded traces will be uploaded to tracing backend. 0.0 means 0% of traces will be uploaded and 1.0 means 100% of traces will be uploaded.
+
+
 ### Modifying deployment strategy
 
 Default deployment strategy for API Gateway application is `RollingUpdate`, but it can be overridden, along with other deployment parameters using following attributes (default values are shown):

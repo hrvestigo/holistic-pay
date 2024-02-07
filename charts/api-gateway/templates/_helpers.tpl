@@ -206,6 +206,23 @@ Mounts for api-gateway application
 {{- end }}
 
 {{/*
+Tracing configuration
+*/}}
+{{- define "api-gateway.tracing" -}}
+{{- if .Values.tracing.enabled -}}
+- name: MANAGEMENT_TRACING_ENABLED
+  value: "true"
+- name: MANAGEMENT_TRACING_SAMPLING_PROBABILITY
+  value: {{ .Values.tracing.samplingProbability | quote }}
+- name: MANAGEMENT_OTLP_TRACING_ENDPOINT
+  value: {{ required "Please specify tracing endpoint in tracing.endpoint" .Values.tracing.endpoint  }}
+{{- else }}
+- name: MANAGEMENT_TRACING_ENABLED
+  value: "false"
+{{- end }}
+{{- end }}
+
+{{/*
 Application secrets
 */}}
 {{- define "api-gateway.passwords" -}}
