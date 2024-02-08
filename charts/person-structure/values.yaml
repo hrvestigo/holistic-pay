@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.45.0
+    tag: 4.48.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -81,6 +81,11 @@ kafka:
     parameterization:
       name: hr.vestigo.hp.parameterization
       consumerGroup: hr.vestigo.hp.parameterization.perstr
+    limithistory:
+      name: hr.vestigo.hp.limithistory.01
+      consumerGroup: hr.vestigo.hp.limithistory
+    balanceaccountlimit:
+      name: hr.vestigo.hp.personstructurelimit.01
 url:
   riskLimitAlcUrl: https://auth-limit-control:8443
 cms:
@@ -279,4 +284,4 @@ customMounts: []
 customEnv: []
 tracing:
   samplingProbability: 1.0
-  otlpEndpoint: "http://tempo.monitor:4318/v1/traces"
+  otlpEndpoint: http://tempo.monitor:4318/v1/traces

@@ -194,6 +194,12 @@ spec:
               value: {{ .Values.kafka.topics.perstrucinitial.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTURE_NAME
               value: {{ .Values.kafka.topics.personstructure.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_LIMITHISTORY_NAME
+              value: {{ .Values.kafka.topics.limithistory.name | quote }}
+            - name: KAFKA_TOPIC_BALANCEACCOUNTLIMIT_NAME
+              value: {{ .Values.kafka.topics.balanceaccountlimit.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_LIMITHISTORY_NAME
+              value: {{ .Values.kafka.topics.limithistory.consumerGroup | quote }}
             - name: CMS_CDC_MODULENAME
               value: {{ .Values.cms.moduleName | quote }}
             - name: CMS_CDC_DELIVERYCHANNEL
