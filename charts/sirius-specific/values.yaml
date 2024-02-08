@@ -127,6 +127,11 @@ kafka:
     ecsPaymentCompensation:
       name: hr.vestigo.hp.ecspaymentcompensation
       consumerGroup: gcp.ipt1.hp.evt.sirspec.ecs.payment.compensation
+    limithistorycdc:
+      name: hr.vestigo.hp.limithistorycdc.01
+      consumerGroup: hr.vestigo.hp.limithistorycdc
+    limithistory:
+      name: hr.vestigo.hp.limithistory.01
 external:
   core:
     system:
