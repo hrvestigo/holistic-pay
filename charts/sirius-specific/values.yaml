@@ -132,6 +132,7 @@ kafka:
       consumerGroup: hr.vestigo.hp.limithistorycdc
     limithistory:
       name: hr.vestigo.hp.limithistory.01
+
 external:
   core:
     system:
