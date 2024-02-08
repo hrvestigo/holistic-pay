@@ -200,6 +200,8 @@ spec:
               value: {{ .Values.kafka.topics.balanceaccountlimit.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_LIMITHISTORY_NAME
               value: {{ .Values.kafka.topics.limithistory.consumerGroup | quote }}
+            - name: EXTERNAL_CORE_SYSTEM_MEMBER_SIGN_DEFAULT
+              value: {{ .Values.external.core.system.member.sign.default | quote }}
             - name: CMS_CDC_MODULENAME
               value: {{ .Values.cms.moduleName | quote }}
             - name: CMS_CDC_DELIVERYCHANNEL
