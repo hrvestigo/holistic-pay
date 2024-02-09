@@ -105,6 +105,8 @@ ms:
   appModuleName: PERSTR
 riskLimits:
   enabled: false
+limithistory:
+  enabled: false
 status:
   management:
     enabled: false
