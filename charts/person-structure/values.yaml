@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.48.0
+    tag: 4.53.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -86,14 +86,12 @@ kafka:
       consumerGroup: hr.vestigo.hp.limithistory
     balanceaccountlimit:
       name: hr.vestigo.hp.personstructurelimit.01
-
 external:
   core:
     system:
       member:
         sign:
           default: RB
-
 url:
   riskLimitAlcUrl: https://auth-limit-control:8443
 cms:
