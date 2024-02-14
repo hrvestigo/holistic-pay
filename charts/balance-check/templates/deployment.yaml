@@ -194,7 +194,11 @@ spec:
             - name: MANAGEMENT_ENDPOINT_HEALTH_STATUS_HTTPMAPPING_DOWN
               value: {{ .Values.healthStatusDownReturnCode | quote }}
             - name: MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE
-              value: readinessState
+              {{- if .Values.datasource.enabled }}
+              value: readinessState, db, kafka
+              {{- else if .Values.redis.enabled }}
+              value: readinessState, redis, kafka
+              {{- end }}
             - name: SERVER_TOMCAT_ACCESSLOG_ENABLED
               value: {{ .Values.logger.logToFile | quote }}
             - name: SERVER_TOMCAT_ACCESSLOG_SUFFIX
