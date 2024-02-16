@@ -2805,6 +2805,16 @@ entries:
     version: 0.2.0
   balance-check:
   - apiVersion: v2
+    appVersion: 1.38.0
+    created: "2024-02-16T09:08:58.099602059Z"
+    description: Helm chart for balance-check application
+    digest: a9135e887f7df73b426b240eda2923520df24f65fe09fc9596fefbe32b6ac297
+    name: balance-check
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/balance-check-1.38.0/balance-check-1.38.0.tgz
+    version: 1.38.0
+  - apiVersion: v2
     appVersion: 1.37.0
     created: "2024-02-15T12:29:22.387314653Z"
     description: Helm chart for balance-check application
@@ -16046,4 +16056,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2024-02-15T12:29:22.398678417Z"
+generated: "2024-02-16T09:08:58.110087693Z"
