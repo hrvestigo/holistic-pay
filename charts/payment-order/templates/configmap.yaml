@@ -5,7 +5,3 @@ metadata:
 data:
   log4j2.xml: |-
     {{- include "payment-order.logger" . | nindent 4 }}
-  {{- if .Values.logger.maskSensitive }}
-  log4j2.component.properties: |-
-    {{- include "payment-order.sensitive.data.logger" . | nindent 4 }}
-  {{- end }}
