@@ -5,7 +5,3 @@ metadata:
 data:
   log4j2.xml: |-
     {{- include "sirius-specific.logger" . | nindent 4 }}
-  {{- if .Values.logger.maskSensitive }}
-  log4j2.component.properties: |-
-    {{- include "sirius-specific.sensitive.data.logger" . | nindent 4 }}
-  {{- end }}

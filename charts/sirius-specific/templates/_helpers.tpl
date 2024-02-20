@@ -320,13 +320,6 @@ Application logger
 {{- end }}
 
 {{/*
-Sensitive data
-*/}}
-{{- define "sirius-specific.sensitive.data.logger" -}}
-{{ tpl (.Files.Get "config/log4j2.component.properties") . }}
-{{- end }}
-
-{{/*
 Defines custom datasource connection parameters appended to URL
 */}}
 {{- define "sirius-specific.db.connectionParams" -}}
