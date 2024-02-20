@@ -64,6 +64,10 @@ spec:
             - name: SERVER_PORT
               value: "8443"
             {{- if and .Values.datasource .Values.datasource.enabled }}
+            - name: MANAGEMENT_TRACING_SAMPLING_PROBABILITY
+              value: "{{ .Values.tracing.samplingProbability }}"
+            - name: MANAGEMENT_OTLP_TRACING_ENDPOINT
+              value: "{{ .Values.tracing.otlpEndpoint }}"
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:postgresql://{{- required "Please specify DB host name in datasource.host" .Values.datasource.host -}}:
               {{- required "Please specify DB port in datasource.port" .Values.datasource.port -}}/
