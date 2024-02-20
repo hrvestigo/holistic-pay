@@ -319,13 +319,6 @@ Liquibase init container resources
 {{- end }}
 
 {{/*
-Sensitive data
-*/}}
-{{- define "person-structure.sensitive.data.logger" -}}
-{{ tpl (.Files.Get "config/log4j2.component.properties") . }}
-{{- end }}
-
-{{/*
 Defines custom datasource connection parameters appended to URL
 */}}
 {{- define "person-structure.db.connectionParams" -}}
