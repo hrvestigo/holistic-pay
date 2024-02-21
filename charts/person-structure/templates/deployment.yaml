@@ -196,10 +196,14 @@ spec:
               value: {{ .Values.kafka.topics.personstructure.consumerGroup | quote }}
             - name: KAFKA_TOPIC_LIMITHISTORY_NAME
               value: {{ .Values.kafka.topics.limithistory.name | quote }}
-            - name: KAFKA_TOPIC_BALANCEACCOUNTLIMIT_NAME
-              value: {{ .Values.kafka.topics.balanceaccountlimit.name | quote }}
+            - name: KAFKA_TOPIC_ACCOUNTLIMITINITIAL_NAME
+              value: {{ .Values.kafka.topics.accountlimitinitial.name | quote }}
+            - name: KAFKA_TOPIC_OVEDRAFTLIMIT_NAME
+              value: {{ .Values.kafka.topics.ovedraftlimit.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_LIMITHISTORY_NAME
               value: {{ .Values.kafka.topics.limithistory.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_ACCOUNTLIMITINITIAL_NAME
+              value: {{ .Values.kafka.topics.accountlimitinitial.consumerGroup | quote }}
             - name: EXTERNAL_CORE_SYSTEM_MEMBER_SIGN_DEFAULT
               value: {{ .Values.external.core.system.member.sign.default | quote }}
             - name: CMS_CDC_MODULENAME

@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.54.0
+    tag: 4.57.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -84,8 +84,11 @@ kafka:
     limithistory:
       name: hr.vestigo.hp.limithistory.01
       consumerGroup: hr.vestigo.hp.limithistory
-    balanceaccountlimit:
-      name: hr.vestigo.hp.personstructurelimit.01
+    accountlimitinitial:
+      name: hr.vestigo.hp.accountlimitinitial.01
+      consumerGroup: hr.vestigo.hp.accountlimitinitial
+    ovedraftLimit:
+      name: hr.vestigo.hp.ovedraftLimit.01
 external:
   core:
     system:
