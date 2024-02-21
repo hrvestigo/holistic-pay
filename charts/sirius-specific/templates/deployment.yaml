@@ -239,10 +239,14 @@ spec:
               value: {{ .Values.kafka.topics.ecsPaymentCompensation.consumerGroup | quote }}
             - name: KAFKA_TOPIC_LIMITHISTORYCDC_NAME
               value: {{ .Values.kafka.topics.limithistorycdc.name | quote }}
-            - name: KAFKA_TOPIC_LIMITHISTORY_NAME
-              value: {{ .Values.kafka.topics.limithistory.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_LIMITHISTORYCDC_NAME
               value: {{ .Values.kafka.topics.limithistorycdc.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_BALANNOUNCECDC_NAME
+              value: {{ .Values.kafka.topics.balannouncecdc.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_BALANNOUNCECDC_NAME
+              value: {{ .Values.kafka.topics.balannouncecdc.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_ACCOUNTLIMITINITIAL_NAME
+              value: {{ .Values.kafka.topics.accountlimitinitial.name | quote }}
             - name: KAFKA_CONSUMER_ECS_PAYMENT_COMPENSATION_ENABLED
               value: {{ .Values.kafkaConsumer.ecsPaymentCompensation.enabled | quote }}
             - name: EXTERNAL_CORE_SYSTEM_MEMBER_SIGN_DEFAULT

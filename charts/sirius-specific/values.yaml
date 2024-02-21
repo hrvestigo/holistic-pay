@@ -130,8 +130,11 @@ kafka:
     limithistorycdc:
       name: hr.vestigo.hp.limithistorycdc.01
       consumerGroup: hr.vestigo.hp.limithistorycdc
-    limithistory:
-      name: hr.vestigo.hp.limithistory.01
+    balannouncecdccdc:
+      name: hr.vestigo.hp.balannouncecdc.01
+      consumerGroup: hr.vestigo.hp.balannouncecdc
+    accountlimitinitial:
+      name: hr.vestigo.hp.accountlimitinitial.01
 
 external:
   core:
