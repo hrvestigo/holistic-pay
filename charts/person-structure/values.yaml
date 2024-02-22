@@ -87,7 +87,7 @@ kafka:
     accountlimitinitial:
       name: hr.vestigo.hp.accountlimitinitial.01
       consumerGroup: hr.vestigo.hp.accountlimitinitial
-    ovedraftLimit:
+    ovedraftlimit:
       name: hr.vestigo.hp.ovedraftLimit.01
 external:
   core:
