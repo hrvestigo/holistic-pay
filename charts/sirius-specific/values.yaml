@@ -286,7 +286,7 @@ deployment:
   terminationGracePeriodSeconds: 60
   restartPolicy: Always
   readinessProbe:
-    initialDelaySeconds: 10
+    initialDelaySeconds: 90
     periodSeconds: 60
     timeoutSeconds: 181
     successThreshold: 1
@@ -296,7 +296,7 @@ deployment:
       port: http
       scheme: HTTPS
   livenessProbe:
-    initialDelaySeconds: 60
+    initialDelaySeconds: 90
     periodSeconds: 60
     timeoutSeconds: 10
     failureThreshold: 3
