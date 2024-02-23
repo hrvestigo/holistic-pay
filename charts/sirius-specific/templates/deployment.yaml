@@ -247,8 +247,14 @@ spec:
               value: {{ .Values.kafka.topics.balannouncecdc.consumerGroup | quote }}
             - name: KAFKA_TOPIC_ACCOUNTLIMITINITIAL_NAME
               value: {{ .Values.kafka.topics.accountlimitinitial.name | quote }}
+            - name: KAFKA_TOPIC_LIMITHISTORY_NAME
+              value: {{ .Values.kafka.topics.limithistory.name | quote }}
             - name: KAFKA_CONSUMER_ECS_PAYMENT_COMPENSATION_ENABLED
               value: {{ .Values.kafkaConsumer.ecsPaymentCompensation.enabled | quote }}
+            - name: KAFKA_CONSUMER_LIMITHISTORY_ENABLED
+              value: {{ .Values.kafkaConsumer.limithistory.enabled | quote }}
+            - name: KAFKA_CONSUMER_BALANNOUNCE_ENABLED
+              value: {{ .Values.kafkaConsumer.balannounce.enabled | quote }}
             - name: EXTERNAL_CORE_SYSTEM_MEMBER_SIGN_DEFAULT
               value: {{ .Values.external.core.system.member.sign.default | quote }}
             - name: SIRIUS_SPECIFIC_CACHE_EXPIREAFTERWRITE
