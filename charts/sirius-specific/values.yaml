@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.238.0
+    tag: 1.266.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -135,7 +135,6 @@ kafka:
       consumerGroup: hr.vestigo.hp.limithistory
     accountlimitinitial:
       name: hr.vestigo.hp.accountlimitinitial.01
-
 external:
   core:
     system:
@@ -332,7 +331,7 @@ customMounts: []
 customEnv: []
 tracing:
   samplingProbability: 1.0
-  otlpEndpoint: "http://tempo.monitor:4318/v1/traces"
+  otlpEndpoint: http://tempo.monitor:4318/v1/traces
 kafkaConsumer:
   ecsPaymentCompensation:
     enabled: false
