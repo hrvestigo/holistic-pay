@@ -181,6 +181,14 @@ paramWarmup:
 If this value is set to true then warm up service will be triggered when starting application.
 This service is used for fetching and caching all data from parametrization tables.
 
+###Enable/Disable producing/publishing to personStructureEffect topic
+```yaml
+personStructureEffect:
+  produce: true  #default value, produces data on personstructureeffect topic
+```
+If this value is set to true then every person structure effect is produced/published to personstructureeffect topic.
+In case you want to stop publishing on personstructureeffect topic then you need change the default value and set it to false.
+
 ###Enable/Disable producing/publishing to personstructure topic
 ```yaml
 personStructure:
@@ -383,6 +391,10 @@ kafka:
     parameterization:
       name: hr.vestigo.hp.parameterization # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.parameterization.perstr # default value, set custom name if required
+    # Person structure data replication functionality:
+    # If personStructureEffect.produce enabled, define the following topic:
+    personstructureeffect:
+      name: hr.vestigo.hp.personstructureeffect.01 # default value, set custom name if required
 ```
 
 ### Configuring image source and pull secrets

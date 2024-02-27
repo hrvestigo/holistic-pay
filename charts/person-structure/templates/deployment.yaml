@@ -150,6 +150,8 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
+            - name: PERSON_STRUCTURE_EFFECT_PRODUCE
+              value: {{ .Values.personStructureEffect.produce | default "false" | quote }}
             {{- if .Values.riskLimits.enabled }}
             - name: KAFKA_TOPIC_RISKLIMITCONTRACT_NAME
               value: {{ required "Please specify Kafka topic name for risk limit functionality in kafka.topics.risklimitcontract.name" .Values.kafka.topics.risklimitcontract.name | quote }}
@@ -162,6 +164,10 @@ spec:
             {{- end }}
             - name: KAFKA_TOPIC_PERSONSTRUCTURE_NAME
               value: {{ .Values.kafka.topics.personstructure.name | quote }}
+            {{- if .Values.personStructureEffect.produce }}
+            - name: KAFKA_TOPIC_PERSONSTRUCTUREEFFECT_NAME
+              value: {{ .Values.kafka.topics.personstructureeffect.name | quote }}
+            {{- end }}
             - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
               value: {{ .Values.kafka.topics.parameterization.name | quote }}
             - name: KAFKA_TOPIC_PERSTRUCINITIAL_NAME

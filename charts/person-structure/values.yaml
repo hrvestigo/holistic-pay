@@ -89,6 +89,8 @@ kafka:
       consumerGroup: hr.vestigo.hp.accountlimitinitial
     ovedraftlimit:
       name: hr.vestigo.hp.ovedraftLimit.01
+    personstructureeffect:
+      name: hr.vestigo.hp.personstructureeffect.01
 external:
   core:
     system:
@@ -123,6 +125,8 @@ paramWarmup:
 personStructure:
   produce: true
   completenessFlagAlgorithm: DEBIT_GATEWAY
+personStructureEffect:
+  produce: false
 personStructureInitial:
   searchAlgorithm: account
 initial:
