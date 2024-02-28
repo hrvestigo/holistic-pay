@@ -163,7 +163,7 @@
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
       <Filters>
-        <RegexFilter regex=".*\[VARBINARY\].*" onMatch="DENY" onMismatch="ACCEPT" />
+        <RegexFilter regex=".*\[VARBINARY\].*|(?s).*\[SQLXML\].*" onMatch="DENY" onMismatch="ACCEPT" />
       </Filters>
     </Logger>
 
@@ -172,6 +172,9 @@
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
+      <Filters>
+        <RegexFilter regex="(?s).*\[SQLXML\].*" onMatch="DENY" onMismatch="ACCEPT" />
+      </Filters>
     </Logger>
 
     <Logger name="org.hibernate.SQL_SLOW" level={{ .level.databaseSlowQuery | upper | quote }} additivity="false">
