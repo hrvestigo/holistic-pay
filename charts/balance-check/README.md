@@ -183,7 +183,7 @@ kafka:
   sslEndpointIdentAlg: HTTPS # default value is HTTPS , set other ssl endpoint identification algorithm if required
 ```
 
-#### Topics and consumer groups setup
+#### Topics, consumer groups and non-blocking retry setup
 
 Kafka topics and consumer group names used by Balance check have default names defined in 
 `values.yaml` file, but can be overridden with following setup:
@@ -192,23 +192,76 @@ Kafka topics and consumer group names used by Balance check have default names d
 kafka:
   topics:
     balanceaccount:
-      name: hr.vestigo.hp.balanceaccount # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.balanceaccount # default value, set custom consumer group if required
+      name: hr.vestigo.hp.balanceaccount              # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.balanceaccount     # default value, set custom consumer group if required
+      enabled: true                                   # default value, consumer is enabled
+      nbrEnabled: true                                # default value, non-blocking retry is enabled
+      nbrBackOff: 50000;5s                            # default value, non-blocking retry fixed back-off
+      nbrName: ''                                     # default value, non-blocking retry topic name
+      dltName: ''                                     # default value, non-blocking DTL topic name
     balanceaccounteffect:
-      name: hr.vestigo.hp.balanceaccounteffect # default value, set custom name if required
+      name: hr.vestigo.hp.balanceaccounteffect          # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.balanceaccounteffect # default value, set custom consumer group if required
+      enabled: true                                     # default value, consumer is enabled
+      nbrEnabled: true                                  # default value, non-blocking retry is enabled
+      nbrBackOff: 50000;5s                              # default value, non-blocking retry fixed back-off
+      nbrName: ''                                       # default value, non-blocking retry topic name
+      dltName: ''                                       # default value, non-blocking DTL topic name
     balancechangerequest:
-      name: hr.vestigo.hp.balancechangerequest # default value, set custom name if required
+      name: hr.vestigo.hp.balancechangerequest          # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.balancechangerequest # default value, set custom consumer group if required
+      enabled: true                                     # default value, consumer is enabled
+      nbrEnabled: true                                  # default value, non-blocking retry is enabled
+      nbrBackOff: 50000;5s                              # default value, non-blocking retry fixed back-off
+      nbrName: ''                                       # default value, non-blocking retry topic name
+      dltName: ''                                       # default value, non-blocking DTL topic name
     parameterization:
-      name: hr.vestigo.hp.parameterization # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.parameterization # default value, set custom consumer group if required
+      name: hr.vestigo.hp.parameterization              # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.parameterization     # default value, set custom consumer group if required
+      enabled: true                                     # default value, consumer is enabled
+      nbrEnabled: true                                  # default value, non-blocking retry is enabled
+      nbrBackOff: 50000;5s                              # default value, non-blocking retry fixed back-off
+      nbrName: ''                                       # default value, non-blocking retry topic name
+      dltName: ''                                       # default value, non-blocking DTL topic name
     balanceaccountlimit:
-      name: hr.vestigo.hp.balanceaccountlimit # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.balanceaccountlimit # default value, set custom name if required
+      name: hr.vestigo.hp.balanceaccountlimit           # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.balanceaccountlimit  # default value, set custom consumer group if required
+      enabled: true                                     # default value, consumer is enabled
+      nbrEnabled: true                                  # default value, non-blocking retry is enabled
+      nbrBackOff: 50000;5s                              # default value, non-blocking retry fixed back-off
+      nbrName: ''                                       # default value, non-blocking retry topic name
+      dltName: ''                                       # default value, non-blocking DTL topic name
     balancechangeresponse:
-      name: hr.vestigo.hp.balancechangeresponse # default value, set custom name if required
+      name: hr.vestigo.hp.balancechangeresponse
 ```
+
+#### Kafka consumer retry logic
+
+By default, if error occurs when consuming from Kafka topic, non-blocking retry logic is triggered.
+Using retry back-off (`nbrBackOff`), consumed messages is retried on single retry topic (`50000 times, every 5 seconds`), until exhausted. If consumed
+message still fails, message is published to dead-letter topic.
+Naming of single retry topic and dead letter topic follows original topic name with suffix appended. Examples:
+
+```sh
+# topic name without version
+original topic name = hr.vestigo.hp.balanceaccountlimit
+retry topic name = hr.vestigo.hp.balanceaccountlimitretry
+dead letter topic name = hr.vestigo.hp.balanceaccountlimitdlt
+
+# topic name with version
+original topic name = hr.vestigo.hp.balanceaccountlimit.01
+retry topic name = hr.vestigo.hp.balanceaccountlimitretry.01
+dead letter topic name = hr.vestigo.hp.balanceaccountlimitdlt.01
+```
+
+Single retry topic name and dead letter topic name
+can be set via `nbrName` and `dltName`.
+
+If non-blocking retry is disabled via `nbrEnabled = false`,
+consumed error message goes to blocking retry on original
+Kafka topic using back-off `10;0s` until exhausted. If consumed
+message still fails, message is logged on ERROR and Kafka offset
+is committed.
 
 ### Configuring image source and pull secrets
 

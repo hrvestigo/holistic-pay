@@ -349,3 +349,15 @@ Defines custom datasource connection parameters appended to URL
 {{- "" }}
 {{- end }}
 {{- end }}
+
+{{/*
+Balance check Kafka topics configuration
+*/}}
+{{- define "balance-check.kafka.topics" }}
+{{- range $key, $value := .Values.kafka.topics }}
+{{- range $k, $v := $value }}
+- name: BALANCE_CHECK_KAFKA_TOPICS_{{ $key | upper }}_{{ $k | snakecase | upper }}
+  value: {{ $v | quote }}
+{{- end }}
+{{- end }}
+{{- end }}

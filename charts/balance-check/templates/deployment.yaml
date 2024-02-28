@@ -146,34 +146,12 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
-            - name: KAFKA_TOPIC_BALANCE_ACCOUNT_NAME
-              value: {{ .Values.kafka.topics.balanceaccount.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_BALANCE_ACCOUNT_NAME
-              value: {{ .Values.kafka.topics.balanceaccount.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_BALANCE_ACCOUNT_EFFECT_NAME
-              value: {{ .Values.kafka.topics.balanceaccounteffect.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_BALANCE_ACCOUNT_EFFECT_NAME
-              value: {{ .Values.kafka.topics.balanceaccounteffect.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_BALANCE_CHANGE_REQUEST_NAME
-              value: {{ .Values.kafka.topics.balancechangerequest.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_BALANCE_CHANGE_REQUEST_NAME
-              value: {{ .Values.kafka.topics.balancechangerequest.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_BALANCE_ACCOUNT_LIMIT_NAME
-              value: {{ .Values.kafka.topics.balanceaccountlimit.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_BALANCE_ACCOUNT_LIMIT_NAME
-              value: {{ .Values.kafka.topics.balanceaccountlimit.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_BALANCE_CHANGE_RESPONSE_NAME
-              value: {{ .Values.kafka.topics.balancechangeresponse.name | quote }}
+            {{- if (include "balance-check.kafka.topics" .) }}
+            {{- include "balance-check.kafka.topics" . | indent 12 }}
+            {{- end }}
             {{- if and .Values.redis .Values.redis.enabled }}
             - name: REDIS_URI
-              value: "redis://
-              ${redis.password}}@
-              {{- required "Please specify Redis host in redis.host" .Values.redis.host -}}:
-              {{- required "Please specify Redis port in redis.port" .Values.redis.port -}}"
+              value: redis://${redis.password}@{{ required "Please specify Redis host in redis.host" .Values.redis.host }}:{{ required "Please specify Redis port in redis.port" .Values.redis.port }}
             - name: REDIS_TRANSACTION_WAIT_REPLICANO
               value: {{ .Values.redis.transaction.wait.replicaNo | quote }}
             - name: REDIS_TRANSACTION_WAIT_TIMEOUT

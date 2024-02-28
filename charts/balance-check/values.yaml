@@ -63,18 +63,43 @@ kafka:
     balanceaccount:
       name: hr.vestigo.hp.balanceaccount
       consumerGroup: hr.vestigo.hp.balanceaccount
+      enabled: true
+      nbrEnabled: true
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
     balanceaccounteffect:
       name: hr.vestigo.hp.balanceaccounteffect
       consumerGroup: hr.vestigo.hp.balanceaccounteffect
+      enabled: true
+      nbrEnabled: true
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
     balancechangerequest:
       name: hr.vestigo.hp.balancechangerequest
       consumerGroup: hr.vestigo.hp.balancechangerequest
+      enabled: true
+      nbrEnabled: true
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
     parameterization:
       name: hr.vestigo.hp.parameterization
       consumerGroup: hr.vestigo.hp.parameterization
+      enabled: true
+      nbrEnabled: true
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
     balanceaccountlimit:
       name: hr.vestigo.hp.balanceaccountlimit
       consumerGroup: hr.vestigo.hp.balanceaccountlimit
+      enabled: true
+      nbrEnabled: true
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
     balancechangeresponse:
       name: hr.vestigo.hp.balancechangeresponse
 redis:
