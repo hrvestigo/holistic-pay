@@ -61,6 +61,11 @@ kafka:
     credSource: USER_INFO
     user: ''
     url: ''
+  consumer:
+    limithistory:
+      enabled: false
+    balannounce:
+      enabled: false
   topics:
     risklimitcontract:
       name: hr.vestigo.hp.risklimitcontract
@@ -107,8 +112,6 @@ ms:
   sequence: perstr_seq
   appModuleName: PERSTR
 riskLimits:
-  enabled: false
-limithistory:
   enabled: false
 status:
   management:

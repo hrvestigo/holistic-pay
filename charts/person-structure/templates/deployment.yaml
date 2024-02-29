@@ -220,8 +220,10 @@ spec:
               value: {{ .Values.cms.userId | quote }}
             - name: RISK_LIMITS_ENABLED
               value: {{ .Values.riskLimits.enabled | quote }}
-            - name: LIMITHISTORY_ENABLED
-              value: {{ .Values.limithistory.enabled | quote }}
+            - name: KAFKA_CONSUMER_LIMITHISTORY_ENABLED
+              value: {{ .Values.kafka.consumer.limithistory.enabled | quote }}
+            - name: KAFKA_CONSUMER_BALANNOUNCE_ENABLED
+              value: {{ .Values.kafka.consumer.balannounce.enabled | quote }}
             - name: STATUS_MANAGEMENT_ENABLED
               value: {{ .Values.status.management.enabled | quote }}
             - name: STATUS_AUDIT_LOG_ENABLED
