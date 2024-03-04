@@ -105,6 +105,11 @@ kafka:
     accountbalanceget:
       name: hr.vestigo.hp.accountbalanceget
       consumerGroup: hr.vestigo.hp.accountbalanceget
+      enabled: true
+      nbrEnabled: true
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
     accountbalanceresponse:
       name: hr.vestigo.hp.balanceaccountresponse
 
