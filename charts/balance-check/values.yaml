@@ -102,6 +102,12 @@ kafka:
       dltName: ''
     balancechangeresponse:
       name: hr.vestigo.hp.balancechangeresponse
+    accountbalanceget:
+      name: hr.vestigo.hp.accountbalanceget
+      consumerGroup: hr.vestigo.hp.accountbalanceget
+    accountbalanceresponse:
+      name: hr.vestigo.hp.balanceaccountresponse
+
 redis:
   enabled: false
   host: ''
