@@ -150,6 +150,8 @@ spec:
               value: {{ .Values.payment.compensation.service.enabled | default "false" | quote }}
             - name: SPRING_KAFKA_STREAMS_AUTOSTARTUP
               value: {{ .Values.payment.compensation.service.enabled | default "false" | quote }}
+            - name: HP.PARAMETERIZATION.EXCLUSIONLIST.CONSUMER.STARTUP
+              value: {{ .Values.parameterization.consumer.startup.exclusionList | default "false" | quote }}
             {{- if .Values.payment.compensation.service.enabled }}
             - name: KAFKA_TOPIC_ECSPAYMENTCALLLOG_NAME
               value: {{ .Values.kafka.topics.ecsPaymentCallLog.name | quote }}
@@ -203,7 +205,9 @@ spec:
             - name: AUTOMATIC_REJECTION_ENABLED
               value: {{ .Values.automaticRejection.enabled | quote }}
             - name: SPRING_CACHE_CAFFEINE_SPEC_EXPIREAFTERWRITE
-              value: {{ .Values.cache.refresh.rate | quote }}
+              value: {{ .Values.cache.refresh.rate | default "43200" | quote }}
+            - name: PAYMENT.ORDER.CALENDAR.ITEM.REPLICATION.AGE.DAYS
+              value: {{ .Values.payment.calendarItem.replicationAge.days | default "365" | quote }}
             - name: BATCH_BPOR01_ZIPFILE
               value: {{ .Values.batch.bpor01.zip | quote }}
             - name: BATCH_BPOR01_SCHEDULED_NATIONAL
