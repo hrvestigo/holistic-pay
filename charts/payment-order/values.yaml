@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.167.0
+    tag: 1.175.1
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -104,13 +104,17 @@ automaticRejection:
   enabled: false
 cache:
   refresh:
-    rate: 600
+    rate: 43200
 batch:
   bpor01:
     zip: false
     scheduled:
       national: 0 30 7 ? * *
       crossborder: 0 45 7 ? * *
+parameterization:
+  consumer:
+    startup:
+      exclusionList: false
 grpc:
   enabled: false
   timeout: 250
@@ -125,6 +129,9 @@ payment:
   compensation:
     service:
       enabled: false
+  calendarItem:
+    replicationAge:
+      days: 365
 oauth2:
   enabled: false
   resourceUri: ''

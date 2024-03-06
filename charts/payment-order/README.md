@@ -182,6 +182,30 @@ batch:
       crossborder: "0 45 7 ? * *" #default value, runs at 7.45h for cross-border payments made the day before
   ```
 
+### Payment Order Calendar Item replication age
+
+In Payment order application, received calendar item parametrization is going to be stored in the database only if 
+received date is not older than parameterized number of days. This parameter is given and can be modified through value:
+
+```yaml
+payment:
+  calendarItem:
+    replicationAge:
+      days: 365 # default value is 365 in days
+```
+
+### Payment Order Parameterization Exclusion List replication
+
+In Payment order application, received exclusion list parametrization is going to be stored in the database only if
+the following parameter is given and set to true:
+
+```yaml
+parameterization:
+  consumer:
+    startup:
+      exclusionList: false # default value is false
+```
+
 ### Datasource connection setup
 
 All values required for PostgreSQL database connection are defined within `datasource` parent attribute.
@@ -1328,13 +1352,13 @@ deployment:
 ### Caching custom configuration
 
 In Payment order application, parametrization that is often used is cached or temporarily stored in the memory for the 
-performance purposes. By default, application refreshes all cached data after a period of ten minutes.
+performance purposes. By default, application refreshes all cached data after a period of 12 hours.
 That behaviour is modifiable by this attribute in seconds:
 
 ```yaml
 cache:
   refresh:
-    rate: 600 # default value is 600
+    rate: 43200 # default value is 43200
 ```
 
 ### Additional custom configuration
