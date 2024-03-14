@@ -243,6 +243,14 @@ spec:
               value: {{ .Values.kafka.topics.customer.name | quote }}
             - name: KAFKA_TOPIC_CUSTOMERACCOUNT_NAME
               value: {{ .Values.kafka.topics.customerAccount.name | quote }}
+            - name: KAFKA_TOPIC_BANK_NAME
+              value: {{ .Values.kafka.topics.bank.name | quote }}
+            - name: KAFKA_TOPIC_CITIZEN_NAME
+              value: {{ .Values.kafka.topics.citizen.name | quote }}
+            - name: KAFKA_TOPIC_CRAFTSMAN_NAME
+              value: {{ .Values.kafka.topics.craftsman.name | quote }}
+            - name: KAFKA_TOPIC_LEGALENTITY_NAME
+              value: {{ .Values.kafka.topics.legalEntity.name | quote }}
             - name: KAFKA_TOPIC_EXTTURNOVERTYPE_NAME
               value: {{ .Values.kafka.topics.extTurnoverType.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_EXTTURNOVERTYPE_NAME
@@ -285,6 +293,14 @@ spec:
               value: {{ .Values.kafka.topics.internal.customer.name | quote }}
             - name: KAFKA_TOPIC_CUSTOMERACCOUNT_INTERNAL_NAME
               value: {{ .Values.kafka.topics.internal.customerAccount.name | quote }}
+            - name: KAFKA_TOPIC_BANK_INTERNAL_NAME
+              value: {{ .Values.kafka.topics.internal.bank.name | quote }}
+            - name: KAFKA_TOPIC_CITIZEN_INTERNAL_NAME
+              value: {{ .Values.kafka.topics.internal.citizen.name | quote }}
+            - name: KAFKA_TOPIC_CRAFTSMAN_INTERNAL_NAME
+              value: {{ .Values.kafka.topics.internal.craftsman.name | quote }}
+            - name: KAFKA_TOPIC_LEGALENTITY_INTERNAL_NAME
+              value: {{ .Values.kafka.topics.internal.legalEntity.name | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
