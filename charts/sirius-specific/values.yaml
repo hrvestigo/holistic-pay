@@ -198,7 +198,7 @@ logger:
   level:
     kafka: DEBUG
     kafkaCore: INFO
-    rest: DEBUG
+    rest: INFO
     database: DEBUG
     databaseParam: TRACE
     businessLogic: DEBUG

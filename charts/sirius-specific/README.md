@@ -781,7 +781,7 @@ To change logging level for different components, following attribute should be 
   level:
     kafka: DEBUG          # default value, user for logging general kafka logic
     kafkaCore: INFO       # default value, used for logging org.apache.kafka.*
-    rest: DEBUG           # default value, used for logging REST operations
+    rest: INFO            # default value, used for logging REST operations
     database: DEBUG       # default value, used for logging DB operations
     businessLogic: DEBUG  # default value, used for logging service business logic
     health: DEBUG         # default value, used for logging health checks
