@@ -189,7 +189,7 @@ ingress:
   tls: []
 resources:
   limits:
-    cpu: 500m
+    cpu: 1
     memory: 1Gi
   requests:
     cpu: 50m
@@ -284,4 +284,4 @@ customVolumes: []
 customMounts: []
 customEnv: []
 tracing:
-  samplingProbability: 1.0
+  samplingProbability: 0.0
