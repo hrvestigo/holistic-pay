@@ -269,6 +269,14 @@ kafka:
       consumerGroup: hr.vestigo.hp.country # default value, set custom name if required
     turnCustomer:
       name: hr.vestigo.hp.turncustomer # default value, set custom name if required
+    bank:
+      name: hr.vestigo.hp.bank # default value, set custom name if required
+    citizen:
+      name: hr.vestigo.hp.citizen # default value, set custom name if required
+    craftsman:
+      name: hr.vestigo.hp.craftsman # default value, set custom name if required
+    legalEntity:
+      name: hr.vestigo.hp.legalEntity # default value, set custom name if required
     tombstone: # only mandatory if kafka.streams.delete.auto.startup is set to true
       turnover:
         name: hr.vestigo.hp.turnover # default value, set custom name if required
@@ -295,6 +303,14 @@ kafka:
         name: hr.vestigo.hp.customer.internal # default value, set custom name if required
       customerAccount:
         name: hr.vestigo.hp.customeraccount.internal # default value, set custom name if required
+      bank:
+        name: hr.vestigo.hp.bank.internal # default value, set custom name if required
+      citizen:
+        name: hr.vestigo.hp.citizen.internal # default value, set custom name if required
+      craftsman:
+        name: hr.vestigo.hp.craftsman.internal # default value, set custom name if required
+      legalEntity:
+        name: hr.vestigo.hp.legalEntity.internal # default value, set custom name if required
 ```
 
 

@@ -133,6 +133,14 @@ kafka:
     country:
       name: hr.vestigo.hp.country
       consumerGroup: hr.vestigo.hp.country
+    bank:
+      name: hr.vestigo.hp.bank
+    citizen:
+      name: hr.vestigo.hp.citizen
+    craftsman:
+      name: hr.vestigo.hp.craftsman
+    legalEntity:
+      name: hr.vestigo.hp.legalEntity
     tombstone:
       turnover:
         name: hr.vestigo.hp.turnover
@@ -162,6 +170,14 @@ kafka:
         name: hr.vestigo.hp.customer.internal
       customerAccount:
         name: hr.vestigo.hp.customeraccount.internal
+      bank:
+        name: hr.vestigo.hp.bank.internal
+      citizen:
+        name: hr.vestigo.hp.citizen.internal
+      craftsman:
+        name: hr.vestigo.hp.craftsman.internal
+      legalEntity:
+        name: hr.vestigo.hp.legalEntity.internal
 oauth2:
   enabled: false
   resourceUri: ''
