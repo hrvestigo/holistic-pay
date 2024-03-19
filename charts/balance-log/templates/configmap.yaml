@@ -4,4 +4,4 @@ metadata:
   name: {{ .Release.Name }}-configmap
 data:
   log4j2.xml: |-
-    {{- include "${rootArtifactId}.logger" . | nindent 4 }}
+    {{- include "balance-log.logger" . | nindent 4 }}

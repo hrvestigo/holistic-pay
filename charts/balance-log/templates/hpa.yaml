@@ -6,14 +6,14 @@ apiVersion: autoscaling/v2beta2
 {{- end }}
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "${rootArtifactId}.name" . }}
+  name: {{ include "balance-log.name" . }}
   labels:
-    {{- include "${rootArtifactId}.labels" . | nindent 4 }}
+    {{- include "balance-log.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "${rootArtifactId}.name" . }}
+    name: {{ include "balance-log.name" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

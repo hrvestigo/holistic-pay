@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "${rootArtifactId}.name" . }}-test-connection"
+  name: "{{ include "balance-log.name" . }}-test-connection"
   labels:
-    {{- include "${rootArtifactId}.labels" . | nindent 4 }}
+    {{- include "balance-log.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
@@ -13,5 +13,5 @@ spec:
       command:
         - 'bash'
         - -c
-        - 'apk add curl && curl -k https://{{ include "${rootArtifactId}.name" . }}:{{ .Values.service.port }}/health/liveness'
+        - 'apk add curl && curl -k https://{{ include "balance-log.name" . }}:{{ .Values.service.port }}/health/liveness'
   restartPolicy: Never
