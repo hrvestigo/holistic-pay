@@ -112,6 +112,8 @@ kafka:
       dltName: ''
     accountbalanceresponse:
       name: hr.vestigo.hp.balanceaccountresponse
+    balancechangerequestrest:
+      name: hr.vestigo.hp.balancechangerequestrest
 
 redis:
   enabled: false

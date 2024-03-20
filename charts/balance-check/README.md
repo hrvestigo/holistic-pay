@@ -232,7 +232,9 @@ kafka:
       nbrName: ''                                       # default value, non-blocking retry topic name
       dltName: ''                                       # default value, non-blocking DTL topic name
     balancechangeresponse:
-      name: hr.vestigo.hp.balancechangeresponse
+      name: hr.vestigo.hp.balancechangeresponse         # default value, set custom name if required
+    balancechangerequestrest:
+      name: hr.vestigo.hp.balancechangerequestrest      # default value, set custom name if required
 ```
 
 #### Kafka consumer retry logic
