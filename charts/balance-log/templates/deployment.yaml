@@ -137,10 +137,6 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
-            - name: KAFKA_TOPIC_BALANCETRANSACTION_NAME
-              value: {{ .Values.kafka.topics.balanceTransaction.name | quote }}
-            - name: BALANCE_LOG_KAFKA_TOPICS_BALANCEACCOUNTBUCKET_NAME
-              value: {{ .Values.kafka.topics.balanceaccountbucket.name | quote }}
             {{- if (include "balance-log.kafka.topics" .) }}
             {{- include "balance-log.kafka.topics" . | indent 12 }}
             {{- end }}
