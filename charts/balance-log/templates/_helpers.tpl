@@ -16,7 +16,7 @@ Create chart name and version as used by the chart label.
 Defies fixed part of balance-log datasource schema name
 */}}
 {{- define "balance-log.dbSchema" -}}
-{{- "schemaname" }}
+{{- "ballog" }}
 {{- end }}
 
 {{/*
