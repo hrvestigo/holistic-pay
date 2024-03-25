@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.8.0
+    tag: 1.10.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -178,6 +178,7 @@ affinity:
 deployment:
   replicaCount: 1
   annotations: {}
+  labels: {}
   strategy:
     type: RollingUpdate
     rollingUpdate:
