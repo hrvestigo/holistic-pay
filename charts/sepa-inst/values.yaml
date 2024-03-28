@@ -144,7 +144,7 @@ logger:
   level:
     kafka: DEBUG
     kafkaCore: INFO
-    rest: INFO
+    rest: DEBUG
     database: ERROR
     databaseSql: DEBUG
     databaseBind: TRACE

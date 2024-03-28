@@ -947,7 +947,7 @@ To change logging level for different components, following attribute should be 
   level:
     kafka: DEBUG              # default value, user for logging general kafka logic
     kafkaCore: INFO           # default value, used for logging org.apache.kafka.*
-    rest: INFO                # default value, used for logging REST operations
+    rest: DEBUG               # default value, used for logging REST operations
     database: ERROR           # default value, used for logging all DB related operations (root DB logger)
     databaseSql: DEBUG        # default value, used for logging DB SQL operations (CRUD)
     databaseBind: TRACE       # default value, used for logging DB bind parameters (root DB logger)
