@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.41.0
+    tag: 1.81.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -114,7 +114,6 @@ kafka:
       name: hr.vestigo.hp.balanceaccountresponse
     balancechangerequestrest:
       name: hr.vestigo.hp.balancechangerequestrest
-
 redis:
   enabled: false
   host: ''
@@ -293,4 +292,4 @@ customMounts: []
 customEnv: []
 tracing:
   samplingProbability: 1.0
-  otlpEndpoint: "http://tempo.monitor:4318/v1/traces"
+  otlpEndpoint: http://tempo.monitor:4318/v1/traces
