@@ -126,6 +126,9 @@ changeRequest:
   webService:
     producer:
       enabled: true
+balanceCheck:
+  decimalDigitsNo:
+      balc002: 2
 oauth2:
   enabled: false
   resourceUri: ''
