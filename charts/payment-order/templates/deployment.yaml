@@ -190,6 +190,8 @@ spec:
               value: {{ .Values.paymentExternalChecks.topicRealNames.personStructureChecks | quote }}
             - name: KAFKA_TOPIC_NAMES_TOPICBUSINESSTOREALNAMESMAP_ECSSPECIFICCHECKS
               value: {{ .Values.paymentExternalChecks.topicRealNames.ecsSpecificChecks | quote }}
+            - name: KAFKA_TOPIC_NAMES_TOPICBUSINESSTOREALNAMESMAP_TRANSACTIONSCREENINGAMLCFT
+              value: {{ .Values.paymentExternalChecks.topicRealNames.transactionScreeningAMLCFT | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDEREVENTFLOW_NAME
               value: {{ .Values.kafka.topics.paymentOrderEventFlow.name | quote }}
             - name: KAFKA_TOPIC_PARAMETERIZATION_NAME

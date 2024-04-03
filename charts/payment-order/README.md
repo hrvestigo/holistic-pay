@@ -94,11 +94,16 @@ paymentExternalChecks:
   topicRealNames:
     personStructureChecks: hr.vestigo.hp.personstructurechecks # default value, set custom name if required
     ecsSpecificChecks: hr.vestigo.hp.ecsspecificchecks # default value, set custom name if required
+    transactionScreeningAMLCFT: hr.vestigo.hp.transactionscreeningamlcft # default value, set custom name if required
 ```
 
 In topicRealNames value you can define properties that map business names of topics to their real names.
-So in personStructureChecks value you should map real name for the topic personstructurechecks, and in ecsSpecificChecks
-value you should map real name for the topic ecsspecificchecks.
+So in personStructureChecks value you should map real name for the topic personstructurechecks, in ecsSpecificChecks
+value you should map real name for the topic ecsspecificchecks and in transactionScreeningAMLCFT value you should map 
+real name for the topic transactionscreeningamlcft.
+
+Topic transactionscreeningamlcft can be set up through Kafka only and it allows external checks for Anti Money 
+Laundering and Combating Financing of Terrorism to be performed on payment orders.
 
 gRPC configuration is set like this:
 

@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.180.0
+    tag: 1.186.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -99,6 +99,7 @@ paymentExternalChecks:
   topicRealNames:
     personStructureChecks: hr.vestigo.hp.personstructurechecks
     ecsSpecificChecks: hr.vestigo.hp.ecsspecificchecks
+    transactionScreeningAMLCFT: hr.vestigo.hp.transactionscreeningamlcft
 automaticRejection:
   scheduled: 0 0/30 8-18 * * *
   enabled: false
