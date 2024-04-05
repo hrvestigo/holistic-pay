@@ -2,5 +2,5 @@ apiVersion: v2
 name: balance-check
 description: Helm chart for balance-check application
 type: application
-version: 1.83.0
-appVersion: 1.83.0
+version: 1.84.0
+appVersion: 1.84.0
