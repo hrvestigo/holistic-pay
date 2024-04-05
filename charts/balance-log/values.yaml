@@ -83,17 +83,17 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
-    balancechangeresponset1:
-      name: hr.vestigo.hp.balancechangeresponset1
-      consumerGroup: hr.vestigo.hp.balancechangeresponset1
+    balancechangeresponse:
+      name: hr.vestigo.hp.balancechangeresponse
+      consumerGroup: hr.vestigo.hp.balancechangeresponse
       enabled: true
       nbrEnabled: true
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
-    balancechangeresponset2:
-      name: hr.vestigo.hp.balancechangeresponset2
-      consumerGroup: hr.vestigo.hp.balancechangeresponset2
+    balancechangerequestrest:
+      name: hr.vestigo.hp.balancechangerequestrest
+      consumerGroup: hr.vestigo.hp.balancechangerequestrest
       enabled: true
       nbrEnabled: true
       nbrBackOff: 50000;5s
