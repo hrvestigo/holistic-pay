@@ -159,8 +159,8 @@ spec:
             {{- end }}
             - name: BALANCE_CHECK_CHANGE_REQUEST_WEB_SERVICE_PRODUCER_ENABLED
               value: {{ .Values.changeRequest.webService.producer.enabled | default "true" | quote }}
-            - name: BALANCE_CHECK_BALC_002_DECIMAL_DIGITS_NO
-              value: {{ .Values.balanceCheck.decimalDigitsNo.balc002 | default "2" | quote }}
+            - name: BALANCE_CHECK_DECIMAL_DIGITS_NO
+              value: {{ .Values.balanceCheck.decimalDigitsNo | default "2" | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

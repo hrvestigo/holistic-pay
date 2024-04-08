@@ -75,18 +75,17 @@ Additionally, liquibase is enabled by default, which requires some information i
 
 Balance check (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one application member has to be defined in `members` structure for complete setup. Please refer to [Multi-member setup](#multi-member-setup) for details.
 
-### Balance check balc.002 message amount formatting using configured number of decimal digits
+### Balance check messages amount formatting using configured number of decimal digits
 
-In Balance check application, amounts shown in balc.002 response are formatted using the following parameter:
+In Balance check application, amounts shown in all request and response objects are formatted using the following parameter:
 
 ```yaml
 balanceCheck:
-  decimalDigitsNo:
-    balc002: 2 # default value, set custom value if required
+  decimalDigitsNo: 2 # default value, set custom value if required
 ```
 
-Default value is `2`, meaning amounts are displayed in the balc.002 object formatted with two decimal digits, for example:
-`1.34`.
+Default value is `2`, meaning amounts are displayed in the balance check objects formatted with two decimal digits,
+for example: `1.34`.
 
 ### Datasource connection setup
 
