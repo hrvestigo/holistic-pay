@@ -204,7 +204,7 @@ personStructure:
 ```
 `completenessFlagAlgorithm` value defines conditions by which person structure is to be declared completed.
 Default value of this attribute is 'DEBIT_GATEWAY' which checks basic account and card data values (account id, account code, etc.).
-Possible values of completeness flag algorithm are: DEBIT_GATEWAY, INSTANT_PAYMENT or NONE and their values can be seen
+Possible values of completeness flag algorithm are: DEBIT_GATEWAY, INSTANT_PAYMENT, BALANCE_CHECK or NONE and their values can be seen
 in CompletenessFlagAlgorithm enum class. Value 'NONE' means no attributes are checked before declaring person structure completed.
 
 
