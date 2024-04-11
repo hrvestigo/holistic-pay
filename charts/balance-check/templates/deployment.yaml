@@ -161,6 +161,8 @@ spec:
               value: {{ .Values.changeRequest.webService.producer.enabled | default "true" | quote }}
             - name: BALANCE_CHECK_DECIMAL_DIGITS_NO
               value: {{ .Values.balanceCheck.decimalDigitsNo | default "2" | quote }}
+            - name: BALANCE_CHECK_REQUEST_COUNTER
+              value: {{ .Values.balance.check.request.counter | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

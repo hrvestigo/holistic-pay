@@ -128,6 +128,10 @@ changeRequest:
       enabled: true
 balanceCheck:
   decimalDigitsNo: 2
+balance:
+  check:
+    request:
+      counter: ''
 oauth2:
   enabled: false
   resourceUri: ''
