@@ -115,3 +115,10 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
+        - id: balance-log-ms_route
+          predicates:
+            - Path=/api/*/transactions
+          uri: https://{{ required "Balance log application service name has to be defined in routes.balanceLog.serviceName" .Values.routes.balanceLog.serviceName }}:{{ required "Balance log application port number has to be defined in routes.balanceLog.servicePortNumber" .Values.routes.balanceLog.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession

@@ -66,6 +66,9 @@ routes:
   balanceCheck:
     serviceName: balance-check
     servicePortNumber: "8443"
+  balanceLog:
+    serviceName: balance-log
+    servicePortNumber: "8443"
 
 oauth2:
   enabled: false

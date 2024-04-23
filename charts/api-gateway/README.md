@@ -50,6 +50,9 @@ routes:
   balanceCheck:
     serviceName: balance-check # name of balance-check service, default is balance-check
     portNumber: "8443" # port number on which balance-check service is exposed, default is 8443
+  balanceLog:
+    serviceName: balance-log # name of balance-log service, default is balance-log
+    portNumber: "8443" # port number on which balance-log service is exposed, default is 8443
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value, no default value
