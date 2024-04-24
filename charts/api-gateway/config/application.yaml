@@ -108,17 +108,17 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
-        - id: person-registry-web_route
-          predicates:
-            - Path=/**
-          uri: https://{{ required "Person registry application service name has to be defined in routes.personRegistryWeb.serviceName" .Values.routes.personRegistryWeb.serviceName }}:{{ required "Person structure application port number has to be defined in routes.personRegistryWeb.servicePortNumber" .Values.routes.personRegistryWeb.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
         - id: balance-log-ms_route
           predicates:
             - Path=/api/*/transactions
           uri: https://{{ required "Balance log application service name has to be defined in routes.balanceLog.serviceName" .Values.routes.balanceLog.serviceName }}:{{ required "Balance log application port number has to be defined in routes.balanceLog.servicePortNumber" .Values.routes.balanceLog.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        - id: person-registry-web_route
+          predicates:
+            - Path=/**
+          uri: https://{{ required "Person registry application service name has to be defined in routes.personRegistryWeb.serviceName" .Values.routes.personRegistryWeb.serviceName }}:{{ required "Person structure application port number has to be defined in routes.personRegistryWeb.servicePortNumber" .Values.routes.personRegistryWeb.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
