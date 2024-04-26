@@ -247,6 +247,14 @@ kafka:
       name: hr.vestigo.hp.balancechangeresponse         # default value, set custom name if required
     balancechangerequestrest:
       name: hr.vestigo.hp.balancechangerequestrest      # default value, set custom name if required
+    balancechangerequestcompensation:
+      name: hr.vestigo.hp.balancechangerequestcompensation          # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.balancechangerequestcompensation # default value, set custom consumer group if required
+      enabled: true                                                 # default value, consumer is enabled
+      nbrEnabled: true                                              # default value, non-blocking retry is enabled
+      nbrBackOff: 50000;5s                                          # default value, non-blocking retry fixed back-off
+      nbrName: ''                                                   # default value, non-blocking retry topic name
+      dltName: ''                                                   # default value, non-blocking DTL topic name
 ```
 
 #### Kafka consumer retry logic

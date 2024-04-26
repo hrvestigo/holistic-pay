@@ -114,6 +114,14 @@ kafka:
       name: hr.vestigo.hp.balanceaccountresponse
     balancechangerequestrest:
       name: hr.vestigo.hp.balancechangerequestrest
+    balancechangerequestcompensation:
+      name: hr.vestigo.hp.balancechangerequestcompensation
+      consumerGroup: hr.vestigo.hp.balancechangerequestcompensation
+      enabled: true
+      nbrEnabled: true
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
 redis:
   enabled: false
   host: ''
