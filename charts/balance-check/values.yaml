@@ -139,7 +139,7 @@ balanceCheck:
 balance:
   check:
     request:
-      counter: ''
+      counter: 1000
 oauth2:
   enabled: false
   resourceUri: ''
