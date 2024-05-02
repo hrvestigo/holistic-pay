@@ -149,6 +149,9 @@ spec:
             {{- if (include "balance-check.kafka.topics" .) }}
             {{- include "balance-check.kafka.topics" . | indent 12 }}
             {{- end }}
+            {{- if (include "balance-check.application.config" .) }}
+            {{- include "balance-check.application.config" . | indent 12 }}
+            {{- end }}
             {{- if and .Values.redis .Values.redis.enabled }}
             - name: REDIS_URI
               value: redis://${redis.password}@{{ required "Please specify Redis host in redis.host" .Values.redis.host }}:{{ required "Please specify Redis port in redis.port" .Values.redis.port }}

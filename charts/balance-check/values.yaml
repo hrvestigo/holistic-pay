@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.95.0
+    tag: 1.102.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -130,16 +130,22 @@ redis:
     wait:
       replicaNo: 3
       timeout: 5s
-changeRequest:
-  webService:
-    producer:
-      enabled: true
 balanceCheck:
   decimalDigitsNo: 2
 balance:
   check:
     request:
       counter: 1000
+application:
+  rest:
+    changeRequest:
+      publish: true
+    changeResponse:
+      publish: true
+  database:
+    outbox:
+      enabled: false
+      delete: false
 oauth2:
   enabled: false
   resourceUri: ''

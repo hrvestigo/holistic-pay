@@ -87,7 +87,7 @@ balanceCheck:
 Default value is `2`, meaning amounts are displayed in the balance check objects formatted with two decimal digits,
 for example: `1.34`.
 
-### Datasource connection setup
+### Data source connection setup
 
 All values required for PostgreSQL database connection are defined within `datasource` parent attribute.
 Application will not be able to connect to database if all attributes are not filled.
@@ -102,14 +102,14 @@ datasource:
   user: "database-user" # User which application will use to connect to PostgreSQL
 ```
 
-Datasource schema name is auto-generated. For this information, as well as advanced datasource options, please refer to [Multi-member setup](#multi-member-setup) for details.
+Data source schema name is auto-generated. For this information, as well as advanced datasource options, please refer to [Multi-member setup](#multi-member-setup) for details.
 
 In addition to datasource attributes, it's required to provide an AES encrypted password for database user specified in `datasource.user`, as well as for Liquibase user defined in `liquibase.user`.
 
 Encryption key used to encrypt and decrypt datasource and liquibase passwords (as well as Kafka passwords) is defined in `secret.decryptionKey` attribute.
 Use this key to encrypt datasource and liquibase password and define them in `secret.datasourcePassword` and `secret.liquibasePassword` attributes.
 
-Datasource secret configuration:
+Data source secret configuration:
 
 ```yaml
 secret:
@@ -137,7 +137,7 @@ liquibase:
   enabled: false # disable liquibase
 ```
 
-Datasource connection string can be customized by adding additional parameters to connection string 
+Data source connection string can be customized by adding additional parameters to connection string 
 (URL). To add custom parameters, they should be defined in datasource. connectionParams attribute as
 a map of values, for example:
 
@@ -913,7 +913,7 @@ logger:
 
 Supported values for this parameter are: `STRING`,`ECS`,`LOGSTASH`,`GELF`,`GCP`.
 
-# Examples of how log entries would look like for each value:
+#### Examples of how log entries would look like for each value:
 
 * `STRING`
   * with stacktrace
@@ -1222,7 +1222,7 @@ initContainers:
 
 Init container can have all standard Kubernetes attributes in its specification.
 
-### Customizing affinity rules, node selector and tolerations
+### Customizing affinity rules, node selector and toleration's
 
 Balance check deployment has some predefined affinity rules, as listed below:
 
@@ -1255,7 +1255,7 @@ affinity:
 
 This affinity rules can be overridden through custom values file and set to any required value if necessary.
 
-There are no defaults for node selector or tolerations, but there is a possibility to define both by adding their specifications, for example:
+There are no defaults for node selector or toleration's, but there is a possibility to define both by adding their specifications, for example:
 
 ```yaml
 nodeSelector:
@@ -1319,3 +1319,81 @@ javaOpts: "-Xms256M -Xmx512M -Dcustom.jvm.param=true"
 ```
 
 Note that defining custom `javaOpts` attribute will override default one, so make sure to keep `Xms` and `Xmx` parameters.
+
+## Application configuration
+
+This section defines configuration which drives execution of the application
+logic. This configuration may enable/disable particular application feature or may execute part of application logic with different settings. For example, 
+we may have configuration for logging REST request to database or to Kafka,
+where logging to database is default.
+
+This configuration has sensible defaults; meaning application works in
+default mode when no configuration is altered.
+
+The format of this configuration is using dictionary, as follows:
+```yaml
+application:
+  <component>:
+    <configuration>:
+      <key>: <value>
+```
+
+where `<component>` is application component or module for which configuration
+exists. The `<configuration>` is named part to group related configuration
+for single component/module. The `<key>` and `<value>` are configuration key
+and value.
+
+The configuration and its keys are converted to snake case and upper case
+before usage. For example:
+
+```yaml
+application:
+  myComponent:
+    myConfig:
+      key: value
+```
+
+will produce configuration `MY_COMPONENT_MY_CONFIG_KEY=value`.
+
+### Supported configuration
+
+Document supported configuration as part of yaml with default
+configuration behavior.
+
+```yaml
+## @section application configuration root
+application:
+  ## Configuration modules/components.
+  ## 
+  ## @param rest      configuration for REST requests/responses
+  ## @param database  configuration for database component
+  rest:
+    ## Configuration for balance change request received via REST.
+    ## 
+    ## Balance change request received via REST can be published
+    ## via configured publisher (Kafka producer or Database Outbox).
+    ## With this configuration we can override and disable publishing
+    ## even if publisher is configured.
+    ## 
+    ## @param publish   true if received balance change request is published via publisher
+    changeRequest:
+      publish: true
+    ## Configuration for balance change response send via REST.
+    ## 
+    ## Balance change response send via REST can be published
+    ## via configured publisher (Kafka producer or Database Outbox).
+    ## With this configuration we can override and disable publishing
+    ## even if publisher is configured.
+    ## 
+    ## @param publish   true if send balance change response is published via publisher
+    changeResponse:
+      publish: true
+  database:
+    ## Configuration for outbox feature. By default outbox feature is disabled.
+    ##
+    ## @param enabled   true if outbox is enabled 
+    ## @param delete    true if outbox record is deleted after insert
+    outbox:
+      enabled: false
+      delete: false
+```

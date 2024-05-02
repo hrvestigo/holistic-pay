@@ -107,7 +107,7 @@ Liquibase init container definition
     - -c
   {{- if $member.datasource }}
     {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" (default $.Values.datasource.host $member.datasource.host) ":" (default ($.Values.datasource.port | int) ( $member.datasource.port | int)) "/" (default $.Values.datasource.dbName  $member.datasource.dbName) }}
-    {{- $context := printf "%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" }}
+    {{- $context := printf "%s%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" (ternary ",outbox" "" $.Values.application.database.outbox.enabled) }}
     {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -jar /tmp/aesdecryptor.jar -d -l && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
     {{- if $.Values.liquibase.syncOnly }}
     - {{ printf "%s%s" $params " changelog-sync" }}
@@ -116,7 +116,7 @@ Liquibase init container definition
     {{- end }}
   {{- else }}
     {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" $.Values.datasource.host ":" ($.Values.datasource.port | int) "/" $.Values.datasource.dbName }}
-    {{- $context := printf "%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" }}
+    {{- $context := printf "%s%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" (ternary ",outbox" "" $.Values.application.database.outbox.enabled) }}
     {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -jar /tmp/aesdecryptor.jar -d -l && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
     {{- if $.Values.liquibase.syncOnly }}
     - {{ printf "%s%s" $params " changelog-sync" }}
@@ -358,6 +358,24 @@ Balance check Kafka topics configuration
 {{- range $k, $v := $value }}
 - name: BALANCE_CHECK_KAFKA_TOPICS_{{ $key | upper }}_{{ $k | snakecase | upper }}
   value: {{ $v | quote }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
+Balance check application configuration.
+Iterates over configuration per application module/components.
+Each module/component has configuration per named key.
+Final configuration name is BALANCE_CHECK_<module>_<moduleKey>_<name>=<value>,
+where 'name' is configuration parameter and 'value' is configuration value
+*/}}
+{{- define "balance-check.application.config" }}
+{{- range $module, $configs := .Values.application }}
+{{- range $moduleKey, $config := $configs }}
+{{- range $name, $value := $config }}
+- name: BALANCE_CHECK_{{ $module | upper }}_{{ $moduleKey | snakecase | upper }}_{{ $name | snakecase | upper }}
+  value: {{ $value | quote }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
