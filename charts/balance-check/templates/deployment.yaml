@@ -160,8 +160,6 @@ spec:
             - name: REDIS_TRANSACTION_WAIT_TIMEOUT
               value: {{ .Values.redis.transaction.wait.timeout | quote }}
             {{- end }}
-            - name: BALANCE_CHECK_CHANGE_REQUEST_WEB_SERVICE_PRODUCER_ENABLED
-              value: {{ .Values.changeRequest.webService.producer.enabled | default "true" | quote }}
             - name: BALANCE_CHECK_DECIMAL_DIGITS_NO
               value: {{ .Values.balanceCheck.decimalDigitsNo | default "2" | quote }}
             - name: BALANCE_CHECK_REQUEST_COUNTER

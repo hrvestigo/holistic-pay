@@ -102,6 +102,7 @@ kafka:
       dltName: ''
     balancechangeresponse:
       name: hr.vestigo.hp.balancechangeresponse
+      enabled: true
     accountbalanceget:
       name: hr.vestigo.hp.accountbalanceget
       consumerGroup: hr.vestigo.hp.accountbalanceget
@@ -112,8 +113,10 @@ kafka:
       dltName: ''
     accountbalanceresponse:
       name: hr.vestigo.hp.balanceaccountresponse
+      enabled: true
     balancechangerequestrest:
       name: hr.vestigo.hp.balancechangerequestrest
+      enabled: true
     balancechangerequestcompensation:
       name: hr.vestigo.hp.balancechangerequestcompensation
       consumerGroup: hr.vestigo.hp.balancechangerequestcompensation
