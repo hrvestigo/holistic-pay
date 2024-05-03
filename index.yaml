@@ -3916,6 +3916,16 @@ entries:
     version: 1.0.0
   balance-log:
   - apiVersion: v2
+    appVersion: 1.37.0
+    created: "2024-05-03T09:43:29.786989077Z"
+    description: Helm chart for balance-log application
+    digest: f621f5238321e20342b25c5de777b318f631d8385860791a981c57587cdc3f16
+    name: balance-log
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/balance-log-1.37.0/balance-log-1.37.0.tgz
+    version: 1.37.0
+  - apiVersion: v2
     appVersion: 1.36.0
     created: "2024-05-02T15:03:25.083430919Z"
     description: Helm chart for balance-log application
@@ -18277,4 +18287,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2024-05-03T06:18:13.887598932Z"
+generated: "2024-05-03T09:43:29.799099394Z"
