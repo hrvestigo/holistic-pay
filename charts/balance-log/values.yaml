@@ -107,6 +107,14 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
+    balancechangerequestcompensation:
+      name: hr.vestigo.hp.balancechangerequestcompensation
+      consumerGroup: hr.vestigo.hp.balancechangerequestcompensation
+      enabled: true
+      nbrEnabled: true
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
 oauth2:
   enabled: false
   resourceUri: ''
