@@ -148,7 +148,7 @@ application:
   database:
     outbox:
       enabled: false
-      delete: false
+      delete: true
 oauth2:
   enabled: false
   resourceUri: ''

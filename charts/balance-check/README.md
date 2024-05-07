@@ -1395,5 +1395,5 @@ application:
     ## @param delete    true if outbox record is deleted after insert
     outbox:
       enabled: false
-      delete: false
+      delete: true
 ```
