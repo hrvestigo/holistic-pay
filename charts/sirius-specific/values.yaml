@@ -17,10 +17,11 @@ env:
   type: ''
   label: ''
 datasource:
-  host: ''
-  port: ''
-  dbName: ''
   user: ''
+  serverName: ''
+  databaseName: ''
+  portNumber: ''
+  currentSchema: ''
   globalSchemaPrefix: wo
   connTimeout: 60000
   maxPoolSize: 2
@@ -47,11 +48,6 @@ members:
     replicationRole: ''
   datasource:
     globalSchema: false
-    host: ''
-    port: ''
-    dbName: ''
-    user: ''
-    password: ''
 kafka:
   user: ''
   servers: ''
@@ -137,6 +133,9 @@ kafka:
       name: hr.vestigo.hp.limithistory.01
     accountlimitinitial:
       name: hr.vestigo.hp.accountlimitinitial.01
+    transactionScreeningamlcft:
+      name: hr.vestigo.hp.transactionscreeningamlcft.01
+      consumerGroup: hr.vestigo.hp.transactionscreeningamlcft
 external:
   core:
     system:
@@ -340,4 +339,6 @@ kafkaConsumer:
   limithistory:
     enabled: false
   balannounce:
+    enabled: false
+  transactionscreening:
     enabled: false
