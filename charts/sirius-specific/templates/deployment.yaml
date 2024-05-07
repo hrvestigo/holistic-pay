@@ -68,17 +68,17 @@ spec:
             - name: MANAGEMENT_OTLP_TRACING_ENDPOINT
               value: "{{ .Values.tracing.otlpEndpoint }}"
             - name: IBM_MQ_QUEUEMANAGER
-              value: {{ required "Please specify IBM MQ queue manager name in ibmMq.queueManager" .Values.ibmMq.queueManager | quote }}
+              value: {{ .Values.ibmMq.queueManager | quote }}
             - name: IBM_MQ_CHANNEL
-              value: {{ required "Please specify IBM MQ channel in ibmMq.queueManager" .Values.ibmMq.channel | quote }}
+              value: {{ .Values.ibmMq.channel | quote }}
             - name: IBM_MQ_CONNNAME
-              value: {{ required "Please specify IBM MQ connName in ibmMq.connName" .Values.ibmMq.connName | quote }}
+              value: {{ .Values.ibmMq.connName | quote }}
             - name: IBM_MQ_USER
-              value: {{ required "Please specify IBM MQ user in ibmMq.user" .Values.ibmMq.user | quote }}
+              value: {{ .Values.ibmMq.user | quote }}
             - name: IBM_MQ_NORKOMCALL_QUEUENAME
-              value: {{ required "Please specify IBM MQ queueName in ibmMq.norkomcall.queueName" .Values.ibmMq.norkomcall.queueName | quote }}
+              value: {{ .Values.ibmMq.norkomcall.queueName | quote }}
             - name: IBM_MQ_NORKOMRESPONSE_QUEUENAME
-              value: {{ required "Please specify IBM MQ queueName in ibmMq.norkomresponse.queueName" .Values.ibmMq.norkomresponse.queueName | quote }}
+              value: {{ .Values.ibmMq.norkomresponse.queueName | quote }}
             - name: SPRING_JTA_ATOMIKOS_DATASOURCE_BORROWCONNECTIONTIMEOUT
               value: {{ .Values.atomikos.borrowConnectionTimeout | quote }}
             - name: SPRING_JTA_ATOMIKOS_DATASOURCE_MAXIDLETIME
