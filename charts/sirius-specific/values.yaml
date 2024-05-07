@@ -48,6 +48,15 @@ members:
     replicationRole: ''
   datasource:
     globalSchema: false
+ibmMq:
+  queueManager: ''
+  channel: ''
+  connName: ''
+  user: ''
+  norkomcall:
+    queueName: ''
+  norkomresponse:
+    queueName: ''
 kafka:
   user: ''
   servers: ''
