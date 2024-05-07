@@ -57,6 +57,18 @@ ibmMq:
     queueName: ''
   norkomresponse:
     queueName: ''
+atomikos:
+  borrowConnectionTimeout: ''
+  maxIdleTime: ''
+  maxLifetime: ''
+  maxPoolSize: ''
+  minPoolSize: ''
+  jtaTimeout: ''
+  connectionFactory:
+    maxIdleTime: ''
+    maxLifeTime: ''
+    maxPoolSize: ''
+    minPoolSize: ''
 kafka:
   user: ''
   servers: ''
