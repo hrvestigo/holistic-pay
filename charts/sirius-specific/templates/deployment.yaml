@@ -121,8 +121,8 @@ spec:
             - name: SPRING_DATASOURCE_XA_PROPERTIES_PORTNUMBER_{{ .memberSign }}
               value: {{ required "Please specify DB port number in datasource.portNumber" $.Values.datasource.portNumber | quote }}
             - name: SPRING_DATASOURCE_XA_PROPERTIES_CURRENTSCHEMA_{{ .memberSign }}
-              {{ - if .datasource }}
-                {{ - if .datasource.globalSchema }}
+              {{- if .datasource }}
+                {{- if .datasource.globalSchema }}
               value:
               {{- required "Please specify members.businessUnit" .Values.businessUnit | lower -}}
               {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
