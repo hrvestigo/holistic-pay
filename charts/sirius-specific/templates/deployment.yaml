@@ -136,6 +136,7 @@ spec:
               {{- required "Please specify env.label" $.Values.env.label | lower -}}
               {{- include "sirius-specific.db.connectionParams" $ -}}
                 {{- end }}
+              {{- end }}
             - name: DELIVERYCHANNEL_{{ .memberSign }}
               value: {{ .deliveryChannel | quote }}
             - name: BRANCHCODE_{{ .memberSign }}
