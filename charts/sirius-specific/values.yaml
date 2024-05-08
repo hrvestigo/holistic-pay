@@ -21,7 +21,7 @@ datasource:
   serverName: ''
   databaseName: ''
   portNumber: ''
-  currentSchema: ''
+  currentSchema: CONNECT
   globalSchemaPrefix: wo
   connTimeout: 60000
   maxPoolSize: 2
