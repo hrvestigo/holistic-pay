@@ -143,6 +143,8 @@ spec:
             {{- if (include "balance-log.kafka.topics" .) }}
             {{- include "balance-log.kafka.topics" . | indent 12 }}
             {{- end }}
+            - name: TRANSACTION_MAXDAYPERIOD
+              value: {{ .Values.transaction.maxDayPeriod | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

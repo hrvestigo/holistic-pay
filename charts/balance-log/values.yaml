@@ -48,6 +48,8 @@ members:
     dbName: ''
     user: ''
     password: ''
+transaction:
+  maxDayPeriod: 180
 kafka:
   user: ''
   servers: ''

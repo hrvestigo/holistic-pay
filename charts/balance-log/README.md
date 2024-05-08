@@ -134,6 +134,17 @@ datasource:
 
 Setup from this example would result with string "&ssl=true&sslmode=enable" appended to database connection URL.
 
+### Webservice endpoint limitation setup
+
+GET request for fetching transaction list needs to be limited for a specified period of time.
+This ensures application stability and prevents overloading of the webservice.
+
+```yaml
+transaction:
+  mayDayPeriod: 180 # the default number of max days for which transactions are fetched
+  ```
+The specified number of days refers to the range for provided value dates.
+
 ### Kafka setup
 
 balance-log  uses Kafka as event stream backend.
