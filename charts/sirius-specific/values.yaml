@@ -58,17 +58,17 @@ ibmMq:
   norkomresponse:
     queueName: ''
 atomikos:
-  borrowConnectionTimeout: ''
-  maxIdleTime: ''
-  maxLifetime: ''
-  maxPoolSize: ''
-  minPoolSize: ''
-  jtaTimeout: ''
+  borrowConnectionTimeout: 30000
+  maxIdleTime: 1800000
+  maxLifetime: 3600000
+  maxPoolSize: 30
+  minPoolSize: 5
+  jtaTimeout: 60000
   connectionFactory:
-    maxIdleTime: ''
-    maxLifeTime: ''
-    maxPoolSize: ''
-    minPoolSize: ''
+    maxIdleTime: 1800000
+    maxLifeTime: 3600000
+    maxPoolSize: 30
+    minPoolSize: 5
 kafka:
   user: ''
   servers: ''
