@@ -123,19 +123,9 @@ spec:
             - name: SPRING_DATASOURCE_XA_PROPERTIES_CURRENTSCHEMA_{{ .memberSign }}
               {{- if .datasource }}
                 {{- if .datasource.globalSchema }}
-              value:
-              {{- required "Please specify members.businessUnit" .businessUnit | lower -}}
-              {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
-              {{- include "sirius-specific.dbSchema" $ -}}
-              {{- required "Please specify env.label" $.Values.env.label | lower -}}
-              {{- include "sirius-specific.db.connectionParams" $ -}}
+              value: {{- required "Please specify members.businessUnit" .businessUnit | lower -}}{{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}{{- include "sirius-specific.dbSchema" $ -}}{{- required "Please specify env.label" $.Values.env.label | lower -}}{{- include "sirius-specific.db.connectionParams" $ -}}
                 {{- else }}
-              value:
-              {{- required "Please specify members.businessUnit" .businessUnit | lower -}}
-              {{- required "Please specify members.applicationMember" .applicationMember | lower -}}
-              {{- include "sirius-specific.dbSchema" $ -}}
-              {{- required "Please specify env.label" $.Values.env.label | lower -}}
-              {{- include "sirius-specific.db.connectionParams" $ -}}
+              value: {{- required "Please specify members.businessUnit" .businessUnit | lower -}}{{- required "Please specify members.applicationMember" .applicationMember | lower -}}{{- include "sirius-specific.dbSchema" $ -}}{{- required "Please specify env.label" $.Values.env.label | lower -}}{{- include "sirius-specific.db.connectionParams" $ -}}
                 {{- end }}
               {{- end }}
             - name: DELIVERYCHANNEL_{{ .memberSign }}
