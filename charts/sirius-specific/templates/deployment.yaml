@@ -124,14 +124,14 @@ spec:
               {{- if .datasource }}
                 {{- if .datasource.globalSchema }}
               value:
-              {{- required "Please specify members.businessUnit" .Values.businessUnit | lower -}}
+              {{- required "Please specify members.businessUnit" .businessUnit | lower -}}
               {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
               {{- include "sirius-specific.dbSchema" $ -}}
               {{- required "Please specify env.label" $.Values.env.label | lower -}}
               {{- include "sirius-specific.db.connectionParams" $ -}}
                 {{- else }}
-              {{- required "Please specify members.businessUnit" .Values.businessUnit | lower -}}
-              {{- required "Please specify members.applicationMember" .Values.applicationMember | lower -}}
+              {{- required "Please specify members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify members.applicationMember" .applicationMember | lower -}}
               {{- include "sirius-specific.dbSchema" $ -}}
               {{- required "Please specify env.label" $.Values.env.label | lower -}}
               {{- include "sirius-specific.db.connectionParams" $ -}}
