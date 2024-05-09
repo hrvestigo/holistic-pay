@@ -117,6 +117,9 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
+    accountbalanceandlimit:
+      name: hr.vestigo.hp.accountbalanceandlimit
+      enabled: true
 oauth2:
   enabled: false
   resourceUri: ''
