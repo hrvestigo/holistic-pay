@@ -82,25 +82,25 @@ spec:
             - name: ATOMIKOS_PROPERTIES_LOGBASEDIR
               value: /var/log/app
             - name: SPRING_JTA_ATOMIKOS_DATASOURCE_BORROWCONNECTIONTIMEOUT
-              value: {{ .Values.atomikos.borrowConnectionTimeout | quote }}
+              value: "{{ .Values.atomikos.borrowConnectionTimeout | int }}"
             - name: SPRING_JTA_ATOMIKOS_DATASOURCE_MAXIDLETIME
-              value: {{ .Values.atomikos.maxIdleTime | quote }}
+              value: "{{ .Values.atomikos.maxIdleTime | int }}"
             - name: SPRING_JTA_ATOMIKOS_DATASOURCE_MAXLIFETIME
-              value: {{ .Values.atomikos.maxLifetime | quote }}
+              value: "{{ .Values.atomikos.maxLifetime | int }}"
             - name: SPRING_JTA_ATOMIKOS_DATASOURCE_MAXPOOLSIZE
-              value: {{ .Values.atomikos.maxPoolSize | quote }}
+              value: "{{ .Values.atomikos.maxPoolSize | int }}"
             - name: SPRING_JTA_ATOMIKOS_DATASOURCE_MINPOOLSIZE
-              value: {{ .Values.atomikos.minPoolSize | quote }}
+              value: "{{ .Values.atomikos.minPoolSize | int }}"
             - name: SPRING_JTA_ATOMIKOS_PROPERTIES_DEFAULTJTATIMEOUT
-              value: {{ .Values.atomikos.jtaTimeout | quote }}
+              value: "{{ .Values.atomikos.jtaTimeout | int }}"
             - name: SPRING_JTA_ATOMIKOS_CONNECTIONFACTORY_MAXIDLETIME
-              value: {{ .Values.atomikos.connectionFactory.maxIdleTime | quote }}
+              value: "{{ .Values.atomikos.connectionFactory.maxIdleTime | int }}"
             - name: SPRING_JTA_ATOMIKOS_CONNECTIONFACTORY_MAXLIFETIME
-              value: {{ .Values.atomikos.connectionFactory.maxLifeTime | quote }}
+              value: "{{ .Values.atomikos.connectionFactory.maxLifeTime | int }}"
             - name: SPRING_JTA_ATOMIKOS_CONNECTIONFACTORY_MAXPOOLSIZE
-              value: {{ .Values.atomikos.connectionFactory.maxPoolSize | quote }}
+              value: "{{ .Values.atomikos.connectionFactory.maxPoolSize | int }}"
             - name: SPRING_JTA_ATOMIKOS_CONNECTIONFACTORY_MINPOOLSIZE
-              value: {{ .Values.atomikos.connectionFactory.minPoolSize | quote }}
+              value: "{{ .Values.atomikos.connectionFactory.minPoolSize | int }}"
             - name: SPRING_DATASOURCE_XA_PROPERTIES_USER
               value: {{ required "Please specify DB user in members.datasource.user" .Values.datasource.user | quote }}
             - name: SPRING_DATASOURCE_XA_PROPERTIES_SERVERNAME
