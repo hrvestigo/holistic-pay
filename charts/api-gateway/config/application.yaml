@@ -122,3 +122,17 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
+        - id: pan-manager-ms_route
+          predicates:
+            - Path=/api/*/generateNewPan, /api/*/generateNewPanList
+          uri: https://{{ required "Pan manager application service name has to be defined in routes.panManager.serviceName" .Values.routes.panManager.serviceName }}:{{ required "Pan manager application port number has to be defined in routes.panManager.servicePortNumber" .Values.routes.panManager.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        - id: veto-manager-ms_route
+          predicates:
+            - Path=/api/*/vetos
+          uri: https://{{ required "Veto manager application service name has to be defined in routes.vetoManager.serviceName" .Values.routes.vetoManager.serviceName }}:{{ required "Veto manager application port number has to be defined in routes.vetoManager.servicePortNumber" .Values.routes.vetoManager.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession

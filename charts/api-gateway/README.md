@@ -53,6 +53,12 @@ routes:
   balanceLog:
     serviceName: balance-log # name of balance-log service, default is balance-log
     portNumber: "8443" # port number on which balance-log service is exposed, default is 8443
+  panManager:
+    serviceName: pan-manager # name of pan-manager service, default is pan-manager
+    servicePortNumber: "8443"  # port number on which pan-manager service is exposed, default is 8443
+  vetoManager:
+    serviceName: veto-manager # name of veto-manager service, default is veto-manager
+    servicePortNumber: "8443"  # port number on which veto-manager service is exposed, default is 8443
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value, no default value
@@ -373,7 +379,7 @@ Custom environment variables can be added to api-gateway container by applying `
 ```yaml
 customEnv:
   - name: MY_CUSTOM_ENV
-    value: some-value 
+    value: some-value
   - name: SOME_OTHER_ENV
     value: 123
 ```
@@ -529,7 +535,7 @@ Examples of how log entries wood look like for particular option:
   ```log
   {"timestamp":"2023-03-17T10:33:14.218078900Z","severity":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","logging.googleapis.com/sourceLocation":{"function":"org.springframework.boot.availability.ApplicationAvailabilityBean.onApplicationEvent"},"logging.googleapis.com/insertId":"1051","_exception":{"stackTrace":""},"_thread":"main","_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
-  
+
 #### Logging request and response body
 
 By default, api-gateway logs only basic information for every request and response that go through it - correlation_id, http_method, path and response_status_code.

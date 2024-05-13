@@ -69,6 +69,12 @@ routes:
   balanceLog:
     serviceName: balance-log
     servicePortNumber: "8443"
+  panManager:
+    serviceName: pan-manager
+    servicePortNumber: "8443"
+  vetoManager:
+    serviceName: veto-manager
+    servicePortNumber: "8443"
 
 oauth2:
   enabled: false
