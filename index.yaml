@@ -853,6 +853,16 @@ entries:
     version: 0.2.0
   api-gateway:
   - apiVersion: v2
+    appVersion: 1.53.0
+    created: "2024-05-13T09:09:28.718259959Z"
+    description: Helm chart for API gateway application
+    digest: 083a38f557942f4c9e831c0b469060055b6eef6bd4b7d9a27102ecca52f28309
+    name: api-gateway
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/api-gateway-1.53.0/api-gateway-1.53.0.tgz
+    version: 1.53.0
+  - apiVersion: v2
     appVersion: 1.52.0
     created: "2024-04-26T09:18:52.25638148Z"
     description: Helm chart for API gateway application
@@ -18647,4 +18657,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2024-05-13T06:51:01.969049101Z"
+generated: "2024-05-13T09:09:28.731199785Z"
