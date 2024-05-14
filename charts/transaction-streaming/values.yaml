@@ -80,6 +80,7 @@ kafka:
         event: 1
         interfaceCollTbl: 1
         trxAnnounce: 1
+        distrAnnMsg: 1
         customerAccountStatement: 30
         futuristicForeignPayment: 30
     join:
@@ -141,6 +142,8 @@ kafka:
       name: hr.vestigo.hp.craftsman
     legalEntity:
       name: hr.vestigo.hp.legalEntity
+    distrAnnMsg:
+      name: hr.vestigo.hp.distrannmsg
     tombstone:
       turnover:
         name: hr.vestigo.hp.turnover
@@ -162,6 +165,8 @@ kafka:
         name: hr.vestigo.hp.interfacecolltbl
       trxAnnounce:
         name: hr.vestigo.hp.trxannounce
+      distrAnnMsg:
+        name: hr.vestigo.hp.distrannmsg
     banproamotype:
       name: hr.vestigo.hp.banproamotype
       consumerGroup: hr.vestigo.hp.banproamotype
