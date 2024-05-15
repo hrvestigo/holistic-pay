@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.57.0
+    tag: 1.72.14
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -149,19 +149,19 @@ kafka:
       customerAccountStatement:
         name: hr.vestigo.hp.customeraccountstatement
       paymentOrder:
-        name:  hr.vestigo.hp.paymentorder
+        name: hr.vestigo.hp.paymentorder
       fPayment:
-        name:  hr.vestigo.hp.fpayment
+        name: hr.vestigo.hp.fpayment
       paymentListQ:
-        name:  hr.vestigo.hp.paymentlistq
+        name: hr.vestigo.hp.paymentlistq
       futuristicForeignPayment:
-        name:  hr.vestigo.hp.futuristicforeignpayment
+        name: hr.vestigo.hp.futuristicforeignpayment
       event:
-        name:  hr.vestigo.hp.event
+        name: hr.vestigo.hp.event
       interfaceCollTbl:
-        name:  hr.vestigo.hp.interfacecolltbl
+        name: hr.vestigo.hp.interfacecolltbl
       trxAnnounce:
-        name:  hr.vestigo.hp.trxannounce
+        name: hr.vestigo.hp.trxannounce
     banproamotype:
       name: hr.vestigo.hp.banproamotype
       consumerGroup: hr.vestigo.hp.banproamotype
