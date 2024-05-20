@@ -1355,6 +1355,18 @@ application:
 
 will produce configuration `MY_COMPONENT_MY_CONFIG_KEY=value`.
 
+## Scheduler configuration
+
+This section defines configuration for scheduled task.
+`<cron>` value defines time in cron format, in this case it defines midnight every day `<0 0 0 * * *>`.
+`<enabled>` defines if scheduler is enabled or disabled.
+
+```yaml
+automaticUpdateNewBalance:
+  cron: 0 0 0 * * *
+  enabled: false
+```
+
 ### Supported configuration
 
 Document supported configuration as part of yaml with default

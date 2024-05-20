@@ -316,3 +316,6 @@ customEnv: []
 tracing:
   samplingProbability: 1.0
   otlpEndpoint: http://tempo.monitor:4318/v1/traces
+automaticUpdateNewBalance:
+  cron: 0 0 0 * * *
+  enabled: false
