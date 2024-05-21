@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.52.0
+    tag: 1.57.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -35,6 +35,19 @@ liquibase:
   replicationRole: ''
   resources: {}
 members:
+- businessUnit: ''
+  applicationMember: ''
+  memberSign: ''
+  liquibase:
+    role: ''
+    replicationRole: ''
+  datasource:
+    globalSchema: false
+    host: ''
+    port: ''
+    dbName: ''
+    user: ''
+    password: ''
 - businessUnit: ''
   applicationMember: ''
   memberSign: ''
