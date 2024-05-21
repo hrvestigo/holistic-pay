@@ -180,6 +180,10 @@ spec:
               value: {{ .Values.kafka.topics.paymentOrderFlow.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORDERFLOW_NAME
               value: {{ .Values.kafka.topics.paymentOrderFlow.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_PAYMENTORDERFLOWINBOX_NAME
+              value: {{ .Values.kafka.topics.paymentOrderFlowInbox.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PAYMENTORDERFLOWINBOX_NAME
+              value: {{ .Values.kafka.topics.paymentOrderFlowInbox.consumerGroup | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDERUPDATE_NAME
               value: {{ .Values.kafka.topics.paymentOrderUpdate.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_ECSSPECIFICCHECKS_NAME
@@ -192,6 +196,10 @@ spec:
               value: {{ .Values.kafka.topics.paymentOrderEventFlow.consumerGroup | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDEREVENTFLOW_NAME
               value: {{ .Values.kafka.topics.paymentOrderEventFlow.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PAYMENTORDEREVENTFLOWINBOX_NAME
+              value: {{ .Values.kafka.topics.paymentOrderEventFlowInbox.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_PAYMENTORDEREVENTFLOWINBOX_NAME
+              value: {{ .Values.kafka.topics.paymentOrderEventFlowInbox.name | quote }}
             - name: KAFKA_TOPIC_PERSONSTRUCTUREINITIAL_NAME
               value: {{ .Values.kafka.topics.personStructureInitial.name | quote }}
             - name: KAFKA_TOPIC_CUSTOMERACCOUNT_NAME

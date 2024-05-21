@@ -96,6 +96,9 @@ kafka:
     paymentOrderFlow:
       name: gcp.ipt1.hp.evt.paymentorderflow
       consumerGroup: gcp.ipt1.hp.evt.sirspec1.paymentorderflow
+    paymentOrderFlowInbox:
+      name: gcp.ipt1.hp.evt.paymentoriginalmessageinbox.01
+      consumerGroup: gcp.ipt1.sirspec.paymentoriginalmessageinbox
     paymentOrderUpdate:
       name: gcp.ipt1.hp.evt.paymentorderupdate
     paymentOrderChecksResult:
@@ -106,6 +109,9 @@ kafka:
     paymentOrderEventFlow:
       name: gcp.ipt1.hp.evt.paymentordereventflow
       consumerGroup: gcp.ipt1.hp.evt.sirspec.paymentordereventflow
+    paymentOrderEventFlowInbox:
+      name: gw.ipt1.hp.evt.paymentordereventflowinbox.01
+      consumerGroup: gw.ipt1.sirspec.paymentordereventflowinbox
     personStructureInitial:
       name: hr.vestigo.hp.perstrucinitial
     parameterization:
