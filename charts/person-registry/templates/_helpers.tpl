@@ -68,6 +68,10 @@ Liquibase init container definition
   volumeMounts:
     - mountPath: /liquibase/secret/
       name: {{ include "person-registry.name" $ }}-secret
+  {{- if $.Values.datasource.ssl.enabled }}
+    - mountPath: /mnt/k8s/pg-ssl
+      name: pg-ssl
+  {{- end }}
   env:
     - name: SCHEMA_NAME
   {{- if $member.datasource }}
@@ -94,8 +98,10 @@ Liquibase init container definition
     - bash
     - -c
   {{- if $member.datasource }}
-    {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" (default $.Values.datasource.host $member.datasource.host) ":" (default ($.Values.datasource.port | int) ( $member.datasource.port | int)) "/" (default $.Values.datasource.dbName  $member.datasource.dbName) }}
+    {{- $urlWithoutSsl := printf "%s%s%s%d%s%s" "jdbc:postgresql://" (default $.Values.datasource.host $member.datasource.host) ":" (default ($.Values.datasource.port | int) ( $member.datasource.port | int)) "/" (default $.Values.datasource.dbName  $member.datasource.dbName) }}
     {{- $context := printf "%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" }}
+    {{- $sslEnabled := (include "person-registry.liquibase.db.ssl.connectionParams" $) }}
+    {{- $url := printf "\"%s%s\"" $urlWithoutSsl $sslEnabled }}
     {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -cp /tmp/aesdecryptor.jar AesDecrypt && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
     {{- if $.Values.liquibase.syncOnly }}
     - {{ printf "%s%s" $params " changelog-sync" }}
@@ -103,8 +109,10 @@ Liquibase init container definition
     - {{ printf "%s%s" $params " update" }}
     {{- end }}
   {{- else }}
-    {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" $.Values.datasource.host ":" ($.Values.datasource.port | int) "/" $.Values.datasource.dbName }}
+    {{- $urlWithoutSsl := printf "%s%s%s%d%s%s" "jdbc:postgresql://" $.Values.datasource.host ":" ($.Values.datasource.port | int) "/" $.Values.datasource.dbName }}
     {{- $context := printf "%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" }}
+    {{- $sslEnabled := (include "person-registry.liquibase.db.ssl.connectionParams" $) }}
+    {{- $url := printf "\"%s%s\"" $urlWithoutSsl $sslEnabled }}
     {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -cp /tmp/aesdecryptor.jar AesDecrypt && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
     {{- if $.Values.liquibase.syncOnly }}
     - {{ printf "%s%s" $params " changelog-sync" }}
@@ -227,6 +235,11 @@ Volumes
 - name: logdir
 {{- toYaml .Values.logger.logDirMount.spec | nindent 2 }}
 {{- end }}
+{{- if .Values.datasource.ssl.enabled }}
+- name: pg-ssl
+  secret:
+    secretName: {{ required "Secret name is required when mounting certificates for SSL to database, please specify in datasource.ssl.secretName" .Values.datasource.ssl.secretName }}
+{{- end }}
 {{- end }}
 
 {{/*
@@ -270,6 +283,10 @@ Mounts for person-registry application
 {{- if and .Values.logger.logDirMount.enabled .Values.logger.logDirMount.spec }}
 - mountPath: {{ .Values.logger.logDir }}
   name: logdir
+{{- end }}
+{{- if .Values.datasource.ssl.enabled }}
+- mountPath: /mnt/k8s/pg-ssl
+  name: pg-ssl
 {{- end }}
 {{- end }}
 
@@ -321,6 +338,32 @@ Defines custom datasource connection parameters appended to URL
 {{- $string := join "&" $atts }}
 {{- if $string }}
 {{- printf "%s%s" "&" $string }}
+{{- else }}
+{{- "" }}
+{{- end }}
+{{- end }}
+
+
+{{/*
+SSL datasource connection parameters which need to be appended to URL
+*/}}
+{{- define "person-registry.db.ssl.connectionParams" -}}
+{{- if .Values.datasource.ssl.enabled }}
+{{- with .Values.datasource.ssl }}
+{{- printf "%s%s%s%s%s%s%s%s" "&ssl=true&sslmode=" .sslMode "&sslrootcert=/mnt/k8s/pg-ssl/" .sslRootCert "&sslcert=/mnt/k8s/pg-ssl/" .sslCert "&sslkey=/mnt/k8s/pg-ssl/" .sslKey }}
+{{- end }}
+{{- else }}
+{{- "" }}
+{{- end }}
+{{- end }}
+
+{{/*
+SSL datasource connection parameters for liquibase which need to be appended to URL
+*/}}
+{{- define "person-registry.liquibase.db.ssl.connectionParams" -}}
+{{- $sslParams := (include "person-registry.db.ssl.connectionParams" $) -}}
+{{- if $sslParams }}
+{{- printf "%s%s" "?" (trimPrefix "&" $sslParams) }}
 {{- else }}
 {{- "" }}
 {{- end }}

@@ -25,6 +25,13 @@ datasource:
   minIdle: 0
   idleTimeout: 120000
   connectionParams: {}
+  ssl:
+    enabled: false
+    secretName: pg-ssl
+    sslMode: verify-ca
+    sslCert: client-cert.pem
+    sslKey: client-key.pem.pk8
+    sslRootCert: server-ca.pem
 liquibase:
   enabled: true
   syncOnly: false
