@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.312.0
+    tag: 1.314.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -163,6 +163,12 @@ kafka:
     transactionScreeningamlcft:
       name: hr.vestigo.hp.transactionscreeningamlcft.01
       consumerGroup: hr.vestigo.hp.transactionscreeningamlcft
+    cusaccBalanceLast:
+      name: hr.vestigo.hp.cusaccbalancelast.01
+      consumerGroup: hr.vestigo.hp.cusaccbalancelast
+      enabled: false
+    balanceMigration:
+      name: hr.vestigo.hp.balancemigration.01
 external:
   core:
     system:

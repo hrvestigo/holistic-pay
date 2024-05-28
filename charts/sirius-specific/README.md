@@ -188,6 +188,12 @@ kafka:
       name: hr.vestigo.hp.perstrucinitial # default value, set custom name if required
     customerAccountStatement:
       name: hr.vestigo.hp.customeraccountstatement # default value, set custom name if required
+    cusaccBalanceLast:
+      name: hr.vestigo.hp.cusaccbalancelast.01 # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.cusaccbalancelast # default value, set custom name if required
+      enabled: false # default value, consumer is disabled, set to true to enable it
+    balanceMigration:
+      name: hr.vestigo.hp.balancemigration.01 # default value, set custom name if required
 ```
 
 Some topics also give the option of choosing environment that decides which schema is to be used, those topics are:
@@ -210,6 +216,24 @@ kafka:
 
 Valid environments are dev, sit, uat and prod. Default is sit.
 
+### Kafka Streams setup
+
+Kafka Streams topology used for triggering balance change in the HolisticPay with every received transaction can be
+started by setting `kafka.streams.auto.startup` attribute to true.
+It maps all messages from the `customerAccountStatement` topic to `balanceChangeRequest` topic.
+Its id can be set through `kafka.streams.application.id`.
+Default value of `kafka.streams.auto.startup` is true.
+
+```yaml
+kafka:
+  streams:
+    replication:
+      factor: '3'
+    application:
+      id: sirius-specific # default value, set custom id if required
+    auto:
+      startup: true
+```
 
 ### Configuring image source and pull secrets
 

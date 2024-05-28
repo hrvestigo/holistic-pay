@@ -168,6 +168,14 @@ spec:
             - name: SPRING_KAFKA_STREAMS_APPLICATIONID
               value: {{ .Values.kafka.streams.application.id | default "sirius-specific" | quote }}
             {{- end }}
+            - name: KAFKA_CONSUMER_CUSACCBALANCELAST_ENABLED
+              value: {{ .Values.kafka.topics.cusaccBalanceLast.enabled | default "false" | quote }}
+            {{- if .Values.kafka.topics.cusaccBalanceLast.enabled }}
+            - name: KAFKA_TOPIC_CUSACCBALANCELAST_NAME
+              value: {{ .Values.kafka.topics.cusaccBalanceLast.name | quote }}
+            - name: KAFKA_TOPIC_BALANCEMIGRATION_NAME
+              value: {{ .Values.kafka.topics.balanceMigration.name | quote }}
+            {{- end }}
             - name: KAFKA_TOPIC_PAYMENTORIGINALMESSAGE_NAME
               value: {{ .Values.kafka.topics.paymentOriginalMessage.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORIGINALMESSAGE_NAME
