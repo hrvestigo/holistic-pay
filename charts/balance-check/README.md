@@ -255,6 +255,14 @@ kafka:
       nbrBackOff: 50000;5s                                          # default value, non-blocking retry fixed back-off
       nbrName: ''                                                   # default value, non-blocking retry topic name
       dltName: ''                                                   # default value, non-blocking DTL topic name
+    balancemigration:
+      name: hr.vestigo.hp.balancemigration            # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.balancemigration   # default value, set custom consumer group if required
+      enabled: false                                  # default value, consumer is disabled
+      nbrEnabled: false                               # default value, non-blocking retry is disabled
+      nbrBackOff: 50000;5s                            # default value, non-blocking retry fixed back-off
+      nbrName: ''                                     # default value, non-blocking retry topic name
+      dltName: ''                                     # default value, non-blocking DTL topic name
 ```
 
 #### Kafka consumer retry logic

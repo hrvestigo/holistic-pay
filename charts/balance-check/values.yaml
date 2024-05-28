@@ -125,6 +125,14 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
+    balancemigration:
+      name: hr.vestigo.hp.balancemigration
+      consumerGroup: hr.vestigo.hp.balancemigration
+      enabled: false
+      nbrEnabled: false
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
 redis:
   enabled: false
   host: ''
@@ -314,8 +322,8 @@ customVolumes: []
 customMounts: []
 customEnv: []
 tracing:
-  samplingProbability: 1.0
-  otlpEndpoint: http://tempo.monitor:4318/v1/traces
+  samplingProbability: ''
+  otlpEndpoint: ''
 automaticUpdateNewBalance:
   cron: 0 0 0 * * *
   enabled: false
