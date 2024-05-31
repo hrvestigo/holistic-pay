@@ -213,6 +213,7 @@ secret:
   trustStorePassword: ''
   keyStorePassword: ''
   datasourcePassword: ''
+  mqPassword: ''
 logger:
   format: STRING
   level:
