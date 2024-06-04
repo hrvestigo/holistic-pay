@@ -322,7 +322,7 @@ customVolumes: []
 customMounts: []
 customEnv: []
 tracing:
-  samplingProbability: ''
+  samplingProbability: null
   otlpEndpoint: ''
 automaticUpdateNewBalance:
   cron: 0 0 0 * * *

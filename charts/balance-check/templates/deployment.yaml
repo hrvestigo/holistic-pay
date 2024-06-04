@@ -65,7 +65,7 @@ spec:
               value: "8443"
             {{- if and .Values.datasource .Values.datasource.enabled }}
             - name: MANAGEMENT_TRACING_SAMPLING_PROBABILITY
-              value: "{{ .Values.tracing.samplingProbability }}"
+              value: "{{ .Values.tracing.samplingProbability | default 0.0 }}"
             - name: MANAGEMENT_OTLP_TRACING_ENDPOINT
               value: "{{ .Values.tracing.otlpEndpoint }}"
             - name: SPRING_DATASOURCE_URL
