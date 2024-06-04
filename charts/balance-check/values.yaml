@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.115.0
+    tag: 1.117.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -120,8 +120,8 @@ kafka:
     balancechangerequestcompensation:
       name: hr.vestigo.hp.balancechangerequestcompensation
       consumerGroup: hr.vestigo.hp.balancechangerequestcompensation
-      enabled: true
-      nbrEnabled: true
+      enabled: false
+      nbrEnabled: false
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
