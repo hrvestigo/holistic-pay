@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.317.0
+    tag: 1.319.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -383,3 +383,14 @@ kafkaConsumer:
     enabled: false
   transactionscreening:
     enabled: false
+inbox:
+  scheduler:
+    start: true
+    level1:
+      fixedRate: 60000
+      retryCounter: 10
+      retryDelay: 60
+    level2:
+      fixedRate: 600000
+      retryCounter: 20
+      retryDelay: 600
