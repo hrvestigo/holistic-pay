@@ -2,5 +2,5 @@ apiVersion: v2
 name: balance-log
 description: Helm chart for balance-log application
 type: application
-version: 1.66.0
-appVersion: 1.66.0
+version: 1.67.0
+appVersion: 1.67.0
