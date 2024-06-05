@@ -49,6 +49,7 @@ members:
   datasource:
     globalSchema: false
 ibmMq:
+  autoConfigure: true
   queueManager: ''
   channel: ''
   connName: ''

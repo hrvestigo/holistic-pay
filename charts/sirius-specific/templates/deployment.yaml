@@ -67,6 +67,8 @@ spec:
               value: "{{ .Values.tracing.samplingProbability }}"
             - name: MANAGEMENT_OTLP_TRACING_ENDPOINT
               value: "{{ .Values.tracing.otlpEndpoint }}"
+            - name: IBM_MQ_AUTOCONFIGURE
+              value: {{ .Values.ibmMq.autoConfigure | quote }}
             - name: IBM_MQ_QUEUEMANAGER
               value: {{ .Values.ibmMq.queueManager | quote }}
             - name: IBM_MQ_CHANNEL
