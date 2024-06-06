@@ -197,7 +197,7 @@ Kafka topics and consumer group names used by balance-log have default names def
 ```yaml
 kafka:
   topics:
-    example
+    example:
       name: hr.vestigo.hp.example # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.example # default value, set custom name if required
       enabled: true                           # default value, consumer is enabled

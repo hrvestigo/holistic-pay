@@ -133,6 +133,14 @@ kafka:
     accountbalanceandlimit:
       name: hr.vestigo.hp.accountbalanceandlimit
       enabled: true
+    balancemigration:
+      name: hr.vestigo.hp.balancemigration
+      consumerGroup: hr.vestigo.hp.balancemigration
+      enabled: false
+      nbrEnabled: false
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
 oauth2:
   enabled: false
   resourceUri: ''
