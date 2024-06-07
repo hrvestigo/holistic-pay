@@ -69,7 +69,7 @@ kafka:
       application:
         id: transaction-streaming-delete
       auto:
-        startup: false
+        startup: true
       scanFrequency: 12
       maximumAge:
         turnover: 1

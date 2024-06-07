@@ -61,9 +61,11 @@ kafka:
       factor: '3' # string value
     application:
       id: 'transaction-streaming' # string value
+    auto:
+      startup: true # boolean value, default is true
     delete:
       auto:
-        startup: false # boolean value, default is true
+        startup: true # boolean value, default is true
     join:
       window: 60 # default value is 60
       grace: 40 # default value is 40
@@ -169,6 +171,9 @@ These should be different from original topics as they may contain null values, 
 These topics need not be set if `kafka.streams.delete.auto.startup` is false.
 With current implementation, `kafka.streams.delete.auto.startup` is required to be true so that application can run correctly.
 
+Main Kafka Streams topology that executes all transaction processing can also be disabled via `kafka.streams.auto.startup`
+parameter. Its id can be set through `kafka.streams.application.id`.
+
 ```yaml
 kafka:
   user: "kafka-user" # user used to connect to Kafka cluster
@@ -181,11 +186,13 @@ kafka:
       factor: "3" # replication factor needed for Kafka Streams fault tolerance
     application:
       id: "transaction-streaming" # Kafka Streams application identification
+    auto:
+      startup: true # boolean value, default is true
     delete:
       application:
         id: 'transaction-streaming-delete' # Kafka Streams application identification for data purging
       auto:
-        startup: false # boolean value, default is true
+        startup: true # boolean value, default is true
       scanFrequency: 12 # in hours, default value is 12
       maximumAge:
         turnover: 1 # in days, default value is 1
