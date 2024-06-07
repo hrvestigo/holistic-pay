@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.41.0
+    tag: 4.51.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -337,4 +337,4 @@ customMounts: []
 customEnv: []
 tracing:
   samplingProbability: 1.0
-  otlpEndpoint: "http://tempo.monitor:4318/v1/traces"
+  otlpEndpoint: http://tempo.monitor:4318/v1/traces
