@@ -2,5 +2,5 @@ apiVersion: v2
 name: payment-order
 description: Helm chart for payment order application
 type: application
-version: 1.193.0
-appVersion: 1.193.0
+version: 1.194.0
+appVersion: 1.194.0
