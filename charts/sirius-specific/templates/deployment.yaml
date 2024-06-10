@@ -81,6 +81,8 @@ spec:
               value: {{ .Values.ibmMq.norkomcall.queueName | quote }}
             - name: IBM_MQ_NORKOMRESPONSE_QUEUENAME
               value: {{ .Values.ibmMq.norkomresponse.queueName | quote }}
+            - name: IBM_MQ_SSLCIPHERSUITE
+              value: TLS_RSA_WITH_AES_256_GCM_SHA384
             - name: ATOMIKOS_PROPERTIES_LOGBASEDIR
               value: /var/log/app
             - name: SPRING_JTA_ATOMIKOS_DATASOURCE_BORROWCONNECTIONTIMEOUT
@@ -396,7 +398,7 @@ spec:
             - name: KAFKA_HEALTH_ENABLED
               value: "true"
             - name: JAVA_OPTS
-              value: {{ .Values.javaOpts | quote }}
+              value: "{{ .Values.javaOpts }} -Dcom.ibm.mq.cfg.useIBMCipherMappings=false"
             {{- if (include "sirius-specific.trustStoreEnv" .) -}}
             {{- include "sirius-specific.trustStoreEnv" . | nindent 12 -}}
             {{- end }}
