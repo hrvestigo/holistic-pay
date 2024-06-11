@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.319.0
+    tag: 1.327.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -200,7 +200,7 @@ sirius:
       refresh:
         rate: 86400
   nonretry:
-    codes: "wrnA205,wrnA50,wrnB20,wrnA243,DU05,inf995"
+    codes: wrnA205,wrnA50,wrnB20,wrnA243,DU05,inf995
 grpc:
   server:
     enabled: false
