@@ -54,6 +54,7 @@ ibmMq:
   channel: ''
   connName: ''
   user: ''
+  sslCiphersuite: ''
   norkomcall:
     queueName: ''
   norkomresponse:

@@ -82,7 +82,7 @@ spec:
             - name: IBM_MQ_NORKOMRESPONSE_QUEUENAME
               value: {{ .Values.ibmMq.norkomresponse.queueName | quote }}
             - name: IBM_MQ_SSLCIPHERSUITE
-              value: TLS_RSA_WITH_AES_256_GCM_SHA384
+              value: {{ .Values.ibmMq.sslCiphersuite | quote }}
             - name: ATOMIKOS_PROPERTIES_LOGBASEDIR
               value: /var/log/app
             - name: SPRING_JTA_ATOMIKOS_DATASOURCE_BORROWCONNECTIONTIMEOUT
