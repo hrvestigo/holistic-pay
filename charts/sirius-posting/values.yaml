@@ -1,3 +1,7 @@
+oauth2:
+  enabled: false
+  resourceUri: ''
+  authorizationPrefix: ''
 nameOverride: ''
 image:
   registry: docker.io
@@ -17,10 +21,10 @@ env:
   type: ''
   label: ''
 datasource:
+  host: ''
+  port: ''
+  dbName: ''
   user: ''
-  serverName: ''
-  databaseName: ''
-  portNumber: ''
   currentSchema: CONNECT
   globalSchemaPrefix: wo
   connTimeout: 60000
@@ -48,27 +52,6 @@ members:
       replicationRole: ''
     datasource:
       globalSchema: false
-ibmMq:
-  queueManager: ''
-  channel: ''
-  connName: ''
-  user: ''
-  norkomcall:
-    queueName: ''
-  norkomresponse:
-    queueName: ''
-atomikos:
-  borrowConnectionTimeout: 30000
-  maxIdleTime: 1800000
-  maxLifetime: 3600000
-  maxPoolSize: 30
-  minPoolSize: 5
-  jtaTimeout: 60000
-  connectionFactory:
-    maxIdleTime: 1800000
-    maxLifeTime: 3600000
-    maxPoolSize: 30
-    minPoolSize: 5
 kafka:
   user: ''
   servers: ''
@@ -144,7 +127,10 @@ logger:
     kafkaCore: INFO
     rest: INFO
     database: DEBUG
-    databaseParam: TRACE
+    databaseSql: DEBUG
+    databaseBind: TRACE
+    databaseExtract: TRACE
+    databaseSlowQuery: INFO
     businessLogic: DEBUG
     health: DEBUG
     general: DEBUG
@@ -216,8 +202,6 @@ affinity:
                 values:
                   - payment-order-posting
           topologyKey: kubernetes.io/hostname
-riskLimits:
-  enabled: true
 deployment:
   replicaCount: 1
   annotations: {}
@@ -281,4 +265,3 @@ tracing:
 kafkaConsumer:
   paymentOrderPosting:
     enabled: true
-
