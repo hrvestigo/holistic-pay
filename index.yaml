@@ -14965,6 +14965,17 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/sepa-inst-0.1.0/sepa-inst-0.1.0.tgz
     version: 0.1.0
+  sirius-posting:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2024-06-13T11:18:11.142904134Z"
+    description: Helm chart for sirius-posting application
+    digest: 229999ff4aca1bb04385685d732c63bf17a61ef872af6f4c000c93f607e96e5d
+    name: sirius-posting
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-posting-1.0.0/sirius-posting-1.0.0.tgz
+    version: 1.0.0
   sirius-specific:
   - apiVersion: v2
     appVersion: 1.333.0
@@ -19657,4 +19668,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2024-06-13T08:42:29.377973015Z"
+generated: "2024-06-13T11:18:11.157261978Z"
