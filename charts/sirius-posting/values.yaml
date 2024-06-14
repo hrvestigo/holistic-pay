@@ -159,7 +159,7 @@ affinity:
               - key: app
                 operator: In
                 values:
-                  - ${rootArtifactId}
+                  - sirius-posting
           topologyKey: kubernetes.io/hostname
 deployment:
   replicaCount: 1
