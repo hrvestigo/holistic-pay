@@ -240,6 +240,8 @@ spec:
             {{- end }}
             - name: KAFKA_TOPIC_PAYMENTORDERPOSTING_NAME
               value: {{ .Values.kafka.topics.paymentOrderPosting.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PAYMENTORDERPOSTING_NAME
+              value: {{ .Values.kafka.topics.paymentOrderPosting.consumerGroup | quote }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

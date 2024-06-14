@@ -59,8 +59,9 @@ kafka:
     user: ''
     url: ''
   topics:
-    name: gw.ipt1.sirius.cdc.paymentorderposting
-    consumerGroup: gw.ipt1.sirius.cdc.paymentorderposting
+    paymentOrderPosting:
+      name: gw.ipt1.sirius.cdc.paymentorderposting.01
+      consumerGroup: gw.ipt1.payOrdPos.paymentOrderPosting.15
 oauth2:
   enabled: false
   resourceUri: ''
