@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.303.2
+    tag: 1.303.9
     pullPolicy: null
 imagePullSecrets: []
 env:
