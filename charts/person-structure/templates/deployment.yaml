@@ -200,16 +200,6 @@ spec:
               value: {{ .Values.kafka.topics.perstrucinitial.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTURE_NAME
               value: {{ .Values.kafka.topics.personstructure.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_LIMITHISTORY_NAME
-              value: {{ .Values.kafka.topics.limithistory.name | quote }}
-            - name: KAFKA_TOPIC_ACCOUNTLIMITINITIAL_NAME
-              value: {{ .Values.kafka.topics.accountlimitinitial.name | quote }}
-            - name: KAFKA_TOPIC_OVEDRAFTLIMIT_NAME
-              value: {{ .Values.kafka.topics.ovedraftlimit.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_LIMITHISTORY_NAME
-              value: {{ .Values.kafka.topics.limithistory.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_ACCOUNTLIMITINITIAL_NAME
-              value: {{ .Values.kafka.topics.accountlimitinitial.consumerGroup | quote }}
             - name: EXTERNAL_CORE_SYSTEM_MEMBER_SIGN_DEFAULT
               value: {{ .Values.external.core.system.member.sign.default | quote }}
             - name: CMS_CDC_MODULENAME
@@ -221,9 +211,25 @@ spec:
             - name: RISK_LIMITS_ENABLED
               value: {{ .Values.riskLimits.enabled | quote }}
             - name: KAFKA_CONSUMER_LIMITHISTORY_ENABLED
-              value: {{ .Values.kafka.consumer.limithistory.enabled | quote }}
+              value: {{ .Values.kafka.consumer.limithistory.enabled | default "false" | quote }}
+            {{- if .Values.kafka.consumer.limithistory.enabled }}
+            - name: KAFKA_TOPIC_LIMITHISTORY_NAME
+              value: {{ .Values.kafka.topics.limithistory.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_LIMITHISTORY_NAME
+              value: {{ .Values.kafka.topics.limithistory.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_OVEDRAFTLIMIT_NAME
+              value: {{ .Values.kafka.topics.ovedraftlimit.name | quote }}
+            {{- end }}
             - name: KAFKA_CONSUMER_BALANNOUNCE_ENABLED
-              value: {{ .Values.kafka.consumer.balannounce.enabled | quote }}
+              value: {{ .Values.kafka.consumer.balannounce.enabled | default "false" | quote }}
+            {{- if .Values.kafka.consumer.balannounce.enabled }}
+            - name: KAFKA_TOPIC_ACCOUNTLIMITINITIAL_NAME
+              value: {{ .Values.kafka.topics.accountlimitinitial.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_ACCOUNTLIMITINITIAL_NAME
+              value: {{ .Values.kafka.topics.accountlimitinitial.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_OVEDRAFTLIMIT_NAME
+              value: {{ .Values.kafka.topics.ovedraftlimit.name | quote }}
+            {{- end }}
             - name: STATUS_MANAGEMENT_ENABLED
               value: {{ .Values.status.management.enabled | quote }}
             - name: STATUS_AUDIT_LOG_ENABLED
