@@ -323,13 +323,13 @@ spec:
             - name: INBOX_SCHEDULER_LEVEL2_FIXEDRATE
               value: {{ .Values.inbox.scheduler.level2.fixedRate | quote }}
             - name: INBOX_SCHEDULER_LEVEL1_RETRYCOUNTER
-              value: {{ .Values.inbox.scheduler.level1.retryCounter | quote }}
+              value: {{ .Values.inbox.scheduler.level1.retryCounter | int | quote }}
             - name: INBOX_SCHEDULER_LEVEL2_RETRYCOUNTER
-              value: {{ .Values.inbox.scheduler.level2.retryCounter | quote }}
+              value: {{ .Values.inbox.scheduler.level2.retryCounter | int | quote }}
             - name: INBOX_SCHEDULER_LEVEL1_RETRYDELAY
-              value: {{ .Values.inbox.scheduler.level1.retryDelay | quote }}
+              value: {{ .Values.inbox.scheduler.level1.retryDelay | int | quote }}
             - name: INBOX_SCHEDULER_LEVEL2_RETRYDELAY
-              value: {{ .Values.inbox.scheduler.level2.retryDelay | quote }}
+              value: {{ .Values.inbox.scheduler.level2.retryDelay | int | quote }}
             {{- if .Values.grpc.server.enabled }}
             - name: GRPC_SERVER_PORT
               value: {{ .Values.grpc.server.port | default "9090" | quote }}
