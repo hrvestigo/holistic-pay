@@ -164,8 +164,8 @@ Scan frequency can be set through `kafka.streams.delete.scanFrequency` in hours.
 Default value is 12 hours, meaning old data is deleted every 12 hours. 
 Maximum age for these records can be set through `kafka.streams.delete.maximumAge` in days.
 Default value is 1 day for input topics (`turnover`, `turnCustomer`, `paymentOrder`, `fPayment`, `paymentListQ`, 
-`event`, `interfaceCollTbl`, `trxAnnounce` and `distrAnnMsg`) and 30 days for output topics (`customerAccountStatement` 
-and `futuristicForeignPayment`).
+`event`, `interfaceCollTbl`, `trxAnnounce`, `distrAnnMsg` and `paymCover`) and 30 days for output topics 
+(`customerAccountStatement` and `futuristicForeignPayment`).
 With this setup, additionally it is required to set `kafka.topics.tombstone` topic names for these topics.
 These should be different from original topics as they may contain null values, a.k.a. tombstones.
 These topics need not be set if `kafka.streams.delete.auto.startup` is false.
@@ -204,6 +204,7 @@ kafka:
         interfaceCollTbl: 1 # in days, default value is 1
         trxAnnounce: 1 # in days, default value is 1
         distrAnnMsg: 1 # in days, default value is 1
+        paymCover: 1 # in days, default value is 1
         customerAccountStatement: 30 # in days, default value is 30
         futuristicForeignPayment: 30 # in days, default value is 30
     join:
@@ -287,6 +288,8 @@ kafka:
       name: hr.vestigo.hp.legalEntity # default value, set custom name if required
     distrAnnMsg:
       name: hr.vestigo.hp.distrannmsg # default value, set custom name if required
+    paymCover:
+      name: hr.vestigo.hp.paymcover # default value, set custom name if required
     tombstone: # only mandatory if kafka.streams.delete.auto.startup is set to true
       turnover:
         name: hr.vestigo.hp.turnover # default value, set custom name if required
@@ -310,6 +313,8 @@ kafka:
         name:  hr.vestigo.hp.trxannounce # default value, set custom name if required
       distrAnnMsg:
         name:  hr.vestigo.hp.distrannmsg # default value, set custom name if required
+      paymCover:
+        name:  hr.vestigo.hp.paymcover # default value, set custom name if required
     internal: # mandatory, used for global tables creation
       customer:
         name: hr.vestigo.hp.customer.internal # default value, set custom name if required
