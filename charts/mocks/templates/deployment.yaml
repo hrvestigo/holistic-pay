@@ -4,13 +4,13 @@ metadata:
   name: {{ include "mocks.name" . }}
   labels:
     {{- include "mocks.labels" . | nindent 4 }}
-  {{- with .Values.deployment.labels }}
-  {{ toYaml . | indent 4 }}
-  {{- end }}
-  {{- with .Values.deployment.annotations }}
-annotations:
-  {{ toYaml . | indent 4 }}
-  {{- end }}
+{{- with .Values.deployment.labels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+{{- with .Values.deployment.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.deployment.replicaCount }}
