@@ -1,0 +1,6 @@
+apiVersion: v2
+name: mocks
+description: Helm chart for mocks application
+type: application
+version: 3.0.0
+appVersion: 3.0.0
