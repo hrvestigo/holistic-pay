@@ -129,6 +129,8 @@ spec:
               value: {{ include "mocks.members" . }}
             - name: SPRING_KAFKA_PROPERTIES_SASL_MECHANISM
               value: {{ .Values.kafka.saslMechanism | quote }}
+            - name: ATOMIKOS_PROPERTIES_LOGBASEDIR
+              value: /var/log/app
             - name: SPRING_KAFKA_PROPERTIES_SASL_JAAS_CONFIG
               value: >-
                 org.apache.kafka.common.security.plain.PlainLoginModule required username=
