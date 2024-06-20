@@ -107,24 +107,24 @@ spec:
               value: "{{ .Values.atomikos.connectionFactory.minPoolSize | int }}"
             - name: SPRING_DATASOURCE_XA_PROPERTIES_USER
               value: {{ required "Please specify DB user in members.datasource.user" .Values.datasource.user | quote }}
-            - name: SPRING_DATASOURCE_XA_PROPERTIES_SERVERNAME
+            - name: SPRING_DATASOURCE_XA_PROPERTIES_SERVER-NAME
               value: {{ required "Please specify DB server name in datasource.serverName" .Values.datasource.serverName | quote }}
-            - name: SPRING_DATASOURCE_XA_PROPERTIES_DATABASENAME
+            - name: SPRING_DATASOURCE_XA_PROPERTIES_DATABASE-NAME
               value: {{ required "Please specify DB database name in datasource.databaseName" .Values.datasource.databaseName | quote }}
-            - name: SPRING_DATASOURCE_XA_PROPERTIES_PORTNUMBER
+            - name: SPRING_DATASOURCE_XA_PROPERTIES_PORT-NUMBER
               value: {{ required "Please specify DB port number in datasource.portNumber" .Values.datasource.portNumber | quote }}
-            - name: SPRING_DATASOURCE_XA_PROPERTIES_CURRENTSCHEMA
+            - name: SPRING_DATASOURCE_XA_PROPERTIES_CURRENT-SCHEMA
               value: {{ required "Please specify DB current schema in datasource.currentSchema" .Values.datasource.currentSchema | quote }}
             {{- range $k, $v := .Values.members }}
             - name: SPRING_DATASOURCE_XA_PROPERTIES_USER_{{ .memberSign }}
               value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
-            - name: SPRING_DATASOURCE_XA_PROPERTIES_SERVERNAME_{{ .memberSign }}
+            - name: SPRING_DATASOURCE_XA_PROPERTIES_SERVER-NAME_{{ .memberSign }}
               value: {{ required "Please specify DB server name in datasource.serverName" $.Values.datasource.serverName | quote }}
-            - name: SPRING_DATASOURCE_XA_PROPERTIES_DATABASENAME_{{ .memberSign }}
+            - name: SPRING_DATASOURCE_XA_PROPERTIES_DATABASE-NAME_{{ .memberSign }}
               value: {{ required "Please specify DB database name in datasource.databaseName" $.Values.datasource.databaseName | quote }}
-            - name: SPRING_DATASOURCE_XA_PROPERTIES_PORTNUMBER_{{ .memberSign }}
+            - name: SPRING_DATASOURCE_XA_PROPERTIES_PORT-NUMBER_{{ .memberSign }}
               value: {{ required "Please specify DB port number in datasource.portNumber" $.Values.datasource.portNumber | quote }}
-            - name: SPRING_DATASOURCE_XA_PROPERTIES_CURRENTSCHEMA_{{ .memberSign }}
+            - name: SPRING_DATASOURCE_XA_PROPERTIES_CURRENT-SCHEMA_{{ .memberSign }}
               {{- if .datasource }}
               {{- if .datasource.globalSchema }}
               value: {{ required "Please specify members.businessUnit" .businessUnit | lower }}{{ required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix }}{{ include "mocks.dbSchema" $ }}{{ required "Please specify env.label" $.Values.env.label | lower }}{{ include "mocks.db.connectionParams" $ }}
