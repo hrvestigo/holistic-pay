@@ -152,7 +152,6 @@ spec:
             {{- if (include "mocks.application.config" .) }}
             {{- include "mocks.application.config" . | indent 12 }}
             {{- end }}
-            {{- if and .Values.redis .Values.redis.enabled }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
@@ -289,4 +288,3 @@ spec:
       {{- end }}
       volumes:
         {{- include "mocks.volumes" . | nindent 8 }}
-      {{- end }}

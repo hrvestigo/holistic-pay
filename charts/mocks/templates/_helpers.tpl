@@ -231,16 +231,6 @@ Volumes
         key: {{ .Values.mountKeyStoreFromSecret.keyStoreName }}
 {{- end }}
 {{- end }}
-{{- if .Values.mountKeyStoreSignatureFromSecret.enabled }}
-- name: keystore-signature
-  secret:
-    secretName: {{ .Values.mountKeyStoreSignatureFromSecret.secretName }}
-{{- if .Values.mountKeyStoreSignatureFromSecret.keyStoreName }}
-    items:
-      - path: {{ .Values.mountKeyStoreSignatureFromSecret.keyStoreName }}
-        key: {{ .Values.mountKeyStoreSignatureFromSecret.keyStoreName }}
-{{- end }}
-{{- end }}
 {{- if .Values.mountTrustStoreFromSecret.enabled }}
 - name: truststore
   secret:
