@@ -83,6 +83,8 @@ spec:
               value: {{ .Values.ibmMq.norkomresponse.queueName | quote }}
             - name: IBM_MQ_SSLCIPHERSUITE
               value: {{ .Values.ibmMq.sslCiphersuite | quote }}
+            - name: ATOMIKOS_PROPERTIES_LOGBASEDIR
+              value: /var/log/app
             - name: SPRING_JTA_ATOMIKOS_DATASOURCE_BORROWCONNECTIONTIMEOUT
               value: "{{ .Values.atomikos.borrowConnectionTimeout | int }}"
             - name: SPRING_JTA_ATOMIKOS_DATASOURCE_MAXIDLETIME
