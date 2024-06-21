@@ -238,3 +238,6 @@ customEnv: []
 tracing:
   samplingProbability: null
   otlpEndpoint: ''
+sepa:
+  inst:
+    url:
