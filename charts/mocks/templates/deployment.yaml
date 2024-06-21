@@ -109,6 +109,20 @@ spec:
               value: {{ .Values.external.core.system.member.sign.default | quote }}
             - name: SEPA_INST_URL
               value: {{ .Values.sepa.inst.url | quote }}
+            - name: SECURITY_OAUTH2_OUTBOUND_TOKEN
+              value: {{ .Values.security.oauth2.outbound.token | quote }}
+            - name: SECURITY_OAUTH2_PROVIDER
+              value: {{ .Values.security.oauth2.provider | quote }}
+            - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUERURI
+              value: {{ .Values.security.oauth2.client.provider.keycloak.issuerUri | quote }}
+            - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKENURI
+              value: {{ .Values.security.oauth2.client.provider.keycloak.tokenUri | quote }}
+            - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENTID
+              value: {{ .Values.security.oauth2.client.registration.keycloak.clientId | quote }}
+            - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENTSECRET
+              value: {{ .Values.security.oauth2.client.registration.keycloak.clientSecret | quote }}
+            - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_SCOPE
+              value: {{ .Values.security.oauth2.client.registration.keycloak.scope | quote }}
             - name: SPRING_DATASOURCE_XA_PROPERTIES_USER
               value: {{ required "Please specify DB user in members.datasource.user" .Values.datasource.user | quote }}
             - name: SPRING_DATASOURCE_XA_PROPERTIES_SERVERNAME
@@ -183,8 +197,6 @@ spec:
             - name: MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE
               {{- if .Values.datasource.enabled }}
               value: readinessState, db, kafka
-              {{- else if .Values.redis.enabled }}
-              value: readinessState, redis, kafka
               {{- end }}
             - name: SERVER_TOMCAT_ACCESSLOG_ENABLED
               value: {{ .Values.logger.logToFile | quote }}

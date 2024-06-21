@@ -241,3 +241,24 @@ tracing:
 sepa:
   inst:
     url:
+security:
+  oauth2:
+    outbound:
+      token: ''
+    provider: ''
+    client:
+      provider:
+        keycloak:
+          issuerUri: ''
+          tokenUri: ''
+      registration:
+        keycloak:
+          clientId: ''
+          clientSecret: ''
+          scope: ''
+external:
+  core:
+    system:
+      member:
+        sign:
+          default: RB
