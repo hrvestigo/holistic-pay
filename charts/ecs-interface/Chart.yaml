@@ -1,0 +1,6 @@
+apiVersion: v2
+name: ecs-interface
+description: Helm chart for ecs-interface application
+type: application
+version: 1.0.0
+appVersion: 1.0.0
