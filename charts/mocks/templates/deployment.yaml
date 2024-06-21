@@ -105,6 +105,8 @@ spec:
               value: "{{ .Values.atomikos.connectionFactory.maxPoolSize | int }}"
             - name: SPRING_JTA_ATOMIKOS_CONNECTIONFACTORY_MINPOOLSIZE
               value: "{{ .Values.atomikos.connectionFactory.minPoolSize | int }}"
+            - name: EXTERNAL_CORE_SYSTEM_MEMBER_SIGN_DEFAULT
+              value: {{ .Values.external.core.system.member.sign.default | quote }}
             - name: SPRING_DATASOURCE_XA_PROPERTIES_USER
               value: {{ required "Please specify DB user in members.datasource.user" .Values.datasource.user | quote }}
             - name: SPRING_DATASOURCE_XA_PROPERTIES_SERVERNAME
