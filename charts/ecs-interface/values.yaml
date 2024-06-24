@@ -35,19 +35,23 @@ liquibase:
   replicationRole: ''
   resources: {}
 members:
-- businessUnit: ''
-  applicationMember: ''
-  memberSign: ''
-  liquibase:
-    role: ''
-    replicationRole: ''
-  datasource:
-    globalSchema: false
-    host: ''
-    port: ''
-    dbName: ''
-    user: ''
-    password: ''
+  - businessUnit: JT
+    applicationMember: JT
+    memberSign: JT
+    deliveryChannel: HP
+    branchCode: '001'
+    moduleName: PAY
+    userId: HP0001
+    liquibase:
+      role: ''
+      replicationRole: ''
+    datasource:
+      globalSchema: false
+      host: ''
+      port: ''
+      dbName: ''
+      user: ''
+      password: ''
 kafka:
   user: ''
   servers: ''
@@ -58,10 +62,52 @@ kafka:
     credSource: USER_INFO
     user: ''
     url: ''
-oauth2:
+  topics:
+    paymentOriginalMessage:
+      name: gcp.ipt1.hp.evt.paymentoriginalmessage
+      consumerGroup: gcp.ipt1.hp.evt.sirspec1.paymentoriginalmessage
+    paymentOriginalMessageInbox:
+      name: gcp.ipt1.hp.evt.paymentoriginalmessageinbox
+      consumerGroup: gcp.ipt1.hp.evt.sirspec1.paymentoriginalmessageinbox
+    paymentOrderFlow:
+      name: gcp.ipt1.hp.evt.paymentorderflow
+      consumerGroup: gcp.ipt1.hp.evt.sirspec1.paymentorderflow
+    paymentOrderFlowInbox:
+      name: gcp.ipt1.hp.evt.paymentoriginalmessageinbox.01
+      consumerGroup: gcp.ipt1.sirspec.paymentoriginalmessageinbox
+    paymentOrderUpdate:
+      name: gcp.ipt1.hp.evt.paymentorderupdate
+    paymentOrderEventFlow:
+      name: gcp.ipt1.hp.evt.paymentordereventflow
+      consumerGroup: gcp.ipt1.hp.evt.sirspec.paymentordereventflow
+    paymentOrderEventFlowInbox:
+      name: gw.ipt1.hp.evt.paymentordereventflowinbox.01
+      consumerGroup: gw.ipt1.sirspec.paymentordereventflowinbox
+external:
+  service:
+    url: ''
+  rest:
+    response:
+      logging:
+        all: false
+    uri:
+      payOrderForward: WS9030
+      payOrderNotification: notUsed
+      payOrderPosting: WS9018
+      payOrderCancellation: WS9019
+      payOrderCrePosCanc: WS9013
+      payOrderCancellationRequest: WS9024
+      payOrderRjctCancellationRequest: WS9025
+      payOrderReturn: WS9016
+      payOrderCancellationRequestStatu: WS9017
+      payOrderReceivingOutboundTransfer: WS9004
+  nonretry:
+    codes: wrnA205,wrnA50,wrnB20,wrnA243,DU05,inf995
+keycloak:
   enabled: false
-  resourceUri: ''
-  authorizationPrefix: ''
+  realm: Holistic-Pay
+  serverUrl: ''
+  resource: aux
 request:
   sanitization:
     enabled: true
@@ -96,10 +142,11 @@ logger:
   logDir: /var/log/app
   logDirMount:
     enabled: false
-  microserviceTag: ''
-  databaseSlowQueryThreshold: 0
+  microserviceTag: ECSINT
+  maskSensitive: false
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
+springActiveProfile: prod
 podAnnotations: {}
 deploymentAnnotations: {}
 serviceAnnotations: {}
@@ -126,11 +173,11 @@ ingress:
   tls: []
 resources:
   limits:
-    cpu: 500m
-    memory: 768Mi
+    cpu: 1
+    memory: 1Gi
   requests:
     cpu: 50m
-    memory: 768Mi
+    memory: 256Mi
 initContainers: []
 nodeSelector: {}
 tolerations: []
@@ -171,9 +218,9 @@ deployment:
   terminationGracePeriodSeconds: 60
   restartPolicy: Always
   readinessProbe:
-    initialDelaySeconds: 10
+    initialDelaySeconds: 90
     periodSeconds: 60
-    timeoutSeconds: 10
+    timeoutSeconds: 180
     successThreshold: 1
     failureThreshold: 2
     httpGet:
@@ -181,7 +228,7 @@ deployment:
       port: http
       scheme: HTTPS
   livenessProbe:
-    initialDelaySeconds: 60
+    initialDelaySeconds: 90
     periodSeconds: 60
     timeoutSeconds: 10
     failureThreshold: 3
@@ -215,6 +262,9 @@ mountCaFromSecret:
 customVolumes: []
 customMounts: []
 customEnv: []
+tracing:
+  samplingProbability: 0.0
+  otlpEndpoint: http://tempo.monitor:4318/v1/traces
 inbox:
   scheduler:
     start: true
