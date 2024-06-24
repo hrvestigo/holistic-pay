@@ -85,6 +85,9 @@ oauth2:
 request:
   sanitization:
     enabled: true
+  header:
+    validation:
+      enabled: false
 response:
   encoding:
     enabled: false

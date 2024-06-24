@@ -267,6 +267,8 @@ spec:
             {{- end }}
             - name: REQUEST_BODY_SANITIZATION_ENABLED
               value: {{ .Values.request.sanitization.enabled | default "true" | quote }}
+            - name: REQUEST_BODY_HEADER_VALIDATION_ENABLED
+              value: {{ .Values.request.header.validation.enabled | default "false" | quote }}
             - name: RESPONSE_BODY_ENCODING_ENABLED
               value: {{ .Values.response.encoding.enabled | default "false" | quote }}
             {{- if .Values.oauth2.authorizationPrefix }}
