@@ -109,7 +109,7 @@ spec:
               value: {{ .Values.external.core.system.member.sign.default | quote }}
             - name: SEPA_INST_URL
               value: {{ .Values.sepa.inst.url | quote }}
-            - name: SECURITY_OAUTH2_OUTBOUND_TOKEN
+            - name: SECURITY_OUTBOUND_OAUTH2_TOKEN
               value: {{ .Values.security.oauth2.outbound.token | quote }}
             - name: SECURITY_OAUTH2_PROVIDER
               value: {{ .Values.security.oauth2.provider | quote }}
