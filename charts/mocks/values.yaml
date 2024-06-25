@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 3.0.0
+    tag: 3.22.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -237,7 +237,7 @@ tracing:
   otlpEndpoint: ''
 sepa:
   inst:
-    url:
+    url: null
 security:
   oauth2:
     outbound:
