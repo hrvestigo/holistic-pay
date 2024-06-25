@@ -84,7 +84,7 @@ oauth2:
   authorizationPrefix: ''
 request:
   sanitization:
-    enabled: true
+    enabled: false
   header:
     validation:
       enabled: false
