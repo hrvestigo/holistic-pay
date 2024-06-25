@@ -82,12 +82,6 @@ oauth2:
   enabled: false
   resourceUri: ''
   authorizationPrefix: ''
-request:
-  sanitization:
-    enabled: false
-  header:
-    validation:
-      enabled: false
 response:
   encoding:
     enabled: false
@@ -265,3 +259,9 @@ external:
       member:
         sign:
           default: RB
+request:
+  sanitization:
+    enabled: false
+  header:
+    validation:
+      enabled: false
