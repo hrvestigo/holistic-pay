@@ -179,7 +179,7 @@ spec:
             - name: KAFKA_TOPIC_PAYMENTORDEREVENTFLOWINBOX_NAME
               value: {{ .Values.kafka.topics.paymentOrderEventFlowInbox.name | quote }}
             - name: EXTERNAL_SERVICE_URL
-              value: {{ .Values.external.service.url | quote }}
+              value: {{ .Values.ecs.service.url | quote }}
             - name: EXTERNAL_REST_URI_PAYORDERFORWARD
               value: {{ .Values.external.rest.uri.payOrderForward | quote }}
             - name: EXTERNAL_REST_URI_PAYORDERNOTIFICATION
