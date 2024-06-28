@@ -58,6 +58,7 @@ oauth2:
 security:
   oauth2:
     outbound:
+      enable: false
       token: ''
     provider: ''
     client:
