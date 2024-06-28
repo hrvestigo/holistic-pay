@@ -32,11 +32,12 @@ secret:
   kafkaPassword: "AES-encoded-kafka-password" # string value
   kafkaSchemaRegistryPassword: "AES-encoded-kafka-schema-registry-password" # string value
   liquibasePassword: "AES-encoded-liquibase-password" # string value
-
+  mqPassword: "AES-encoded-mq-password" # string value
+  
 datasource:
-  host: "datasource-host" # string value
-  port: 9999 # int value
-  dbName: "database-name" # string value
+  serverName: "datasource-host" # string value
+  portNumber: 9999 # int value
+  databaseName: "database-name" # string value
   user: "database-user" # string value
 
 liquibase:
@@ -74,18 +75,33 @@ Additionally, liquibase is enabled by default, which requires some information i
 
 mocks-ms (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one application member has to be defined in `members` structure for complete setup. Please refer to [Multi-member setup](#multi-member-setup) for details.
 
+### External core system default values
+
+Sirius specific application allows parameterized setup of the following default values to be used in cases external core
+system doesn't provide values for these properties.
+
+```yaml
+external:
+  core:
+    system:
+      member:
+        sign:
+          default: "XX" # Default member sign to be used for tables which have no member sign in the external core system
+```
+
 ### Datasource connection setup
 
 All values required for PostgreSQL database connection are defined within `datasource` parent attribute.
 Application will not be able to connect to database if all attributes are not filled.
+Datasource is configured as atomikos XA datasource.
 
 Required datasource attributes:
 
 ```yaml
 datasource:
-  host: "db-hostname" # only PostgreSQL hostname has to be defined (for instance "localhost")
-  port: 5432 # PostgreSQL port number 
-  dbName: "database-name" # Name of PostgreSQL database
+  serverName: "db-hostname" # only PostgreSQL hostname has to be defined (for instance "localhost")
+  portNumber: 5432 # PostgreSQL port number 
+  databaseName: "database-name" # Name of PostgreSQL database
   user: "database-user" # User which application will use to connect to PostgreSQL
 ```
 
@@ -108,11 +124,18 @@ secret:
 Additional datasource connection properties can be set by overriding following default attributes:
 
 ```yaml
-datasource:
-  connTimeout: 60000 # defines time (in ms) after which active connection will timeout and be closed
-  maxPoolSize: 2 # defines max size of database connection pool
-  minIdle: 0 # defines min number of retained idle connections
-  idleTimeout: 120000 # defines the maximum amount of time that a connection is allowed to sit idle in the pool
+atomikos:
+  borrowConnectionTimeout: 30000 # defines time (in ms) after which active connection will timeout and be closed
+  maxIdleTime: 1800000 # defines the maximum amount of time that a connection is allowed to sit idle in the pool
+  maxLifetime: 3600000 # Defines the maximum lifetime (in milliseconds) of a connection in the pool.
+  maxPoolSize: 30 # defines max size of database connection pool
+  minPoolSize: 5 # Specifies the minimum number of connections that the pool will maintain at all times.
+  jtaTimeout: 60000 # Specifies the timeout (in seconds) for Java Transaction API (JTA) transactions. This defines how long a transaction can run before it is automatically rolled back if not completed.
+  connectionFactory:
+    maxIdleTime: 1800000 # Defines the maximum amount of time (in milliseconds) that a connection is allowed to sit idle in the connection factory pool before it is eligible for closing.
+    maxLifeTime: 3600000 # Defines the maximum lifetime (in milliseconds) of a connection in the connection factory pool.
+    maxPoolSize: 30 # Specifies the maximum number of connections that the connection factory pool can contain.
+    minPoolSize: 5 # Specifies the minimum number of connections that the connection factory pool will maintain at all times.
 ```
 
 Liquibase can be disabled if necessary with `liquibase.enabled` attribute (enabled by default):
@@ -515,7 +538,9 @@ Schema name for application member is auto-generated and will be in format `{mem
 
 `members` attribute enables customization on database level. It is possible to override specific datasource and liquibase parameters for each member separately.
 
-List of all attributes which can be overridden (connTimeout, maxPoolSize, minIdle and idleTimeout are globally set the same for all members):
+List of all attributes which can be overridden :
+(atomikos attributes are globally set the same for all members)
+(datasource serverName, databaseName, portNumber, user are set on default datasource and are the same for each member)
 
 ```yaml
 members:
@@ -529,17 +554,9 @@ members:
       syncOnly: false
     datasource:
       globalSchema: false
-      host: ""
-      port: ""
-      dbName: ""
-      user: ""
-      password: ""
 ```
 
 Each attribute within `members.datasource` and `members.liquibase` can be defined to override same values defined in `datasource` and `liquibase` blocks.
-
-For instance, if value of `member.datasource.dbName` attribute is modified, this value will be used instead of `datasource.dbName` for this member's datasource definition.
-Same logic is applied for all attributes.
 
 #### Database setup for multi-member
 
@@ -547,7 +564,6 @@ Person structure provides option to setup database in several different flavors:
 
 - all members in one database and one schema
 - all members in one database with multiple member-specific schemas
-- all members in member-specific databases
 
 For first option (all-in-one), it's necessary to set `members.datasource.globalSchema` attribute to `true` (default is `false`).
 When this option is enabled, generated schema name will no longer include `members.applicationMember`, but will instead hold value defined in `datasource.globalSchemaPrefix` attribute, which is set to "wo" by default.
@@ -588,33 +604,6 @@ members:
 Second option is to use a member-specific schemas for each member.
 This is a default setup, so if `members.datasource.globalSchema` is not set to `true`, member-specific schema will be used. With this setup, each member will use its own schema in one common database.
 
-Final option is to use a separate database (even on different host).
-For this setup, `members.datasource` parameters have to be overridden for each member that required separate database.
-
-For example, this setup would use different databases for default schema ("connect") and one additional for each member:
-
-```yaml
-datasource:
-  host: "host1"
-  port: "5432"
-  dbName: "db1"
-
-members:
-  - businessUnit: "AA"
-    applicationMember: "BB"
-    memberSign: "AB"
-    datasource:
-      host: "host2"
-      # port is not defined, datasource.port will be used
-      dbName: "db2"
-  - businessUnit: "AA"
-    applicationMember: "CC"
-    memberSign: "AC"
-    datasource:
-      # host and port are not defined, same datasource.host and datasource.port will be used, so this member will end up in same host as default "connect" schema
-      dbName: "db3"
-```
-
 ### oAuth2
 
 mocks-ms application can use oAuth2 service for authorization. By default, this option is disabled, but can easily be enabled by specifying following attributes in values:
@@ -630,6 +619,29 @@ To configure oAuth2, it first has to be enabled with `oAuth2.enabled` parameter.
 When enabled, `oAuth2.resourceUri` should also be defined.
 This URI should point to oAuth2 server with defined converter type and name, for example `https://oauth2.server/realm/Holistic-Pay`. If scope/role has variable prefix, which should not be considered as full role/scope name, this variable prefix should be defined. Every part of this variable part should be defined (e.g. if scopes are defined as MY_PREFIX:scope1 MY_PREFIX:scope2 etc, then variable prefix is 'MY_PREFIX:')
 
+### aAuth2 - outbound
+
+outbound oauth2 parameters are used when sending messages to external controllers.
+Current setting set for keycloak.
+
+```yaml
+security:
+  oauth2:
+    outbound:
+      token: true # true uses static token and false uses dynamic token
+    provider: keycloak # This indicates the provider's settings for the OAuth2 configuration (Keycloak, Google, Okta, etc.) .
+    client:
+      provider:
+        keycloak:
+          issuerUri: # The base URL of the identity provider that issues the tokens.
+          tokenUri: # Endpoint where the application can exchange authorization codes for access tokens, refresh tokens, and ID tokens.
+      registration:
+        keycloak:
+          clientId: sirius # The client ID as registered with Keycloak.
+          clientSecret: # The client secret as registered with Keycloak.
+          scope: openai # The scopes that the client requests during the OAuth2 flow, which determine the access privileges.
+```
+
 ### Request body sanitization and response body encoding
 
 mocks-ms application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
@@ -642,6 +654,34 @@ request:
 response:
   encoding:
     enabled: false
+```
+
+### SEPA parameters
+
+Location of the SEPA application.
+
+```yaml
+sepa:
+  inst:
+    url: http://localhost:8084 # Location to where SEPA messages are sent.
+```
+
+### IBM MQ setup
+
+Location of the SEPA application.
+
+```yaml
+ibmMq:
+  autoConfigure: true/false # this will be set to true by default, if set to false MQ app will not start.
+  queueManager: QMname # Queue manager name.
+  channel: CONN # The channel through which the application will connect to the Queue Manager.
+  connName: MQ(1111) # The connection name specifying the network address of the Queue Manager.
+  user: USER # The username used to authenticate with the Queue Manager.
+  sslCiphersuite: CIPHER_XXX # The SSL/TLS cipher suite used for securing communications between the application and the Queue Manager.
+  norkomcall:
+    queueName: mocks.norkom # Mock will represent norkom so this is external call to mock queue.
+  norkomresponse:
+    queueName: norkom.mocks # Queue to which mocks will answer with response message.
 ```
 
 ### Adding custom environment variables
@@ -1210,4 +1250,18 @@ This value can be changed by modifying existing parameters or adding custom, for
 javaOpts: "-Xms256M -Xmx512M -Dcustom.jvm.param=true"
 ```
 
+Note that deployment yaml will always add -Dcom.ibm.mq.cfg.useIBMCipherMappings=false because of CIPHER SUIT for SSL
+authentication so final value will have sufix.
+
+```yaml
+javaOpts: "-Xms256M -Xmx512M -Dcom.ibm.mq.cfg.useIBMCipherMappings=false"
+```
+
 Note that defining custom `javaOpts` attribute will override default one, so make sure to keep `Xms` and `Xmx` parameters.
+
+```yaml
+javaOpts: "-Xms256M -Xmx512M -Dcustom.jvm.param=true -Dcom.ibm.mq.cfg.useIBMCipherMappings=false"
+```
+
+
+

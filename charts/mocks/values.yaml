@@ -23,10 +23,6 @@ datasource:
   portNumber: ''
   currentSchema: CONNECT
   globalSchemaPrefix: wo
-  connTimeout: 60000
-  maxPoolSize: 2
-  minIdle: 0
-  idleTimeout: 120000
   connectionParams: {}
 liquibase:
   enabled: true
@@ -44,29 +40,6 @@ members:
     replicationRole: ''
   datasource:
     globalSchema: false
-ibmMq:
-  autoConfigure: true
-  queueManager: ''
-  channel: ''
-  connName: ''
-  user: ''
-  sslCiphersuite: ''
-  norkomcall:
-    queueName: ''
-  norkomresponse:
-    queueName: ''
-atomikos:
-  borrowConnectionTimeout: 30000
-  maxIdleTime: 1800000
-  maxLifetime: 3600000
-  maxPoolSize: 30
-  minPoolSize: 5
-  jtaTimeout: 60000
-  connectionFactory:
-    maxIdleTime: 1800000
-    maxLifeTime: 3600000
-    maxPoolSize: 30
-    minPoolSize: 5
 kafka:
   user: ''
   servers: ''
@@ -82,6 +55,21 @@ oauth2:
   enabled: false
   resourceUri: ''
   authorizationPrefix: ''
+security:
+  oauth2:
+    outbound:
+      token: ''
+    provider: ''
+    client:
+      provider:
+        keycloak:
+          issuerUri: ''
+          tokenUri: ''
+      registration:
+        keycloak:
+          clientId: ''
+          clientSecret: ''
+          scope: ''
 response:
   encoding:
     enabled: false
@@ -94,6 +82,7 @@ secret:
   keyStorePassword: ''
   datasourcePassword: ''
   liquibasePassword: ''
+  mqPassword: ''
 logger:
   format: STRING
   level:
@@ -235,33 +224,45 @@ customEnv: []
 tracing:
   samplingProbability: null
   otlpEndpoint: ''
-sepa:
-  inst:
-    url: null
-security:
-  oauth2:
-    outbound:
-      token: ''
-    provider: ''
-    client:
-      provider:
-        keycloak:
-          issuerUri: ''
-          tokenUri: ''
-      registration:
-        keycloak:
-          clientId: ''
-          clientSecret: ''
-          scope: ''
-external:
-  core:
-    system:
-      member:
-        sign:
-          default: RB
 request:
   sanitization:
     enabled: false
   header:
     validation:
       enabled: false
+
+ibmMq:
+  autoConfigure: true
+  queueManager: ''
+  channel: ''
+  connName: ''
+  user: ''
+  sslCiphersuite: ''
+  norkomcall:
+    queueName: ''
+  norkomresponse:
+    queueName: ''
+atomikos:
+  borrowConnectionTimeout: 30000
+  maxIdleTime: 1800000
+  maxLifetime: 3600000
+  maxPoolSize: 30
+  minPoolSize: 5
+  jtaTimeout: 60000
+  connectionFactory:
+    maxIdleTime: 1800000
+    maxLifeTime: 3600000
+    maxPoolSize: 30
+    minPoolSize: 5
+sepa:
+  inst:
+    url: null
+
+external:
+  core:
+    system:
+      member:
+        sign:
+          default: RB
+
+>>>>>>> 87bdb6f (add mq password adn fix readme file)
