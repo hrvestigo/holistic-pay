@@ -4847,6 +4847,16 @@ entries:
     version: 1.2.0
   balance-reconciliation:
   - apiVersion: v2
+    appVersion: 1.2.0
+    created: "2024-07-04T12:39:24.664079018Z"
+    description: Helm chart for balance-reconciliation application
+    digest: 49a0656ffe7acf7ca8dffe5ed59234201d59f5f68534f36c9c246ab7d79cb45b
+    name: balance-reconciliation
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/balance-reconciliation-1.2.0/balance-reconciliation-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
     appVersion: 1.1.0
     created: "2024-07-04T10:05:43.795856813Z"
     description: Helm chart for balance-reconciliation application
@@ -20531,4 +20541,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-04T11:04:12.613985459Z"
+generated: "2024-07-04T12:39:24.678198849Z"
