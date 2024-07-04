@@ -1,5 +1,5 @@
 {{- if .Values.ingress.enabled -}}
-{{- $name := include "${rootArtifactId}.name" . -}}
+{{- $name := include "balance-reconciliation.name" . -}}
 {{- $svcPort := .Values.service.port -}}
 {{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
@@ -17,7 +17,7 @@ kind: Ingress
 metadata:
   name: {{ $name }}
   labels:
-    {{- include "${rootArtifactId}.labels" . | nindent 4 }}
+    {{- include "balance-reconciliation.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

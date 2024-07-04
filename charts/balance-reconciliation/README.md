@@ -1,23 +1,23 @@
-# ${rootArtifactId} application
+# balance-reconciliation application
 
 ## Purpose
 
-This Helm chart installs ${rootArtifactId} application into your Kubernetes cluster.
+This Helm chart installs balance-reconciliation application into your Kubernetes cluster.
 
 Helm release name set during installation will be used for naming all resources created by this Helm chart.
 For example, if Chart is installed with name "my-chart", deployment name will have "my-chart" prefix, as well as all configmaps, secrets and other resources created by this chart.
 It is possible to override this behavior and to set custom name for resources using attribute `nameOverride` in custom values file.
 If this attribute is set, it's value will be used to name all the resources, and release name will be ignored.
 
-It is not possible to install application using default values only, there is a list of required attributes which should be applied when installing ${rootArtifactId}.
+It is not possible to install application using default values only, there is a list of required attributes which should be applied when installing balance-reconciliation.
 
 ## Required setup
 
 Required attributes should be defined in custom values file in `yaml` format (recommended) or propagated with `--set key=value` command during CLI installation, for example:
 
-`helm upgrade --install ${rootArtifactId} holisticpay/${rootArtifactId} -f my-values.yaml` or
+`helm upgrade --install balance-reconciliation holisticpay/balance-reconciliation -f my-values.yaml` or
 
-`helm upgrade --install ${rootArtifactId} holisticpay/${rootArtifactId} --set required-key1=value1 --set required-key2=value2 ...`
+`helm upgrade --install balance-reconciliation holisticpay/balance-reconciliation --set required-key1=value1 --set required-key2=value2 ...`
 
 Required values are (in `yaml` format):
 
@@ -67,12 +67,12 @@ Attribute `env.type` defines environment type. This attribute has a list of supp
 
 Other environment attribute is `env.label` which should hold short environment label, for instance `t1` for first test environment, or `d2` for second development environment. This attribute is used to generate database schema name.
 
-${rootArtifactId} application relies on Kafka and PostgreSQL backends.
+balance-reconciliation application relies on Kafka and PostgreSQL backends.
 In order to assure connectivity to those backends, it's required to set basic info into values file.
 
 Additionally, liquibase is enabled by default, which requires some information in order to run successfully. Either this information has to be provided, or liquibase has to be disabled with `liquibase.enabled` attribute set to `false`.
 
-${rootArtifactId} (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one application member has to be defined in `members` structure for complete setup. Please refer to [Multi-member setup](#multi-member-setup) for details.
+balance-reconciliation (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one application member has to be defined in `members` structure for complete setup. Please refer to [Multi-member setup](#multi-member-setup) for details.
 
 ### Datasource connection setup
 
@@ -136,8 +136,8 @@ Setup from this example would result with string "&ssl=true&sslmode=enable" appe
 
 ### Kafka setup
 
-${rootArtifactId}  uses Kafka as event stream backend.
-Other than Kafka cluster itself,  ${rootArtifactId} e application also uses Kafka Schema Registry, which setup also has to be provided in order to establish required connection.
+balance-reconciliation  uses Kafka as event stream backend.
+Other than Kafka cluster itself,  balance-reconciliation e application also uses Kafka Schema Registry, which setup also has to be provided in order to establish required connection.
 
 To connect to Kafka cluster, several attributes have to be defined in values file.
 All attributes under `kafka` parent attribute are required:
@@ -163,7 +163,7 @@ secret:
 
 Note that same `secret` attribute is used for both datasource and Kafka, so the same encryption/decryption key is used for encrypting passwords for both backends.
 
-Default Kafka cluster and Kafka Schema registry connection type used by ${rootArtifactId} is Basic auth (username and password).
+Default Kafka cluster and Kafka Schema registry connection type used by balance-reconciliation is Basic auth (username and password).
 If different connection type should be used, it's possible to override default setup by changing following attributes:
 
 ```yaml
@@ -181,7 +181,7 @@ kafka:
 
 #### Topics and consumer groups setup
 
-Kafka topics and consumer group names used by ${rootArtifactId} have default names defined in `values.yaml` file, but can be overridden with following setup:
+Kafka topics and consumer group names used by balance-reconciliation have default names defined in `values.yaml` file, but can be overridden with following setup:
 
 ```yaml
 kafka:
@@ -195,7 +195,7 @@ kafka:
 
 ### Configuring image source and pull secrets
 
-By default,  ${rootArtifactId}  image is pulled directly from Vestigo's repository hosted by Docker Hub.
+By default,  balance-reconciliation  image is pulled directly from Vestigo's repository hosted by Docker Hub.
 If mirror registry is used for example, image source can be modified using following attributes:
 
 ```yaml
@@ -216,12 +216,12 @@ Default pull policy is set to `IfNotPresent` but can also be modified for one or
 image:
   pullPolicy: Always # will be used as default for both images, default is IfNotPresent
   app:
-    pullPolicy: Never # will override image.pullPolicy for ${rootArtifactId} image
+    pullPolicy: Never # will override image.pullPolicy for balance-reconciliation image
   liquibase:
     pullPolicy: IfNotPresent # will override image.pullPolicy for Liquibase image
 ```
 
-${rootArtifactId}  image tag is normally read from Chart definition, but if required, it can be overridden with attribute `image.app.tag`, for example:
+balance-reconciliation  image tag is normally read from Chart definition, but if required, it can be overridden with attribute `image.app.tag`, for example:
 
 ```yaml
 image:
@@ -229,8 +229,8 @@ image:
     tag: custom-tag
 ```
 
-${rootArtifactId}  image is located on Vestigo's private Docker Hub registry, and if image registry is set to docker.io, pull secret has to be defined.
-Pull secret is not set by default, and it should be created prior to ${rootArtifactId} installation in target namespace.
+balance-reconciliation  image is located on Vestigo's private Docker Hub registry, and if image registry is set to docker.io, pull secret has to be defined.
+Pull secret is not set by default, and it should be created prior to balance-reconciliation installation in target namespace.
 Secret should contain credentials provided by Vestigo.
 
 Once secret is created, it should be set with `imagePullSecrets.name` attribute, for example:
@@ -242,7 +242,7 @@ imagePullSecrets:
 
 ### TLS setup
 
-${rootArtifactId}  application is prepared to use TLS, but requires provided server certificate.
+balance-reconciliation  application is prepared to use TLS, but requires provided server certificate.
 Server certificate is not provided by default (expected to be provided manually) and there are no predefined trust or key stores for TLS/mTLS.
 However, there are several different possibilities for customizing TLS setup.
 
@@ -272,7 +272,7 @@ When using initContainer for server certificate, volume will be stored in memory
 #### Provide server certificate from predefined secret
 
 Server certificate can be provided using predefined secret.
-**Note that this secret has to be created in target namespace prior to installation of ${rootArtifactId} application.**
+**Note that this secret has to be created in target namespace prior to installation of balance-reconciliation application.**
 Additionally, both certificate and key files should be in one single secret.
 
 When using secret for server certificate, following values have to be provided:
@@ -316,20 +316,20 @@ Defined `volumeMounts.name` from `initContainer` should also be used to define c
 
 ```yaml
 customVolumes:
-  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in ${rootArtifactId} container
+  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in balance-reconciliation container
     emptyDir: # any other volume type is OK
       medium: "Memory"
 ```
 
-${rootArtifactId} container should also mount this volume, so a custom `volumeMount` is required, for example:
+balance-reconciliation container should also mount this volume, so a custom `volumeMount` is required, for example:
 
 ```yaml
 customMounts:
-  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in ${rootArtifactId} container
+  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in balance-reconciliation container
     mountPath: /some/mount/path # this path should be used for custom environment variables
 ```
 
-Note that `mountPath` variable is used to specify a location of trust store in ${rootArtifactId} container.
+Note that `mountPath` variable is used to specify a location of trust store in balance-reconciliation container.
 Suggested location is: `/mnt/k8s/trust-store`.
 
 To make trust store available to underlying application server, its location (absolute path - `mountPath` and file name) should be defined in following environment variables:
@@ -356,7 +356,7 @@ secret:
 #### Provide trust store from predefined secret
 
 Trust store can also be provided by using predefined secret.
-**Note that this secret has to be created in target namespace prior to installation of ${rootArtifactId} application.**
+**Note that this secret has to be created in target namespace prior to installation of balance-reconciliation application.**
 Additionally, both certificate and key files should be in one single secret.
 
 When adding trust store as secret, following values have to be provided:
@@ -405,7 +405,7 @@ Note that either `mountTrustStoreFromSecret` or `mountCaFromSecret` can be used,
 
 #### Provide mTLS key store from `initContainer`
 
-mTLS support can be added to ${rootArtifactId} application in two different ways.
+mTLS support can be added to balance-reconciliation application in two different ways.
 
 As for trust store, key store could also be provided via custom `initContainer`, with similar requirements.
 
@@ -428,20 +428,20 @@ Defined `volumeMounts.name` from `initContainer` should also be used to define c
 
 ```yaml
 customVolumes:
-  - name: key-store-volume-name # has to match name in initContainer and volumeMount in ${rootArtifactId} container
+  - name: key-store-volume-name # has to match name in initContainer and volumeMount in balance-reconciliation container
     emptyDir: # any other volume type is OK
       medium: "Memory"
 ```
 
-${rootArtifactId} container should also mount this volume, so a custom `volumeMount` is required, for example:
+balance-reconciliation container should also mount this volume, so a custom `volumeMount` is required, for example:
 
 ```yaml
 customMounts:
-  - name: key-store-volume-name # has to match name in initContainer and volumeMount in ${rootArtifactId} container
+  - name: key-store-volume-name # has to match name in initContainer and volumeMount in balance-reconciliation container
     mountPath: /some/mount/path # this path should be used for custom environment variables
 ```
 
-Note that `mountPath` variable is used to specify a location of key store in ${rootArtifactId} container.
+Note that `mountPath` variable is used to specify a location of key store in balance-reconciliation container.
 Suggested location is: `/mnt/k8s/trust-store`.
 
 To make key store available to underlying application server, its location (absolute path - `mountPath` and file name) should be defined in environment variable.
@@ -467,7 +467,7 @@ Password should be encoded using key defined in `secret.decryptionKey`.
 #### Provide mTLS key store from predefined secret
 
 Key store required for mTLS can also be provided via predefined secret.
-**Note that this secret has to be created in target namespace prior to installation of ${rootArtifactId} application.**
+**Note that this secret has to be created in target namespace prior to installation of balance-reconciliation application.**
 
 When adding key store from secret, following values have to be provided:
 
@@ -497,11 +497,11 @@ When using secret to mount key store, no additional custom setup is required.
 
 ## Customizing installation
 
-Besides required attributes, installation of ${rootArtifactId} can be customized in different ways.
+Besides required attributes, installation of balance-reconciliation can be customized in different ways.
 
 ### Multi-member setup
 
-${rootArtifactId}  application (along with all other HolisticPay applications) supports multi-member setup. In order to complete application setup, at least a mandatory set of attributes has to be defined:
+balance-reconciliation  application (along with all other HolisticPay applications) supports multi-member setup. In order to complete application setup, at least a mandatory set of attributes has to be defined:
 
 ```yaml
 members:
@@ -617,7 +617,7 @@ members:
 
 ### oAuth2
 
-${rootArtifactId} application can use oAuth2 service for authorization. By default, this option is disabled, but can easily be enabled by specifying following attributes in values:
+balance-reconciliation application can use oAuth2 service for authorization. By default, this option is disabled, but can easily be enabled by specifying following attributes in values:
 
 ```yaml
 oAuth2:
@@ -632,7 +632,7 @@ This URI should point to oAuth2 server with defined converter type and name, for
 
 ### Request body sanitization and response body encoding
 
-${rootArtifactId} application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
+balance-reconciliation application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
 
 ```yaml
 request:
@@ -646,7 +646,7 @@ response:
 
 ### Adding custom environment variables
 
-Custom environment variables can be added to ${rootArtifactId} container by applying `customEnv` value, for example:
+Custom environment variables can be added to balance-reconciliation container by applying `customEnv` value, for example:
 
 ```yaml
 customEnv:
@@ -658,24 +658,24 @@ customEnv:
 
 ### Adding custom mounts
 
-Values file can be used to specify additional custom `volume` and `volumeMounts` to be added to ${rootArtifactId} container.
+Values file can be used to specify additional custom `volume` and `volumeMounts` to be added to balance-reconciliation container.
 
 For example, custom volume mount could be added by defining this setup:
 
 ```yaml
 customVolumes:
-  - name: my-custom-volume # has to match name in initContainer and volumeMount in ${rootArtifactId} container
+  - name: my-custom-volume # has to match name in initContainer and volumeMount in balance-reconciliation container
     emptyDir: # any other volume type is OK
       medium: "Memory"
 
 customMounts:
-  - name: my-custom-volume # has to match name in initContainer and volumeMount in ${rootArtifactId} container
+  - name: my-custom-volume # has to match name in initContainer and volumeMount in balance-reconciliation container
     mountPath: /some/mount/path # this path should be used for custom environment variables
 ```
 
 ### Customizing container logs
 
-${rootArtifactId} application is predefined to redirect all logs to `stdout` expect for Web Server logs (`access.log`) and health check logs, which are not logged by default.
+balance-reconciliation application is predefined to redirect all logs to `stdout` expect for Web Server logs (`access.log`) and health check logs, which are not logged by default.
 However, using custom configuration, logs can be redirected to log files also (in addition to `stdout`).
 
 When enabling logging to file, container will divide logs into four different files:
@@ -862,7 +862,7 @@ Examples of how log entries would look like for each value:
 
 ### Modifying deployment strategy
 
-Default deployment strategy for ${rootArtifactId} application is `RollingUpdate`, but it can be overridden, along with other deployment parameters using following attributes (default values are shown):
+Default deployment strategy for balance-reconciliation application is `RollingUpdate`, but it can be overridden, along with other deployment parameters using following attributes (default values are shown):
 
 ```yaml
 deployment:
@@ -878,11 +878,11 @@ deployment:
   restartPolicy: Always
 ```
 
-By default, one replica of ${rootArtifactId} is installed on Kubernetes cluster. Number of replicas can be statically modified with above configuration, or `HorizontalPodAutoscaler` option can be used to let Kubernetes automatically scale application when required.
+By default, one replica of balance-reconciliation is installed on Kubernetes cluster. Number of replicas can be statically modified with above configuration, or `HorizontalPodAutoscaler` option can be used to let Kubernetes automatically scale application when required.
 
 #### Customizing pod resource requests and limits
 
-Following are the default values for ${rootArtifactId} requests and limits:
+Following are the default values for balance-reconciliation requests and limits:
 
 ```yaml
 resources:
@@ -936,13 +936,13 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80 # not used by default
 ```
 
-CPU and/or memory utilization metrics can be used to autoscale ${rootArtifactId} pod.
+CPU and/or memory utilization metrics can be used to autoscale balance-reconciliation pod.
 It's possible to define one or both of those metrics.
 If only `autoscaling.enabled` attribute is set to `true`, without setting other attributes, only CPU utilization metric will be used with percentage set to 80.
 
 ### Customizing probes
 
-${rootArtifactId} application has predefined health check probes (readiness and liveness).
+balance-reconciliation application has predefined health check probes (readiness and liveness).
 Following are the default values:
 
 ```yaml
@@ -987,12 +987,12 @@ deployment:
           value: localhost
 ```
 
-Note that  ${rootArtifactId}  has health checks available within the `/health` endpoint (`/health/readiness` for readiness and `/health/liveness` for liveness), and this base paths should not modified, only query parameters are subject to change.
+Note that  balance-reconciliation  has health checks available within the `/health` endpoint (`/health/readiness` for readiness and `/health/liveness` for liveness), and this base paths should not modified, only query parameters are subject to change.
 `scheme` attribute should also be set to `HTTPS` at all times, as well as `http` value for `port` attribute.
 
 ### Customizing security context
 
-Security context for ${rootArtifactId} can be set on pod and/or on container level.
+Security context for balance-reconciliation can be set on pod and/or on container level.
 By default, pod security context is defined with following values:
 
 ```yaml
@@ -1011,13 +1011,13 @@ securityContext:
   runAsGroup: 0
 ```
 
-Note that container level security context will be applied to both containers in ${rootArtifactId} pod (Liquibase init container and ${rootArtifactId} container).
+Note that container level security context will be applied to both containers in balance-reconciliation pod (Liquibase init container and balance-reconciliation container).
 
 ### Customizing network setup
 
 #### Service setup
 
-When installing ${rootArtifactId} using default setup, a `Service` object will be created of `ClusterIP` type exposed on port 8443.
+When installing balance-reconciliation using default setup, a `Service` object will be created of `ClusterIP` type exposed on port 8443.
 Those values can be modified by setting following attributes in custom values file, for example for `NodePort`:
 
 ```yaml
@@ -1084,7 +1084,7 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
   hosts:
-    - host: ${rootArtifactId}.custom.url
+    - host: balance-reconciliation.custom.url
       paths:
         - path: /
           pathType: Prefix
@@ -1116,7 +1116,7 @@ Init container can have all standard Kubernetes attributes in its specification.
 
 ### Customizing affinity rules, node selector and tolerations
 
-${rootArtifactId} deployment has some predefined affinity rules, as listed below:
+balance-reconciliation deployment has some predefined affinity rules, as listed below:
 
 ```yaml
 affinity:
@@ -1141,7 +1141,7 @@ affinity:
               - key: app
                 operator: In
                 values:
-                  - ${rootArtifactId}
+                  - balance-reconciliation
           topologyKey: kubernetes.io/hostname
 ```
 
@@ -1182,7 +1182,7 @@ deployment:
 
 ### Additional custom configuration
 
-There are some other customizable attributes predefined in  ${rootArtifactId}  application.
+There are some other customizable attributes predefined in  balance-reconciliation  application.
 
 One of them is related to HTTP return code which is returned by application if health check fails.
 Default value for this attribute is 418 but it can be customized if necessary, for example:
@@ -1197,7 +1197,7 @@ There's a possibility to define a custom timezone (there is no default one), by 
 timezone: Europe/London
 ```
 
-Finally, since  ${rootArtifactId}  is an Java application, there's a possibility to set custom JVM parameters.
+Finally, since  balance-reconciliation  is an Java application, there's a possibility to set custom JVM parameters.
 There is a predefined value which specifies `Xms` and `Xmx` JVM parameters:
 
 ```yaml

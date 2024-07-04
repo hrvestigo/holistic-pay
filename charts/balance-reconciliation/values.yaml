@@ -174,7 +174,7 @@ affinity:
           - key: app
             operator: In
             values:
-            - ${rootArtifactId}
+            - balance-reconciliation
         topologyKey: kubernetes.io/hostname
 deployment:
   replicaCount: 1

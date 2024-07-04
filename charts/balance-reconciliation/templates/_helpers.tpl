@@ -1,32 +1,32 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "${rootArtifactId}.name" -}}
+{{- define "balance-reconciliation.name" -}}
 {{- default .Release.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "${rootArtifactId}.chart" -}}
+{{- define "balance-reconciliation.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
-Defies fixed part of ${rootArtifactId} datasource schema name
+Defies fixed part of balance-reconciliation datasource schema name
 */}}
-{{- define "${rootArtifactId}.dbSchema" -}}
+{{- define "balance-reconciliation.dbSchema" -}}
 {{- "schemaname" }}
 {{- end }}
 
 {{/*
-${rootArtifactId} image repository
+balance-reconciliation image repository
 */}}
-{{- define "${rootArtifactId}.app.repository" -}}
+{{- define "balance-reconciliation.app.repository" -}}
 {{- if .Values.image.app.imageLocation }}
 {{- .Values.image.app.imageLocation }}
 {{- else }}
-{{- $psRepo := "hrvestigo/${rootArtifactId}-ms" }}
+{{- $psRepo := "hrvestigo/balance-reconciliation-ms" }}
 {{- $reg := default .Values.image.registry .Values.image.app.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $psRepo }}
@@ -37,9 +37,9 @@ ${rootArtifactId} image repository
 {{- end }}
 
 {{/*
-${rootArtifactId} image pull policy
+balance-reconciliation image pull policy
 */}}
-{{- define "${rootArtifactId}.app.imagePullPolicy" -}}
+{{- define "balance-reconciliation.app.imagePullPolicy" -}}
 {{- $reg := default .Values.image.pullPolicy .Values.image.app.pullPolicy }}
 {{- default "IfNotPresent" $reg }}
 {{- end }}
@@ -47,11 +47,11 @@ ${rootArtifactId} image pull policy
 {{/*
 Liquibase image
 */}}
-{{- define "${rootArtifactId}.liquibase.image" }}
+{{- define "balance-reconciliation.liquibase.image" }}
 {{- if .Values.image.liquibase.imageLocation }}
 {{- printf "%s:%s" .Values.image.liquibase.imageLocation .Values.image.liquibase.tag }}
 {{- else }}
-{{- $liquiRepo := "hrvestigo/${rootArtifactId}-lb" }}
+{{- $liquiRepo := "hrvestigo/balance-reconciliation-lb" }}
 {{- $reg := default $.Values.image.registry $.Values.image.liquibase.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $liquiRepo }}
@@ -64,28 +64,28 @@ Liquibase image
 {{/*
 Liquibase init container definition
 */}}
-{{- define "${rootArtifactId}.liquibase.initContainer" }}
+{{- define "balance-reconciliation.liquibase.initContainer" }}
 {{- range $k, $member := .Values.members }}
 - name: liquibase-{{ .memberSign | lower }}
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
-  image: {{ printf "%s%s%s%s%s" (include "${rootArtifactId}.liquibase.image" $) "-" ($member.businessUnit | lower ) ":" $.Values.image.liquibase.tag }}
+  image: {{ printf "%s%s%s%s%s" (include "balance-reconciliation.liquibase.image" $) "-" ($member.businessUnit | lower ) ":" $.Values.image.liquibase.tag }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   resources:
-    {{- include "${rootArtifactId}.liquibase.initContainer.resources" $ | nindent 4 }}
+    {{- include "balance-reconciliation.liquibase.initContainer.resources" $ | nindent 4 }}
   volumeMounts:
     - mountPath: /liquibase/secret/
-      name: {{ include "${rootArtifactId}.name" $ }}-secret
+      name: {{ include "balance-reconciliation.name" $ }}-secret
   env:
     - name: SCHEMA_NAME
   {{- if $member.datasource }}
     {{- if $member.datasource.globalSchema }}
-      value: {{ $member.businessUnit | lower }}{{ required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix }}{{ include "${rootArtifactId}.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
+      value: {{ $member.businessUnit | lower }}{{ required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix }}{{ include "balance-reconciliation.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
     {{- else }}
-      value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "${rootArtifactId}.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
+      value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "balance-reconciliation.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
     {{- end }}
   {{- else }}
-      value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "${rootArtifactId}.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
+      value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "balance-reconciliation.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
   {{- end }}
   {{- if $member.liquibase }}
     - name: ROLE
@@ -126,7 +126,7 @@ Liquibase init container definition
 {{/*
 Liquibase init container resources
 */}}
-{{- define "${rootArtifactId}.liquibase.initContainer.resources" -}}
+{{- define "balance-reconciliation.liquibase.initContainer.resources" -}}
 {{- if .Values.liquibase.resources }}
 {{- toYaml .Values.liquibase.resources }}
 {{- else }}
@@ -137,7 +137,7 @@ Liquibase init container resources
 {{/*
 Trust store env variables
 */}}
-{{- define "${rootArtifactId}.trustStoreEnv" -}}
+{{- define "balance-reconciliation.trustStoreEnv" -}}
 {{- $trustStoreLocation := "/mnt/k8s/trust-store/" }}
 {{- if .Values.mountTrustStoreFromSecret.enabled -}}
 {{- $trustStoreName := required "Please specify trust store file name in mountTrustStoreFromSecret.trustStoreName" .Values.mountTrustStoreFromSecret.trustStoreName }}
@@ -164,11 +164,11 @@ Trust store env variables
 {{/*
 Common labels
 */}}
-{{- define "${rootArtifactId}.labels" -}}
-helm.sh/chart: {{ include "${rootArtifactId}.chart" . }}
-app: {{ include "${rootArtifactId}.name" . }}
+{{- define "balance-reconciliation.labels" -}}
+helm.sh/chart: {{ include "balance-reconciliation.chart" . }}
+app: {{ include "balance-reconciliation.name" . }}
 project: HolisticPay
-{{ include "${rootArtifactId}.selectorLabels" . }}
+{{ include "balance-reconciliation.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -178,28 +178,28 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "${rootArtifactId}.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "${rootArtifactId}.name" . }}
+{{- define "balance-reconciliation.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "balance-reconciliation.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Volumes
 */}}
-{{- define "${rootArtifactId}.volumes" -}}
+{{- define "balance-reconciliation.volumes" -}}
 {{- with .Values.customVolumes -}}
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
-- name: {{ include "${rootArtifactId}.name" . }}-secret
+- name: {{ include "balance-reconciliation.name" . }}-secret
   secret:
-    secretName: {{ include "${rootArtifactId}.name" . }}-secret
+    secretName: {{ include "balance-reconciliation.name" . }}-secret
     items:
       - path: password.conf
         key: password.conf
-- name: {{ include "${rootArtifactId}.name" . }}-configmap
+- name: {{ include "balance-reconciliation.name" . }}-configmap
   configMap:
-    name: {{ include "${rootArtifactId}.name" . }}-configmap
+    name: {{ include "balance-reconciliation.name" . }}-configmap
 - name: server-cert
 {{- if .Values.mountServerCertFromSecret.enabled }}
   secret:
@@ -246,17 +246,17 @@ Volumes
 {{- end }}
 
 {{/*
-Mounts for ${rootArtifactId} application
+Mounts for balance-reconciliation application
 */}}
-{{- define "${rootArtifactId}.mounts" -}}
+{{- define "balance-reconciliation.mounts" -}}
 {{- with .Values.customMounts -}}
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
 - mountPath: /mnt/k8s/secrets/
-  name: {{ include "${rootArtifactId}.name" . }}-secret
+  name: {{ include "balance-reconciliation.name" . }}-secret
 - mountPath: /usr/app/config
-  name: {{ include "${rootArtifactId}.name" . }}-configmap
+  name: {{ include "balance-reconciliation.name" . }}-configmap
 {{- if .Values.mountServerCertFromSecret.enabled }}
 - mountPath: /mnt/k8s/tls-server/key.pem
   name: server-cert
@@ -292,7 +292,7 @@ Mounts for ${rootArtifactId} application
 {{/*
 Definition of application members
 */}}
-{{- define "${rootArtifactId}.members" -}}
+{{- define "balance-reconciliation.members" -}}
 {{- $members := list -}}
 {{- range $k, $member := .Values.members }}
 {{- $members = append $members $member.memberSign }}
@@ -303,21 +303,21 @@ Definition of application members
 {{/*
 Application secrets
 */}}
-{{- define "${rootArtifactId}.passwords" -}}
+{{- define "balance-reconciliation.passwords" -}}
 {{ tpl (.Files.Get "config/password.conf") . | b64enc }}
 {{- end }}
 
 {{/*
 Application logger
 */}}
-{{- define "${rootArtifactId}.logger" -}}
+{{- define "balance-reconciliation.logger" -}}
 {{ tpl (.Files.Get "config/log4j2.xml") . }}
 {{- end }}
 
 {{/*
 Defines custom datasource connection parameters appended to URL
 */}}
-{{- define "${rootArtifactId}.db.connectionParams" -}}
+{{- define "balance-reconciliation.db.connectionParams" -}}
 {{- $atts := list -}}
 {{- range $key, $value := .Values.datasource.connectionParams }}
 {{- $atts = append $atts (printf "%s%s%s" $key "=" $value) }}
