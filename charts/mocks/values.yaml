@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 3.26.0
+    tag: 3.33.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -231,7 +231,6 @@ request:
   header:
     validation:
       enabled: false
-
 ibmMq:
   autoConfigure: true
   queueManager: ''
@@ -258,7 +257,6 @@ atomikos:
 sepa:
   inst:
     url: null
-
 external:
   core:
     system:
