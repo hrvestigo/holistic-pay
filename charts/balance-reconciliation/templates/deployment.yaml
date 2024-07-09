@@ -151,6 +151,8 @@ spec:
               value: {{ .Values.external.analytic.overdraft.url | quote }}
             - name: EXTERNAL_ANALYTIC_TRANSACTION_URL
               value: {{ .Values.external.analytic.transaction.url | quote }}
+            - name: EXTERNAL_ANALYTIC_TRANSACTION_INDIVIDUAL_URL
+              value: {{ .Values.external.analytic.transaction.individual.url | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

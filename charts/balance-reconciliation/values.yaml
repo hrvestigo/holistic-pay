@@ -76,6 +76,8 @@ external:
       url: ''
     transaction:
       url: ''
+      individual:
+        url: ''
 oauth2:
   enabled: false
   resourceUri: ''
