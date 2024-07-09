@@ -115,6 +115,20 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
+        - id: balance-reconciliation-ms_route
+          predicates:
+            - Path=/api/*/balance/reconciliation/generate_file
+          uri: https://{{ required "Balance reconciliation application service name has to be defined in routes.balanceReconciliation.serviceName" .Values.routes.balanceReconciliation.serviceName }}:{{ required "Balance reconciliation application port number has to be defined in routes.balanceReconciliation.servicePortNumber" .Values.routes.balanceReconciliation.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        - id: sirius-query-ms_route
+          predicates:
+            - Path=/api/*/sirius/query/overdraft/*/summary, /api/*/sirius/query/transaction/*/summary, /api/*/sirius/query/transaction/analytic/individual
+          uri: https://{{ required "Sirius query application service name has to be defined in routes.siriusQuery.serviceName" .Values.routes.siriusQuery.serviceName }}:{{ required "Sirius query application port number has to be defined in routes.siriusQuery.servicePortNumber" .Values.routes.siriusQuery.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
         - id: person-registry-web_route
           predicates:
             - Path=/**

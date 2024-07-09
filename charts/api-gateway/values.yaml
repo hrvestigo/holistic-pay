@@ -75,6 +75,12 @@ routes:
   vetoManager:
     serviceName: veto-manager
     servicePortNumber: "8443"
+  balanceReconciliation:
+    serviceName: balance-reconciliation
+    servicePortNumber: "8443"
+  siriusQuery:
+    serviceName: sirius-query
+    servicePortNumber: "8443"
 
 oauth2:
   enabled: false

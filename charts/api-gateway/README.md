@@ -59,6 +59,12 @@ routes:
   vetoManager:
     serviceName: veto-manager # name of veto-manager service, default is veto-manager
     servicePortNumber: "8443"  # port number on which veto-manager service is exposed, default is 8443
+  balanceReconciliation:
+    serviceName: balance-reconciliation # name of balance-reconciliation service, default is balance-reconciliation
+    servicePortNumber: "8443" # port number on which balance-reconciliation service is exposed, default is 8443
+  siriusQuery:
+    serviceName: sirius-query # name of sirius-query service, default is sirius-query
+    servicePortNumber: "8443" # port number on which sirius-query service is exposed, default is 8443
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value, no default value
