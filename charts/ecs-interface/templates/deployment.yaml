@@ -181,25 +181,25 @@ spec:
             - name: EXTERNAL_SERVICE_URL
               value: {{ .Values.ecs.service.url | quote }}
             - name: EXTERNAL_REST_URI_PAYORDERFORWARD
-              value: {{ .Values.external.rest.uri.payOrderForward | quote }}
+              value: {{ .Values.ecs.rest.uri.payOrderForward | quote }}
             - name: EXTERNAL_REST_URI_PAYORDERNOTIFICATION
-              value: {{ .Values.external.rest.uri.payOrderNotification | quote }}
+              value: {{ .Values.ecs.rest.uri.payOrderNotification | quote }}
             - name: EXTERNAL_REST_URI_PAYORDERPOSTING
-              value: {{ .Values.external.rest.uri.payOrderPosting | quote }}
+              value: {{ .Values.ecs.rest.uri.payOrderPosting | quote }}
             - name: EXTERNAL_REST_URI_PAYORDERCANCELLATION
-              value: {{ .Values.external.rest.uri.payOrderCancellation | quote }}
+              value: {{ .Values.ecs.rest.uri.payOrderCancellation | quote }}
             - name: EXTERNAL_REST_URI_PAYORDERCREPOSCANC
-              value: {{ .Values.external.rest.uri.payOrderCrePosCanc | quote }}
+              value: {{ .Values.ecs.rest.uri.payOrderCrePosCanc | quote }}
             - name: EXTERNAL_REST_URI_PAYORDERCANCELLATIONREQUEST
-              value: {{ .Values.external.rest.uri.payOrderCancellationRequest | quote }}
+              value: {{ .Values.ecs.rest.uri.payOrderCancellationRequest | quote }}
             - name: EXTERNAL_REST_URI_PAYORDERRJCTCANCELLATIONREQUEST
-              value: {{ .Values.external.rest.uri.payOrderRjctCancellationRequest | quote }}
+              value: {{ .Values.ecs.rest.uri.payOrderRjctCancellationRequest | quote }}
             - name: EXTERNAL_REST_URI_PAYORDERRETURN
-              value: {{ .Values.external.rest.uri.payOrderReturn | quote }}
+              value: {{ .Values.ecs.rest.uri.payOrderReturn | quote }}
             - name: EXTERNAL_REST_URI_PAYORDERCANCELLATIONREQUESTSTATUS
-              value: {{ .Values.external.rest.uri.payOrderCancellationRequestStatu | quote }}
+              value: {{ .Values.ecs.rest.uri.payOrderCancellationRequestStatu | quote }}
             - name: EXTERNAL_NONRETRY_CODES
-              value: {{ .Values.external.nonretry.codes | quote }}
+              value: {{ .Values.ecs.nonretry.codes | quote }}
             - name: INBOX_SCHEDULER
               value: {{ .Values.inbox.scheduler.start | quote }}
             - name: INBOX_SCHEDULER_LEVEL1_FIXEDRATE
