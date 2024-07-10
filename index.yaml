@@ -15821,6 +15821,16 @@ entries:
     version: 1.0.0
   sirius-query:
   - apiVersion: v2
+    appVersion: 1.5.0
+    created: "2024-07-10T13:03:30.213358892Z"
+    description: Helm chart for sirius-query application
+    digest: f4316680c828ef3bf4d7717311cbe117d21084638d6d9c1cd33b706c2ff424dc
+    name: sirius-query
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-query-1.5.0/sirius-query-1.5.0.tgz
+    version: 1.5.0
+  - apiVersion: v2
     appVersion: 1.4.0
     created: "2024-07-10T11:10:42.937302919Z"
     description: Helm chart for sirius-query application
@@ -20852,4 +20862,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-10T12:44:11.675483302Z"
+generated: "2024-07-10T13:03:30.226790278Z"
