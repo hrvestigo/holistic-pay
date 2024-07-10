@@ -5,6 +5,9 @@ metadata:
   labels:
     {{- include "balance-reconciliation.labels" . | nindent 4 }}
 {{- with .Values.deployment.annotations }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+{{- with .Values.deployment.annotations }}
   annotations:
 {{ toYaml . | indent 4 }}
 {{- end }}
