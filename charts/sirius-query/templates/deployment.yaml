@@ -64,9 +64,9 @@ spec:
             - name: SERVER_PORT
               value: "8443"
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://{{- required "Please specify DB host name in datasource.host" .Values.datasource.host -}}:
+              value: "jdbc:db2://{{- required "Please specify DB host name in datasource.host" .Values.datasource.host -}}:
               {{- required "Please specify DB port in datasource.port" .Values.datasource.port -}}/
-              {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}?currentSchema=CONNECT
+              {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}:currentSchema=CONNECT
               {{- include "sirius-query.db.connectionParams" $ -}}"
             - name: SPRING_DATASOURCE_USERNAME
               value: {{ required "Please specify DB user in datasource.user" .Values.datasource.user | quote }}
@@ -74,26 +74,26 @@ spec:
             - name: SPRING_DATASOURCE_URL_{{ .memberSign }}
               {{- if .datasource }}
                 {{- if .datasource.globalSchema }}
-              value: "jdbc:postgresql://
+              value: "jdbc:db2://
               {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
               :
               {{- default (required "Please specify DB port in datasource.port or override with member specific in members.datasource.port" $.Values.datasource.port) .datasource.port -}}
               /
               {{- default (required "Please specify database name in datasource.dbName or override with member specific in members.datasource.dbName" $.Values.datasource.dbName) .datasource.dbName -}}
-              ?currentSchema=
+              :currentSchema=
               {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
               {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
               {{- include "sirius-query.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
               {{- include "sirius-query.db.connectionParams" $ -}}"
                 {{- else }}
-              value: "jdbc:postgresql://
+              value: "jdbc:db2://
               {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
               :
               {{- default (required "Please specify DB port in datasource.port or override with member specific in members.datasource.port" $.Values.datasource.port) .datasource.port -}}
               /
               {{- default (required "Please specify database name in datasource.dbName or override with member specific in members.datasource.dbName" $.Values.datasource.dbName) .datasource.dbName -}}
-              ?currentSchema=
+              :currentSchema=
               {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
               {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
               {{- include "sirius-query.dbSchema" $ -}}
@@ -103,13 +103,13 @@ spec:
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ default (required "Please specify DB user in datasource.user" $.Values.datasource.user | quote) .datasource.user }}
               {{- else }}
-              value: "jdbc:postgresql://
+              value: "jdbc:db2://
               {{- required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host -}}
               :
               {{- required "Please specify DB port in datasource.port or override with member specific in members.datasource.port" $.Values.datasource.port -}}
               /
               {{- required "Please specify database name in datasource.dbName or override with member specific in members.datasource.dbName" $.Values.datasource.dbName -}}
-              ?currentSchema=
+              :currentSchema=
               {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
               {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
               {{- include "sirius-query.dbSchema" $ -}}
