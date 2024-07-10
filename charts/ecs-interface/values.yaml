@@ -83,7 +83,7 @@ kafka:
     paymentOrderEventFlowInbox:
       name: gw.ipt1.hp.evt.paymentordereventflowinbox.01
       consumerGroup: gw.ipt1.sirspec.paymentordereventflowinbox
-external:
+ecs:
   service:
     url: ''
   rest:
