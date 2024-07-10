@@ -178,27 +178,27 @@ spec:
               value: {{ .Values.kafka.topics.paymentOrderEventFlowInbox.consumerGroup | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDEREVENTFLOWINBOX_NAME
               value: {{ .Values.kafka.topics.paymentOrderEventFlowInbox.name | quote }}
-            - name: EXTERNAL_SERVICE_URL
+            - name: ECS_SERVICE_URL
               value: {{ .Values.ecs.service.url | quote }}
-            - name: EXTERNAL_REST_URI_PAYORDERFORWARD
+            - name: ECS_REST_URI_PAYORDERFORWARD
               value: {{ .Values.ecs.rest.uri.payOrderForward | quote }}
-            - name: EXTERNAL_REST_URI_PAYORDERNOTIFICATION
+            - name: ECS_REST_URI_PAYORDERNOTIFICATION
               value: {{ .Values.ecs.rest.uri.payOrderNotification | quote }}
-            - name: EXTERNAL_REST_URI_PAYORDERPOSTING
+            - name: ECS_REST_URI_PAYORDERPOSTING
               value: {{ .Values.ecs.rest.uri.payOrderPosting | quote }}
-            - name: EXTERNAL_REST_URI_PAYORDERCANCELLATION
+            - name: ECS_REST_URI_PAYORDERCANCELLATION
               value: {{ .Values.ecs.rest.uri.payOrderCancellation | quote }}
-            - name: EXTERNAL_REST_URI_PAYORDERCREPOSCANC
+            - name: ECS_REST_URI_PAYORDERCREPOSCANC
               value: {{ .Values.ecs.rest.uri.payOrderCrePosCanc | quote }}
-            - name: EXTERNAL_REST_URI_PAYORDERCANCELLATIONREQUEST
+            - name: ECS_REST_URI_PAYORDERCANCELLATIONREQUEST
               value: {{ .Values.ecs.rest.uri.payOrderCancellationRequest | quote }}
-            - name: EXTERNAL_REST_URI_PAYORDERRJCTCANCELLATIONREQUEST
+            - name: ECS_REST_URI_PAYORDERRJCTCANCELLATIONREQUEST
               value: {{ .Values.ecs.rest.uri.payOrderRjctCancellationRequest | quote }}
-            - name: EXTERNAL_REST_URI_PAYORDERRETURN
+            - name: ECS_REST_URI_PAYORDERRETURN
               value: {{ .Values.ecs.rest.uri.payOrderReturn | quote }}
-            - name: EXTERNAL_REST_URI_PAYORDERCANCELLATIONREQUESTSTATUS
+            - name: ECS_REST_URI_PAYORDERCANCELLATIONREQUESTSTATUS
               value: {{ .Values.ecs.rest.uri.payOrderCancellationRequestStatu | quote }}
-            - name: EXTERNAL_NONRETRY_CODES
+            - name: ECS_NONRETRY_CODES
               value: {{ .Values.ecs.nonretry.codes | quote }}
             - name: INBOX_SCHEDULER
               value: {{ .Values.inbox.scheduler.start | quote }}
