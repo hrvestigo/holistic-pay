@@ -5529,6 +5529,16 @@ entries:
     version: 1.0.0
   ecs-interface:
   - apiVersion: v2
+    appVersion: 1.12.0
+    created: "2024-07-10T11:51:03.196288983Z"
+    description: Helm chart for ecs-interface application
+    digest: f6d6aa7275f6301a4d8745d49cc2b37a8cce6f48f874fe7c3342f3505e7c2217
+    name: ecs-interface
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/ecs-interface-1.12.0/ecs-interface-1.12.0.tgz
+    version: 1.12.0
+  - apiVersion: v2
     appVersion: 1.11.0
     created: "2024-07-10T09:29:04.684251544Z"
     description: Helm chart for ecs-interface application
@@ -20832,4 +20842,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-10T11:10:42.952087897Z"
+generated: "2024-07-10T11:51:03.209573143Z"
