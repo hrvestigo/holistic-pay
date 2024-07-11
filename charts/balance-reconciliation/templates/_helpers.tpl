@@ -16,7 +16,7 @@ Create chart name and version as used by the chart label.
 Defies fixed part of balance-reconciliation datasource schema name
 */}}
 {{- define "balance-reconciliation.dbSchema" -}}
-{{- "schemaname" }}
+{{- "ballog" }}
 {{- end }}
 
 {{/*
