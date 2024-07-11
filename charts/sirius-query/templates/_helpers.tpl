@@ -16,7 +16,7 @@ Create chart name and version as used by the chart label.
 Defies fixed part of sirius-query datasource schema name
 */}}
 {{- define "sirius-query.dbSchema" -}}
-{{- "schemaname" }}
+{{- .Values.datasource.dbSchema -}}
 {{- end }}
 
 {{/*
@@ -80,12 +80,12 @@ Liquibase init container definition
     - name: SCHEMA_NAME
   {{- if $member.datasource }}
     {{- if $member.datasource.globalSchema }}
-      value: {{ $member.businessUnit | lower }}{{ required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix }}{{ include "sirius-query.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
+      value: {{ include "sirius-query.dbSchema" $ }}
     {{- else }}
-      value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "sirius-query.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
+      value: {{ include "sirius-query.dbSchema" $ }}
     {{- end }}
   {{- else }}
-      value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "sirius-query.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
+      value: {{ include "sirius-query.dbSchema" $ }}
   {{- end }}
   {{- if $member.liquibase }}
     - name: ROLE

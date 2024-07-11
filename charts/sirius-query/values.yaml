@@ -21,7 +21,8 @@ datasource:
   port: ''
   dbName: ''
   user: ''
-  globalSchemaPrefix: wo
+  globalSchemaPrefix: ''
+  dbSchema: ''
   connTimeout: 60000
   maxPoolSize: 2
   minIdle: 0
