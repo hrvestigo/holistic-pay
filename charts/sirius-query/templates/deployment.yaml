@@ -66,8 +66,7 @@ spec:
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:db2://{{- required "Please specify DB host name in datasource.host" .Values.datasource.host -}}:
               {{- required "Please specify DB port in datasource.port" .Values.datasource.port -}}/
-              {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}:currentSchema=CONNECT
-              ;
+              {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}:currentSchema=CONNECT;
               {{- include "sirius-query.db.connectionParams" $ -}}"
             - name: SPRING_DATASOURCE_USERNAME
               value: {{ required "Please specify DB user in datasource.user" .Values.datasource.user | quote }}
