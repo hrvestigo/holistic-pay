@@ -1416,4 +1416,10 @@ application:
     outbox:
       enabled: false
       delete: true
+    ## Configuration for partitions. By default, partitioning is enabled.
+    ## For partitions to work, pg_partman and pg_cron extensions need to be installed on PG.
+    ##
+    ## @param enabled   true if partitions is enabled 
+    partitions:
+      enabled: true
 ```
