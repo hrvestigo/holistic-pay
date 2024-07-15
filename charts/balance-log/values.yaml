@@ -141,6 +141,11 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
+application:
+  database:
+    outbox:
+      enabled: false
+      delete: true
 oauth2:
   enabled: false
   resourceUri: ''
