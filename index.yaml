@@ -16020,6 +16020,16 @@ entries:
     version: 0.1.0
   sirius-posting:
   - apiVersion: v2
+    appVersion: 1.9.0
+    created: "2024-07-16T08:25:36.862703076Z"
+    description: Helm chart for sirius-posting application
+    digest: 8c8710b63b284d0724edf3e68b590a754d5f37f29c7f017598a1c82aeb44142b
+    name: sirius-posting
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-posting-1.9.0/sirius-posting-1.9.0.tgz
+    version: 1.9.0
+  - apiVersion: v2
     appVersion: 1.8.0
     created: "2024-07-16T06:36:10.480072366Z"
     description: Helm chart for sirius-posting application
@@ -21242,4 +21252,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-16T07:54:50.747747763Z"
+generated: "2024-07-16T08:25:36.877105365Z"
