@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.76.0
+    tag: 1.77.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -141,6 +141,12 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
+application:
+  database:
+    outbox:
+      enabled: false
+    partitions:
+      enabled: true
 oauth2:
   enabled: false
   resourceUri: ''

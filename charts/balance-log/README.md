@@ -1254,3 +1254,26 @@ javaOpts: "-Xms256M -Xmx512M -Dcustom.jvm.param=true"
 ```
 
 Note that defining custom `javaOpts` attribute will override default one, so make sure to keep `Xms` and `Xmx` parameters.
+
+
+### Supported configuration
+
+Document supported configuration as part of yaml with default
+configuration behavior.
+
+```yaml
+## @section application configuration root
+application:
+  database:
+    ## Configuration for outbox feature. By default outbox feature is disabled.
+    ##
+    ## @param enabled   true if outbox is enabled 
+    outbox:
+      enabled: false
+    ## Configuration for partitions. By default, partitioning is enabled.
+    ## For partitions to work, pg_partman and pg_cron extensions need to be installed on PG.
+    ##
+    ## @param enabled   true if partitions is enabled 
+    partitions:
+      enabled: true
+```
