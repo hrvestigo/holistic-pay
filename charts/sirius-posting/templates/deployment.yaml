@@ -245,6 +245,10 @@ spec:
               value: {{ .Values.kafka.topics.paymentOrderPosting.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORDERPOSTING_NAME
               value: {{ .Values.kafka.topics.paymentOrderPosting.consumerGroup | quote }}
+            - name: SIRIUS_SERVICE_URL
+              value: {{ .Values.sirius.service.url | quote }}
+            - name: SIRIUS_REST_URI_PAYMENTORDERPOSTING
+              value: {{ .Values.sirius.rest.uri.siriusPosting.rb | quote }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
