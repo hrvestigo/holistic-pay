@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.0.0
+    tag: 1.17.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -35,23 +35,23 @@ liquibase:
   replicationRole: ''
   resources: {}
 members:
-  - businessUnit: JT
-    applicationMember: JT
-    memberSign: JT
-    deliveryChannel: HP
-    branchCode: '001'
-    moduleName: PAY
-    userId: HP0001
-    liquibase:
-      role: ''
-      replicationRole: ''
-    datasource:
-      globalSchema: false
-      host: ''
-      port: ''
-      dbName: ''
-      user: ''
-      password: ''
+- businessUnit: JT
+  applicationMember: JT
+  memberSign: JT
+  deliveryChannel: HP
+  branchCode: '001'
+  moduleName: PAY
+  userId: HP0001
+  liquibase:
+    role: ''
+    replicationRole: ''
+  datasource:
+    globalSchema: false
+    host: ''
+    port: ''
+    dbName: ''
+    user: ''
+    password: ''
 kafka:
   user: ''
   servers: ''
