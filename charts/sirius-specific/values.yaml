@@ -60,7 +60,7 @@ ibmMq:
   norkomresponse:
     queueName: ''
 atomikos:
-  borrowConnectionTimeout: 30000
+  borrowConnectionTimeout: 60000
   maxIdleTime: 1800000
   maxLifetime: 3600000
   maxPoolSize: 30
