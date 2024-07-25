@@ -233,13 +233,16 @@ secret:
 logger:
   format: STRING
   level:
+    health: DEBUG
     kafka: DEBUG
     kafkaCore: INFO
-    rest: INFO
-    database: DEBUG
-    databaseParam: TRACE
+    rest: DEBUG
+    database: ERROR
+    databaseSql: DEBUG
+    databaseBind: TRACE
+    databaseExtract: TRACE
+    databaseSlowQuery: INFO
     businessLogic: DEBUG
-    health: DEBUG
     general: DEBUG
   logToFile: false
   rollingFileAppender: false
@@ -248,6 +251,7 @@ logger:
     enabled: false
   microserviceTag: SIRSPE
   maskSensitive: false
+  databaseSlowQueryThreshold: 0
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx512M
 springActiveProfile: prod

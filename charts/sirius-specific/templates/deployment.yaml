@@ -393,6 +393,10 @@ spec:
               value: /usr/app/config/log4j2.xml
             - name: LOGGER_EXCLUDE_ENDPOINTS
               value: /, /health, /health/liveness, /health/readiness, /prometheus
+            {{- if .Values.logger.databaseSlowQueryThreshold }}
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_SESSION_EVENTS_LOG_LOG_QUERIES_SLOWER_THAN_MS
+              value: {{ .Values.logger.databaseSlowQueryThreshold | quote }}
+            {{- end }}
             - name: SECRET_PROPERTIES
               value: /mnt/k8s/secrets/password.conf
             - name: KAFKA_HEALTH_ENABLED
