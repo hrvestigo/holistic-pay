@@ -158,3 +158,10 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
+        - id: product-engine-ms_route
+          predicates:
+            - Path=/api/*/package-request/**, /api/*/products-overview/**
+          uri: https://{{ required "Product engine application service name has to be defined in routes.productEngine.serviceName" .Values.routes.productEngine.serviceName }}:{{ required "Product engine application port number has to be defined in routes.productEngine.servicePortNumber" .Values.routes.productEngine.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession

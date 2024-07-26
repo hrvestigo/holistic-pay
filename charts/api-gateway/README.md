@@ -65,6 +65,9 @@ routes:
   siriusQuery:
     serviceName: sirius-query # name of sirius-query service, default is sirius-query
     servicePortNumber: "8443" # port number on which sirius-query service is exposed, default is 8443
+  productEngine:
+    serviceName: product-engine # name of product-engine service, default is product-engine
+    servicePortNumber: "8443" # port number on which product-engine service is exposed, default is 8443
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value, no default value
