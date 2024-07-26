@@ -69,7 +69,11 @@ Liquibase init container definition
 - name: liquibase-{{ .memberSign | lower }}
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
+  {{- if $.Values.image.liquibase.imageLocation }}
+  image: {{ include "balance-log.liquibase.image" $ }}
+  {{- else }}
   image: {{ printf "%s%s%s%s%s" (include "balance-log.liquibase.image" $) "-" ($member.businessUnit | lower ) ":" $.Values.image.liquibase.tag }}
+  {{- end }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   resources:
     {{- include "balance-log.liquibase.initContainer.resources" $ | nindent 4 }}
