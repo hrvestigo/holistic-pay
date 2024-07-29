@@ -65,12 +65,14 @@ kafka:
       id: transaction-streaming
     auto:
       startup: true
+    numTreads: 1
     delete:
       application:
         id: transaction-streaming-delete
       auto:
         startup: true
       scanFrequency: 12
+      numThreads: 1
       maximumAge:
         turnover: 1
         turnCustomer: 1

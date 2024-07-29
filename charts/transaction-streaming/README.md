@@ -174,6 +174,10 @@ With current implementation, `kafka.streams.delete.auto.startup` is required to 
 Main Kafka Streams topology that executes all transaction processing can also be disabled via `kafka.streams.auto.startup`
 parameter. Its id can be set through `kafka.streams.application.id`.
 
+Property `kafka.streams.numTreads` defines number of threads used by Kafka Streams application main topology and
+`kafka.streams.delete.numTreads` defines number of threads used by Kafka Streams application for data purging.
+Default is `1` in both cases.
+
 ```yaml
 kafka:
   user: "kafka-user" # user used to connect to Kafka cluster
@@ -188,11 +192,13 @@ kafka:
       id: "transaction-streaming" # Kafka Streams application identification
     auto:
       startup: true # boolean value, default is true
+    numThreads: 1 # numeric value, default is 1
     delete:
       application:
         id: 'transaction-streaming-delete' # Kafka Streams application identification for data purging
       auto:
         startup: true # boolean value, default is true
+      numThreads: 1 # numeric value, default is 1
       scanFrequency: 12 # in hours, default value is 12
       maximumAge:
         turnover: 1 # in days, default value is 1

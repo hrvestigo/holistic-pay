@@ -149,6 +149,8 @@ spec:
             {{- if .Values.kafka.streams.auto.startup }}
             - name: SPRING_KAFKA_STREAMS_APPLICATIONID
               value: {{ .Values.kafka.streams.application.id | default "transaction-streaming" | quote }}
+            - name: SPRING_KAFKA_STREAMS_NUM_STREAM_THREADS
+              value: {{ .Values.kafka.streams.numTreads | default "1" | quote }}
             {{- end }}
             - name: SPRING_KAFKA_STREAMS_DELETE_AUTOSTARTUP
               value: {{ .Values.kafka.streams.delete.auto.startup | default "true" | quote }}
@@ -157,6 +159,8 @@ spec:
               value: {{ .Values.kafka.streams.delete.application.id | default "transaction-streaming-delete" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_SCANFREQUENCY
               value: {{ .Values.kafka.streams.delete.scanFrequency | default "12" | quote }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_NUM_STREAM_THREADS
+              value: {{ .Values.kafka.streams.delete.numTreads | default "1" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_TURNOVER
               value: {{ .Values.kafka.streams.delete.maximumAge.turnover | default "1" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_TURNCUSTOMER
