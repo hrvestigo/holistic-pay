@@ -238,9 +238,9 @@ logger:
     kafkaCore: INFO
     rest: DEBUG
     database: ERROR
-    databaseSql: DEBUG
-    databaseBind: TRACE
-    databaseExtract: TRACE
+    databaseSql: INFO
+    databaseBind: INFO
+    databaseExtract: INFO
     databaseSlowQuery: INFO
     businessLogic: DEBUG
     general: DEBUG
