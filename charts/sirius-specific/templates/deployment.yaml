@@ -177,6 +177,8 @@ spec:
             {{- if .Values.kafka.topics.cusaccBalanceLast.enabled }}
             - name: KAFKA_TOPIC_CUSACCBALANCELAST_NAME
               value: {{ .Values.kafka.topics.cusaccBalanceLast.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSACCBALANCELAST_NAME
+              value: {{ .Values.kafka.topics.cusaccBalanceLast.consumerGroup | quote }}
             - name: KAFKA_TOPIC_BALANCEMIGRATION_NAME
               value: {{ .Values.kafka.topics.balanceMigration.name | quote }}
             {{- end }}
