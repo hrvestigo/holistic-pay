@@ -156,7 +156,7 @@ affinity:
           - key: app
             operator: In
             values:
-            - ${rootArtifactId}
+            - product-engine
         topologyKey: kubernetes.io/hostname
 deployment:
   replicaCount: 1

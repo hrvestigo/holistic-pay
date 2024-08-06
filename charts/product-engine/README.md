@@ -1,23 +1,23 @@
-# ${rootArtifactId} application
+# product-engine application
 
 ## Purpose
 
-This Helm chart installs ${rootArtifactId} application into your Kubernetes cluster.
+This Helm chart installs product-engine application into your Kubernetes cluster.
 
 Helm release name set during installation will be used for naming all resources created by this Helm chart.
 For example, if Chart is installed with name "my-chart", deployment name will have "my-chart" prefix, as well as all configmaps, secrets and other resources created by this chart.
 It is possible to override this behavior and to set custom name for resources using attribute `nameOverride` in custom values file.
 If this attribute is set, it's value will be used to name all the resources, and release name will be ignored.
 
-It is not possible to install application using default values only, there is a list of required attributes which should be applied when installing ${rootArtifactId}.
+It is not possible to install application using default values only, there is a list of required attributes which should be applied when installing product-engine.
 
 ## Required setup
 
 Required attributes should be defined in custom values file in `yaml` format (recommended) or propagated with `--set key=value` command during CLI installation, for example:
 
-`helm upgrade --install ${rootArtifactId} holisticpay/${rootArtifactId} -f my-values.yaml` or
+`helm upgrade --install product-engine holisticpay/product-engine -f my-values.yaml` or
 
-`helm upgrade --install ${rootArtifactId} holisticpay/${rootArtifactId} --set required-key1=value1 --set required-key2=value2 ...`
+`helm upgrade --install product-engine holisticpay/product-engine --set required-key1=value1 --set required-key2=value2 ...`
 
 Required values are (in `yaml` format):
 
@@ -67,12 +67,12 @@ Attribute `env.type` defines environment type. This attribute has a list of supp
 
 Other environment attribute is `env.label` which should hold short environment label, for instance `t1` for first test environment, or `d2` for second development environment. This attribute is used to generate database schema name.
 
-${rootArtifactId} application relies on Kafka and PostgreSQL backends.
+product-engine application relies on Kafka and PostgreSQL backends.
 In order to assure connectivity to those backends, it's required to set basic info into values file.
 
 Additionally, liquibase is enabled by default, which requires some information in order to run successfully. Either this information has to be provided, or liquibase has to be disabled with `liquibase.enabled` attribute set to `false`.
 
-${rootArtifactId} (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one application member has to be defined in `members` structure for complete setup. Please refer to [Multi-member setup](#multi-member-setup) for details.
+product-engine (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one application member has to be defined in `members` structure for complete setup. Please refer to [Multi-member setup](#multi-member-setup) for details.
 
 ### Datasource connection setup
 
@@ -136,8 +136,8 @@ Setup from this example would result with string "&ssl=true&sslmode=enable" appe
 
 ### Kafka setup
 
-${rootArtifactId}  uses Kafka as event stream backend.
-Other than Kafka cluster itself,  ${rootArtifactId} e application also uses Kafka Schema Registry, which setup also has to be provided in order to establish required connection.
+product-engine  uses Kafka as event stream backend.
+Other than Kafka cluster itself,  product-engine e application also uses Kafka Schema Registry, which setup also has to be provided in order to establish required connection.
 
 To connect to Kafka cluster, several attributes have to be defined in values file.
 All attributes under `kafka` parent attribute are required:
@@ -163,7 +163,7 @@ secret:
 
 Note that same `secret` attribute is used for both datasource and Kafka, so the same encryption/decryption key is used for encrypting passwords for both backends.
 
-Default Kafka cluster and Kafka Schema registry connection type used by ${rootArtifactId} is Basic auth (username and password).
+Default Kafka cluster and Kafka Schema registry connection type used by product-engine is Basic auth (username and password).
 If different connection type should be used, it's possible to override default setup by changing following attributes:
 
 ```yaml
@@ -181,7 +181,7 @@ kafka:
 
 #### Topics and consumer groups setup
 
-Kafka topics and consumer group names used by ${rootArtifactId} have default names defined in `values.yaml` file, but can be overridden with following setup:
+Kafka topics and consumer group names used by product-engine have default names defined in `values.yaml` file, but can be overridden with following setup:
 
 ```yaml
 kafka:
@@ -195,7 +195,7 @@ kafka:
 
 ### Configuring image source and pull secrets
 
-By default,  ${rootArtifactId}  image is pulled directly from Vestigo's repository hosted by Docker Hub.
+By default,  product-engine  image is pulled directly from Vestigo's repository hosted by Docker Hub.
 If mirror registry is used for example, image source can be modified using following attributes:
 
 ```yaml
@@ -216,12 +216,12 @@ Default pull policy is set to `IfNotPresent` but can also be modified for one or
 image:
   pullPolicy: Always # will be used as default for both images, default is IfNotPresent
   app:
-    pullPolicy: Never # will override image.pullPolicy for ${rootArtifactId} image
+    pullPolicy: Never # will override image.pullPolicy for product-engine image
   liquibase:
     pullPolicy: IfNotPresent # will override image.pullPolicy for Liquibase image
 ```
 
-${rootArtifactId}  image tag is normally read from Chart definition, but if required, it can be overridden with attribute `image.app.tag`, for example:
+product-engine  image tag is normally read from Chart definition, but if required, it can be overridden with attribute `image.app.tag`, for example:
 
 ```yaml
 image:
@@ -229,8 +229,8 @@ image:
     tag: custom-tag
 ```
 
-${rootArtifactId}  image is located on Vestigo's private Docker Hub registry, and if image registry is set to docker.io, pull secret has to be defined.
-Pull secret is not set by default, and it should be created prior to ${rootArtifactId} installation in target namespace.
+product-engine  image is located on Vestigo's private Docker Hub registry, and if image registry is set to docker.io, pull secret has to be defined.
+Pull secret is not set by default, and it should be created prior to product-engine installation in target namespace.
 Secret should contain credentials provided by Vestigo.
 
 Once secret is created, it should be set with `imagePullSecrets.name` attribute, for example:
@@ -242,7 +242,7 @@ imagePullSecrets:
 
 ### TLS setup
 
-${rootArtifactId}  application is prepared to use TLS, but requires provided server certificate.
+product-engine  application is prepared to use TLS, but requires provided server certificate.
 Server certificate is not provided by default (expected to be provided manually) and there are no predefined trust or key stores for TLS/mTLS.
 However, there are several different possibilities for customizing TLS setup.
 
@@ -272,7 +272,7 @@ When using initContainer for server certificate, volume will be stored in memory
 #### Provide server certificate from predefined secret
 
 Server certificate can be provided using predefined secret.
-**Note that this secret has to be created in target namespace prior to installation of ${rootArtifactId} application.**
+**Note that this secret has to be created in target namespace prior to installation of product-engine application.**
 Additionally, both certificate and key files should be in one single secret.
 
 When using secret for server certificate, following values have to be provided:
@@ -316,20 +316,20 @@ Defined `volumeMounts.name` from `initContainer` should also be used to define c
 
 ```yaml
 customVolumes:
-  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in ${rootArtifactId} container
+  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in product-engine container
     emptyDir: # any other volume type is OK
       medium: "Memory"
 ```
 
-${rootArtifactId} container should also mount this volume, so a custom `volumeMount` is required, for example:
+product-engine container should also mount this volume, so a custom `volumeMount` is required, for example:
 
 ```yaml
 customMounts:
-  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in ${rootArtifactId} container
+  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in product-engine container
     mountPath: /some/mount/path # this path should be used for custom environment variables
 ```
 
-Note that `mountPath` variable is used to specify a location of trust store in ${rootArtifactId} container.
+Note that `mountPath` variable is used to specify a location of trust store in product-engine container.
 Suggested location is: `/mnt/k8s/trust-store`.
 
 To make trust store available to underlying application server, its location (absolute path - `mountPath` and file name) should be defined in following environment variables:
@@ -356,7 +356,7 @@ secret:
 #### Provide trust store from predefined secret
 
 Trust store can also be provided by using predefined secret.
-**Note that this secret has to be created in target namespace prior to installation of ${rootArtifactId} application.**
+**Note that this secret has to be created in target namespace prior to installation of product-engine application.**
 Additionally, both certificate and key files should be in one single secret.
 
 When adding trust store as secret, following values have to be provided:
@@ -405,7 +405,7 @@ Note that either `mountTrustStoreFromSecret` or `mountCaFromSecret` can be used,
 
 #### Provide mTLS key store from `initContainer`
 
-mTLS support can be added to ${rootArtifactId} application in two different ways.
+mTLS support can be added to product-engine application in two different ways.
 
 As for trust store, key store could also be provided via custom `initContainer`, with similar requirements.
 
@@ -428,20 +428,20 @@ Defined `volumeMounts.name` from `initContainer` should also be used to define c
 
 ```yaml
 customVolumes:
-  - name: key-store-volume-name # has to match name in initContainer and volumeMount in ${rootArtifactId} container
+  - name: key-store-volume-name # has to match name in initContainer and volumeMount in product-engine container
     emptyDir: # any other volume type is OK
       medium: "Memory"
 ```
 
-${rootArtifactId} container should also mount this volume, so a custom `volumeMount` is required, for example:
+product-engine container should also mount this volume, so a custom `volumeMount` is required, for example:
 
 ```yaml
 customMounts:
-  - name: key-store-volume-name # has to match name in initContainer and volumeMount in ${rootArtifactId} container
+  - name: key-store-volume-name # has to match name in initContainer and volumeMount in product-engine container
     mountPath: /some/mount/path # this path should be used for custom environment variables
 ```
 
-Note that `mountPath` variable is used to specify a location of key store in ${rootArtifactId} container.
+Note that `mountPath` variable is used to specify a location of key store in product-engine container.
 Suggested location is: `/mnt/k8s/trust-store`.
 
 To make key store available to underlying application server, its location (absolute path - `mountPath` and file name) should be defined in environment variable.
@@ -467,7 +467,7 @@ Password should be encoded using key defined in `secret.decryptionKey`.
 #### Provide mTLS key store from predefined secret
 
 Key store required for mTLS can also be provided via predefined secret.
-**Note that this secret has to be created in target namespace prior to installation of ${rootArtifactId} application.**
+**Note that this secret has to be created in target namespace prior to installation of product-engine application.**
 
 When adding key store from secret, following values have to be provided:
 
@@ -497,11 +497,11 @@ When using secret to mount key store, no additional custom setup is required.
 
 ## Customizing installation
 
-Besides required attributes, installation of ${rootArtifactId} can be customized in different ways.
+Besides required attributes, installation of product-engine can be customized in different ways.
 
 ### Multi-member setup
 
-${rootArtifactId}  application (along with all other HolisticPay applications) supports multi-member setup. In order to complete application setup, at least a mandatory set of attributes has to be defined:
+product-engine  application (along with all other HolisticPay applications) supports multi-member setup. In order to complete application setup, at least a mandatory set of attributes has to be defined:
 
 ```yaml
 members:
@@ -617,7 +617,7 @@ members:
 
 ### oAuth2
 
-${rootArtifactId} application can use oAuth2 service for authorization. By default, this option is disabled, but can easily be enabled by specifying following attributes in values:
+product-engine application can use oAuth2 service for authorization. By default, this option is disabled, but can easily be enabled by specifying following attributes in values:
 
 ```yaml
 oAuth2:
@@ -632,7 +632,7 @@ This URI should point to oAuth2 server with defined converter type and name, for
 
 ### Request body sanitization and response body encoding
 
-${rootArtifactId} application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
+product-engine application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
 
 ```yaml
 request:
@@ -646,7 +646,7 @@ response:
 
 ### Adding custom environment variables
 
-Custom environment variables can be added to ${rootArtifactId} container by applying `customEnv` value, for example:
+Custom environment variables can be added to product-engine container by applying `customEnv` value, for example:
 
 ```yaml
 customEnv:
@@ -658,30 +658,30 @@ customEnv:
 
 ### Adding custom mounts
 
-Values file can be used to specify additional custom `volume` and `volumeMounts` to be added to ${rootArtifactId} container.
+Values file can be used to specify additional custom `volume` and `volumeMounts` to be added to product-engine container.
 
 For example, custom volume mount could be added by defining this setup:
 
 ```yaml
 customVolumes:
-  - name: my-custom-volume # has to match name in initContainer and volumeMount in ${rootArtifactId} container
+  - name: my-custom-volume # has to match name in initContainer and volumeMount in product-engine container
     emptyDir: # any other volume type is OK
       medium: "Memory"
 
 customMounts:
-  - name: my-custom-volume # has to match name in initContainer and volumeMount in ${rootArtifactId} container
+  - name: my-custom-volume # has to match name in initContainer and volumeMount in product-engine container
     mountPath: /some/mount/path # this path should be used for custom environment variables
 ```
 
 ### Customizing container logs
 
-${rootArtifactId} application is predefined to redirect all logs to `stdout` expect for Web Server logs (`access.log`) and health check logs, which are not logged by default.
+product-engine application is predefined to redirect all logs to `stdout` expect for Web Server logs (`access.log`) and health check logs, which are not logged by default.
 However, using custom configuration, logs can be redirected to log files also (in addition to `stdout`).
 
 When enabling logging to file, container will divide logs into four different files:
 
 - `application.log` - contains all application-related (business logic) logs
-  
+
 - `messages.log` - contains application server's logs
 
 - `health.log` - contains all incoming requests to health check endpoint (filtered out from `access.log`)
@@ -811,7 +811,7 @@ Supported values for this parameter are: `STRING`,`ECS`,`LOGSTASH`,`GELF`,`GCP`.
 Examples of how log entries would look like for each value:
 
 * `STRING`
-    * with stacktrace
+  * with stacktrace
   ```log
   2023-03-27 16:00:20,140 [6af3546625fd473bbd95482b18f2caec,620676f56f76c5b6] ERROR h.v.s.a.e.SomeClass Error
   jakarta.validation.ConstraintViolationException: must not be null
@@ -819,50 +819,50 @@ Examples of how log entries would look like for each value:
   at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.0.6.jar:6.0.6]
   at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750) ~[spring-aop-6.0.6.jar:6.0.6]
   ```
-    * without stacktrace
+  * without stacktrace
   ```log
   2023-03-27 16:03:48,368 [7baee9c3042043cd3116a2bcf51b872e,ed1297a561d6ab6d] DEBUG o.s.o.j.JpaTransactionManager Exposing JPA transaction as JDBC [org.springframework.orm.jpa.vendor.HibernateJpaDialect$HibernateConnectionHandle@1d8f102d]
   ```
 * `ECS`
-    * with stacktrace
+  * with stacktrace
   ```log
   {"@timestamp":"2023-03-17T10:05:47.074367100Z","ecs.version":"1.2.0","log.level":"ERROR","message":"[379b4af3-1]  500 Server Error for HTTP GET","process.thread.name":"reactor-http-nio-5","log.logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler","spanId":"0000000000000000","traceId":"00000000000000000000000000000000","error.type":"io.netty.channel.AbstractChannel.AnnotatedConnectException","error.message":"Connection refused: no further information: /127.0.0.1:3000","error.stack_trace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\n"}
   ```
-    * without stacktrace
+  * without stacktrace
   ```log
   {"mdc":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"@timestamp":"2023-03-17T07:37:27.535267800Z","ecs.version":"1.2.0","log.level":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","process.thread.name":"main","log.logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
 * `LOGSTASH`
-    * with stacktrace
+  * with stacktrace
   ```log
   {"mdc":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"exception":{"exception_class":"io.netty.channel.AbstractChannel.AnnotatedConnectException","exception_message":"Connection refused: no further information: /127.0.0.1:3000","stacktrace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t"},"@version":1,"source_host":"HOST","message":"[70e82a4a-1]  500 Server Error for HTTP GET","thread_name":"reactor-http-nio-5","@timestamp":"2023-03-17T11:26:22.416121900Z","level":"ERROR","logger_name":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler"}
   ```
-    * without stacktrace
+  * without stacktrace
   ```log
   {"@version":1,"source_host":"HOST","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","thread_name":"main","@timestamp":"2023-03-17T11:24:17.730772400Z","level":"DEBUG","logger_name":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
 * `GELF`
-    * with stacktrace
+  * with stacktrace
   ```log
   {"version":"1.1","host":"HOST","short_message":"[3440fdd5-1]  500 Server Error for HTTP GET","full_message":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\n","timestamp":1679049090.535760400,"level":3,"_logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler","_thread":"reactor-http-nio-5","_spanId":"0000000000000000","_traceId":"00000000000000000000000000000000"}
   ```
-    * without stacktrace
+  * without stacktrace
   ```log
   {"version":"1.1","host":"HOST","short_message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","timestamp":1679049030.468963200,"level":7,"_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean","_thread":"main"}
   ```
 * `GCP`
-    * with stacktrace
+  * with stacktrace
   ```log
   {"timestamp":"2023-03-17T10:33:42.531673100Z","severity":"ERROR","message":"[3e916f02-1]  500 Server Error for HTTP GET  io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t","logging.googleapis.com/labels":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"logging.googleapis.com/sourceLocation":{"function":"org.springframework.core.log.CompositeLog.error"},"logging.googleapis.com/insertId":"1106","_exception":{"class":"io.netty.channel.AbstractChannel.AnnotatedConnectException","message":"Connection refused: no further information: /127.0.0.1:3000","stackTrace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t"},"_thread":"reactor-http-nio-5","_logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler"}
   ```
-    * without stacktrace
+  * without stacktrace
   ```log
   {"timestamp":"2023-03-17T10:33:14.218078900Z","severity":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","logging.googleapis.com/sourceLocation":{"function":"org.springframework.boot.availability.ApplicationAvailabilityBean.onApplicationEvent"},"logging.googleapis.com/insertId":"1051","_exception":{"stackTrace":""},"_thread":"main","_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
 
 ### Modifying deployment strategy
 
-Default deployment strategy for ${rootArtifactId} application is `RollingUpdate`, but it can be overridden, along with other deployment parameters using following attributes (default values are shown):
+Default deployment strategy for product-engine application is `RollingUpdate`, but it can be overridden, along with other deployment parameters using following attributes (default values are shown):
 
 ```yaml
 deployment:
@@ -878,11 +878,11 @@ deployment:
   restartPolicy: Always
 ```
 
-By default, one replica of ${rootArtifactId} is installed on Kubernetes cluster. Number of replicas can be statically modified with above configuration, or `HorizontalPodAutoscaler` option can be used to let Kubernetes automatically scale application when required.
+By default, one replica of product-engine is installed on Kubernetes cluster. Number of replicas can be statically modified with above configuration, or `HorizontalPodAutoscaler` option can be used to let Kubernetes automatically scale application when required.
 
 #### Customizing pod resource requests and limits
 
-Following are the default values for ${rootArtifactId} requests and limits:
+Following are the default values for product-engine requests and limits:
 
 ```yaml
 resources:
@@ -936,13 +936,13 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80 # not used by default
 ```
 
-CPU and/or memory utilization metrics can be used to autoscale ${rootArtifactId} pod.
+CPU and/or memory utilization metrics can be used to autoscale product-engine pod.
 It's possible to define one or both of those metrics.
 If only `autoscaling.enabled` attribute is set to `true`, without setting other attributes, only CPU utilization metric will be used with percentage set to 80.
 
 ### Customizing probes
 
-${rootArtifactId} application has predefined health check probes (readiness and liveness).
+product-engine application has predefined health check probes (readiness and liveness).
 Following are the default values:
 
 ```yaml
@@ -987,12 +987,12 @@ deployment:
           value: localhost
 ```
 
-Note that  ${rootArtifactId}  has health checks available within the `/health` endpoint (`/health/readiness` for readiness and `/health/liveness` for liveness), and this base paths should not modified, only query parameters are subject to change.
+Note that  product-engine  has health checks available within the `/health` endpoint (`/health/readiness` for readiness and `/health/liveness` for liveness), and this base paths should not modified, only query parameters are subject to change.
 `scheme` attribute should also be set to `HTTPS` at all times, as well as `http` value for `port` attribute.
 
 ### Customizing security context
 
-Security context for ${rootArtifactId} can be set on pod and/or on container level.
+Security context for product-engine can be set on pod and/or on container level.
 By default, pod security context is defined with following values:
 
 ```yaml
@@ -1011,13 +1011,13 @@ securityContext:
   runAsGroup: 0
 ```
 
-Note that container level security context will be applied to both containers in ${rootArtifactId} pod (Liquibase init container and ${rootArtifactId} container).
+Note that container level security context will be applied to both containers in product-engine pod (Liquibase init container and product-engine container).
 
 ### Customizing network setup
 
 #### Service setup
 
-When installing ${rootArtifactId} using default setup, a `Service` object will be created of `ClusterIP` type exposed on port 8443.
+When installing product-engine using default setup, a `Service` object will be created of `ClusterIP` type exposed on port 8443.
 Those values can be modified by setting following attributes in custom values file, for example for `NodePort`:
 
 ```yaml
@@ -1084,7 +1084,7 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
   hosts:
-    - host: ${rootArtifactId}.custom.url
+    - host: product-engine.custom.url
       paths:
         - path: /
           pathType: Prefix
@@ -1116,7 +1116,7 @@ Init container can have all standard Kubernetes attributes in its specification.
 
 ### Customizing affinity rules, node selector and tolerations
 
-${rootArtifactId} deployment has some predefined affinity rules, as listed below:
+product-engine deployment has some predefined affinity rules, as listed below:
 
 ```yaml
 affinity:
@@ -1141,7 +1141,7 @@ affinity:
               - key: app
                 operator: In
                 values:
-                  - ${rootArtifactId}
+                  - product-engine
           topologyKey: kubernetes.io/hostname
 ```
 
@@ -1182,7 +1182,7 @@ deployment:
 
 ### Additional custom configuration
 
-There are some other customizable attributes predefined in  ${rootArtifactId}  application.
+There are some other customizable attributes predefined in  product-engine  application.
 
 One of them is related to HTTP return code which is returned by application if health check fails.
 Default value for this attribute is 418 but it can be customized if necessary, for example:
@@ -1197,7 +1197,7 @@ There's a possibility to define a custom timezone (there is no default one), by 
 timezone: Europe/London
 ```
 
-Finally, since  ${rootArtifactId}  is an Java application, there's a possibility to set custom JVM parameters.
+Finally, since  product-engine  is an Java application, there's a possibility to set custom JVM parameters.
 There is a predefined value which specifies `Xms` and `Xmx` JVM parameters:
 
 ```yaml

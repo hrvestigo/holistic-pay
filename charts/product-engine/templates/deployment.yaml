@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "${rootArtifactId}.name" . }}
+  name: {{ include "product-engine.name" . }}
   labels:
-    {{- include "${rootArtifactId}.labels" . | nindent 4 }}
-{{- with .Values.deployment.annotations }}
-  annotations:
-{{ toYaml . | indent 4 }}
-{{- end }}
+    {{- include "product-engine.labels" . | nindent 4 }}
+  {{- with .Values.deployment.annotations }}
+annotations:
+  {{ toYaml . | indent 4 }}
+  {{- end }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.deployment.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "${rootArtifactId}.selectorLabels" . | nindent 6 }}
+      {{- include "product-engine.selectorLabels" . | nindent 6 }}
   strategy:
     {{- toYaml .Values.deployment.strategy | nindent 4 }}
   minReadySeconds: {{ .Values.deployment.minReadySeconds }}
@@ -27,7 +27,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "${rootArtifactId}.selectorLabels" . | nindent 8 }}
+        {{- include "product-engine.selectorLabels" . | nindent 8 }}
     spec:
       automountServiceAccountToken: false
       {{- with .Values.imagePullSecrets }}
@@ -41,18 +41,18 @@ spec:
       {{- if or .Values.liquibase.enabled .Values.initContainers }}
       initContainers:
         {{- with .Values.initContainers }}
-        {{- toYaml . | trim | nindent 8 }}
-        {{- end }}
-        {{- if .Values.liquibase.enabled }}
-        {{- include "${rootArtifactId}.liquibase.initContainer" . | trim | nindent 8 }}
-        {{- end }}
+          {{- toYaml . | trim | nindent 8 }}
+          {{- end }}
+          {{- if .Values.liquibase.enabled }}
+          {{- include "product-engine.liquibase.initContainer" . | trim | nindent 8 }}
+          {{- end }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ include "${rootArtifactId}.app.repository" . }}:{{ .Values.image.app.tag | default .Chart.AppVersion }}
-          imagePullPolicy: {{ include "${rootArtifactId}.app.imagePullPolicy" . }}
+          image: {{ include "product-engine.app.repository" . }}:{{ .Values.image.app.tag | default .Chart.AppVersion }}
+          imagePullPolicy: {{ include "product-engine.app.imagePullPolicy" . }}
           env:
             {{- if .Values.timezone }}
             - name: TZ
@@ -64,13 +64,13 @@ spec:
               value: "jdbc:postgresql://{{- required "Please specify DB host name in datasource.host" .Values.datasource.host -}}:
               {{- required "Please specify DB port in datasource.port" .Values.datasource.port -}}/
               {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}?currentSchema=CONNECT
-              {{- include "${rootArtifactId}.db.connectionParams" $ -}}"
+              {{- include "product-engine.db.connectionParams" $ -}}"
             - name: SPRING_DATASOURCE_USERNAME
               value: {{ required "Please specify DB user in datasource.user" .Values.datasource.user | quote }}
             {{- range $k, $v := .Values.members }}
             - name: SPRING_DATASOURCE_URL_{{ .memberSign }}
               {{- if .datasource }}
-                {{- if .datasource.globalSchema }}
+              {{- if .datasource.globalSchema }}
               value: "jdbc:postgresql://
               {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
               :
@@ -80,9 +80,9 @@ spec:
               ?currentSchema=
               {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
               {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
-              {{- include "${rootArtifactId}.dbSchema" $ -}}
+              {{- include "product-engine.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
-              {{- include "${rootArtifactId}.db.connectionParams" $ -}}"
+              {{- include "product-engine.db.connectionParams" $ -}}"
                 {{- else }}
               value: "jdbc:postgresql://
               {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
@@ -93,9 +93,9 @@ spec:
               ?currentSchema=
               {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
               {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
-              {{- include "${rootArtifactId}.dbSchema" $ -}}
+              {{- include "product-engine.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
-              {{- include "${rootArtifactId}.db.connectionParams" $ -}}"
+              {{- include "product-engine.db.connectionParams" $ -}}"
                 {{- end }}
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ default (required "Please specify DB user in datasource.user" $.Values.datasource.user | quote) .datasource.user }}
@@ -109,15 +109,15 @@ spec:
               ?currentSchema=
               {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
               {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
-              {{- include "${rootArtifactId}.dbSchema" $ -}}
+              {{- include "product-engine.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
-              {{- include "${rootArtifactId}.db.connectionParams" $ -}}"
+              {{- include "product-engine.db.connectionParams" $ -}}"
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
               {{- end }}
             {{- end }}
             - name: MEMBERS
-              value: {{ include "${rootArtifactId}.members" . }}
+              value: {{ include "product-engine.members" . }}
             - name: SPRING_KAFKA_PROPERTIES_SASL_MECHANISM
               value: {{ .Values.kafka.saslMechanism | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SASL_JAAS_CONFIG
@@ -206,14 +206,14 @@ spec:
               value: "true"
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
-            {{- if (include "${rootArtifactId}.trustStoreEnv" .) -}}
-            {{- include "${rootArtifactId}.trustStoreEnv" . | nindent 12 -}}
+            {{- if (include "product-engine.trustStoreEnv" .) -}}
+            {{- include "product-engine.trustStoreEnv" . | nindent 12 -}}
             {{- end }}
             {{- if .Values.mountKeyStoreFromSecret.enabled }}
             - name: SERVER_SSL_KEY_STORE_FILE
               value: {{ required "Please specify key store location in mountKeyStoreFromSecret.location" .Values.mountKeyStoreFromSecret.location }}/{{ required "Please specify key store file name in mountKeyStoreFromSecret.keyStoreName" .Values.mountKeyStoreFromSecret.keyStoreName }}
             - name: SSL_KEY_STORE_TYPE
-              value: {{ required "Please specify key store type in mountKeyStoreFromSecret.keyStoreType" .Values.mountKeyStoreFromSecret.keyStoreType }}
+            value: {{ required "Please specify key store type in mountKeyStoreFromSecret.keyStoreType" .Values.mountKeyStoreFromSecret.keyStoreType }}
             {{- end }}
             {{- if .Values.oauth2.enabled }}
             - name: SECURITY_AUTHENTICATION
@@ -252,7 +252,7 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            {{- include "${rootArtifactId}.mounts" . | nindent 12 }}
+            {{- include "product-engine.mounts" . | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -266,4 +266,4 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-        {{- include "${rootArtifactId}.volumes" . | nindent 8 }}
+        {{- include "product-engine.volumes" . | nindent 8 }}

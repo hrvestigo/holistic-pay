@@ -1,19 +1,19 @@
 {{- if .Values.autoscaling.enabled }}
-{{- if semverCompare ">=1.23-0" .Capabilities.KubeVersion.GitVersion -}}
+  {{- if semverCompare ">=1.23-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: autoscaling/v2
-{{- else -}}
+  {{- else -}}
 apiVersion: autoscaling/v2beta2
-{{- end }}
+  {{- end }}
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "${rootArtifactId}.name" . }}
+  name: {{ include "product-engine.name" . }}
   labels:
-    {{- include "${rootArtifactId}.labels" . | nindent 4 }}
+    {{- include "product-engine.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "${rootArtifactId}.name" . }}
+    name: {{ include "product-engine.name" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
@@ -33,4 +33,4 @@ spec:
           type: Utilization
           averageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
     {{- end }}
-{{- end }}
+  {{- end }}
