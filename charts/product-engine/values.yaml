@@ -62,48 +62,6 @@ kafka:
     credSource: USER_INFO
     user: ''
     url: ''
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 oauth2:
   enabled: false
   resourceUri: ''
@@ -114,12 +72,6 @@ request:
 response:
   encoding:
     enabled: false
-
-
-
-
-
-
 timezone: ''
 secret:
   decryptionKey: ''
@@ -143,7 +95,6 @@ logger:
     databaseSlowQuery: INFO
     businessLogic: INFO
     general: INFO
-
   logToFile: false
   rollingFileAppender: false
   logDir: /var/log/app
@@ -153,7 +104,6 @@ logger:
   databaseSlowQueryThreshold: 0
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
-
 podAnnotations: {}
 deploymentAnnotations: {}
 serviceAnnotations: {}
@@ -215,7 +165,6 @@ affinity:
 deployment:
   replicaCount: 1
   annotations: {}
-
   strategy:
     type: RollingUpdate
     rollingUpdate:
