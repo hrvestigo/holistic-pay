@@ -10,7 +10,7 @@ metadata:
   {{- with .Values.deployment.annotations }}
 annotations:
   {{ toYaml . | indent 4 }}
-    {{- end }}
+  {{- end }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.deployment.replicaCount }}
