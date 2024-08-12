@@ -137,13 +137,6 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
-        - id: person-registry-web_route
-          predicates:
-            - Path=/**
-          uri: https://{{ required "Person registry application service name has to be defined in routes.personRegistryWeb.serviceName" .Values.routes.personRegistryWeb.serviceName }}:{{ required "Person structure application port number has to be defined in routes.personRegistryWeb.servicePortNumber" .Values.routes.personRegistryWeb.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
         - id: pan-manager-ms_route
           predicates:
             - Path=/api/*/generateNewPan, /api/*/generateNewPanList
@@ -162,6 +155,13 @@ spring:
           predicates:
             - Path=/api/*/package-request/**, /api/*/products-overview/**
           uri: https://{{ required "Product engine application service name has to be defined in routes.productEngine.serviceName" .Values.routes.productEngine.serviceName }}:{{ required "Product engine application port number has to be defined in routes.productEngine.servicePortNumber" .Values.routes.productEngine.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        - id: person-registry-web_route
+          predicates:
+            - Path=/**
+          uri: https://{{ required "Person registry application service name has to be defined in routes.personRegistryWeb.serviceName" .Values.routes.personRegistryWeb.serviceName }}:{{ required "Person structure application port number has to be defined in routes.personRegistryWeb.servicePortNumber" .Values.routes.personRegistryWeb.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
