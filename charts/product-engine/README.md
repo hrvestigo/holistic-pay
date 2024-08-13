@@ -511,7 +511,7 @@ members:
 ```
 
 This setup is required and will define one member in application with default setup. By default, with one specified member, two database schemas will be defined - "connect" schema, which is a default schema for non-member-specific requests and one member-specific datasource schema in the same database.
-Schema name for application member is auto-generated and will be in format `{members.businessUnit}{members.applicationMember}perstr{env.label}`.
+Schema name for application member is auto-generated and will be in format `{members.businessUnit}{members.applicationMember}prdeng{env.label}`.
 
 `members` attribute enables customization on database level. It is possible to override specific datasource and liquibase parameters for each member separately.
 

@@ -100,7 +100,7 @@ logger:
   logDir: /var/log/app
   logDirMount:
     enabled: false
-  microserviceTag: ''
+  microserviceTag: 'PRDENG'
   databaseSlowQueryThreshold: 0
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M

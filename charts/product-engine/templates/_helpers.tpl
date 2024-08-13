@@ -16,7 +16,7 @@ Create chart name and version as used by the chart label.
 Defies fixed part of product-engine datasource schema name
 */}}
 {{- define "product-engine.dbSchema" -}}
-{{- "schemaname" }}
+{{- "prdeng" }}
 {{- end }}
 
 {{/*
