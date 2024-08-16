@@ -62,6 +62,11 @@ kafka:
     paymentOrderPosting:
       name: gw.ipt1.sirius.cdc.paymentorderposting.01
       consumerGroup: gw.ipt1.payOrdPos.paymentOrderPosting.15
+      enabled: true
+      nbrEnabled: true
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
 oauth2:
   enabled: false
   resourceUri: ''
