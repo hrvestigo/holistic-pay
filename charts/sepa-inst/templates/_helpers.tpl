@@ -51,7 +51,7 @@ Liquibase image
 {{- if .Values.image.liquibase.imageLocation }}
 {{- printf "%s:%s" .Values.image.liquibase.imageLocation .Values.image.liquibase.tag }}
 {{- else }}
-{{- $liquiRepo := printf "%s%s" "hrvestigo/sepa-inst-lb:" $.Values.image.liquibase.tag }}
+{{- $liquiRepo := "hrvestigo/sepa-inst-lb" }}
 {{- $reg := default $.Values.image.registry $.Values.image.liquibase.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $liquiRepo }}
@@ -69,7 +69,11 @@ Liquibase init container definition
 - name: liquibase-{{ .memberSign | lower }}
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
-  image: {{ include "sepa-inst.liquibase.image" $ }}
+  {{- if $.Values.image.liquibase.imageLocation }}
+    image: {{ include "sepa-inst.liquibase.image" $ }}
+  {{- else }}
+    image: {{ printf "%s%s%s%s%s" (include "sepa-inst.liquibase.image" $) "-" ($member.businessUnit | lower ) ":" $.Values.image.liquibase.tag }}
+  {{- end }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   resources:
     {{- include "sepa-inst.liquibase.initContainer.resources" $ | nindent 4 }}
