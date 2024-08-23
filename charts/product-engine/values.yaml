@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.0.0
+    tag: 1.11.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -35,19 +35,19 @@ liquibase:
   replicationRole: ''
   resources: {}
 members:
-  - businessUnit: ''
-    applicationMember: ''
-    memberSign: ''
-    liquibase:
-      role: ''
-      replicationRole: ''
-    datasource:
-      globalSchema: false
-      host: ''
-      port: ''
-      dbName: ''
-      user: ''
-      password: ''
+- businessUnit: ''
+  applicationMember: ''
+  memberSign: ''
+  liquibase:
+    role: ''
+    replicationRole: ''
+  datasource:
+    globalSchema: false
+    host: ''
+    port: ''
+    dbName: ''
+    user: ''
+    password: ''
 kafka:
   readinessProbeEnabled: true
   user: ''
@@ -100,7 +100,7 @@ logger:
   logDir: /var/log/app
   logDirMount:
     enabled: false
-  microserviceTag: 'PRDENG'
+  microserviceTag: PRDENG
   databaseSlowQueryThreshold: 0
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
@@ -142,26 +142,26 @@ affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
-        - matchExpressions:
-            - key: kubernetes.io/arch
-              operator: In
-              values:
-                - amd64
-            - key: kubernetes.io/os
-              operator: In
-              values:
-                - linux
+      - matchExpressions:
+        - key: kubernetes.io/arch
+          operator: In
+          values:
+          - amd64
+        - key: kubernetes.io/os
+          operator: In
+          values:
+          - linux
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 100
-        podAffinityTerm:
-          labelSelector:
-            matchExpressions:
-              - key: app
-                operator: In
-                values:
-                  - product-engine
-          topologyKey: kubernetes.io/hostname
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - product-engine
+        topologyKey: kubernetes.io/hostname
 deployment:
   replicaCount: 1
   annotations: {}
