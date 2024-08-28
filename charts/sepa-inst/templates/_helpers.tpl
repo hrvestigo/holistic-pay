@@ -70,9 +70,9 @@ Liquibase init container definition
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
   {{- if $.Values.image.liquibase.imageLocation }}
-    image: {{ include "sepa-inst.liquibase.image" $ }}
+  image: {{ include "sepa-inst.liquibase.image" $ }}
   {{- else }}
-    image: {{ printf "%s%s%s%s%s" (include "sepa-inst.liquibase.image" $) "-" ($member.businessUnit | lower ) ":" $.Values.image.liquibase.tag }}
+  image: {{ printf "%s%s%s%s%s" (include "sepa-inst.liquibase.image" $) "-" ($member.businessUnit | lower ) ":" $.Values.image.liquibase.tag }}
   {{- end }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   resources:
