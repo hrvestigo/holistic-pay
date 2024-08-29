@@ -77,7 +77,7 @@ mocks-ms (as well as all other HolisticPay applications) is a multi-member appli
 
 ### External core system default values
 
-Sirius specific application allows parameterized setup of the following default values to be used in cases external core
+ECS specific application allows parameterized setup of the following default values to be used in cases external core
 system doesn't provide values for these properties.
 
 ```yaml
