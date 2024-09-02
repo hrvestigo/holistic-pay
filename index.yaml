@@ -6080,6 +6080,16 @@ entries:
     version: 1.0.0
   mocks:
   - apiVersion: v2
+    appVersion: 3.52.0
+    created: "2024-09-02T15:02:48.220409016Z"
+    description: Helm chart for mocks application
+    digest: 0c0621c2344a343d634de1c3439a24695c04614bb21a4b112811e82cfae26ae2
+    name: mocks
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/mocks-3.52.0/mocks-3.52.0.tgz
+    version: 3.52.0
+  - apiVersion: v2
     appVersion: 3.51.0
     created: "2024-08-29T10:53:10.805132595Z"
     description: Helm chart for mocks application
@@ -22043,4 +22053,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2024-09-02T13:17:00.063099195Z"
+generated: "2024-09-02T15:02:48.235853967Z"
