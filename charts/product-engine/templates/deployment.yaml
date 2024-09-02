@@ -160,6 +160,8 @@ spec:
               value: "true"
             - name: MANAGEMENT_ENDPOINT_HEALTH_SHOWDETAILS
               value: always
+            - name: RELOAD_CACHE_AFTER
+              value: {{ .Values.caffeine.expireAfterWrite | quote }}
             - name: MANAGEMENT_ENDPOINT_HEALTH_STATUS_HTTPMAPPING_DOWN
               value: {{ .Values.healthStatusDownReturnCode | quote }}
             - name: MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE

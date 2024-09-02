@@ -102,6 +102,8 @@ logger:
     enabled: false
   microserviceTag: PRDENG
   databaseSlowQueryThreshold: 0
+caffeine:
+  expireAfterWrite: 1440
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
 podAnnotations: {}

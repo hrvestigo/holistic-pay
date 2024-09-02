@@ -1211,3 +1211,11 @@ javaOpts: "-Xms256M -Xmx512M -Dcustom.jvm.param=true"
 ```
 
 Note that defining custom `javaOpts` attribute will override default one, so make sure to keep `Xms` and `Xmx` parameters.
+
+
+This value defines number of minutes after which cache is reloaded from DB
+
+```yaml
+caffeine:
+  - expireAfterWrite: 1440 # default value (1 day)
+```
