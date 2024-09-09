@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.15.0
+    tag: 1.17.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -62,6 +62,10 @@ kafka:
     credSource: USER_INFO
     user: ''
     url: ''
+  topics:
+    contractedproducts:
+      name: hr.vestigo.hp.contractedproducts
+      consumerGroup: hr.vestigo.hp.contractedproducts
 oauth2:
   enabled: false
   resourceUri: ''

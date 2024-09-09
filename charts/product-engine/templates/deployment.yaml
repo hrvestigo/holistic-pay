@@ -146,6 +146,10 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
+            - name: KAFKA_TOPIC_CONTRACTEDPRODUCTS_NAME
+              value: {{ .Values.kafka.topics.contractedproducts.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CONTRACTEDPRODUCTS_NAME
+              value: {{ .Values.kafka.topics.contractedproducts.consumerGroup | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
