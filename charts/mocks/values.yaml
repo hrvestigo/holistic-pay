@@ -89,11 +89,11 @@ logger:
   level:
     kafka: DEBUG
     kafkaCore: INFO
-    rest: DEBUG
+    rest: INFO
     database: ERROR
-    databaseSql: DEBUG
-    databaseBind: TRACE
-    databaseExtract: TRACE
+    databaseSql: INFO
+    databaseBind: INFO
+    databaseExtract: INFO
     databaseSlowQuery: INFO
     businessLogic: DEBUG
     health: DEBUG
