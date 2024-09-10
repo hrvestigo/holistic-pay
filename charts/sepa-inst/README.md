@@ -25,7 +25,7 @@ Required values are (in `yaml` format):
 env:
   type: "test" # string value, possible values: dev, test, preprod, prod
   label: "t1" # string value
-  
+
 secret:
   decryptionKey: "my-encryption-key" # string value
   datasourcePassword: "AES-encoded-datasource-password" # string value
@@ -89,7 +89,7 @@ Required datasource attributes:
 ```yaml
 datasource:
   host: "db-hostname" # only PostgreSQL hostname has to be defined (for instance "localhost")
-  port: 5432 # PostgreSQL port number 
+  port: 5432 # PostgreSQL port number
   dbName: "database-name" # Name of PostgreSQL database
   user: "database-user" # User which application will use to connect to PostgreSQL
 ```
@@ -129,7 +129,7 @@ liquibase:
   enabled: false # disable liquibase
 ```
 
-Datasource connection string can be customized by adding additional parameters to connection string 
+Datasource connection string can be customized by adding additional parameters to connection string
 (URL). To add custom parameters, they should be defined in datasource. connectionParams attribute as
 a map of values, for example:
 
@@ -140,7 +140,7 @@ datasource:
     sslmode: "enable"
 ```
 
-Setup from this example would result with string "&ssl=true&sslmode=enable" appended to database 
+Setup from this example would result with string "&ssl=true&sslmode=enable" appended to database
 connection URL.
 
 ### Kafka setup
@@ -156,9 +156,13 @@ kafka:
   user: "kafka-user" # user used to connect to Kafka cluster
   servers: "kafka-server1:port,kafka-server2:port" # a comma separated list of Kafka bootstrap servers
   schemaRegistry:
+    credSource: USER_INFO # default value
     user: "kafka-schema-registry-user" # user used to connect to Kafka Schema Registry
     url: "https://kafka.schema.registry.url" # URL for Kafka Schema Registry
 ```
+
+The `credSource` specifies how to pick the credentials for Basic authentication header.
+The currently supported value is USER_INFO.
 
 Passwords for Kafka cluster and Kafka Schema Registry are also AES encrypted.
 Passwords should be defined with `secret.kafkaPassword` and `secret.kafkaSchemaRegistryPassword` attributes, for example:
@@ -182,6 +186,7 @@ kafka:
 ```
 
 The ssl endpoint identification is set to default ([More info](https://docs.confluent.io/platform/current/kafka/authentication_ssl.html#id1)):
+
 ```yaml
 kafka:
   sslEndpointIdentAlg: HTTPS # default value is HTTPS , set other ssl endpoint identification algorithm if required
@@ -189,7 +194,7 @@ kafka:
 
 #### Topics and consumer groups setup
 
-Kafka topics and consumer group names used by `SEPA inst` have default names defined in 
+Kafka topics and consumer group names used by `SEPA inst` have default names defined in
 `values.yaml` file, but can be overridden with following setup:
 
 ```yaml
@@ -279,21 +284,23 @@ loaded by the application.
 Parameter `url` is required and in should be in format `https://server:port`.
 This is the location where application sends requests to CSM.
 With `msgPath` we configure request path to CSM.
-<br>Application currently supports the following message types, which represents
+
+Application currently supports the following message types, which represents
 resources for `POST` to CSM:
-  - `camt_029`
-  - `camt_050`
-  - `camt_056`
-  - `info`
-  - `izvj`
-  - `liq_req`
-  - `pacs_002_negative`
-  - `pacs_002_nksinst`
-  - `pacs_002_positive`
-  - `pacs_004`
-  - `pacs_008`
-  - `pacs_028`
-  - `pacs_028_056`
+
+- `camt_029`
+- `camt_050`
+- `camt_056`
+- `info`
+- `izvj`
+- `liq_req`
+- `pacs_002_negative`
+- `pacs_002_nksinst`
+- `pacs_002_positive`
+- `pacs_004`
+- `pacs_008`
+- `pacs_028`
+- `pacs_028_056`
 
 For example, with `url` set to `http://localhost:8080` and using defaults for other
 parameters, application sends `pacs008` message by sending `POST` request to CSM on
@@ -303,30 +310,34 @@ Using parameter `info` we can configure CSM endpoint to call when application st
 Performing this call we can ensure that we can communicate via CSM.
 For example, with `info` set to `instant-core/api/info` application performs `GET`
 `http://localhost:8080/instant-core/api/info`. Currently two headers are send via this `GET` call:
- - `Content-Type: text/xml;charset=UTF-8`
- - `accept: */*`
+
+- `Content-Type: text/xml;charset=UTF-8`
+- `accept: */*`
 
 **NOTE**: if `GET` call to `info` resource fails, application will not start.
 
 Using parameter `xsdCheck` we configure if `XSD` check is needed when receiving or sending
 messages to CSM. This is global setting, meaning it is applied on all messages.
 The following values are applicable:
- - `inout`  - XSD check is enabled for all messages
- - `in`     - XSD check is enabled only for messages received from CSM
- - `out`    - XSD check is enabled only for messages send to CSM
- - `off`    - XSD check is disabled
-  
+
+- `inout`  - XSD check is enabled for all messages
+- `in`     - XSD check is enabled only for messages received from CSM
+- `out`    - XSD check is enabled only for messages send to CSM
+- `off`    - XSD check is disabled
+
 Using parameter `msgSignature` we configure if message signature is created or validated.
 The following values are applicable:
- - `inout`  - signature is created for messages to CSM and validated for messages from CSM
- - `in`     - signature is not created for messages to CSM but validated from messages from CSM
- - `out`    - signature is created for messages to CSM and not validated for messages from CSM
- - `off`    - signature is not created nor validated
+
+- `inout`  - signature is created for messages to CSM and validated for messages from CSM
+- `in`     - signature is not created for messages to CSM but validated from messages from CSM
+- `out`    - signature is created for messages to CSM and not validated for messages from CSM
+- `off`    - signature is not created nor validated
 
 #### CSM configuration per message
 
 It is possible to configure certain aspects of CSM on message level.
-<br>The following is default configuration per message level:
+
+The following is default configuration per message level:
 
 ```yaml
 csm:
@@ -372,7 +383,8 @@ csm:
 The parameter `xsdCheck` has the same meaning as the global parameter on CSM level,
 but with additional option `inherit`. This is a default option, which means that
 CSM level parameter value is applicable.
-<br>Using CSM level configuration `inout` and message level configuration `off`
+
+Using CSM level configuration `inout` and message level configuration `off`
 we can disable XSD check for single message only. To enable XSD check for single
 message we can set CSM level configuration to `off` and message level `inout`.
 
@@ -381,10 +393,11 @@ message we can set CSM level configuration to `off` and message level `inout`.
 With parameter `requestMsgRetry` we configure retry policy to be applied
 on messages sent to CSM and retried to CSM if response message from CSM is not received.
 First retry is done after `responseMsgTimeout`.
-<br>Request message retry is currently implemented for the following business use cases:
+
+Request message retry is currently implemented for the following business use cases:
 
 - `pacs.008` message is sent to CSM, response `pacs.002` message from CSM is not received
-  
+
   ```mermaid
   sequenceDiagram
     Sepa Inst->>CSM: pacs_008
@@ -407,18 +420,21 @@ First retry is done after `responseMsgTimeout`.
     CSM->>Sepa Inst: pacs_002
   ```
 
-Request message retry functionality can be disabled by setting `requestMsgRetry` value to `0;0s` or `0`. Meaning, no retry messages are send to CSM. To configure retry intervals on millisecond level, convert to seconds. For example, 100ms should be configured as 0.1s.
+Request message retry functionality can be disabled by setting `requestMsgRetry` value to `0;0s` or `0`.
+Meaning, no retry messages are send to CSM. To configure retry intervals on millisecond level, convert to seconds.
+For example, 100ms should be configured as 0.1s.
 
 ##### Response message retry configuration
 
-With parameter `responseMsgRetry` we configure retry policy for processing received response message from CSM. This functionality can be useful when original request messages was sent to CSM but not yet fully processed and committed in application.
+With parameter `responseMsgRetry` we configure retry policy for processing received response message from CSM.
+This functionality can be useful when original request messages was sent to CSM but not yet fully processed and committed in application.
 In the meantime response message is received from CSM and fails in processing due to
 not processed original message.
 
-<br>Response message retry is applicable for the following business use cases:
+Response message retry is applicable for the following business use cases:
 
 - `pacs.008` message is sent to CSM, still in processing, response `pacs.002` message from CSM is received
-  
+
   ```mermaid
   sequenceDiagram
     Sepa Inst->>CSM: pacs_008
@@ -450,7 +466,8 @@ To configure retry intervals on millisecond level, convert to seconds. For examp
 
 ##### Response message timeout configuration
 
-With parameter `responseMsgTimeout` we configure timeout to wait for response message from CSM after which request message retry functionality is triggered.
+With parameter `responseMsgTimeout` we configure timeout to wait for response message
+from CSM after which request message retry functionality is triggered.
 
 Response message timeout can be disabled by setting `responseMsgTimeout` value to `0s`.
 To configure timeout on millisecond level, convert to seconds. For example, 100ms should be configured as 0.1s.
@@ -458,7 +475,8 @@ To configure timeout on millisecond level, convert to seconds. For example, 100m
 ### TLS setup
 
 `SEPA inst` application is prepared to use TLS, but requires provided server certificate.
-Server certificate is not provided by default (expected to be provided manually) and there are no predefined trust or key stores for TLS/mTLS.
+Server certificate is not provided by default (expected to be provided manually)
+and there are no predefined trust or key stores for TLS/mTLS.
 However, there are several different possibilities for customizing TLS setup.
 
 #### Provide server certificate with custom `initContainer`
@@ -759,7 +777,7 @@ members:
 ```
 
 This setup is required and will define one member in application with default setup. By default, with one specified member, two database schemas will be defined - "connect" schema, which is a default schema for non-member-specific requests and one member-specific datasource schema in the same database.
-Schema name for application member is auto-generated and will be in format `{members.businessUnit}{members.applicationMember}perstr{env.label}`.
+Schema name for application member is auto-generated and will be in format `{members.businessUnit}{members.applicationMember}sepins{env.label}`.
 
 `members` attribute enables customization on database level. It is possible to override specific datasource and liquibase parameters for each member separately.
 
@@ -865,8 +883,8 @@ members:
 
 ### oAuth2
 
-Sepa inst application can use Keycloak implementation for oAuth2 authentication and 
-authorization. By default, this option is disabled, but can easily be enabled by specifying 
+Sepa inst application can use Keycloak implementation for oAuth2 authentication and
+authorization. By default, this option is disabled, but can easily be enabled by specifying
 following attributes in values:
 
 ```yaml
@@ -875,6 +893,7 @@ oauth2:
   resourceUri: '' # has to be specified if enabled, no default value
   authorizationPrefix: ''
 ```
+
 To configure oAuth2, it first has to be enabled with `oAuth2.enabled` parameter.
 When enabled, `oAuth2.resourceUri` should also be defined.
 This URI should point to oAuth2 server with defined converter type and name, for example
@@ -891,7 +910,7 @@ etc, then variable prefix is 'MY_PREFIX:')
 request:
   sanitization:
     enabled: true
-    
+
 response:
   encoding:
     enabled: false
@@ -904,7 +923,7 @@ Custom environment variables can be added to `SEPA inst` container by applying `
 ```yaml
 customEnv:
   - name: MY_CUSTOM_ENV
-    value: some-value 
+    value: some-value
   - name: SOME_OTHER_ENV
     value: 123
 ```
@@ -934,14 +953,14 @@ However, using custom configuration, logs can be redirected to log files also (i
 When enabling logging to file, container will divide logs into four different files:
 
 - `application.log` - contains all application-related (business logic) logs
-  
+
 - `messages.log` - contains application server's logs
 
 - `health.log` - contains all incoming requests to health check endpoint (filtered out from `access.log`)
 
 - `access.log` - contains typical Web Server logs, except for health check endpoint
 
-To change logging level for different components, following attribute should be set in values file: 
+To change logging level for different components, following attribute should be set in values file:
 
 ```yaml
   level:
@@ -1024,11 +1043,14 @@ Note that any type of mount specification can be used by following standard Kube
 
 If you want to include in your logs, the name of the microservice which generates the logs, you can do so by setting the value of the name of the microservice in the attribute `logger.microserviceTag`.
 By default, this attribute is set to empty string.
+
 ```yaml
 logger:
   microserviceTag: ''
 ```
+
 Log format for STDOUT logger can be modified by changing attribute:
+
 ```yaml
 logger:
   format: "STRING" # default value
@@ -1036,10 +1058,11 @@ logger:
 
 Supported values for this parameter are: `STRING`,`ECS`,`LOGSTASH`,`GELF`,`GCP`.
 
-# Examples of how log entries would look like for each value:
+#### Examples of how log entries would look like for each value
 
-* `STRING`
-  * with stacktrace
+- `STRING`
+  - with stacktrace:
+
   ```log
   2023-03-27 16:00:20,140 [6af3546625fd473bbd95482b18f2caec,620676f56f76c5b6] ERROR h.v.s.a.e.SomeClass Error
   jakarta.validation.ConstraintViolationException: must not be null
@@ -1047,46 +1070,78 @@ Supported values for this parameter are: `STRING`,`ECS`,`LOGSTASH`,`GELF`,`GCP`.
   at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.0.6.jar:6.0.6]
   at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750) ~[spring-aop-6.0.6.jar:6.0.6]
   ```
-  * without stacktrace
+
+  - without stacktrace:
+
   ```log
   2023-03-27 16:03:48,368 [7baee9c3042043cd3116a2bcf51b872e,ed1297a561d6ab6d] DEBUG o.s.o.j.JpaTransactionManager Exposing JPA transaction as JDBC [org.springframework.orm.jpa.vendor.HibernateJpaDialect$HibernateConnectionHandle@1d8f102d]
   ```
-* `ECS`
-  * with stacktrace
+
+- `ECS`
+  - with stacktrace:
+
   ```log
   {"@timestamp":"2023-03-17T10:05:47.074367100Z","ecs.version":"1.2.0","log.level":"ERROR","message":"[379b4af3-1]  500 Server Error for HTTP GET","process.thread.name":"reactor-http-nio-5","log.logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler","spanId":"0000000000000000","traceId":"00000000000000000000000000000000","error.type":"io.netty.channel.AbstractChannel.AnnotatedConnectException","error.message":"Connection refused: no further information: /127.0.0.1:3000","error.stack_trace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\n"}
   ```
-  * without stacktrace
+
+  - without stacktrace:
+
   ```log
   {"mdc":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"@timestamp":"2023-03-17T07:37:27.535267800Z","ecs.version":"1.2.0","log.level":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","process.thread.name":"main","log.logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
-* `LOGSTASH`
-  * with stacktrace
+
+- `LOGSTASH`
+  - with stacktrace:
+
   ```log
   {"mdc":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"exception":{"exception_class":"io.netty.channel.AbstractChannel.AnnotatedConnectException","exception_message":"Connection refused: no further information: /127.0.0.1:3000","stacktrace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t"},"@version":1,"source_host":"HOST","message":"[70e82a4a-1]  500 Server Error for HTTP GET","thread_name":"reactor-http-nio-5","@timestamp":"2023-03-17T11:26:22.416121900Z","level":"ERROR","logger_name":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler"}
   ```
-  * without stacktrace
+
+  - without stacktrace:
+
   ```log
   {"@version":1,"source_host":"HOST","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","thread_name":"main","@timestamp":"2023-03-17T11:24:17.730772400Z","level":"DEBUG","logger_name":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
-* `GELF`
-  * with stacktrace
+
+- `GELF`
+  - with stacktrace:
+
   ```log
   {"version":"1.1","host":"HOST","short_message":"[3440fdd5-1]  500 Server Error for HTTP GET","full_message":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\n","timestamp":1679049090.535760400,"level":3,"_logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler","_thread":"reactor-http-nio-5","_spanId":"0000000000000000","_traceId":"00000000000000000000000000000000"}
   ```
-  * without stacktrace
+
+  - without stacktrace:
+
   ```log
   {"version":"1.1","host":"HOST","short_message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","timestamp":1679049030.468963200,"level":7,"_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean","_thread":"main"}
   ```
-* `GCP`
-  * with stacktrace
+
+- `GCP`
+  - with stacktrace:
+
   ```log
   {"timestamp":"2023-03-17T10:33:42.531673100Z","severity":"ERROR","message":"[3e916f02-1]  500 Server Error for HTTP GET  io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t","logging.googleapis.com/labels":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"logging.googleapis.com/sourceLocation":{"function":"org.springframework.core.log.CompositeLog.error"},"logging.googleapis.com/insertId":"1106","_exception":{"class":"io.netty.channel.AbstractChannel.AnnotatedConnectException","message":"Connection refused: no further information: /127.0.0.1:3000","stackTrace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t"},"_thread":"reactor-http-nio-5","_logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler"}
   ```
-  * without stacktrace
+
+  - without stacktrace:
+
   ```log
   {"timestamp":"2023-03-17T10:33:14.218078900Z","severity":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","logging.googleapis.com/sourceLocation":{"function":"org.springframework.boot.availability.ApplicationAvailabilityBean.onApplicationEvent"},"logging.googleapis.com/insertId":"1051","_exception":{"stackTrace":""},"_thread":"main","_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
+
+### Observing distributed tracing
+
+In order to start exporting tracing information to Tempo (or any tool that knows how to interpret OpenTelemetry formatted data), sepa-inst microservice should define next attributes:
+
+```yaml
+tracing:
+  samplingProbability: 0.0 # decimal value, default is 0.0
+  otlpEndpoint: ''
+```
+
+First parameter dictates what percentage of requests should be exported to processing system. 0.0 means 0% of requests and 1.0 means 100%.
+Second parameter defines URL on which should be tracing information sent.
+If second parameter is not defined, no tracing information will be sent, regardless of sampling probability.
 
 ### Modifying deployment strategy
 
@@ -1128,7 +1183,7 @@ Any value (or all of them) can be modified by specifying same attribute in custo
 Since application uses Liquibase as init container, resources can be defined for this container also.
 
 Resources for Liquibase can be set with liquibase.resources attribute. This attribute has no defaults
-(empty), but if it's not defined, main container's resources will be used. For example, using 
+(empty), but if it's not defined, main container's resources will be used. For example, using
 following setup, resources defined within liquibase attribute would be used over attributes for main
 container (defined in root resources attribute).
 
@@ -1150,6 +1205,7 @@ liquibase:
       cpu: 100m
       memory: 128Mi
 ```
+
 With this setup, Liquibase init container would have limits set to 1 CPU and 128Mi of memory and
 requests to 100m and 128Mi. If Liquibase resource was not defined, Liquibase init container would
 have limits set to 2 CPU and 1Gi and request to 100m and 1Gi.

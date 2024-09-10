@@ -285,3 +285,4 @@ customMounts: []
 customEnv: []
 tracing:
   samplingProbability: 0.0
+  otlpEndpoint: ''
