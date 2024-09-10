@@ -309,9 +309,12 @@ kafka:
   user: "kafka-user" # user used to connect to Kafka cluster
   servers: "kafka-server1:port,kafka-server2:port" # a comma separated list of Kafka bootstrap servers
   schemaRegistry:
+    credSource: USER_INFO # default value
     user: "kafka-schema-registry-user" # user used to connect to Kafka Schema Registry
     url: "https://kafka.schema.registry.url" # URL for Kafka Schema Registry
 ```
+The `kafka.schemaRegistry.credSource` specifies how to pick the credentials for Basic authentication header.
+The currently supported value is USER_INFO.
 
 As for database, passwords for Kafka cluster and Kafka Schema Registry are also AES encrypted.
 Passwords should be defined with `secret.kafkaPassword` and `secret.kafkaSchemaRegistryPassword` attributes, for example:
@@ -1047,6 +1050,19 @@ logger:
 ```
 
 What is treated as sensitive is implementation specific and is defined inside the code.
+
+
+### Observing distributed tracing
+
+In order to start exporting tracing information to Tempo (or any tool that knows how to interpret OpenTelemetry formatted data), payment-order microservice should define next attributes:
+  ```yaml
+  tracing:
+    samplingProbability: 0.0 # decimal value, default is 0.0
+    otlpEndpoint: http://tempo.monitor:4318/v1/traces
+  ```
+First parameter dictates what percentage of requests should be exported to processing system. 0.0 means 0% of requests and 1.0 means 100%.
+Second parameter defines URL on which should be tracing information sent.
+If second parameter is not defined, no tracing information will be sent, regardless of sampling probability.
 
 
 ### Modifying deployment strategy
