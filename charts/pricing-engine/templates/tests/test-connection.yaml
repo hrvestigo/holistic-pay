@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "pricing-engine.name" . }}-test-connection"
+  labels:
+    {{- include "pricing-engine.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: curl
+      image: alpine
+      command:
+        - 'bash'
+        - -c
+        - 'apk add curl && curl -k https://{{ include "pricing-engine.name" . }}:{{ .Values.service.port }}/health/liveness'
+  restartPolicy: Never
