@@ -4,13 +4,13 @@ metadata:
   name: {{ include "pricing-engine.name" . }}
   labels:
     {{- include "pricing-engine.labels" . | nindent 4 }}
-    {{- with .Values.deployment.labels }}
-    {{ toYaml . | indent 4 }}
-    {{- end }}
-    {{- with .Values.deployment.annotations }}
-annotations:
-  {{ toYaml . | indent 4 }}
-  {{- end }}
+{{- with .Values.deployment.labels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+{{- with .Values.deployment.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.deployment.replicaCount }}
@@ -26,9 +26,9 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
         checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
-          {{- with .Values.podAnnotations }}
-          {{- toYaml . | nindent 8 }}
-          {{- end }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
         {{- include "pricing-engine.selectorLabels" . | nindent 8 }}
     spec:
@@ -165,23 +165,23 @@ spec:
             - name: SERVER_TOMCAT_ACCESSLOG_PREFIX
               value: access
             - name: SERVER_TOMCAT_BASEDIR
-                {{- $logdir := .Values.logger.logDir | splitList "/" }}
-                {{- if hasPrefix "/" .Values.logger.logDir }}
+              {{- $logdir := .Values.logger.logDir | splitList "/" }}
+              {{- if hasPrefix "/" .Values.logger.logDir }}
               value: "/{{ index $logdir 1 }}"
-                {{- else }}
-                value: "/{{ index $logdir 0 }}"
-                  {{- end }}
+              {{- else }}
+              value: "/{{ index $logdir 0 }}"
+              {{- end }}
             - name: SERVER_TOMCAT_ACCESSLOG_FILEDATEFORMAT
               value: ""
             - name: SERVER_TOMCAT_ACCESSLOG_DIRECTORY
-                {{- $logdir := .Values.logger.logDir | splitList "/" }}
-                {{- if hasPrefix "/" .Values.logger.logDir }}
-                {{- $rest := slice $logdir 2 | join "/" }}
+              {{- $logdir := .Values.logger.logDir | splitList "/" }}
+              {{- if hasPrefix "/" .Values.logger.logDir }}
+              {{- $rest := slice $logdir 2 | join "/" }}
               value: {{ $rest }}
-                {{- else }}
-                {{- $rest := slice $logdir 1 | join "/" }}
-                value: {{ $rest }}
-                  {{- end }}
+              {{- else }}
+              {{- $rest := slice $logdir 1 | join "/" }}
+              value: {{ $rest }}
+              {{- end }}
             - name: SERVER_TOMCAT_ACCESSLOG_PATTERN
               value: >-
                 [%{yyyy-MM-dd HH:mm:ss.SSS}t] %h %l %u "%r" %s
