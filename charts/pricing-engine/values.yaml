@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.0.0
+    tag: 1.0.0 SNAPSHOT
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -35,19 +35,19 @@ liquibase:
   replicationRole: ''
   resources: {}
 members:
-- businessUnit: ''
-  applicationMember: ''
-  memberSign: ''
-  liquibase:
-    role: ''
-    replicationRole: ''
-  datasource:
-    globalSchema: false
-    host: ''
-    port: ''
-    dbName: ''
-    user: ''
-    password: ''
+  - businessUnit: ''
+    applicationMember: ''
+    memberSign: ''
+    liquibase:
+      role: ''
+      replicationRole: ''
+    datasource:
+      globalSchema: false
+      host: ''
+      port: ''
+      dbName: ''
+      user: ''
+      password: ''
 kafka:
   user: ''
   servers: ''
@@ -80,24 +80,26 @@ secret:
 logger:
   format: STRING
   level:
-    health: DEBUG
-    kafka: DEBUG
+    health: INFO
+    kafka: INFO
     kafkaCore: INFO
-    rest: DEBUG
-    database: ERROR
+    rest: INFO
+    database: INFO
     databaseSql: DEBUG
     databaseBind: TRACE
     databaseExtract: TRACE
     databaseSlowQuery: INFO
-    businessLogic: DEBUG
-    general: DEBUG
+    businessLogic: INFO
+    general: INFO
   logToFile: false
   rollingFileAppender: false
   logDir: /var/log/app
   logDirMount:
     enabled: false
-  microserviceTag: ''
+  microserviceTag: PRCENG
   databaseSlowQueryThreshold: 0
+caffeine:
+  expireAfterWrite: 1440
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
 podAnnotations: {}
@@ -138,26 +140,26 @@ affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/arch
-          operator: In
-          values:
-          - amd64
-        - key: kubernetes.io/os
-          operator: In
-          values:
-          - linux
+        - matchExpressions:
+            - key: kubernetes.io/arch
+              operator: In
+              values:
+                - amd64
+            - key: kubernetes.io/os
+              operator: In
+              values:
+                - linux
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
-    - weight: 100
-      podAffinityTerm:
-        labelSelector:
-          matchExpressions:
-          - key: app
-            operator: In
-            values:
-            - ${rootArtifactId}
-        topologyKey: kubernetes.io/hostname
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - pricing-engine
+          topologyKey: kubernetes.io/hostname
 deployment:
   replicaCount: 1
   annotations: {}
