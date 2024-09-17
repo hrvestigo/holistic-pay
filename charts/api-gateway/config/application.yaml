@@ -158,6 +158,13 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
+        - id: pricing-engine-ms_route
+          predicates:
+            - Path=/api/*/pricingEngine
+          uri: https://{{ required "Pricing engine application service name has to be defined in routes.pricingEngine.serviceName" .Values.routes.pricingEngine.serviceName }}:{{ required "Pricing engine application port number has to be defined in routes.pricingEngine.servicePortNumber" .Values.routes.pricingEngine.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
         - id: person-registry-web_route
           predicates:
             - Path=/**

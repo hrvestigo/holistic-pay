@@ -84,6 +84,9 @@ routes:
   productEngine:
     serviceName: product-engine
     servicePortNumber: "8443"
+  pricingEngine:
+    serviceName: pricing-engine
+    servicePortNumber: "8443"
 
 oauth2:
   enabled: false
