@@ -186,9 +186,9 @@ Kafka topics and consumer group names used by product-engine have default names 
 ```yaml
 kafka:
   topics:
-    example
-      name: hr.vestigo.hp.example # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.example # default value, set custom name if required
+    contractedproducts:
+      name: hr.vestigo.hp.contractedproducts # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.contractedproducts # default value, set custom name if required
 
 ```
 
