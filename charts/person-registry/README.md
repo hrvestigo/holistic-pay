@@ -962,6 +962,15 @@ CPU and/or memory utilization metrics can be used to autoscale Person registry p
 It's possible to define one or both of those metrics.
 If only `autoscaling.enabled` attribute is set to `true`, without setting other attributes, only CPU utilization metric will be used with percentage set to 80.
 
+#### Using `VerticalPodAutoscaler`
+By default, VPA is disabled in configuration, but it can enabled with following setup:
+```yaml
+vpa:
+enabled: true # default is false, has to be set to true to enable VPA
+updateMode: Off # default mode if Off, other possible values are "Initial", "Recreate" and "Auto"
+```
+
+
 ### Customizing probes
 
 Person registry application has predefined health check probes (readiness and liveness).
