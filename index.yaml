@@ -13506,6 +13506,16 @@ entries:
     version: 0.1.0
   pricing-engine:
   - apiVersion: v2
+    appVersion: 1.7.0
+    created: "2024-09-20T06:01:27.819563917Z"
+    description: Helm chart for pricing-engine application
+    digest: 7795f3582993a4cdeda8745bece4f6a8e7f03c2a34f97fe4b180409fa9453e8e
+    name: pricing-engine
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/pricing-engine-1.7.0/pricing-engine-1.7.0.tgz
+    version: 1.7.0
+  - apiVersion: v2
     appVersion: 1.6.0
     created: "2024-09-19T09:51:51.688201794Z"
     description: Helm chart for pricing-engine application
@@ -22454,4 +22464,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2024-09-19T20:45:56.573522288Z"
+generated: "2024-09-20T06:01:27.83455909Z"
