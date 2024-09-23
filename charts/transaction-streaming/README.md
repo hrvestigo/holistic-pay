@@ -1146,6 +1146,35 @@ deployment:
 Note that  Transaction streaming  has health checks available within the `/health` endpoint (`/health/readiness` for readiness and `/health/liveness` for liveness), and this base paths should not modified, only query parameters are subject to change.
 `scheme` attribute should also be set to `HTTPS` at all times, as well as `http` value for `port` attribute.
 
+Built-in health indicators are organized into groups that can be modified. By default, the following health readiness group is defined as below:
+```yaml
+health:
+  readiness:
+    stateEnabled: true # if enabled, it shows application readiness for client requests
+    dbEnabled: true # if enabled, it shows database readiness
+    kafkaEnabled: true # if enabled, it shows Kafka readiness
+```
+
+This can be changed to include custom health indicator that is provided for Transaction streaming which exposes current state of both Kafka Streams topologies to the health endpoint:
+```yaml
+health:
+  readiness:
+    streamStateEnabled: false # default value is false, if enabled it shows Kafka Streams readiness
+```
+
+If above value is enabled, Kafka Streams topologies state present in Transaction streaming application are exposed to the health endpoint like this:
+```json
+{
+  "deleteKafkaStreamsState": {
+    "status": "UP"
+  },
+  "mainKafkaStreamsState": {
+    "status": "UP"
+  }
+}
+```
+If status is DOWN, additional details are shown.
+
 ### Customizing security context
 
 Security context for Transaction streaming can be set on pod and/or on container level.

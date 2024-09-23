@@ -337,8 +337,9 @@ spec:
               value: always
             - name: MANAGEMENT_ENDPOINT_HEALTH_STATUS_HTTPMAPPING_DOWN
               value: {{ .Values.healthStatusDownReturnCode | quote }}
-            - name: MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE
-              value: readinessState, db, kafka
+            {{- if (include "transaction-streaming.env.health" .) -}}
+            {{- include "transaction-streaming.env.health" . | nindent 12 -}}
+            {{- end }}
             - name: SERVER_TOMCAT_ACCESSLOG_ENABLED
               value: {{ .Values.logger.logToFile | quote }}
             - name: SERVER_TOMCAT_ACCESSLOG_SUFFIX

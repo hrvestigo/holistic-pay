@@ -231,6 +231,12 @@ logger:
   microserviceTag: ''
   databaseSlowQueryThreshold: 0
 healthStatusDownReturnCode: '418'
+health:
+  readiness:
+    stateEnabled: true
+    dbEnabled: true
+    kafkaEnabled: true
+    streamStateEnabled: false
 javaOpts: -Xms256M -Xmx256M
 podAnnotations: {}
 deploymentAnnotations: {}

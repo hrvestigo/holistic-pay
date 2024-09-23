@@ -333,3 +333,25 @@ Defines custom datasource connection parameters appended to URL
 {{- "" }}
 {{- end }}
 {{- end }}
+
+{{/*
+Defines health indicators appended to readiness health group
+*/}}
+{{- define "transaction-streaming.env.health" -}}
+{{- $include := "" }}
+{{- if .Values.health.readiness.stateEnabled }}
+{{- $include = printf "%s%s" $include "readinessState," -}}
+{{- end }}
+{{- if .Values.health.readiness.dbEnabled }}
+{{- $include = printf "%s%s" $include "db," -}}
+{{- end }}
+{{- if .Values.health.readiness.kafkaEnabled }}
+{{- $include = printf "%s%s" $include "kafka," -}}
+{{- end }}
+{{- if .Values.health.readiness.streamStateEnabled }}
+{{- $include = printf "%s%s" $include "deleteKafkaStreamsState,mainKafkaStreamsState," -}}
+{{- end }}
+{{- $include := trimSuffix "," $include -}}
+- name: MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE
+  value: {{ $include }}
+{{- end }}
