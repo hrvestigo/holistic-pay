@@ -947,6 +947,7 @@ vpa:
 enabled: true # default is false, has to be set to true to enable VPA
 updateMode: Off # default mode if Off, other possible values are "Initial", "Recreate" and "Auto"
 ```
+Please note that this feature requires VPA controller to be installed on Kubernetes cluster. Please refer to [VPA documentation](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) for additional info.
 
 ### Customizing probes
 
