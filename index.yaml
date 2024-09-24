@@ -20943,6 +20943,17 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/sirius-specific-1.0.1/sirius-specific-1.0.1.tgz
     version: 1.0.1
+  swift-mx:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2024-09-24T12:26:13.109179891Z"
+    description: Helm chart for swift-mx application
+    digest: 3436974d0e31a89bb82044519a836102e7624acff07e832265b5a42442f0eb4c
+    name: swift-mx
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/swift-mx-1.0.0/swift-mx-1.0.0.tgz
+    version: 1.0.0
   transaction-streaming:
   - apiVersion: v2
     appVersion: 2.57.0
@@ -22544,4 +22555,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2024-09-24T11:55:26.818811147Z"
+generated: "2024-09-24T12:26:13.124891431Z"
