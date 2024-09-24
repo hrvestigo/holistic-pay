@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "swift-mx.name" . }}-test-connection"
+  labels:
+    {{- include "swift-mx.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: curl
+      image: alpine
+      command:
+        - 'bash'
+        - -c
+        - 'apk add curl && curl -k https://{{ include "swift-mx.name" . }}:{{ .Values.service.port }}/health/liveness'
+  restartPolicy: Never
