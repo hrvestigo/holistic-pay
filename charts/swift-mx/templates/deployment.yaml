@@ -137,18 +137,9 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
-            - name: KAFKA_TOPIC_SWIFTINCOMINGMESSAGE_NAME
-              value: {{ .Values.kafka.topics.swiftincomingmessage.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_SWIFTINCOMINGMESSAGE_NAME
-              value: {{ .Values.kafka.topics.swiftincomingmessage.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_SWIFTOUTGOINGMESSAGE_NAME
-              value: {{ .Values.kafka.topics.swiftoutgoingmessage.name | quote }}
-            - name: KAFKA_TOPIC_PAYMENTFINMESSAGE_NAME
-              value: {{ .Values.kafka.topics.paymentfinmessage.name | quote }}
-            - name: KAFKA_TOPIC_PAYMENTNONFINMESSAGE_NAME
-              value: {{ .Values.kafka.topics.paymentnonfinmessage.name | quote }}
-            - name: KAFKA_TOPIC_PAYMENTXMLMESSAGE_NAME
-              value: {{ .Values.kafka.topics.paymentxmlmessage.name | quote }}
+            {{- if (include "swift-mx.kafka.topics" .) }}
+            {{- include "swift-mx.kafka.topics" . | indent 12 }}
+            {{- end }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
