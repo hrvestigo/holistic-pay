@@ -138,7 +138,6 @@ Kafka login module
 {{- end }}
 {{- end }}
 
-
 {{/*
 Trust store env variables
 */}}
