@@ -284,9 +284,12 @@ kafka:
   user: "kafka-user" # user used to connect to Kafka cluster
   servers: "kafka-server1:port,kafka-server2:port" # a comma separated list of Kafka bootstrap servers
   schemaRegistry:
+    credSource: USER_INFO # default value
     user: "kafka-schema-registry-user" # user used to connect to Kafka Schema Registry
     url: "https://kafka.schema.registry.url" # URL for Kafka Schema Registry
 ```
+The `kafka.schemaRegistry.credSource` specifies how to pick the credentials for Basic authentication header.
+The currently supported value is USER_INFO.
 
 Passwords for Kafka cluster and Kafka Schema Registry are also AES encrypted.
 Passwords should be defined with `secret.kafkaPassword` and `secret.kafkaSchemaRegistryPassword` attributes, for example:
@@ -672,7 +675,7 @@ members:
 ```
 
 This setup is required and will define one member in application with default setup. By default, with one specified member, two database schemas will be defined - "connect" schema, which is a default schema for non-member-specific requests and one member-specific datasource schema in the same database.
-Schema name for application member is auto-generated and will be in format `{members.businessUnit}{members.applicationMember}perstr{env.label}`.
+Schema name for application member is auto-generated and will be in format `{members.businessUnit}{members.applicationMember}payord{env.label}`.
 
 `members` attribute enables customization on database level. It is possible to override specific datasource and liquibase parameters for each member separately.
 It is also possible to override some domestic properties, such as country code which represents ALPHA-3 code of a country
@@ -731,7 +734,7 @@ members:
       globalSchema: true
 ```
 
-application will bind to schema with name `aawoperstrt1`.
+application will bind to schema with name `aawopayordt1`.
 To change default `wo` prefix used in schema name, set attribute `datasource.globalSchemaPrefix` to other value.
 
 Note that `members.datasource.globalSchema` is member-specific, so when multiple members are defined, in order to keep all data in one schema, all members have to be defined with this attribute set to `true`.
@@ -1033,6 +1036,17 @@ If it is required to mask sensitive data whilst logging, it can be configured by
 
 What is treated as sensitive is implementation specific and is defined inside the code.
 
+### Observing distributed tracing
+
+In order to start exporting tracing information to Tempo (or any tool that knows how to interpret OpenTelemetry formatted data), payment-order microservice should define next attributes:
+  ```yaml
+  tracing:
+    samplingProbability: 0.0 # decimal value, default is 0.0
+    otlpEndpoint: '' # string value, default is empty
+  ```
+First parameter dictates what percentage of requests should be exported to processing system. 0.0 means 0% of requests and 1.0 means 100%.
+Second parameter defines URL on which should be tracing information sent.
+If second parameter is not defined, no tracing information will be sent, regardless of sampling probability.
 
 ### Modifying deployment strategy
 
@@ -1113,6 +1127,18 @@ autoscaling:
 CPU and/or memory utilization metrics can be used to autoscale Payment order pod.
 It's possible to define one or both of those metrics.
 If only `autoscaling.enabled` attribute is set to `true`, without setting other attributes, only CPU utilization metric will be used with percentage set to 80.
+
+#### Using `VerticalPodAutoscaler`
+
+By default, VPA is disabled in configuration, but it can enabled with following setup:
+
+```yaml
+vpa:
+  enabled: true # default is false, has to be set to true to enable VPA
+  updateMode: Off # default mode if Off, other possible values are "Initial", "Recreate" and "Auto"
+```
+
+Please note that this feature requires VPA controller to be installed on Kubernetes cluster. Please refer to [VPA documentation](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) for additional info.
 
 ### Customizing probes
 

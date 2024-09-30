@@ -270,6 +270,9 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
+vpa:
+  enabled: false
+  updateMode: "Off"
 mountServerCertFromSecret:
   enabled: false
   secretName: ''
@@ -293,4 +296,4 @@ customMounts: []
 customEnv: []
 tracing:
   samplingProbability: 0.0
-  otlpEndpoint: http://tempo.monitor:4318/v1/traces
+  otlpEndpoint: ''
