@@ -128,6 +128,17 @@ Liquibase init container definition
 {{- end }}
 
 {{/*
+Kafka login module
+*/}}
+{{- define "sepa-inst.kafka.loginModule" -}}
+{{- if contains "SCRAM" .Values.kafka.saslMechanism }}
+{{- "org.apache.kafka.common.security.scram.ScramLoginModule" }}
+{{- else }}
+{{- "org.apache.kafka.common.security.plain.PlainLoginModule" }}
+{{- end }}
+{{- end }}
+
+{{/*
 Trust store env variables
 */}}
 {{- define "sepa-inst.trustStoreEnv" -}}
