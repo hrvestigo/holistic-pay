@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.198.0
+    tag: 1.204.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -272,7 +272,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 vpa:
   enabled: false
-  updateMode: "Off"
+  updateMode: 'Off'
 mountServerCertFromSecret:
   enabled: false
   secretName: ''
