@@ -143,6 +143,9 @@ spec:
             {{- if (include "swift-mx.kafka.topics" .) }}
             {{- include "swift-mx.kafka.topics" . | indent 12 }}
             {{- end }}
+            {{- if (include "swift-mx.application.config" .) }}
+            {{- include "swift-mx.application.config" . | indent 12 }}
+            {{- end }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

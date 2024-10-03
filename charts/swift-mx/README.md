@@ -1255,3 +1255,30 @@ javaOpts: "-Xms256M -Xmx512M -Dcustom.jvm.param=true"
 ```
 
 Note that defining custom `javaOpts` attribute will override default one, so make sure to keep `Xms` and `Xmx` parameters.
+
+### Supported configuration
+
+Document supported configuration as part of yaml with default
+configuration behavior.
+
+```yaml
+## @section application configuration root
+application:
+  ## Configuration modules/components.
+  ## 
+  ## @param database  configuration for database component
+  database:
+      eventsLog:
+      ## Configuration for logging of events feature. 
+      ## If enabled, all output events will be logged to the database in table swift_events_log.
+      ## By default, this feature is disabled.
+      ##
+      ## @param saveEnabled         true if saving to database is enabled 
+      ## @param partitionsEnabled   true if table partitioning is enabled 
+        ## Configuration for saving to swift_events_log table. By default, this feature is disabled.
+        saveEnabled: false
+        ## Configuration for partitioning of swift_events_log table. By default, this feature is disabled.
+        ## If saveEnabled is set to false, then this feature is also disabled.
+        ## For partitions to work, pg_partman and pg_cron extensions need to be installed on PG.
+        partitionsEnabled: false
+```

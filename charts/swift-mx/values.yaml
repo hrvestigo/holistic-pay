@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.7.0
+    tag: 1.8.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -72,12 +72,15 @@ kafka:
       enabled: true
     paymentfinmessage:
       name: hr.vestigo.hp.paymentfinmessage
+      consumerGroup: hr.vestigo.hp.paymentfinmessage
       enabled: true
     paymentnonfinmessage:
       name: hr.vestigo.hp.paymentnonfinmessage
+      consumerGroup: hr.vestigo.hp.paymentnonfinmessage
       enabled: true
     paymentxmlmessage:
       name: hr.vestigo.hp.paymentxmlmessage
+      consumerGroup: hr.vestigo.hp.paymentxmlmessage
       enabled: true
 oauth2:
   enabled: false
@@ -239,3 +242,8 @@ mountCaFromSecret:
 customVolumes: []
 customMounts: []
 customEnv: []
+application:
+  database:
+    eventsLog:
+      saveEnabled: false
+      partitionsEnabled: false
