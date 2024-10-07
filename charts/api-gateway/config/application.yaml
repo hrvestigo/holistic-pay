@@ -172,3 +172,10 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
+        - id: swift-mx-ms_route
+          predicates:
+            - Path=/api/*/swift/*
+          uri: https://{{ required "Swift mx application service name has to be defined in routes.swiftMx.serviceName" .Values.routes.swiftMx.serviceName }}:{{ required "Swift mx application port number has to be defined in routes.swiftMx.servicePortNumber" .Values.routes.swiftMx.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession

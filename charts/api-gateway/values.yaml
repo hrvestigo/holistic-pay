@@ -87,6 +87,9 @@ routes:
   pricingEngine:
     serviceName: pricing-engine
     servicePortNumber: "8443"
+  swiftMx:
+    serviceName: swift-mx
+    servicePortNumber: "8443"
 
 oauth2:
   enabled: false

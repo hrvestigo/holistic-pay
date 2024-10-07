@@ -71,6 +71,9 @@ routes:
   pricingEngine:
     serviceName: pricing-engine # name of pricing-engine service, default is pricing-engine
     servicePortNumber: "8443" # port number on which pricing-engine service is exposed, default is 8443
+  swiftMx:
+    serviceName: swift-mx # name of swift-mx service, default is swift-mx
+    portNumber: "8443" # port number on which swift-mx service is exposed, default is 8443    
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value, no default value
