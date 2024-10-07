@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 2.54.0
+    tag: 1.72.30
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -82,8 +82,6 @@ kafka:
         event: 1
         interfaceCollTbl: 1
         trxAnnounce: 1
-        distrAnnMsg: 1
-        paymCover: 1
         customerAccountStatement: 30
         futuristicForeignPayment: 30
     join:
@@ -145,10 +143,6 @@ kafka:
       name: hr.vestigo.hp.craftsman
     legalEntity:
       name: hr.vestigo.hp.legalEntity
-    distrAnnMsg:
-      name: hr.vestigo.hp.distrannmsg
-    paymCover:
-      name: hr.vestigo.hp.paymcover
     tombstone:
       turnover:
         name: hr.vestigo.hp.turnover
@@ -170,10 +164,6 @@ kafka:
         name: hr.vestigo.hp.interfacecolltbl
       trxAnnounce:
         name: hr.vestigo.hp.trxannounce
-      distrAnnMsg:
-        name: hr.vestigo.hp.distrannmsg
-      paymCover:
-        name: hr.vestigo.hp.paymcover
     banproamotype:
       name: hr.vestigo.hp.banproamotype
       consumerGroup: hr.vestigo.hp.banproamotype
@@ -353,3 +343,6 @@ mountCaFromSecret:
 customVolumes: []
 customMounts: []
 customEnv: []
+tracing:
+  samplingProbability: 0.0
+  otlpEndpoint: ''
