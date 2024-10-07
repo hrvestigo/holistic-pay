@@ -357,7 +357,7 @@ where 'name' is configuration parameter and 'value' is configuration value
 {{- range $module, $configs := .Values.application }}
 {{- range $moduleKey, $config := $configs }}
 {{- range $name, $value := $config }}
-- name: SWIFT_MX_{{ $module | upper }}_{{ $moduleKey | snakecase | upper }}_{{ $name | snakecase | upper }}
+- name: SWIFT_MX_{{ $module | upper }}_{{ $moduleKey | upper }}_{{ $name | upper }}
   value: {{ $value | quote }}
 {{- end }}
 {{- end }}
