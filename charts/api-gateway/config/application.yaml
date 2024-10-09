@@ -165,17 +165,17 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
-        - id: person-registry-web_route
-          predicates:
-            - Path=/**
-          uri: https://{{ required "Person registry application service name has to be defined in routes.personRegistryWeb.serviceName" .Values.routes.personRegistryWeb.serviceName }}:{{ required "Person structure application port number has to be defined in routes.personRegistryWeb.servicePortNumber" .Values.routes.personRegistryWeb.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
         - id: swift-mx-ms_route
           predicates:
             - Path=/api/*/swift/*
           uri: https://{{ required "Swift mx application service name has to be defined in routes.swiftMx.serviceName" .Values.routes.swiftMx.serviceName }}:{{ required "Swift mx application port number has to be defined in routes.swiftMx.servicePortNumber" .Values.routes.swiftMx.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        - id: person-registry-web_route
+          predicates:
+            - Path=/**
+          uri: https://{{ required "Person registry application service name has to be defined in routes.personRegistryWeb.serviceName" .Values.routes.personRegistryWeb.serviceName }}:{{ required "Person structure application port number has to be defined in routes.personRegistryWeb.servicePortNumber" .Values.routes.personRegistryWeb.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
