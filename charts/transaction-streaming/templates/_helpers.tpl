@@ -194,6 +194,19 @@ Volumes
 {{- with .Values.customVolumes -}}
 {{- toYaml . | default "" }}
 {{ "" }}
+{{- end }}
+{{- if not .Values.volumeProvisioning.dynamic -}}
+- name: statedir
+{{- with .Values.volumeProvisioning.storage.parameters -}}
+{{- toYaml . | default "" | nindent 2 -}}
+{{ "" }}
+{{- end }}
+- name: statedirdelete
+{{- with .Values.volumeProvisioning.storage.parameters -}}
+{{- toYaml . | default "" | nindent 2 -}}
+{{ "" }}
+{{- end }}
+{{ "" }}
 {{- end -}}
 - name: {{ include "transaction-streaming.name" . }}-secret
   secret:
@@ -250,10 +263,40 @@ Volumes
 {{- end }}
 
 {{/*
+Volume claim templates
+*/}}
+{{- define "transaction-streaming.volumeClaimTemplates" -}}
+- metadata:
+    name: statedir
+  spec:
+    {{- if .Values.volumeProvisioning.storage.parameters.storageClassName }}
+    storageClassName: {{ .Values.volumeProvisioning.storage.parameters.storageClassName }}
+    {{- end }}
+    accessModes: ["ReadWriteOnce"]
+    resources:
+      requests:
+        storage: {{ .Values.volumeProvisioning.storage.capacity }}
+- metadata:
+    name: statedirdelete
+  spec:
+    {{- if .Values.volumeProvisioning.storage.parameters.storageClassName }}
+    storageClassName: {{ .Values.volumeProvisioning.storage.parameters.storageClassName }}
+    {{- end }}
+    accessModes: ["ReadWriteOnce"]
+    resources:
+      requests:
+        storage: {{ .Values.volumeProvisioning.storage.capacity }}
+{{- end }}
+
+{{/*
 Mounts for transaction-streaming application
 */}}
 {{- define "transaction-streaming.mounts" -}}
-{{- with .Values.customMounts -}}
+- name: statedir
+  mountPath: /StateDir/state/
+- name: statedirdelete
+  mountPath: /StateDir/delete/state/
+{{with .Values.customMounts -}}
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}

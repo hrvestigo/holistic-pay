@@ -1,8 +1,7 @@
-{{ if .Values.service.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "transaction-streaming.name" . }}
+  name: {{ include "transaction-streaming.name" . }}-headless
   labels:
     {{- include "transaction-streaming.labels" . | nindent 4 }}
     {{- if .Values.service.labels }}
@@ -17,7 +16,6 @@ metadata:
   {{ toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
       {{- if contains "NodePort" .Values.service.type }}
@@ -26,20 +24,6 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-  {{- if .Values.service.clusterIP }}
-  clusterIP: {{ .Values.service.clusterIP }}
-  {{- end }}
-  {{- if .Values.service.loadBalancerIP }}
-  loadBalancerIP: {{ .Values.service.loadBalancerIP }}
-  {{- end }}
-  {{- if .Values.service.loadBalancerSourceRanges }}
-  loadBalancerSourceRanges:
-  {{ toYaml .Values.service.loadBalancerSourceRanges | indent 4 }}
-  {{- end -}}
-  {{- if .Values.service.externalIPs }}
-  externalIPs:
-  {{ toYaml .Values.service.externalIPs | indent 4 }}
-  {{- end }}
+  clusterIP: None
   selector:
     {{- include "transaction-streaming.selectorLabels" . | nindent 4 }}
-{{ end }}

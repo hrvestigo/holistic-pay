@@ -65,7 +65,8 @@ kafka:
       id: transaction-streaming
     auto:
       startup: true
-    numTreads: 1
+    numThreads: 1
+    commitInterval: 1000
     delete:
       application:
         id: transaction-streaming-delete
@@ -291,7 +292,7 @@ deployment:
   annotations: {}
   labels: {}
   strategy:
-    type: Recreate
+    type: RollingUpdate
   minReadySeconds: 60
   terminationGracePeriodSeconds: 60
   restartPolicy: Always
@@ -340,6 +341,12 @@ mountTrustStoreFromSecret:
 mountCaFromSecret:
   enabled: false
   secretName: ''
+volumeProvisioning:
+  dynamic: false
+  storage:
+    capacity: 20Gi
+    parameters:
+      storageClassName: ''
 customVolumes: []
 customMounts: []
 customEnv: []

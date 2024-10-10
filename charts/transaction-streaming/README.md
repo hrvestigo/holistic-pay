@@ -154,7 +154,11 @@ Other than Kafka cluster itself, Transaction streaming application also uses Kaf
 to be provided in order to establish required connection.
 
 To connect to Kafka cluster, several attributes have to be defined in values file.
-Kafka Streams state directory has to be defined under Custom Volumes `customVolumes.nfs.path` value.
+
+Kafka Streams state directory has to be defined under `volumeProvisioning.storage.parameters` value or
+inside the Storage class parameters if dynamic volume provisioning is used (see paragraph 
+[Dynamic Volume Provisioning for Kafka state directories](#dynamic-volume-provisioning-for-kafka-state-directories)).
+
 All attributes under `kafka` parent attribute are required:
 
 If the `kafka.streams.delete.auto.startup` attribute is set to true, additional Kafka Streams topology is run that 
@@ -174,9 +178,12 @@ With current implementation, `kafka.streams.delete.auto.startup` is required to 
 Main Kafka Streams topology that executes all transaction processing can also be disabled via `kafka.streams.auto.startup`
 parameter. Its id can be set through `kafka.streams.application.id`.
 
-Property `kafka.streams.numTreads` defines number of threads used by Kafka Streams application main topology and
-`kafka.streams.delete.numTreads` defines number of threads used by Kafka Streams application for data purging.
+Property `kafka.streams.numThreads` defines number of threads used by Kafka Streams application main topology and
+`kafka.streams.delete.numThreads` defines number of threads used by Kafka Streams application for data purging.
 Default is `1` in both cases.
+
+Property `kafka.streams.commitInterval` defines frequency in milliseconds with which to commit processing progress 
+(saving offset) to Kafka.
 
 ```yaml
 kafka:
@@ -193,6 +200,7 @@ kafka:
     auto:
       startup: true # boolean value, default is true
     numThreads: 1 # numeric value, default is 1
+    commitInterval: 1000 # in milliseconds, default value is 1000
     delete:
       application:
         id: 'transaction-streaming-delete' # Kafka Streams application identification for data purging
@@ -215,11 +223,6 @@ kafka:
       window: 60 # default value is 60
       grace: 40 # default value is 40
     nullValueFrequency: 30 # default value is 30
-
-customVolumes:
-  - name: statedir
-    nfs:
-      path: /exports/app/hpRBRB/t1/StateDir/
 ```
 
 Passwords for Kafka cluster and Kafka Schema Registry are also AES encrypted.
@@ -1386,3 +1389,82 @@ javaOpts: "-Xms256M -Xmx512M -Dcustom.jvm.param=true"
 ```
 
 Note that defining custom `javaOpts` attribute will override default one, so make sure to keep `Xms` and `Xmx` parameters.
+
+
+### Dynamic Volume Provisioning for Kafka state directories
+Dynamic volume provisioning allows storage volumes to be created on-demand. This feature eliminates the need for cluster
+administrators to pre-provision storage. Instead, storage is created when `volumeClaimTemplates` are created.
+
+This way, volumes can be created statically with the following parameters (nfs is used as an example of one of possible 
+storage types):
+```yaml
+volumeProvisioning:
+  dynamic: false      # static volume provisioning
+  storage:
+    parameters:
+      nfs:
+        server: "server"
+        path: "path"
+```
+
+resulting in:
+```yaml
+ volumes:
+  - name: statedir
+    nfs:
+      server: "server"
+      path: "path"
+  - name: statedirdelete
+    nfs:
+      server: "server"
+      path: "path"
+```
+
+Or dynamically with the following parameters:
+```yaml
+volumeProvisioning:
+  dynamic: true      # dynamic volume provisioning
+  storage:
+    capacity: 20Gi
+    parameters:
+      storageClassName: "storage"
+```
+
+resulting in:
+```yaml
+ volumeClaimTemplates:
+   - metadata:
+       name: statedir
+     spec:
+       storageClassName: "storage"
+       accessModes: ["ReadWriteOnce"]
+       resources:
+         requests:
+           storage: 1Gi
+   - metadata:
+       name: statedirdelete
+     spec:
+       storageClassName: "storage"
+       accessModes: ["ReadWriteOnce"]
+       resources:
+         requests:
+           storage: 1Gi
+```
+
+Storage class needs to be created and configured by the administrator. They provide a way for administrators to describe
+the classes of storage they offer. With this approach, it is recommended to pick a fast storage solution for better 
+performances.
+
+Dynamically created persistent volumes can have reclaim policy specified through storage class parameter `reclaimPolicy`.
+Manually created persistent volumes have whatever reclaim policy they were assigned at creation.
+It is recommended to set this parameter to "Retain" since it only releases the volume from the claim, but does not delete
+it when scaling application down or deleting the installation.
+
+It is recommended to set parameter `allowVolumeExpansion` to "true" since it allows the volume to be expanded.
+
+The `volumeBindingMode` field controls when the volume binding and dynamic provisioning should occur.
+It is recommended to set this field to "WaitForFirstConsumer" since it delays the binding and provisioning of a volume
+until a Pod using the persistent volume claim (PVC) is created instead of when the PVC is created.
+
+For more information, please refer to the 
+[Kubernetes documentation](https://kubernetes.io/docs/concepts/storage/persistent-volumes/).

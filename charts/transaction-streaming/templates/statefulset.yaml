@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "transaction-streaming.name" . }}
   labels:
@@ -12,13 +12,14 @@ metadata:
 {{ toYaml . | indent 4 }}
 {{- end }}
 spec:
+  serviceName: {{ include "transaction-streaming.name" . }}-headless
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.deployment.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
       {{- include "transaction-streaming.selectorLabels" . | nindent 6 }}
-  strategy:
+  updateStrategy:
     {{- toYaml .Values.deployment.strategy | nindent 4 }}
   minReadySeconds: {{ .Values.deployment.minReadySeconds }}
   template:
@@ -151,20 +152,24 @@ spec:
             - name: SPRING_KAFKA_STREAMS_AUTOSTARTUP
               value: {{ .Values.kafka.streams.auto.startup | default "true" | quote }}
             {{- if .Values.kafka.streams.auto.startup }}
+            - name: SPRING_KAFKA_STREAMS_STATEDIR
+              value: "/StateDir/state/"
             - name: SPRING_KAFKA_STREAMS_APPLICATIONID
               value: {{ .Values.kafka.streams.application.id | default "transaction-streaming" | quote }}
             - name: SPRING_KAFKA_STREAMS_NUM_STREAM_THREADS
-              value: {{ .Values.kafka.streams.numTreads | default "1" | quote }}
+              value: {{ .Values.kafka.streams.numThreads | default "1" | quote }}
             {{- end }}
             - name: SPRING_KAFKA_STREAMS_DELETE_AUTOSTARTUP
               value: {{ .Values.kafka.streams.delete.auto.startup | default "true" | quote }}
             {{- if .Values.kafka.streams.delete.auto.startup }}
             - name: SPRING_KAFKA_STREAMS_DELETE_APPLICATIONID
               value: {{ .Values.kafka.streams.delete.application.id | default "transaction-streaming-delete" | quote }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_STATEDIR
+              value: "/StateDir/delete/state/"
             - name: SPRING_KAFKA_STREAMS_DELETE_SCANFREQUENCY
               value: {{ .Values.kafka.streams.delete.scanFrequency | default "12" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_NUM_STREAM_THREADS
-              value: {{ .Values.kafka.streams.delete.numTreads | default "1" | quote }}
+              value: {{ .Values.kafka.streams.delete.numThreads | default "1" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_TURNOVER
               value: {{ .Values.kafka.streams.delete.maximumAge.turnover | default "1" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_TURNCUSTOMER
@@ -231,6 +236,8 @@ spec:
               value: {{ .Values.kafka.streams.join.window | default "60" | quote }}
             - name: SPRING_KAFKA_STREAMS_JOIN_GRACE
               value: {{ .Values.kafka.streams.join.grace | default "40" | quote }}
+            - name: SPRING_KAFKA_STREAMS_PROPERTIES_COMMIT_INTERVAL_MS
+              value: {{ .Values.kafka.streams.commitInterval | default "1000" | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDER_NAME
               value: {{ .Values.kafka.topics.paymentOrder.name | quote }}
             - name: KAFKA_TOPIC_TURNOVER_NAME
@@ -440,3 +447,7 @@ spec:
       {{- end }}
       volumes:
         {{- include "transaction-streaming.volumes" . | nindent 8 }}
+  {{- if .Values.volumeProvisioning.dynamic }}
+  volumeClaimTemplates:
+    {{- include "transaction-streaming.volumeClaimTemplates" . | nindent 4 }}
+  {{- end }}
