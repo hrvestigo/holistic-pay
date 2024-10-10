@@ -5,15 +5,19 @@
 This Helm chart installs swift-mx application into your Kubernetes cluster.
 
 Helm release name set during installation will be used for naming all resources created by this Helm chart.
-For example, if Chart is installed with name "my-chart", deployment name will have "my-chart" prefix, as well as all configmaps, secrets and other resources created by this chart.
-It is possible to override this behavior and to set custom name for resources using attribute `nameOverride` in custom values file.
+For example, if Chart is installed with name "my-chart", deployment name will have "my-chart" prefix, as well as all
+configmaps, secrets and other resources created by this chart.
+It is possible to override this behavior and to set custom name for resources using attribute `nameOverride` in custom
+values file.
 If this attribute is set, it's value will be used to name all the resources, and release name will be ignored.
 
-It is not possible to install application using default values only, there is a list of required attributes which should be applied when installing swift-mx.
+It is not possible to install application using default values only, there is a list of required attributes which should
+be applied when installing swift-mx.
 
 ## Required setup
 
-Required attributes should be defined in custom values file in `yaml` format (recommended) or propagated with `--set key=value` command during CLI installation, for example:
+Required attributes should be defined in custom values file in `yaml` format (recommended) or propagated with
+`--set key=value` command during CLI installation, for example:
 
 `helm upgrade --install swift-mx holisticpay/swift-mx -f my-values.yaml` or
 
@@ -25,7 +29,7 @@ Required values are (in `yaml` format):
 env:
   type: "test" # string value, possible values: dev, test, preprod, prod
   label: "t1" # string value
-  
+
 secret:
   decryptionKey: "my-encryption-key" # string value
   datasourcePassword: "AES-encoded-datasource-password" # string value
@@ -63,16 +67,21 @@ imagePullSecrets:
 
 One set of mandatory attributes is `env` block which describes environment to which application is installed.
 
-Attribute `env.type` defines environment type. This attribute has a list of supported values: `dev`, `test`, `preprod` and `prod`. This value instructs liquibase to apply correct database parametrization for correct purpose.
+Attribute `env.type` defines environment type. This attribute has a list of supported values: `dev`, `test`, `preprod`
+and `prod`. This value instructs liquibase to apply correct database parametrization for correct purpose.
 
-Other environment attribute is `env.label` which should hold short environment label, for instance `t1` for first test environment, or `d2` for second development environment. This attribute is used to generate database schema name.
+Other environment attribute is `env.label` which should hold short environment label, for instance `t1` for first test
+environment, or `d2` for second development environment. This attribute is used to generate database schema name.
 
 swift-mx application relies on Kafka and PostgreSQL backends.
 In order to assure connectivity to those backends, it's required to set basic info into values file.
 
-Additionally, liquibase is enabled by default, which requires some information in order to run successfully. Either this information has to be provided, or liquibase has to be disabled with `liquibase.enabled` attribute set to `false`.
+Additionally, liquibase is enabled by default, which requires some information in order to run successfully. Either this
+information has to be provided, or liquibase has to be disabled with `liquibase.enabled` attribute set to `false`.
 
-swift-mx (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one application member has to be defined in `members` structure for complete setup. Please refer to [Multi-member setup](#multi-member-setup) for details.
+swift-mx (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one
+application member has to be defined in `members` structure for complete setup. Please refer
+to [Multi-member setup](#multi-member-setup) for details.
 
 ### Datasource connection setup
 
@@ -89,12 +98,16 @@ datasource:
   user: "database-user" # User which application will use to connect to PostgreSQL
 ```
 
-Datasource schema name is auto-generated. For this information, as well as advanced datasource options, please refer to [Multi-member setup](#multi-member-setup) for details.
+Datasource schema name is auto-generated. For this information, as well as advanced datasource options, please refer
+to [Multi-member setup](#multi-member-setup) for details.
 
-In addition to datasource attributes, it's required to provide an AES encrypted password for database user specified in `datasource.user`, as well as for Liquibase user defined in `liquibase.user`.
+In addition to datasource attributes, it's required to provide an AES encrypted password for database user specified in
+`datasource.user`, as well as for Liquibase user defined in `liquibase.user`.
 
-Encryption key used to encrypt and decrypt datasource and liquibase passwords (as well as Kafka passwords) is defined in `secret.decryptionKey` attribute.
-Use this key to encrypt datasource and liquibase password and define them in `secret.datasourcePassword` and `secret.liquibasePassword` attributes.
+Encryption key used to encrypt and decrypt datasource and liquibase passwords (as well as Kafka passwords) is defined in
+`secret.decryptionKey` attribute.
+Use this key to encrypt datasource and liquibase password and define them in `secret.datasourcePassword` and
+`secret.liquibasePassword` attributes.
 
 Datasource secret configuration:
 
@@ -123,7 +136,8 @@ liquibase:
 ```
 
 Datasource connection string can be customized by adding additional parameters to connection string (URL).
-To add custom parameters, they should be defined in datasource. connectionParams attribute as a map of values, for example:
+To add custom parameters, they should be defined in datasource. connectionParams attribute as a map of values, for
+example:
 
 ```yaml
 datasource:
@@ -136,8 +150,9 @@ Setup from this example would result with string "&ssl=true&sslmode=enable" appe
 
 ### Kafka setup
 
-swift-mx  uses Kafka as event stream backend.
-Other than Kafka cluster itself,  swift-mx e application also uses Kafka Schema Registry, which setup also has to be provided in order to establish required connection.
+swift-mx uses Kafka as event stream backend.
+Other than Kafka cluster itself, swift-mx e application also uses Kafka Schema Registry, which setup also has to be
+provided in order to establish required connection.
 
 To connect to Kafka cluster, several attributes have to be defined in values file.
 All attributes under `kafka` parent attribute are required:
@@ -152,7 +167,8 @@ kafka:
 ```
 
 Passwords for Kafka cluster and Kafka Schema Registry are also AES encrypted.
-Passwords should be defined with `secret.kafkaPassword` and `secret.kafkaSchemaRegistryPassword` attributes, for example:
+Passwords should be defined with `secret.kafkaPassword` and `secret.kafkaSchemaRegistryPassword` attributes, for
+example:
 
 ```yaml
 secret:
@@ -161,7 +177,8 @@ secret:
   kafkaSchemaRegistryPassword: "{AES}S0m30th3rH4sh" # AES encrypted password for Kafka Schema Registry user defined in kafka.schemaRegistry.user, encrypted with custom encryption key
 ```
 
-Note that same `secret` attribute is used for both datasource and Kafka, so the same encryption/decryption key is used for encrypting passwords for both backends.
+Note that same `secret` attribute is used for both datasource and Kafka, so the same encryption/decryption key is used
+for encrypting passwords for both backends.
 
 Default Kafka cluster and Kafka Schema registry connection type used by swift-mx is Basic auth (username and password).
 If different connection type should be used, it's possible to override default setup by changing following attributes:
@@ -172,7 +189,8 @@ kafka:
   securityProtocol: SASL_SSL # default value, set custom protocol if required
 ```
 
-The ssl endpoint identification is set to default ([More info](https://docs.confluent.io/platform/current/kafka/authentication_ssl.html#id1)):
+The ssl endpoint identification is set to
+default ([More info](https://docs.confluent.io/platform/current/kafka/authentication_ssl.html#id1)):
 
 ```yaml
 kafka:
@@ -200,7 +218,8 @@ kafka:
 #### Kafka consumer retry logic
 
 By default, if error occurs when consuming from Kafka topic, non-blocking retry logic is triggered.
-Using retry back-off (`nbrBackOff`), consumed messages is retried on single retry topic (`50000 times, every 5 seconds`), until exhausted. If consumed
+Using retry back-off (`nbrBackOff`), consumed messages is retried on single retry topic (
+`50000 times, every 5 seconds`), until exhausted. If consumed
 message still fails, message is published to dead-letter topic.
 Naming of single retry topic and dead letter topic follows original topic name with suffix appended. Examples:
 
@@ -227,7 +246,7 @@ is committed.
 
 ### Configuring image source and pull secrets
 
-By default,  swift-mx  image is pulled directly from Vestigo's repository hosted by Docker Hub.
+By default, swift-mx image is pulled directly from Vestigo's repository hosted by Docker Hub.
 If mirror registry is used for example, image source can be modified using following attributes:
 
 ```yaml
@@ -253,7 +272,8 @@ image:
     pullPolicy: IfNotPresent # will override image.pullPolicy for Liquibase image
 ```
 
-swift-mx  image tag is normally read from Chart definition, but if required, it can be overridden with attribute `image.app.tag`, for example:
+swift-mx image tag is normally read from Chart definition, but if required, it can be overridden with attribute
+`image.app.tag`, for example:
 
 ```yaml
 image:
@@ -261,7 +281,8 @@ image:
     tag: custom-tag
 ```
 
-swift-mx  image is located on Vestigo's private Docker Hub registry, and if image registry is set to docker.io, pull secret has to be defined.
+swift-mx image is located on Vestigo's private Docker Hub registry, and if image registry is set to docker.io, pull
+secret has to be defined.
 Pull secret is not set by default, and it should be created prior to swift-mx installation in target namespace.
 Secret should contain credentials provided by Vestigo.
 
@@ -274,15 +295,18 @@ imagePullSecrets:
 
 ### TLS setup
 
-swift-mx  application is prepared to use TLS, but requires provided server certificate.
-Server certificate is not provided by default (expected to be provided manually) and there are no predefined trust or key stores for TLS/mTLS.
+swift-mx application is prepared to use TLS, but requires provided server certificate.
+Server certificate is not provided by default (expected to be provided manually) and there are no predefined trust or
+key stores for TLS/mTLS.
 However, there are several different possibilities for customizing TLS setup.
 
 #### Provide server certificate with custom `initContainer`
 
 Key store with custom server certificate can be provided by using custom `initContainer`.
-Main thing to keep in mind is that application expects that `initContainer` will output `cert.pem` and `key.pem` files to `volumeMount` with `server-cert` name.
-Application will obtain generated certificate and key files via `server-cert` mount and generate server's key store from them.
+Main thing to keep in mind is that application expects that `initContainer` will output `cert.pem` and `key.pem` files
+to `volumeMount` with `server-cert` name.
+Application will obtain generated certificate and key files via `server-cert` mount and generate server's key store from
+them.
 
 For example, init container could be defined like this:
 
@@ -322,12 +346,14 @@ The only requirement is to set secret name and names of certificate and key file
 
 #### Provide trust store with custom `initContainer`
 
-If outbound resources (Kafka or database) require TLS connection, trust store with required certificates should also be provided.
+If outbound resources (Kafka or database) require TLS connection, trust store with required certificates should also be
+provided.
 
 One of the options is to provide trust store via custom `initContainer`.
 
 There are some requirements if custom `initContainer` is used for providing trust store.
-First, initContainer definition should be added to values file. Besides that, custom `volume`, `volumeMount` and environment variables should be added also.
+First, initContainer definition should be added to values file. Besides that, custom `volume`, `volumeMount` and
+environment variables should be added also.
 
 For example, custom `initContainer` could have this definition:
 
@@ -364,7 +390,8 @@ customMounts:
 Note that `mountPath` variable is used to specify a location of trust store in swift-mx container.
 Suggested location is: `/mnt/k8s/trust-store`.
 
-To make trust store available to underlying application server, its location (absolute path - `mountPath` and file name) should be defined in following environment variables:
+To make trust store available to underlying application server, its location (absolute path - `mountPath` and file name)
+should be defined in following environment variables:
 
 ```yaml
 customEnv:
@@ -378,7 +405,8 @@ customEnv:
     value: /some/mount/path/trust-store-file # path defined in volumeMount, has to contain full trust store file location
 ```
 
-Trust store password should be AES encrypted with key provided in `secret.decryptionKey` and set to `secret.trustStorePassword`:
+Trust store password should be AES encrypted with key provided in `secret.decryptionKey` and set to
+`secret.trustStorePassword`:
 
 ```yaml
 secret:
@@ -405,7 +433,8 @@ mountTrustStoreFromSecret:
 
 Those two parameters are joined together to form an absolute path to trust store file.
 
-Default trust store type is JKS and if other type of trust store file is provided, it has to be specified in `trustStoreType` attribute, for example "PKCS12".
+Default trust store type is JKS and if other type of trust store file is provided, it has to be specified in
+`trustStoreType` attribute, for example "PKCS12".
 
 Trust store password has to be provided as AES encoded string in `secret.trustStorePassword` attribute, for example:
 
@@ -433,7 +462,8 @@ mountCaFromSecret:
 
 When `mountCaFromSecret` is enabled, application will import all certificate files from secret to existing trust store.
 
-Note that either `mountTrustStoreFromSecret` or `mountCaFromSecret` can be used, if both are enabled, `mountTrustStoreFromSecret` will be used.
+Note that either `mountTrustStoreFromSecret` or `mountCaFromSecret` can be used, if both are enabled,
+`mountTrustStoreFromSecret` will be used.
 
 #### Provide mTLS key store from `initContainer`
 
@@ -476,7 +506,8 @@ customMounts:
 Note that `mountPath` variable is used to specify a location of key store in swift-mx container.
 Suggested location is: `/mnt/k8s/trust-store`.
 
-To make key store available to underlying application server, its location (absolute path - `mountPath` and file name) should be defined in environment variable.
+To make key store available to underlying application server, its location (absolute path - `mountPath` and file name)
+should be defined in environment variable.
 Additionally, key store type should also be defined, for example:
 
 ```yaml
@@ -515,7 +546,8 @@ mountKeyStoreFromSecret:
 
 Those two parameters are joined together to form an absolute path to key store file.
 
-Default key store type is JKS and if other type of key store file is provided, it has to be specified in `keyStoreType` attribute, for example "PKCS12".
+Default key store type is JKS and if other type of key store file is provided, it has to be specified in `keyStoreType`
+attribute, for example "PKCS12".
 
 Key store password has to be provided as AES encoded string in `secret.keyStorePassword` attribute.
 Password should be encrypted with the key defined in `secret.decryptionKey`.
@@ -533,7 +565,8 @@ Besides required attributes, installation of swift-mx can be customized in diffe
 
 ### Multi-member setup
 
-swift-mx  application (along with all other HolisticPay applications) supports multi-member setup. In order to complete application setup, at least a mandatory set of attributes has to be defined:
+swift-mx application (along with all other HolisticPay applications) supports multi-member setup. In order to complete
+application setup, at least a mandatory set of attributes has to be defined:
 
 ```yaml
 members:
@@ -542,12 +575,17 @@ members:
     memberSign: "MS"
 ```
 
-This setup is required and will define one member in application with default setup. By default, with one specified member, two database schemas will be defined - "connect" schema, which is a default schema for non-member-specific requests and one member-specific datasource schema in the same database.
-Schema name for application member is auto-generated and will be in format `{members.businessUnit}{members.applicationMember}perstr{env.label}`.
+This setup is required and will define one member in application with default setup. By default, with one specified
+member, two database schemas will be defined - "connect" schema, which is a default schema for non-member-specific
+requests and one member-specific datasource schema in the same database.
+Schema name for application member is auto-generated and will be in format
+`{members.businessUnit}{members.applicationMember}perstr{env.label}`.
 
-`members` attribute enables customization on database level. It is possible to override specific datasource and liquibase parameters for each member separately.
+`members` attribute enables customization on database level. It is possible to override specific datasource and
+liquibase parameters for each member separately.
 
-List of all attributes which can be overridden (connTimeout, maxPoolSize, minIdle and idleTimeout are globally set the same for all members):
+List of all attributes which can be overridden (connTimeout, maxPoolSize, minIdle and idleTimeout are globally set the
+same for all members):
 
 ```yaml
 members:
@@ -568,9 +606,11 @@ members:
       password: ""
 ```
 
-Each attribute within `members.datasource` and `members.liquibase` can be defined to override same values defined in `datasource` and `liquibase` blocks.
+Each attribute within `members.datasource` and `members.liquibase` can be defined to override same values defined in
+`datasource` and `liquibase` blocks.
 
-For instance, if value of `member.datasource.dbName` attribute is modified, this value will be used instead of `datasource.dbName` for this member's datasource definition.
+For instance, if value of `member.datasource.dbName` attribute is modified, this value will be used instead of
+`datasource.dbName` for this member's datasource definition.
 Same logic is applied for all attributes.
 
 #### Database setup for multi-member
@@ -581,9 +621,12 @@ Person structure provides option to setup database in several different flavors:
 - all members in one database with multiple member-specific schemas
 - all members in member-specific databases
 
-For first option (all-in-one), it's necessary to set `members.datasource.globalSchema` attribute to `true` (default is `false`).
-When this option is enabled, generated schema name will no longer include `members.applicationMember`, but will instead hold value defined in `datasource.globalSchemaPrefix` attribute, which is set to "wo" by default.
-Note that `members.businessUnit` will still be a part of schema name, as it's not possible to have a single schema in combination with multiple business units.
+For first option (all-in-one), it's necessary to set `members.datasource.globalSchema` attribute to `true` (default is
+`false`).
+When this option is enabled, generated schema name will no longer include `members.applicationMember`, but will instead
+hold value defined in `datasource.globalSchemaPrefix` attribute, which is set to "wo" by default.
+Note that `members.businessUnit` will still be a part of schema name, as it's not possible to have a single schema in
+combination with multiple business units.
 
 For instance, with setup like this one:
 
@@ -601,7 +644,8 @@ members:
 application will bind to schema with name `aawoperstrt1`.
 To change default `wo` prefix used in schema name, set attribute `datasource.globalSchemaPrefix` to other value.
 
-Note that `members.datasource.globalSchema` is member-specific, so when multiple members are defined, in order to keep all data in one schema, all members have to be defined with this attribute set to `true`.
+Note that `members.datasource.globalSchema` is member-specific, so when multiple members are defined, in order to keep
+all data in one schema, all members have to be defined with this attribute set to `true`.
 Otherwise, member with `globalSchema` attribute set to `false` will use its own schema.
 
 For example, with following setup, one member would use global schema and one would use member-specific schema:
@@ -618,7 +662,8 @@ members:
 ```
 
 Second option is to use a member-specific schemas for each member.
-This is a default setup, so if `members.datasource.globalSchema` is not set to `true`, member-specific schema will be used. With this setup, each member will use its own schema in one common database.
+This is a default setup, so if `members.datasource.globalSchema` is not set to `true`, member-specific schema will be
+used. With this setup, each member will use its own schema in one common database.
 
 Final option is to use a separate database (even on different host).
 For this setup, `members.datasource` parameters have to be overridden for each member that required separate database.
@@ -649,7 +694,8 @@ members:
 
 ### oAuth2
 
-swift-mx application can use oAuth2 service for authorization. By default, this option is disabled, but can easily be enabled by specifying following attributes in values:
+swift-mx application can use oAuth2 service for authorization. By default, this option is disabled, but can easily be
+enabled by specifying following attributes in values:
 
 ```yaml
 oAuth2:
@@ -660,17 +706,22 @@ oAuth2:
 
 To configure oAuth2, it first has to be enabled with `oAuth2.enabled` parameter.
 When enabled, `oAuth2.resourceUri` should also be defined.
-This URI should point to oAuth2 server with defined converter type and name, for example `https://oauth2.server/realm/Holistic-Pay`. If scope/role has variable prefix, which should not be considered as full role/scope name, this variable prefix should be defined. Every part of this variable part should be defined (e.g. if scopes are defined as MY_PREFIX:scope1 MY_PREFIX:scope2 etc, then variable prefix is 'MY_PREFIX:')
+This URI should point to oAuth2 server with defined converter type and name, for example
+`https://oauth2.server/realm/Holistic-Pay`. If scope/role has variable prefix, which should not be considered as full
+role/scope name, this variable prefix should be defined. Every part of this variable part should be defined (e.g. if
+scopes are defined as MY_PREFIX:scope1 MY_PREFIX:scope2 etc, then variable prefix is 'MY_PREFIX:')
 
 ### Request body sanitization and response body encoding
 
-swift-mx application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
+swift-mx application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are
+Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any
+of these needs to be changed, this can be configured via next parameters:
 
 ```yaml
 request:
   sanitization:
     enabled: true
-    
+
 response:
   encoding:
     enabled: false
@@ -683,7 +734,7 @@ Custom environment variables can be added to swift-mx container by applying `cus
 ```yaml
 customEnv:
   - name: MY_CUSTOM_ENV
-    value: some-value 
+    value: some-value
   - name: SOME_OTHER_ENV
     value: 123
 ```
@@ -707,13 +758,14 @@ customMounts:
 
 ### Customizing container logs
 
-swift-mx application is predefined to redirect all logs to `stdout` expect for Web Server logs (`access.log`) and health check logs, which are not logged by default.
+swift-mx application is predefined to redirect all logs to `stdout` expect for Web Server logs (`access.log`) and health
+check logs, which are not logged by default.
 However, using custom configuration, logs can be redirected to log files also (in addition to `stdout`).
 
 When enabling logging to file, container will divide logs into four different files:
 
 - `application.log` - contains all application-related (business logic) logs
-  
+
 - `messages.log` - contains application server's logs
 
 - `health.log` - contains all incoming requests to health check endpoint (filtered out from `access.log`)
@@ -756,7 +808,8 @@ logger:
   logToFile: true # boolean value, default is false
 ```
 
-With this basic setup, container will start to log files into a predefined "/var/log/app" location with basic file appender.
+With this basic setup, container will start to log files into a predefined "/var/log/app" location with basic file
+appender.
 In order to set custom log location or to enable rolling file appender, two additional attributes have to be defined:
 
 ```yaml
@@ -766,7 +819,8 @@ logger:
   logDir: "/custom/log/folder"
 ```
 
-When defining custom log location, make sure folder either already exists in container or is mounted with `logDirMount` variable, for example:
+When defining custom log location, make sure folder either already exists in container or is mounted with `logDirMount`
+variable, for example:
 
 ```yaml
 logger:
@@ -776,7 +830,7 @@ logger:
   logDirMount:
     enabled: true # boolean value, default is false
     spec:
-      emptyDir: {} # defines mount type, other types can be used also
+      emptyDir: { } # defines mount type, other types can be used also
 ```
 
 or with other mount type:
@@ -799,13 +853,14 @@ logger:
           gid: 1000
 ```
 
-Note that any type of mount specification can be used by following standard Kubernetes mount specification, the only requirement is that it has to be defined under `logger.logDirMount.spec` attribute in values file.
+Note that any type of mount specification can be used by following standard Kubernetes mount specification, the only
+requirement is that it has to be defined under `logger.logDirMount.spec` attribute in values file.
 
 Logging levels are used to categorize the entries in the log file, possible levels include
 TRACE, DEBUG, INFO, WARN and ERROR.
 
-It is possible to control which logging level will be visible in the log file for a specific category, these categories are:
-
+It is possible to control which logging level will be visible in the log file for a specific category, these categories
+are:
 
 * health - health check logs
 * kafka - kafka-related logs
@@ -819,20 +874,23 @@ logger:
   level:
     health: DEBUG # logs for DEBUG level and higher (DEBUG, INFO, WARN and ERROR) will be shown, default level is DEBUG
     kafka: TRACE # logs for TRACE level and higher (TRACE, DEBUG, INFO, WARN and ERROR) will be shown, default level is DEBUG
-    rest:  DEBUG # logs for DEBUG level and higher (DEBUG, INFO, WARN and ERROR) will be shown, default level is DEBUG
+    rest: DEBUG # logs for DEBUG level and higher (DEBUG, INFO, WARN and ERROR) will be shown, default level is DEBUG
     database: INFO # logs for INFO level and higher (INFO, WARN and ERROR) will be shown, default level is DEBUG
     businessLogic: WARN # logs for WARN level and higher (WARN and ERROR) will be shown, default level is DEBUG
     general: ERROR # only ERROR level logs will be shown, default level is DEBUG
 ```
 
-If you want to include in your logs, the name of the microservice which generates the logs, you can do so by setting the value of the name of the microservice in the attribute `logger.microserviceTag`.
+If you want to include in your logs, the name of the microservice which generates the logs, you can do so by setting the
+value of the name of the microservice in the attribute `logger.microserviceTag`.
 By default, this attribute is set to empty string.
+
 ```yaml
 logger:
   microserviceTag: ''
 ```
 
 Log format for STDOUT logger can be modified by changing attribute:
+
 ```yaml
 logger:
   format: "STRING" # default value
@@ -843,7 +901,7 @@ Supported values for this parameter are: `STRING`,`ECS`,`LOGSTASH`,`GELF`,`GCP`.
 Examples of how log entries would look like for each value:
 
 * `STRING`
-    * with stacktrace
+  * with stacktrace
   ```log
   2023-03-27 16:00:20,140 [6af3546625fd473bbd95482b18f2caec,620676f56f76c5b6] ERROR h.v.s.a.e.SomeClass Error
   jakarta.validation.ConstraintViolationException: must not be null
@@ -851,54 +909,55 @@ Examples of how log entries would look like for each value:
   at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.0.6.jar:6.0.6]
   at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750) ~[spring-aop-6.0.6.jar:6.0.6]
   ```
-    * without stacktrace
+  * without stacktrace
   ```log
   2023-03-27 16:03:48,368 [7baee9c3042043cd3116a2bcf51b872e,ed1297a561d6ab6d] DEBUG o.s.o.j.JpaTransactionManager Exposing JPA transaction as JDBC [org.springframework.orm.jpa.vendor.HibernateJpaDialect$HibernateConnectionHandle@1d8f102d]
   ```
 * `ECS`
-    * with stacktrace
+  * with stacktrace
   ```log
   {"@timestamp":"2023-03-17T10:05:47.074367100Z","ecs.version":"1.2.0","log.level":"ERROR","message":"[379b4af3-1]  500 Server Error for HTTP GET","process.thread.name":"reactor-http-nio-5","log.logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler","spanId":"0000000000000000","traceId":"00000000000000000000000000000000","error.type":"io.netty.channel.AbstractChannel.AnnotatedConnectException","error.message":"Connection refused: no further information: /127.0.0.1:3000","error.stack_trace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\n"}
   ```
-    * without stacktrace
+  * without stacktrace
   ```log
   {"mdc":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"@timestamp":"2023-03-17T07:37:27.535267800Z","ecs.version":"1.2.0","log.level":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","process.thread.name":"main","log.logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
 * `LOGSTASH`
-    * with stacktrace
+  * with stacktrace
   ```log
   {"mdc":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"exception":{"exception_class":"io.netty.channel.AbstractChannel.AnnotatedConnectException","exception_message":"Connection refused: no further information: /127.0.0.1:3000","stacktrace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t"},"@version":1,"source_host":"HOST","message":"[70e82a4a-1]  500 Server Error for HTTP GET","thread_name":"reactor-http-nio-5","@timestamp":"2023-03-17T11:26:22.416121900Z","level":"ERROR","logger_name":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler"}
   ```
-    * without stacktrace
+  * without stacktrace
   ```log
   {"@version":1,"source_host":"HOST","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","thread_name":"main","@timestamp":"2023-03-17T11:24:17.730772400Z","level":"DEBUG","logger_name":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
 * `GELF`
-    * with stacktrace
+  * with stacktrace
   ```log
   {"version":"1.1","host":"HOST","short_message":"[3440fdd5-1]  500 Server Error for HTTP GET","full_message":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\n","timestamp":1679049090.535760400,"level":3,"_logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler","_thread":"reactor-http-nio-5","_spanId":"0000000000000000","_traceId":"00000000000000000000000000000000"}
   ```
-    * without stacktrace
+  * without stacktrace
   ```log
   {"version":"1.1","host":"HOST","short_message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","timestamp":1679049030.468963200,"level":7,"_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean","_thread":"main"}
   ```
 * `GCP`
-    * with stacktrace
+  * with stacktrace
   ```log
   {"timestamp":"2023-03-17T10:33:42.531673100Z","severity":"ERROR","message":"[3e916f02-1]  500 Server Error for HTTP GET  io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t","logging.googleapis.com/labels":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"logging.googleapis.com/sourceLocation":{"function":"org.springframework.core.log.CompositeLog.error"},"logging.googleapis.com/insertId":"1106","_exception":{"class":"io.netty.channel.AbstractChannel.AnnotatedConnectException","message":"Connection refused: no further information: /127.0.0.1:3000","stackTrace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t"},"_thread":"reactor-http-nio-5","_logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler"}
   ```
-    * without stacktrace
+  * without stacktrace
   ```log
   {"timestamp":"2023-03-17T10:33:14.218078900Z","severity":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","logging.googleapis.com/sourceLocation":{"function":"org.springframework.boot.availability.ApplicationAvailabilityBean.onApplicationEvent"},"logging.googleapis.com/insertId":"1051","_exception":{"stackTrace":""},"_thread":"main","_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
 
 ### Modifying deployment strategy
 
-Default deployment strategy for swift-mx application is `RollingUpdate`, but it can be overridden, along with other deployment parameters using following attributes (default values are shown):
+Default deployment strategy for swift-mx application is `RollingUpdate`, but it can be overridden, along with other
+deployment parameters using following attributes (default values are shown):
 
 ```yaml
 deployment:
-  annotations: {}
+  annotations: { }
   replicaCount: 1
   strategy:
     type: RollingUpdate
@@ -910,7 +969,9 @@ deployment:
   restartPolicy: Always
 ```
 
-By default, one replica of swift-mx is installed on Kubernetes cluster. Number of replicas can be statically modified with above configuration, or `HorizontalPodAutoscaler` option can be used to let Kubernetes automatically scale application when required.
+By default, one replica of swift-mx is installed on Kubernetes cluster. Number of replicas can be statically modified
+with above configuration, or `HorizontalPodAutoscaler` option can be used to let Kubernetes automatically scale
+application when required.
 
 #### Customizing pod resource requests and limits
 
@@ -930,8 +991,10 @@ Any value (or all of them) can be modified by specifying same attribute in custo
 
 Since application uses Liquibase as init container, resources can be defined for this container also.
 
-Resources for Liquibase can be set with `liquibase.resources` attribute. This attribute has no defaults (empty), but if it's not defined, main container's resources will be used.
-For example, using following setup, resources defined within `liquibase` attribute would be used over attributes for main container (defined in root `resources` attribute):
+Resources for Liquibase can be set with `liquibase.resources` attribute. This attribute has no defaults (empty), but if
+it's not defined, main container's resources will be used.
+For example, using following setup, resources defined within `liquibase` attribute would be used over attributes for
+main container (defined in root `resources` attribute):
 
 ```yaml
 resources:
@@ -952,8 +1015,10 @@ liquibase:
       memory: 128Mi
 ```
 
-With this setup, Liquibase init container would have limits set to 1 CPU and 128Mi of memory and requests to 100m and 128Mi.
-If Liquibase resource was not defined, Liquibase init container would have limits set to 2 CPU and 1Gi and request to 100m and 1Gi.
+With this setup, Liquibase init container would have limits set to 1 CPU and 128Mi of memory and requests to 100m and
+128Mi.
+If Liquibase resource was not defined, Liquibase init container would have limits set to 2 CPU and 1Gi and request to
+100m and 1Gi.
 
 #### Using `HorizontalPodAutoscaler`
 
@@ -970,7 +1035,8 @@ autoscaling:
 
 CPU and/or memory utilization metrics can be used to autoscale swift-mx pod.
 It's possible to define one or both of those metrics.
-If only `autoscaling.enabled` attribute is set to `true`, without setting other attributes, only CPU utilization metric will be used with percentage set to 80.
+If only `autoscaling.enabled` attribute is set to `true`, without setting other attributes, only CPU utilization metric
+will be used with percentage set to 80.
 
 #### Using `VerticalPodAutoscaler`
 
@@ -982,7 +1048,9 @@ vpa:
   updateMode: Off # default mode if Off, other possible values are "Initial", "Recreate" and "Auto"
 ```
 
-Please note that this feature requires VPA controller to be installed on Kubernetes cluster. Please refer to [VPA documentation](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) for additional info.
+Please note that this feature requires VPA controller to be installed on Kubernetes cluster. Please refer
+to [VPA documentation](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) for additional
+info.
 
 ### Customizing probes
 
@@ -1012,9 +1080,11 @@ deployment:
       scheme: HTTPS
 ```
 
-Probes can be modified with different custom attributes simply by setting a different `deployment.readinessProbe` or `deployment.livenessProbe` value structure.
+Probes can be modified with different custom attributes simply by setting a different `deployment.readinessProbe` or
+`deployment.livenessProbe` value structure.
 
-For example, this setup would increase `periodSeconds`, add `httpHeaders` attributes and apply query parameters to `path` of `livenessProbe`:
+For example, this setup would increase `periodSeconds`, add `httpHeaders` attributes and apply query parameters to
+`path` of `livenessProbe`:
 
 ```yaml
 deployment:
@@ -1031,7 +1101,8 @@ deployment:
           value: localhost
 ```
 
-Note that  swift-mx  has health checks available within the `/health` endpoint (`/health/readiness` for readiness and `/health/liveness` for liveness), and this base paths should not modified, only query parameters are subject to change.
+Note that swift-mx has health checks available within the `/health` endpoint (`/health/readiness` for readiness and
+`/health/liveness` for liveness), and this base paths should not modified, only query parameters are subject to change.
 `scheme` attribute should also be set to `HTTPS` at all times, as well as `http` value for `port` attribute.
 
 ### Customizing security context
@@ -1046,7 +1117,8 @@ podSecurityContext:
   runAsGroup: 1000
 ```
 
-There is no default security context on container level, but it can be defined by setting `securityContext` attribute (opposed to `podSecurityContext`), for example:
+There is no default security context on container level, but it can be defined by setting `securityContext` attribute (
+opposed to `podSecurityContext`), for example:
 
 ```yaml
 securityContext:
@@ -1055,13 +1127,15 @@ securityContext:
   runAsGroup: 0
 ```
 
-Note that container level security context will be applied to both containers in swift-mx pod (Liquibase init container and swift-mx container).
+Note that container level security context will be applied to both containers in swift-mx pod (Liquibase init container
+and swift-mx container).
 
 ### Customizing network setup
 
 #### Service setup
 
-When installing swift-mx using default setup, a `Service` object will be created of `ClusterIP` type exposed on port 8443.
+When installing swift-mx using default setup, a `Service` object will be created of `ClusterIP` type exposed on port
+8443.
 Those values can be modified by setting following attributes in custom values file, for example for `NodePort`:
 
 ```yaml
@@ -1079,9 +1153,11 @@ service:
   loadBalancerIP: 192.168.0.1
 ```
 
-Service object creation can also be disabled by setting `service.enabled` attribute value to `false` (default is `true`).
+Service object creation can also be disabled by setting `service.enabled` attribute value to `false` (default is
+`true`).
 
-Custom annotations and labels can be added to `Service` by specifying them in `service.annotations` and `service.labels` attributes, for example:
+Custom annotations and labels can be added to `Service` by specifying them in `service.annotations` and `service.labels`
+attributes, for example:
 
 ```yaml
 service:
@@ -1102,9 +1178,9 @@ service:
   nodePort: ""
   clusterIP: ""
   loadBalancerIP: ""
-  loadBalancerSourceRanges: []
-  annotations: {}
-  labels: {}
+  loadBalancerSourceRanges: [ ]
+  annotations: { }
+  labels: { }
 ```
 
 #### Ingress setup
@@ -1115,9 +1191,9 @@ Ingress is not created by default, but can be enabled and customized by specifyi
 ingress:
   enabled: true # default value is false, should be set to true to enable
   className: ""
-  annotations: {}
-  hosts: []
-  tls: []
+  annotations: { }
+  hosts: [ ]
+  tls: [ ]
 ```
 
 For example, a working setup could be defined like this:
@@ -1136,7 +1212,8 @@ ingress:
 
 ### Adding custom init containers
 
-As already explained as one of the options when providing TLS certificates, there's a possibility to define a custom `initContainer`.
+As already explained as one of the options when providing TLS certificates, there's a possibility to define a custom
+`initContainer`.
 This option is not limited to TLS setup only, but custom `initContainer` can be used for any purpose.
 
 Custom init container(s) can simply be added by defining their specification in `initContainers` attribute, for example:
@@ -1191,7 +1268,8 @@ affinity:
 
 This affinity rules can be overridden through custom values file and set to any required value if necessary.
 
-There are no defaults for node selector or tolerations, but there is a possibility to define both by adding their specifications, for example:
+There are no defaults for node selector or tolerations, but there is a possibility to define both by adding their
+specifications, for example:
 
 ```yaml
 nodeSelector:
@@ -1226,7 +1304,7 @@ deployment:
 
 ### Additional custom configuration
 
-There are some other customizable attributes predefined in  swift-mx  application.
+There are some other customizable attributes predefined in swift-mx application.
 
 One of them is related to HTTP return code which is returned by application if health check fails.
 Default value for this attribute is 418 but it can be customized if necessary, for example:
@@ -1241,7 +1319,7 @@ There's a possibility to define a custom timezone (there is no default one), by 
 timezone: Europe/London
 ```
 
-Finally, since  swift-mx  is an Java application, there's a possibility to set custom JVM parameters.
+Finally, since swift-mx is an Java application, there's a possibility to set custom JVM parameters.
 There is a predefined value which specifies `Xms` and `Xmx` JVM parameters:
 
 ```yaml
@@ -1254,12 +1332,16 @@ This value can be changed by modifying existing parameters or adding custom, for
 javaOpts: "-Xms256M -Xmx512M -Dcustom.jvm.param=true"
 ```
 
-Note that defining custom `javaOpts` attribute will override default one, so make sure to keep `Xms` and `Xmx` parameters.
+Note that defining custom `javaOpts` attribute will override default one, so make sure to keep `Xms` and `Xmx`
+parameters.
 
 ### Supported configuration
 
 Document supported configuration as part of yaml with default
 configuration behavior.
+In `incoming` and `outgoing` sections we can define which XSD validation mode
+we are using for either incoming or outgoing messages. Also, we can define which XML handler and XML body are being
+used.
 
 ```yaml
 ## @section application configuration root
@@ -1268,17 +1350,27 @@ application:
   ## 
   ## @param database  configuration for database component
   database:
-      eventsLog:
+    eventsLog:
       ## Configuration for logging of events feature. 
       ## If enabled, all output events will be logged to the database in table swift_events_log.
       ## By default, this feature is disabled.
       ##
       ## @param saveEnabled         true if saving to database is enabled 
       ## @param partitionsEnabled   true if table partitioning is enabled 
-        ## Configuration for saving to swift_events_log table. By default, this feature is disabled.
-        saveEnabled: false
-        ## Configuration for partitioning of swift_events_log table. By default, this feature is disabled.
-        ## If saveEnabled is set to false, then this feature is also disabled.
-        ## For partitions to work, pg_partman and pg_cron extensions need to be installed on PG.
-        partitionsEnabled: false
+      ## Configuration for saving to swift_events_log table. By default, this feature is disabled.
+      saveEnabled: false
+      ## Configuration for partitioning of swift_events_log table. By default, this feature is disabled.
+      ## If saveEnabled is set to false, then this feature is also disabled.
+      ## For partitions to work, pg_partman and pg_cron extensions need to be installed on PG.
+      partitionsEnabled: false
+  incoming:
+    handler:
+      xsdMode: saa #default value, set custom XSD mode if required
+      xmlHandler: AppHdr #default value, set custom XML handler if required
+      xmlBody: Document #default value, set custom XML body if required
+  outgoing:
+    handler:
+      xsdMode: saa #default value, set custom XSD mode if required
+      xmlHandler: AppHdr #default value, set custom XML handler if required
+      xmlBody: Document #default value, set custom XML body if required
 ```
