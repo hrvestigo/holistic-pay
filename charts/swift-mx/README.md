@@ -1337,8 +1337,15 @@ parameters.
 
 ### Supported configuration
 
-Document supported configuration as part of yaml with default
-configuration behavior.
+Swift-mx application supports configuration specific for the application through the following properties. 
+
+In the `database` section, we define database related configurations. 
+We can enable the logging of events feature, through the `eventsLog` section. If enabled, all output events will be 
+logged to the database in the table `swift_events_log`. By default, this feature is disabled.
+In this section, we can also define the parameter for expiring cache. All possible parameterization that is often 
+accessed is cached and with this parameter we can define the duration after which cache will be deleted so that data is
+retrieved from the database again.
+
 In `incoming` and `outgoing` sections we can define which XSD validation mode
 we are using for either incoming or outgoing messages. Also, we can define which XML handler and XML body are being
 used.
@@ -1350,19 +1357,28 @@ application:
   ## 
   ## @param database  configuration for database component
   database:
+    ## Configuration for logging of events feature. 
+    ## If enabled, all output events will be logged to the database in table swift_events_log.
+    ## By default, this feature is disabled.
+    ##
+    ## @param saveEnabled         true if saving to database is enabled 
+    ## @param partitionsEnabled   true if table partitioning is enabled 
     eventsLog:
-      ## Configuration for logging of events feature. 
-      ## If enabled, all output events will be logged to the database in table swift_events_log.
-      ## By default, this feature is disabled.
-      ##
-      ## @param saveEnabled         true if saving to database is enabled 
-      ## @param partitionsEnabled   true if table partitioning is enabled 
       ## Configuration for saving to swift_events_log table. By default, this feature is disabled.
       saveEnabled: false
       ## Configuration for partitioning of swift_events_log table. By default, this feature is disabled.
       ## If saveEnabled is set to false, then this feature is also disabled.
       ## For partitions to work, pg_partman and pg_cron extensions need to be installed on PG.
       partitionsEnabled: false
+    ## Configuration for expiring cache.
+    ## Cached data will be deleted after the specified duration and the first next invocation of
+    ## cached data will result in a database query in order to populate it again. 
+    ## Data should be represented in the format of "%n%s" where %n is number and "%s" is time unit.
+    ## For example, "12h" means 12 hours, "1d" means 1 day, "30m" means 30 minutes, etc.
+    ##
+    ## @param expire              duration after which cache will be deleted
+    cache:
+      expire: 12h # default value is 12 hours
   incoming:
     handler:
       xsdMode: saa #default value, set custom XSD mode if required

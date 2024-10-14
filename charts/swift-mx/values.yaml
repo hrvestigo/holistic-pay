@@ -247,6 +247,8 @@ application:
     eventsLog:
       saveEnabled: false
       partitionsEnabled: false
+    cache:
+      expire: 12h
   incoming:
     handler:
       xsdMode: saa
