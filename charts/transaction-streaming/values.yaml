@@ -289,7 +289,7 @@ affinity:
             - transaction-streaming
         topologyKey: kubernetes.io/hostname
 deployment:
-  replicaCount: 1
+  replicaCount: 2
   annotations: {}
   labels: {}
   strategy:
