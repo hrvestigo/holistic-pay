@@ -1178,7 +1178,10 @@ podSecurityContext:
   runAsNonRoot: true
   runAsUser: 1000
   runAsGroup: 1000
+  fsGroup: 1000
 ```
+
+Note that if user wants to change these values, `runAsGroup` and `fsGroup` need to be changed to the same value. 
 
 There is no default security context on container level, but it can be defined by setting `securityContext` attribute (opposed to `podSecurityContext`), for example:
 
