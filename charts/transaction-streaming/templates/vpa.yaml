@@ -12,5 +12,5 @@ spec:
   {{- if and .Values.vpa.updateMode (not (or (eq "Off" .Values.vpa.updateMode) (eq "Auto" .Values.vpa.updateMode) (eq "Initial" .Values.vpa.updateMode) (eq "Recreate" .Values.vpa.updateMode)) ) }}
   {{ fail (printf "%s%s" "Possible values for VPA updateMode are: Off, Auto, Initial and Recreate. Provided value is: " .Values.vpa.updateMode) }}
   {{- end }}
-  updateMode: {{ .Values.vpa.updateMode }}
+    updateMode: {{ .Values.vpa.updateMode | quote }}
 {{- end }}
