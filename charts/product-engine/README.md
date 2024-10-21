@@ -189,7 +189,8 @@ kafka:
     contractedproducts:
       name: hr.vestigo.hp.contractedproducts # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.contractedproducts # default value, set custom name if required
-
+    packagerequestcoreproductinfo:
+      name: hr.vestigo.hp.packagerequestcoreproductinfo # default value, set custom name if required
 ```
 
 
