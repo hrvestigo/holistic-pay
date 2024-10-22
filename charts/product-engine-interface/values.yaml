@@ -4,10 +4,12 @@ image:
   pullPolicy: IfNotPresent
   app:
     registry: null
+    imageLocation: null
     tag: ''
     pullPolicy: null
   liquibase:
     registry: null
+    imageLocation: null
     tag: 1.2.0
     pullPolicy: null
 imagePullSecrets: []
@@ -23,12 +25,15 @@ datasource:
   connTimeout: 60000
   maxPoolSize: 2
   minIdle: 0
+  idleTimeout: 120000
+  connectionParams: {}
 liquibase:
   enabled: true
   syncOnly: false
   user: ''
   role: ''
   replicationRole: ''
+  resources: {}
 members:
 - businessUnit: ''
   applicationMember: ''
@@ -47,10 +52,15 @@ members:
     maxPoolSize: ''
     minIdle: 0
 kafka:
+  readinessProbeEnabled: true
   user: ''
   servers: ''
   saslMechanism: PLAIN
   securityProtocol: SASL_SSL
+  autoOffsetReset: earliest
+  maxPollInterval: 300000
+  trxTimeout: 60000
+  sslEndpointIdentAlg: HTTPS
   schemaRegistry:
     credSource: USER_INFO
     user: ''
@@ -63,6 +73,10 @@ kafka:
       name: hr.vestigo.hp.packagerequestcoreproductinfo
       retry:
         maxAttempts: 1
+oauth2:
+  enabled: false
+  resourceUri: ''
+  authorizationPrefix: ''
 request:
   sanitization:
     enabled: true
@@ -72,21 +86,40 @@ response:
 timezone: ''
 secret:
   decryptionKey: ''
+  datasourcePassword: ''
   kafkaPassword: ''
   kafkaSchemaRegistryPassword: ''
   liquibasePassword: ''
   trustStorePassword: ''
   keyStorePassword: ''
-  cmsRestPassword: ''
+
 logger:
+  format: STRING
+  level:
+    health: INFO
+    kafka: INFO
+    kafkaCore: INFO
+    rest: INFO
+    database: INFO
+    databaseSql: DEBUG
+    databaseBind: TRACE
+    databaseExtract: TRACE
+    databaseSlowQuery: INFO
+    businessLogic: INFO
+    general: INFO
   logToFile: false
   rollingFileAppender: false
   logDir: /var/log/app
   logDirMount:
     enabled: false
+  microserviceTag: PRDENG
+  databaseSlowQueryThreshold: 0
+
+
+
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
-springActiveProfile: prod
+
 podAnnotations: {}
 deploymentAnnotations: {}
 serviceAnnotations: {}
@@ -159,7 +192,7 @@ deployment:
   readinessProbe:
     initialDelaySeconds: 10
     periodSeconds: 60
-    timeoutSeconds: 181
+    timeoutSeconds: 10
     successThreshold: 1
     failureThreshold: 2
     httpGet:
