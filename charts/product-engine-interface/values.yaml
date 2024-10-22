@@ -69,10 +69,10 @@ kafka:
     packagerequestcoreproductinfosystem:
       name: hr.vestigo.hp.packagerequestcoreproductinfosystem
       consumerGroup: hr.vestigo.hp.packagerequestcoreproductinfosystem
-    packagerequestcoreproductinfo:
-      name: hr.vestigo.hp.packagerequestcoreproductinfo
       retry:
         maxAttempts: 1
+    packagerequestcoreproductinfo:
+      name: hr.vestigo.hp.packagerequestcoreproductinfo
 oauth2:
   enabled: false
   resourceUri: ''
@@ -92,7 +92,7 @@ secret:
   liquibasePassword: ''
   trustStorePassword: ''
   keyStorePassword: ''
-
+  cmsRestPassword: ''
 logger:
   format: STRING
   level:
@@ -114,12 +114,8 @@ logger:
     enabled: false
   microserviceTag: PRDENG
   databaseSlowQueryThreshold: 0
-
-
-
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
-
 podAnnotations: {}
 deploymentAnnotations: {}
 serviceAnnotations: {}

@@ -196,10 +196,10 @@ kafka:
     packagerequestcoreproductinfosystem:
       name: hr.vestigo.hp.packagerequestcoreproductinfosystem # default topic name set different name if required
       consumerGroup: hr.vestigo.hp.packagerequestcoreproductinfosystem  # default consumer group name set different name if required
-    packagerequestcoreproductinfo:
-      name: hr.vestigo.hp.packagerequestcoreproductinfo # default topic name set different name if required
       retry:
         maxAttempts: 1 # should be set to 1 for default setup as retry is not enabled by default
+    packagerequestcoreproductinfo:
+      name: hr.vestigo.hp.packagerequestcoreproductinfo # default topic name set different name if required
 
 ```
 

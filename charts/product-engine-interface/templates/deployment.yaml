@@ -4,13 +4,13 @@ metadata:
   name: {{ include "product-engine-interface.name" . }}
   labels:
     {{- include "product-engine-interface.labels" . | nindent 4 }}
-  {{- with .Values.deployment.labels }}
-  {{ toYaml . | indent 4 }}
-  {{- end }}
-  {{- with .Values.deployment.annotations }}
-annotations:
-  {{ toYaml . | indent 4 }}
-  {{- end }}
+{{- with .Values.deployment.labels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+{{- with .Values.deployment.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.deployment.replicaCount }}
@@ -99,7 +99,7 @@ spec:
               {{- include "product-engine-interface.dbSchema" $ -}}
               {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
               {{- include "product-engine-interface.db.connectionParams" $ -}}"
-              {{- end }}
+                {{- end }}
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ default (required "Please specify DB user in datasource.user" $.Values.datasource.user | quote) .datasource.user }}
               {{- else }}
@@ -154,8 +154,6 @@ spec:
               value: {{ .Values.kafka.topics.packagerequestcoreproductinfosystem.retry.maxAttempts | quote }}
             - name: KAFKA_TOPIC_PACKAGEREQUESTCOREPRODUCTINFO_NAME
               value: {{ .Values.kafka.topics.packagerequestcoreproductinfo.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CONTRACTEDPRODUCTS_NAME
-              value: {{ .Values.kafka.topics.contractedproducts.consumerGroup | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
@@ -216,6 +214,9 @@ spec:
             - name: SPRING_DATASOURCE_HIKARI_IDLETIMEOUT
               value: {{ .Values.datasource.idleTimeout | quote }}
             {{- if .Values.logger.databaseSlowQueryThreshold }}
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_SESSION_EVENTS_LOG_LOG_QUERIES_SLOWER_THAN_MS
+              value: {{ .Values.logger.databaseSlowQueryThreshold | quote }}
+            {{- end }}
             - name: SECRET_PROPERTIES
               value: /mnt/k8s/secrets/password.conf
             - name: KAFKA_HEALTH_ENABLED

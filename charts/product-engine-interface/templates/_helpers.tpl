@@ -16,19 +16,23 @@ Create chart name and version as used by the chart label.
 Defies fixed part of product-engine-interface datasource schema name
 */}}
 {{- define "product-engine-interface.dbSchema" -}}
-{{- "cmsint" }}
+{{- "pdeint" }}
 {{- end }}
 
 {{/*
 product-engine-interface image repository
 */}}
 {{- define "product-engine-interface.app.repository" -}}
+{{- if .Values.image.app.imageLocation }}
+{{- .Values.image.app.imageLocation }}
+{{- else }}
 {{- $psRepo := "hrvestigo/product-engine-interface-ms" }}
 {{- $reg := default .Values.image.registry .Values.image.app.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $psRepo }}
 {{- else }}
 {{- $psRepo }}
+{{- end }}
 {{- end }}
 {{- end }}
 
@@ -44,12 +48,16 @@ product-engine-interface image pull policy
 Liquibase image
 */}}
 {{- define "product-engine-interface.liquibase.image" }}
-{{- $liquiRepo := printf "%s%s" "hrvestigo/product-engine-interface-lb:" $.Values.image.liquibase.tag }}
+{{- if .Values.image.liquibase.imageLocation }}
+{{- printf "%s:%s" .Values.image.liquibase.imageLocation .Values.image.liquibase.tag }}
+{{- else }}
+{{- $liquiRepo := "hrvestigo/product-engine-interface-lb" }}
 {{- $reg := default $.Values.image.registry $.Values.image.liquibase.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $liquiRepo }}
 {{- else }}
 {{- $liquiRepo }}
+{{- end }}
 {{- end }}
 {{- end }}
 
@@ -61,8 +69,10 @@ Liquibase init container definition
 - name: liquibase-{{ .memberSign | lower }}
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
-  image: {{ include "product-engine-interface.liquibase.image" $ }}
+  image: {{ printf "%s%s%s%s%s" (include "product-engine-interface.liquibase.image" $) "-" ($member.businessUnit | lower ) ":" $.Values.image.liquibase.tag }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
+  resources:
+    {{- include "product-engine-interface.liquibase.initContainer.resources" $ | nindent 4 }}
   volumeMounts:
     - mountPath: /liquibase/secret/
       name: {{ include "product-engine-interface.name" $ }}-secret
@@ -94,7 +104,7 @@ Liquibase init container definition
   {{- if $member.datasource }}
     {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" (default $.Values.datasource.host $member.datasource.host) ":" (default ($.Values.datasource.port | int) ( $member.datasource.port | int)) "/" (default $.Values.datasource.dbName  $member.datasource.dbName) }}
     {{- $context := printf "%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" }}
-    {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -cp /tmp/aesdecryptor.jar AesDecrypt && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
+    {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -jar /tmp/aesdecryptor.jar -d -l && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
     {{- if $.Values.liquibase.syncOnly }}
     - {{ printf "%s%s" $params " changelog-sync" }}
     {{- else }}
@@ -103,13 +113,24 @@ Liquibase init container definition
   {{- else }}
     {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" $.Values.datasource.host ":" ($.Values.datasource.port | int) "/" $.Values.datasource.dbName }}
     {{- $context := printf "%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" }}
-    {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -cp /tmp/aesdecryptor.jar AesDecrypt && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
+    {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -jar /tmp/aesdecryptor.jar -d -l && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
     {{- if $.Values.liquibase.syncOnly }}
     - {{ printf "%s%s" $params " changelog-sync" }}
     {{- else }}
     - {{ printf "%s%s" $params " update" }}
     {{- end }}
   {{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
+Liquibase init container resources
+*/}}
+{{- define "product-engine.liquibase.initContainer.resources" -}}
+{{- if .Values.liquibase.resources }}
+{{- toYaml .Values.liquibase.resources }}
+{{- else }}
+{{- toYaml .Values.resources }}
 {{- end }}
 {{- end }}
 
@@ -179,9 +200,6 @@ Volumes
 - name: {{ include "product-engine-interface.name" . }}-configmap
   configMap:
     name: {{ include "product-engine-interface.name" . }}-configmap
-- name: liquibase-config
-  configMap:
-    name: {{ include "product-engine-interface.name" . }}-liquibase-configmap
 - name: server-cert
 {{- if .Values.mountServerCertFromSecret.enabled }}
   secret:
@@ -268,7 +286,7 @@ Mounts for product-engine-interface application
 {{- if and .Values.logger.logDirMount.enabled .Values.logger.logDirMount.spec }}
 - mountPath: {{ .Values.logger.logDir }}
   name: logdir
-{{- end}}
+{{- end }}
 {{- end }}
 
 {{/*
@@ -294,4 +312,20 @@ Application logger
 */}}
 {{- define "product-engine-interface.logger" -}}
 {{ tpl (.Files.Get "config/log4j2.xml") . }}
+{{- end }}
+
+{{/*
+Defines custom datasource connection parameters appended to URL
+*/}}
+{{- define "product-engine-interface.db.connectionParams" -}}
+{{- $atts := list -}}
+{{- range $key, $value := .Values.datasource.connectionParams }}
+{{- $atts = append $atts (printf "%s%s%s" $key "=" $value) }}
+{{- end }}
+{{- $string := join "&" $atts }}
+{{- if $string }}
+{{- printf "%s%s" "&" $string }}
+{{- else }}
+{{- "" }}
+{{- end }}
 {{- end }}
