@@ -39,6 +39,10 @@
             {{- else }}
             <PatternLayout pattern="${DEF_PATTERN}"/>
             {{- end }}
+            {{- if not .logToFile }}
+            <RegexFilter regex=".*GET\s*/health.*" onMatch="DENY" onMismatch="ACCEPT"/>
+            <RegexFilter regex=".*GET\s*/prometheus.*" onMatch="DENY" onMismatch="ACCEPT"/>
+            {{- end }}
         </Console>
 
         {{- if .logToFile }}
@@ -69,33 +73,44 @@
         <Async name="healthAsync">
             <AppenderRef ref="healthAccessLog"/>
         </Async>
+
+        <File name="prometheusAccessLog" fileName="${LOG_FOLDER}/prometheus.log">
+            <RegexFilter regex=".*GET\s*/prometheus.*" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <Pattern>${HEALTH_PATTERN}</Pattern>
+            </PatternLayout>
+        </File>
+
+        <Async name="prometheusAsync">
+            <AppenderRef ref="prometheusAccessLog"/>
+        </Async>
         {{- end }}
     </Appenders>
 
     <Loggers>
         <Logger name="reactor.netty.http.server.AccessLog" level={{ required "Please specify log level in logger.globalLogLevel. Possible values: TRACE, DEBUG, INFO, WARN, ERROR" .globalLogLevel | upper | quote }} additivity="false">
-        {{- if .logToFile }}
+            {{- if .logToFile }}
             <AppenderRef ref="healthAsync"/>
+            <AppenderRef ref="prometheusAsync"/>
             <AppenderRef ref="async"/>
         {{- else }}
             <AppenderRef ref="STDOUT"/>
-        {{- end }}
+            {{- end }}
         </Logger>
-
 
         <Logger name="hr.vestigo.apigateway.logging.RequestAndResponseLoggingFilter" level="INFO" additivity="false">
-            {{- if .logToFile }}
-            <AppenderRef ref="application"/>
-            {{- end }}
-            <AppenderRef ref="STDOUT"/>
-        </Logger>
+                {{- if .logToFile }}
+                <AppenderRef ref="application"/>
+                {{- end }}
+                <AppenderRef ref="STDOUT"/>
+            </Logger>
 
-        <Root additivity="false" level={{ .globalLogLevel | upper | quote }}>
-            <AppenderRef ref="STDOUT"/>
-            {{- if .logToFile }}
-            <AppenderRef ref="application"/>
-            {{- end }}
-        </Root>
-    </Loggers>
+            <Root additivity="false" level={{ .globalLogLevel | upper | quote }}>
+                <AppenderRef ref="STDOUT"/>
+                {{- if .logToFile }}
+                <AppenderRef ref="application"/>
+                {{- end }}
+            </Root>
+        </Loggers>
     {{- end }}
 </Configuration>
