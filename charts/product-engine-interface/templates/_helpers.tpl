@@ -1,29 +1,29 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "${rootArtifactId}.name" -}}
+{{- define "product-engine-interface.name" -}}
 {{- default .Release.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "${rootArtifactId}.chart" -}}
+{{- define "product-engine-interface.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
-Defies fixed part of ${rootArtifactId} datasource schema name
+Defies fixed part of product-engine-interface datasource schema name
 */}}
-{{- define "${rootArtifactId}.dbSchema" -}}
+{{- define "product-engine-interface.dbSchema" -}}
 {{- "cmsint" }}
 {{- end }}
 
 {{/*
-${rootArtifactId} image repository
+product-engine-interface image repository
 */}}
-{{- define "${rootArtifactId}.app.repository" -}}
-{{- $psRepo := "hrvestigo/${rootArtifactId}-ms" }}
+{{- define "product-engine-interface.app.repository" -}}
+{{- $psRepo := "hrvestigo/product-engine-interface-ms" }}
 {{- $reg := default .Values.image.registry .Values.image.app.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $psRepo }}
@@ -33,9 +33,9 @@ ${rootArtifactId} image repository
 {{- end }}
 
 {{/*
-${rootArtifactId} image pull policy
+product-engine-interface image pull policy
 */}}
-{{- define "${rootArtifactId}.app.imagePullPolicy" -}}
+{{- define "product-engine-interface.app.imagePullPolicy" -}}
 {{- $reg := default .Values.image.pullPolicy .Values.image.app.pullPolicy }}
 {{- default "IfNotPresent" $reg }}
 {{- end }}
@@ -43,8 +43,8 @@ ${rootArtifactId} image pull policy
 {{/*
 Liquibase image
 */}}
-{{- define "${rootArtifactId}.liquibase.image" }}
-{{- $liquiRepo := printf "%s%s" "hrvestigo/${rootArtifactId}-lb:" $.Values.image.liquibase.tag }}
+{{- define "product-engine-interface.liquibase.image" }}
+{{- $liquiRepo := printf "%s%s" "hrvestigo/product-engine-interface-lb:" $.Values.image.liquibase.tag }}
 {{- $reg := default $.Values.image.registry $.Values.image.liquibase.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $liquiRepo }}
@@ -56,26 +56,26 @@ Liquibase image
 {{/*
 Liquibase init container definition
 */}}
-{{- define "${rootArtifactId}.liquibase.initContainer" }}
+{{- define "product-engine-interface.liquibase.initContainer" }}
 {{- range $k, $member := .Values.members }}
 - name: liquibase-{{ .memberSign | lower }}
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
-  image: {{ include "${rootArtifactId}.liquibase.image" $ }}
+  image: {{ include "product-engine-interface.liquibase.image" $ }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   volumeMounts:
     - mountPath: /liquibase/secret/
-      name: {{ include "${rootArtifactId}.name" $ }}-secret
+      name: {{ include "product-engine-interface.name" $ }}-secret
   env:
     - name: SCHEMA_NAME
   {{- if $member.datasource }}
     {{- if $member.datasource.globalSchema }}
-      value: {{ $member.businessUnit | lower }}{{ required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix }}{{ include "${rootArtifactId}.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
+      value: {{ $member.businessUnit | lower }}{{ required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix }}{{ include "product-engine-interface.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
     {{- else }}
-      value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "${rootArtifactId}.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
+      value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "product-engine-interface.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
     {{- end }}
   {{- else }}
-      value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "${rootArtifactId}.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
+      value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "product-engine-interface.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
   {{- end }}
   {{- if $member.liquibase }}
     - name: ROLE
@@ -116,7 +116,7 @@ Liquibase init container definition
 {{/*
 Trust store env variables
 */}}
-{{- define "${rootArtifactId}.trustStoreEnv" -}}
+{{- define "product-engine-interface.trustStoreEnv" -}}
 {{- $trustStoreLocation := "/mnt/k8s/trust-store/" }}
 {{- if .Values.mountTrustStoreFromSecret.enabled -}}
 {{- $trustStoreName := required "Please specify trust store file name in mountTrustStoreFromSecret.trustStoreName" .Values.mountTrustStoreFromSecret.trustStoreName }}
@@ -143,11 +143,11 @@ Trust store env variables
 {{/*
 Common labels
 */}}
-{{- define "${rootArtifactId}.labels" -}}
-helm.sh/chart: {{ include "${rootArtifactId}.chart" . }}
-app: {{ include "${rootArtifactId}.name" . }}
+{{- define "product-engine-interface.labels" -}}
+helm.sh/chart: {{ include "product-engine-interface.chart" . }}
+app: {{ include "product-engine-interface.name" . }}
 project: HolisticPay
-{{ include "${rootArtifactId}.selectorLabels" . }}
+{{ include "product-engine-interface.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -157,31 +157,31 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "${rootArtifactId}.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "${rootArtifactId}.name" . }}
+{{- define "product-engine-interface.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "product-engine-interface.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Volumes
 */}}
-{{- define "${rootArtifactId}.volumes" -}}
+{{- define "product-engine-interface.volumes" -}}
 {{- with .Values.customVolumes -}}
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
-- name: {{ include "${rootArtifactId}.name" . }}-secret
+- name: {{ include "product-engine-interface.name" . }}-secret
   secret:
-    secretName: {{ include "${rootArtifactId}.name" . }}-secret
+    secretName: {{ include "product-engine-interface.name" . }}-secret
     items:
       - path: password.conf
         key: password.conf
-- name: {{ include "${rootArtifactId}.name" . }}-configmap
+- name: {{ include "product-engine-interface.name" . }}-configmap
   configMap:
-    name: {{ include "${rootArtifactId}.name" . }}-configmap
+    name: {{ include "product-engine-interface.name" . }}-configmap
 - name: liquibase-config
   configMap:
-    name: {{ include "${rootArtifactId}.name" . }}-liquibase-configmap
+    name: {{ include "product-engine-interface.name" . }}-liquibase-configmap
 - name: server-cert
 {{- if .Values.mountServerCertFromSecret.enabled }}
   secret:
@@ -228,17 +228,17 @@ Volumes
 {{- end }}
 
 {{/*
-Mounts for ${rootArtifactId} application
+Mounts for product-engine-interface application
 */}}
-{{- define "${rootArtifactId}.mounts" -}}
+{{- define "product-engine-interface.mounts" -}}
 {{- with .Values.customMounts -}}
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
 - mountPath: /mnt/k8s/secrets/
-  name: {{ include "${rootArtifactId}.name" . }}-secret
+  name: {{ include "product-engine-interface.name" . }}-secret
 - mountPath: /usr/app/config
-  name: {{ include "${rootArtifactId}.name" . }}-configmap
+  name: {{ include "product-engine-interface.name" . }}-configmap
 {{- if .Values.mountServerCertFromSecret.enabled }}
 - mountPath: /mnt/k8s/tls-server/key.pem
   name: server-cert
@@ -274,7 +274,7 @@ Mounts for ${rootArtifactId} application
 {{/*
 Definition of application members
 */}}
-{{- define "${rootArtifactId}.members" -}}
+{{- define "product-engine-interface.members" -}}
 {{- $members := list -}}
 {{- range $k, $member := .Values.members }}
 {{- $members = append $members $member.memberSign }}
@@ -285,13 +285,13 @@ Definition of application members
 {{/*
 Application secrets
 */}}
-{{- define "${rootArtifactId}.passwords" -}}
+{{- define "product-engine-interface.passwords" -}}
 {{ tpl (.Files.Get "config/password.conf") . | b64enc }}
 {{- end }}
 
 {{/*
 Application logger
 */}}
-{{- define "${rootArtifactId}.logger" -}}
+{{- define "product-engine-interface.logger" -}}
 {{ tpl (.Files.Get "config/log4j2.xml") . }}
 {{- end }}

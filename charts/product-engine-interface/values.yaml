@@ -8,7 +8,7 @@ image:
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 1.0.0
+    tag: 1.2.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -143,7 +143,7 @@ affinity:
           - key: app
             operator: In
             values:
-            - ${rootArtifactId}
+            - product-engine-interface
         topologyKey: kubernetes.io/hostname
 deployment:
   replicaCount: 1
@@ -180,6 +180,9 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
+vpa:
+  enabled: false
+  updateMode: 'Off'
 mountServerCertFromSecret:
   enabled: false
   secretName: ''
