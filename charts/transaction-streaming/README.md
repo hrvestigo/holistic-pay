@@ -1405,19 +1405,16 @@ volumeProvisioning:
   dynamic: false      # static volume provisioning
   storage:
     parameters:
-      nfs:
-        server: "server"
-        path: "path"
+      type:
+        nfs:
+          server: "server"
+          path: "path"
 ```
 
 resulting in:
 ```yaml
  volumes:
   - name: statedir
-    nfs:
-      server: "server"
-      path: "path"
-  - name: statedirdelete
     nfs:
       server: "server"
       path: "path"
@@ -1438,14 +1435,6 @@ resulting in:
  volumeClaimTemplates:
    - metadata:
        name: statedir
-     spec:
-       storageClassName: "storage"
-       accessModes: ["ReadWriteOnce"]
-       resources:
-         requests:
-           storage: 1Gi
-   - metadata:
-       name: statedirdelete
      spec:
        storageClassName: "storage"
        accessModes: ["ReadWriteOnce"]

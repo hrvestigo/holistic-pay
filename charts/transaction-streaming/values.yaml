@@ -348,6 +348,7 @@ volumeProvisioning:
     capacity: 20Gi
     parameters:
       storageClassName: ''
+      type: []
 customVolumes: []
 customMounts: []
 customEnv: []

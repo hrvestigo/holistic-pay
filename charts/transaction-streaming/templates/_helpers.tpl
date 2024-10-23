@@ -197,12 +197,7 @@ Volumes
 {{- end }}
 {{- if not .Values.volumeProvisioning.dynamic -}}
 - name: statedir
-{{- with .Values.volumeProvisioning.storage.parameters -}}
-{{- toYaml . | default "" | nindent 2 -}}
-{{ "" }}
-{{- end }}
-- name: statedirdelete
-{{- with .Values.volumeProvisioning.storage.parameters -}}
+{{- with .Values.volumeProvisioning.storage.parameters.type -}}
 {{- toYaml . | default "" | nindent 2 -}}
 {{ "" }}
 {{- end }}
@@ -276,16 +271,6 @@ Volume claim templates
     resources:
       requests:
         storage: {{ .Values.volumeProvisioning.storage.capacity }}
-- metadata:
-    name: statedirdelete
-  spec:
-    {{- if .Values.volumeProvisioning.storage.parameters.storageClassName }}
-    storageClassName: {{ .Values.volumeProvisioning.storage.parameters.storageClassName }}
-    {{- end }}
-    accessModes: ["ReadWriteOnce"]
-    resources:
-      requests:
-        storage: {{ .Values.volumeProvisioning.storage.capacity }}
 {{- end }}
 
 {{/*
@@ -293,9 +278,8 @@ Mounts for transaction-streaming application
 */}}
 {{- define "transaction-streaming.mounts" -}}
 - name: statedir
-  mountPath: /StateDir/state/
-- name: statedirdelete
-  mountPath: /StateDir/delete/state/
+  mountPath: /StateDir/
+  subPathExpr: $(POD_NAME)
 {{with .Values.customMounts -}}
 {{- toYaml . | default "" }}
 {{ "" }}

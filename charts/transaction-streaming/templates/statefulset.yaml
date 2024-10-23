@@ -47,6 +47,7 @@ spec:
         {{- with .Values.initContainers }}
         {{- toYaml . | trim | nindent 8 }}
         {{- end }}
+        - mkdir -p /StateDir/$(POD_NAME)
         {{- if .Values.liquibase.enabled }}
         {{- include "transaction-streaming.liquibase.initContainer" . | trim | nindent 8 }}
         {{- end }}
@@ -58,6 +59,10 @@ spec:
           image: {{ include "transaction-streaming.app.repository" . }}:{{ .Values.image.app.tag | default .Chart.AppVersion }}
           imagePullPolicy: {{ include "transaction-streaming.app.imagePullPolicy" . }}
           env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             {{- if .Values.timezone }}
             - name: TZ
               value: {{ .Values.timezone }}
@@ -153,7 +158,7 @@ spec:
               value: {{ .Values.kafka.streams.auto.startup | default "true" | quote }}
             {{- if .Values.kafka.streams.auto.startup }}
             - name: SPRING_KAFKA_STREAMS_STATEDIR
-              value: "/StateDir/state/"
+              value: "/StateDir/$(POD_NAME)"
             - name: SPRING_KAFKA_STREAMS_APPLICATIONID
               value: {{ .Values.kafka.streams.application.id | default "transaction-streaming" | quote }}
             - name: SPRING_KAFKA_STREAMS_NUM_STREAM_THREADS
@@ -165,7 +170,7 @@ spec:
             - name: SPRING_KAFKA_STREAMS_DELETE_APPLICATIONID
               value: {{ .Values.kafka.streams.delete.application.id | default "transaction-streaming-delete" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_STATEDIR
-              value: "/StateDir/delete/state/"
+              value: "/StateDir/$(POD_NAME)"
             - name: SPRING_KAFKA_STREAMS_DELETE_SCANFREQUENCY
               value: {{ .Values.kafka.streams.delete.scanFrequency | default "12" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_NUM_STREAM_THREADS
