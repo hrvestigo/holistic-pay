@@ -148,7 +148,7 @@ spec:
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
             - name: KAFKA_TOPIC_PACKAGEREQUESTCOREPRODUCTINFOSYSTEM_NAME
               value: {{ .Values.kafka.topics.packagerequestcoreproductinfosystem.name | quote }}
-            - name: KAFKA_TOPIC_PACKAGEREQUESTCOREPRODUCTINFOSYSTEM_CONSUMERGROUP
+            - name: KAFKA_CONSUMER_GROUP_PACKAGEREQUESTCOREPRODUCTINFOSYSTEM_NAME
               value: {{ .Values.kafka.topics.packagerequestcoreproductinfosystem.consumerGroup | quote }}
             - name: KAFKA_TOPIC_PACKAGEREQUESTCOREPRODUCTINFOSYSTEM_RETRY_MAXATTEMPTS
               value: {{ .Values.kafka.topics.packagerequestcoreproductinfosystem.retry.maxAttempts | quote }}
