@@ -126,7 +126,7 @@ Liquibase init container definition
 {{/*
 Liquibase init container resources
 */}}
-{{- define "product-engine.liquibase.initContainer.resources" -}}
+{{- define "product-engine-interface.liquibase.initContainer.resources" -}}
 {{- if .Values.liquibase.resources }}
 {{- toYaml .Values.liquibase.resources }}
 {{- else }}
