@@ -47,7 +47,6 @@ spec:
         {{- with .Values.initContainers }}
         {{- toYaml . | trim | nindent 8 }}
         {{- end }}
-        - mkdir -p /StateDir/$(POD_NAME)
         {{- if .Values.liquibase.enabled }}
         {{- include "transaction-streaming.liquibase.initContainer" . | trim | nindent 8 }}
         {{- end }}
