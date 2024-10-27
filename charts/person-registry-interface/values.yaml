@@ -48,11 +48,18 @@ members:
     dbName: ''
     user: ''
     password: ''
+    connTimeout: ''
+    maxPoolSize: ''
+    minIdle: 0
 kafka:
+  readinessProbeEnabled: true
   user: ''
   servers: ''
   saslMechanism: PLAIN
   securityProtocol: SASL_SSL
+  autoOffsetReset: earliest
+  maxPollInterval: 300000
+  trxTimeout: 60000
   sslEndpointIdentAlg: HTTPS
   schemaRegistry:
     credSource: USER_INFO
@@ -88,26 +95,27 @@ secret:
   liquibasePassword: ''
   trustStorePassword: ''
   keyStorePassword: ''
+  cmsRestPassword: ''
 logger:
   format: STRING
   level:
-    health: DEBUG
-    kafka: DEBUG
+    health: INFO
+    kafka: INFO
     kafkaCore: INFO
-    rest: DEBUG
-    database: ERROR
+    rest: INFO
+    database: INFO
     databaseSql: DEBUG
     databaseBind: TRACE
     databaseExtract: TRACE
     databaseSlowQuery: INFO
-    businessLogic: DEBUG
-    general: DEBUG
+    businessLogic: INFO
+    general: INFO
   logToFile: false
   rollingFileAppender: false
   logDir: /var/log/app
   logDirMount:
     enabled: false
-  microserviceTag: ''
+  microserviceTag: PERINT
   databaseSlowQueryThreshold: 0
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M

@@ -38,4 +38,4 @@ spec:
   {{- end }}
   selector:
     {{- include "person-registry-interface.selectorLabels" . | nindent 4 }}
-{{ end }}
+  {{ end }}
