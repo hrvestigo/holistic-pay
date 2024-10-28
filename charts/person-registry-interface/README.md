@@ -84,10 +84,10 @@ kafkaService:
   technicalUserId: PIFNTFMS
   deliveryChannel: BOS
   cmsAppModule: DCC
-  perintAppModule: PERINT
+  preintAppModule: PREINT
 ```
 
-Attributes `technicalUserId`, `deliveryChannel` and `perintAppModule` are values used for populating data in kafka header when publishing data.
+Attributes `technicalUserId`, `deliveryChannel` and `preintAppModule` are values used for populating data in kafka header when publishing data.
 Attribute `cmsAppModule` is value which populates attribute personApplicationModule in kafka when publishing data 
 
 ### Datasource connection setup
@@ -528,7 +528,7 @@ members:
 ```
 
 This setup is required and will define one member in application with default setup. By default, with one specified member, two database schemas will be defined - "connect" schema, which is a default schema for non-member-specific requests and one member-specific datasource schema in the same database.
-Schema name for application member is auto-generated and will be in format `{members.businessUnit}{members.applicationMember}perint{env.label}`.
+Schema name for application member is auto-generated and will be in format `{members.businessUnit}{members.applicationMember}preint{env.label}`.
 
 `members` attribute enables customization on database level. It is possible to override specific datasource and liquibase parameters for each member separately.
 
@@ -583,7 +583,7 @@ members:
       globalSchema: true
 ```
 
-application will bind to schema with name `aawoperintt1`.
+application will bind to schema with name `aawopreintt1`.
 To change default `wo` prefix used in schema name, set attribute `datasource.globalSchemaPrefix` to other value.
 
 Note that `members.datasource.globalSchema` is member-specific, so when multiple members are defined, in order to keep all data in one schema, all members have to be defined with this attribute set to `true`.

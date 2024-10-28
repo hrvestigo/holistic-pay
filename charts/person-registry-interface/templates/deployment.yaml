@@ -172,8 +172,8 @@ spec:
               value: {{ .Values.kafkaService.deliveryChannel | quote }}
             - name: SERVICE_CMS_APP_MODULE
               value: {{ .Values.kafkaService.cmsAppModule | quote }}
-            - name: SERVICE_PERINT_APP_MODULE
-              value: {{ .Values.kafkaService.perintAppModule | quote }}
+            - name: SERVICE_PREINT_APP_MODULE
+              value: {{ .Values.kafkaService.preintAppModule | quote }}
             - name: MANAGEMENT_ENDPOINT_HEALTH_STATUS_HTTPMAPPING_DOWN
               value: {{ .Values.healthStatusDownReturnCode | quote }}
             - name: MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE
