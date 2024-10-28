@@ -40,8 +40,7 @@
             <PatternLayout pattern="${DEF_PATTERN}"/>
             {{- end }}
             {{- if not .logToFile }}
-            <RegexFilter regex=".*GET\s*/health.*" onMatch="DENY" onMismatch="ACCEPT"/>
-            <RegexFilter regex=".*GET\s*/prometheus.*" onMatch="DENY" onMismatch="ACCEPT"/>
+            <RegexFilter regex=".*GET\s*/(health|prometheus).*" onMatch="DENY" onMismatch="ACCEPT"/>
             {{- end }}
         </Console>
 
@@ -53,7 +52,7 @@
         </File>
 
         <File name="accessLog" fileName="${LOG_FOLDER}/access.log">
-            <RegexFilter regex=".*GET\s*/health.*" onMatch="DENY" onMismatch="ACCEPT"/>
+            <RegexFilter regex=".*GET\s*/(health|prometheus).*" onMatch="DENY" onMismatch="ACCEPT"/>
             <PatternLayout>
                 <Pattern>${HEALTH_PATTERN}</Pattern>
             </PatternLayout>
