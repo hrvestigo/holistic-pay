@@ -279,7 +279,6 @@ Mounts for transaction-streaming application
 {{- define "transaction-streaming.mounts" -}}
 - name: statedir
   mountPath: /StateDir/
-  subPathExpr: $(POD_NAME)
 {{with .Values.customMounts -}}
 {{- toYaml . | default "" }}
 {{ "" }}

@@ -21,7 +21,6 @@ spec:
       {{- include "transaction-streaming.selectorLabels" . | nindent 6 }}
   updateStrategy:
     {{- toYaml .Values.deployment.strategy | nindent 4 }}
-  minReadySeconds: {{ .Values.deployment.minReadySeconds }}
   template:
     metadata:
       annotations:

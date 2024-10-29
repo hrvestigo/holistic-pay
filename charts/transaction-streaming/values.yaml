@@ -294,7 +294,6 @@ deployment:
   labels: {}
   strategy:
     type: RollingUpdate
-  minReadySeconds: 60
   terminationGracePeriodSeconds: 60
   restartPolicy: Always
   readinessProbe:

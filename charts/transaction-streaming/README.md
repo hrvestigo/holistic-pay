@@ -1010,7 +1010,6 @@ deployment:
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 0
-  minReadySeconds: 60
   terminationGracePeriodSeconds: 60
   restartPolicy: Always
 ```
