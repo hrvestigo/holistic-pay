@@ -93,7 +93,7 @@ Required datasource attributes:
 ```yaml
 datasource:
   host: "db-hostname" # only PostgreSQL hostname has to be defined (for instance "localhost")
-  port: 5432 # PostgreSQL port number 
+  port: 5432 # PostgreSQL port number
   dbName: "database-name" # Name of PostgreSQL database
   user: "database-user" # User which application will use to connect to PostgreSQL
 ```
@@ -862,12 +862,12 @@ TRACE, DEBUG, INFO, WARN and ERROR.
 It is possible to control which logging level will be visible in the log file for a specific category, these categories
 are:
 
-* health - health check logs
-* kafka - kafka-related logs
-* rest - rest-related logs
-* database - database access logs
-* businessLogic - logs related to business logic
-* general - all other logs not included in the above categories
+- health - health check logs
+- kafka - kafka-related logs
+- rest - rest-related logs
+- database - database access logs
+- businessLogic - logs related to business logic
+- general - all other logs not included in the above categories
 
 ```yaml
 logger:
@@ -900,8 +900,9 @@ Supported values for this parameter are: `STRING`,`ECS`,`LOGSTASH`,`GELF`,`GCP`.
 
 Examples of how log entries would look like for each value:
 
-* `STRING`
-  * with stacktrace
+- `STRING`
+  - with stacktrace
+
   ```log
   2023-03-27 16:00:20,140 [6af3546625fd473bbd95482b18f2caec,620676f56f76c5b6] ERROR h.v.s.a.e.SomeClass Error
   jakarta.validation.ConstraintViolationException: must not be null
@@ -909,43 +910,61 @@ Examples of how log entries would look like for each value:
   at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.0.6.jar:6.0.6]
   at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750) ~[spring-aop-6.0.6.jar:6.0.6]
   ```
-  * without stacktrace
+
+  - without stacktrace
+
   ```log
   2023-03-27 16:03:48,368 [7baee9c3042043cd3116a2bcf51b872e,ed1297a561d6ab6d] DEBUG o.s.o.j.JpaTransactionManager Exposing JPA transaction as JDBC [org.springframework.orm.jpa.vendor.HibernateJpaDialect$HibernateConnectionHandle@1d8f102d]
   ```
-* `ECS`
-  * with stacktrace
+
+- `ECS`
+  - with stacktrace
+
   ```log
   {"@timestamp":"2023-03-17T10:05:47.074367100Z","ecs.version":"1.2.0","log.level":"ERROR","message":"[379b4af3-1]  500 Server Error for HTTP GET","process.thread.name":"reactor-http-nio-5","log.logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler","spanId":"0000000000000000","traceId":"00000000000000000000000000000000","error.type":"io.netty.channel.AbstractChannel.AnnotatedConnectException","error.message":"Connection refused: no further information: /127.0.0.1:3000","error.stack_trace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\n"}
   ```
-  * without stacktrace
+
+  - without stacktrace
+
   ```log
   {"mdc":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"@timestamp":"2023-03-17T07:37:27.535267800Z","ecs.version":"1.2.0","log.level":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","process.thread.name":"main","log.logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
-* `LOGSTASH`
-  * with stacktrace
+
+- `LOGSTASH`
+  - with stacktrace
+
   ```log
   {"mdc":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"exception":{"exception_class":"io.netty.channel.AbstractChannel.AnnotatedConnectException","exception_message":"Connection refused: no further information: /127.0.0.1:3000","stacktrace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t"},"@version":1,"source_host":"HOST","message":"[70e82a4a-1]  500 Server Error for HTTP GET","thread_name":"reactor-http-nio-5","@timestamp":"2023-03-17T11:26:22.416121900Z","level":"ERROR","logger_name":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler"}
   ```
-  * without stacktrace
+
+  - without stacktrace
+
   ```log
   {"@version":1,"source_host":"HOST","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","thread_name":"main","@timestamp":"2023-03-17T11:24:17.730772400Z","level":"DEBUG","logger_name":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
-* `GELF`
-  * with stacktrace
+
+- `GELF`
+  - with stacktrace
+
   ```log
   {"version":"1.1","host":"HOST","short_message":"[3440fdd5-1]  500 Server Error for HTTP GET","full_message":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\n","timestamp":1679049090.535760400,"level":3,"_logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler","_thread":"reactor-http-nio-5","_spanId":"0000000000000000","_traceId":"00000000000000000000000000000000"}
   ```
-  * without stacktrace
+
+  - without stacktrace
+
   ```log
   {"version":"1.1","host":"HOST","short_message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","timestamp":1679049030.468963200,"level":7,"_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean","_thread":"main"}
   ```
-* `GCP`
-  * with stacktrace
+
+- `GCP`
+  - with stacktrace
+
   ```log
   {"timestamp":"2023-03-17T10:33:42.531673100Z","severity":"ERROR","message":"[3e916f02-1]  500 Server Error for HTTP GET  io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t","logging.googleapis.com/labels":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"logging.googleapis.com/sourceLocation":{"function":"org.springframework.core.log.CompositeLog.error"},"logging.googleapis.com/insertId":"1106","_exception":{"class":"io.netty.channel.AbstractChannel.AnnotatedConnectException","message":"Connection refused: no further information: /127.0.0.1:3000","stackTrace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t"},"_thread":"reactor-http-nio-5","_logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler"}
   ```
-  * without stacktrace
+
+  - without stacktrace
+
   ```log
   {"timestamp":"2023-03-17T10:33:14.218078900Z","severity":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","logging.googleapis.com/sourceLocation":{"function":"org.springframework.boot.availability.ApplicationAvailabilityBean.onApplicationEvent"},"logging.googleapis.com/insertId":"1051","_exception":{"stackTrace":""},"_thread":"main","_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
@@ -1335,58 +1354,117 @@ javaOpts: "-Xms256M -Xmx512M -Dcustom.jvm.param=true"
 Note that defining custom `javaOpts` attribute will override default one, so make sure to keep `Xms` and `Xmx`
 parameters.
 
-### Supported configuration
+## Application configuration
 
-Swift-mx application supports configuration specific for the application through the following properties. 
+This section defines configuration which drives execution of the application
+logic. This configuration may enable/disable particular application feature or may execute part of application logic with different settings. For example,
+we may have configuration for logging REST request to database or to Kafka,
+where logging to database is default.
 
-In the `database` section, we define database related configurations. 
-We can enable the logging of events feature, through the `eventsLog` section. If enabled, all output events will be 
-logged to the database in the table `swift_events_log`. By default, this feature is disabled.
-In this section, we can also define the parameter for expiring cache. All possible parameterization that is often 
-accessed is cached and with this parameter we can define the duration after which cache will be deleted so that data is
-retrieved from the database again.
+This configuration has sensible defaults; meaning application works in
+default mode when no configuration is altered.
 
-In `incoming` and `outgoing` sections we can define which XSD validation mode
-we are using for either incoming or outgoing messages. Also, we can define which XML handler and XML body are being
-used.
+The format of this configuration is using dictionary, as follows:
 
 ```yaml
-## @section application configuration root
 application:
-  ## Configuration modules/components.
-  ## 
-  ## @param database  configuration for database component
-  database:
-    ## Configuration for logging of events feature. 
-    ## If enabled, all output events will be logged to the database in table swift_events_log.
-    ## By default, this feature is disabled.
+  <component>:
+    <configuration>:
+      <key>: <value>
+```
+
+where `<component>` is application component or module for which configuration
+exists. The `<configuration>` is named part to group related configuration
+for single component/module. The `<key>` and `<value>` are configuration key
+and value.
+
+The configuration and its keys are converted to snake case and upper case
+before usage. For example:
+
+```yaml
+application:
+  myComponent:
+    myConfig:
+      key: value
+```
+
+will produce configuration `MY_COMPONENT_MY_CONFIG_KEY=value`.
+
+### Supported configuration
+
+Document supported configuration as part of yaml with default
+configuration behavior.
+
+```yaml
+## Application configuration.
+application:
+  ## Application components configuration.
+  ##
+  ## @param api  configuration for API component
+  ## @param data configuration for data component
+  api:
+    ## Configuration for API component.
     ##
-    ## @param saveEnabled         true if saving to database is enabled 
-    ## @param partitionsEnabled   true if table partitioning is enabled 
+    ## @param validation  API component validation configuration
+    ## @param formatting  API component formatting configuration
+    validation:
+      ## Validation mode for received Swift MX messages.
+      ##
+      ## Swift MX message can be received from SWIFT Alliance Access
+      ## with SAA header or can be received from other source
+      ## using envelope structure. Envelope structure contains just
+      ## business application header and business 'document' message
+      ##
+      ## Possible options:
+      ##    saa - validates Swift MX message using SAA XSD scheme (default)
+      ##    env - validates Swift MX message using ENV XSD scheme
+      xsdModeIn: saa
+      ## Validation mode for send Swift MX messages.
+      ##
+      ## Swift MX message can be delivered to SWIFT Alliance Access
+      ## with SAA header or can be delivered to other targets
+      ## using envelope structure. Envelope structure contains business
+      ## application header and business 'document' message
+      ##
+      ## This also specifies if Swift MX message is created using
+      ## SAA header or using envelope.
+      ##
+      ## Possible options:
+      ##    saa - validates Swift MX message using SAA XSD scheme (default)
+      ##    env - validates Swift MX message using ENV XSD scheme
+      xsdModeOut: saa
+    formatting:
+      ## Formatting timestamp values in send Swift MX messages
+      ##
+      ## Default format includes timestamp with milliseconds precision
+      ## and time zone offset. For example: 2024-10-25T11:15:21.950+02:00
+      timestampOut: yyyy-MM-dd'T'HH:mm.:ss.SSSxxx
+  data:
+    ## Configuration for data component.
+    ##
+    ## @param caching     data component caching configuration
+    ## @param eventsLog   data component events logging configuration
+    caching:
+      ## Data caching expiration.
+      ##
+      ## Default is 12 hours, meaning, data is evicted from cache
+      ## after 12 hours when it was written to the cache.
+      ## Can specify days, hours, minutes. For example: 1d, 12h, 10m
+      expire: 12h
     eventsLog:
-      ## Configuration for saving to swift_events_log table. By default, this feature is disabled.
-      saveEnabled: false
-      ## Configuration for partitioning of swift_events_log table. By default, this feature is disabled.
-      ## If saveEnabled is set to false, then this feature is also disabled.
-      ## For partitions to work, pg_partman and pg_cron extensions need to be installed on PG.
+      ## Data logging as persistence events.
+      ##
+      ## If enabled application specific actions are logged as
+      ## persistence events. By default this feature is not enabled
+      ## and should be usually used in non-production environments
+      enabled: false
+      ## Data logging as partitioned parsistence events.
+      ##
+      ## NOTE: currently not in use
+      ##
+      ## When enabled, events are logged in partitioned table.
+      ## Therefore, table should be prepared with partitions.
+      ## For PostgreSQL this means that pg_partman and pg_cron
+      ## must be enabled on instance to effectively manage partitions
       partitionsEnabled: false
-    ## Configuration for expiring cache.
-    ## Cached data will be deleted after the specified duration and the first next invocation of
-    ## cached data will result in a database query in order to populate it again. 
-    ## Data should be represented in the format of "%n%s" where %n is number and "%s" is time unit.
-    ## For example, "12h" means 12 hours, "1d" means 1 day, "30m" means 30 minutes, etc.
-    ##
-    ## @param expire              duration after which cache will be deleted
-    cache:
-      expire: 12h # default value is 12 hours
-  incoming:
-    handler:
-      xsdMode: saa #default value, set custom XSD mode if required
-      xmlHandler: AppHdr #default value, set custom XML handler if required
-      xmlBody: Document #default value, set custom XML body if required
-  outgoing:
-    handler:
-      xsdMode: saa #default value, set custom XSD mode if required
-      xmlHandler: AppHdr #default value, set custom XML handler if required
-      xmlBody: Document #default value, set custom XML body if required
 ```

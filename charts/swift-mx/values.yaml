@@ -243,19 +243,15 @@ customVolumes: []
 customMounts: []
 customEnv: []
 application:
-  database:
-    eventsLog:
-      saveEnabled: false
-      partitionsEnabled: false
-    cache:
+  api:
+    validation:
+      xsdModeIn: saa
+      xsdModeOut: saa
+    formatting:
+      timestampOut: yyyy-MM-dd'T'HH:mm.:ss.SSSxxx
+  data:
+    caching:
       expire: 12h
-  incoming:
-    handler:
-      xsdMode: saa
-      xmlHandler: AppHdr
-      xmlBody: Document
-  outgoing:
-    handler:
-      xsdMode: saa
-      xmlHandler: AppHdr
-      xmlBody: Document
+    eventsLog:
+      enabled: false
+      partitionsEnabled: false
