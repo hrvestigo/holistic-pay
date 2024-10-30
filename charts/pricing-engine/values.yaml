@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.9.0
+    tag: 1.14.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -34,6 +34,15 @@ liquibase:
   role: ''
   replicationRole: ''
   resources: {}
+pricing:
+  engine:
+    appModule: null
+    deliveryChannel: null
+    technical:
+      userId: null
+schedule:
+  cron:
+    parkedFee: null
 members:
 - businessUnit: ''
   applicationMember: ''
@@ -58,6 +67,21 @@ kafka:
     credSource: USER_INFO
     user: ''
     url: ''
+  topics:
+    billingitemrequest:
+      name: ''
+    billingitemresponse:
+      name: ''
+      consumerGroup: ''
+      retry:
+        maxAttempts: ''
+        delay: ''
+    feecalculationrequest:
+      name: ''
+      consumerGroup: ''
+      retry:
+        maxAttempts: ''
+        delay: ''
 oauth2:
   enabled: false
   resourceUri: ''

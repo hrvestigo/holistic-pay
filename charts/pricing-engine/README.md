@@ -134,6 +134,22 @@ datasource:
 
 Setup from this example would result with string "&ssl=true&sslmode=enable" appended to database connection URL.
 
+### Pricing engine variable setup
+
+
+```yaml
+pricing:
+  engine:
+    appModule: PRCENG # Application module
+    deliveryChannel: HP # Delivery channel
+    technical:
+      userId: HP001 # Application technical user
+schedule:
+  cron:
+    parkedFee: 0 0 4 * * * # Scheduling parking fee functionality (e.g. each day at 4 AM)
+```
+
+
 ### Kafka setup
 
 ${rootArtifactId}  uses Kafka as event stream backend.
@@ -186,10 +202,12 @@ Kafka topics and consumer group names used by ${rootArtifactId} have default nam
 ```yaml
 kafka:
   topics:
-    example
+    example: # topic name
       name: hr.vestigo.hp.example # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.example # default value, set custom name if required
-
+      retry:
+        maxAttempts: 5 # number of max processing attempts in case retry topic is present, 5 means 1 original attempt and 4 additional attempts from retry topic, after that message goes in Dead Letter Topic if it is not processed successfully
+        delay: 10000 # delay between attempts in milliseconds
 ```
 
 

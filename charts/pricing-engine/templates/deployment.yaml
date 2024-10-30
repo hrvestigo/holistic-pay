@@ -140,6 +140,32 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
+            - name: KAFKA_TOPIC_BILLINGITEMREQUEST_NAME
+              value: { { .Values.kafka.topics.billingitemrequest.name | quote } }
+            - name: KAFKA_TOPIC_BILLINGITEMRESPONSE_NAME
+              value: { { .Values.kafka.topics.billingitemresponse.name | quote } }
+            - name: KAFKA_CONSUMER_GROUP_BILLINGITEMRESPONSE_NAME
+              value: { { .Values.kafka.topics.billingitemresponse.consumerGroup | quote } }
+            - name: KAFKA_TOPIC_BILLINGITEMRESPONSE_RETRY_MAXATTEMPTS
+              value: { { .Values.kafka.topics.billingitemresponse.retry.maxAttempts | quote } }
+            - name: KAFKA_TOPIC_BILLINGITEMRESPONSE_RETRY_DELAY
+              value: { { .Values.kafka.topics.billingitemresponse.retry.delay | quote } }
+            - name: KAFKA_TOPIC_FEECALCULATIONREQUEST_NAME
+              value: { { .Values.kafka.topics.feecalculationrequest.name | quote } }
+            - name: KAFKA_CONSUMER_GROUP_FEECALCULATIONREQUEST_NAME
+              value: { { .Values.kafka.topics.feecalculationrequest.consumerGroup | quote } }
+            - name: KAFKA_TOPIC_FEECALCULATIONREQUEST_RETRY_MAXATTEMPTS
+              value: { { .Values.kafka.topics.feecalculationrequest.retry.maxAttempts | quote } }
+            - name: KAFKA_TOPIC_FEECALCULATIONREQUEST_RETRY_DELAY
+              value: { { .Values.kafka.topics.feecalculationrequest.retry.delay | quote } }
+            - name: PRICING_ENGINE_APPMODULE
+              value: { { .Values.pricing.engine.appModule | quote } }
+            - name: PRICING_ENGINE_DELIVERYCHANNEL
+              value: { { .Values.pricing.engine.deliveryChannel | quote } }
+            - name: PRICING_ENGINE_TECHNICAL_USERID
+              value: { { .Values.pricing.engine.technical.userId | quote } }
+            - name: SCHEDULE_CRON_PARKEDFEE
+              value: { { .Values.schedule.cron.parkedfee | quote } }
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
