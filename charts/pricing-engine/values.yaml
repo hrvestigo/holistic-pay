@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.14.0
+    tag: 1.16.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -36,13 +36,13 @@ liquibase:
   resources: {}
 pricing:
   engine:
-    appModule: null
-    deliveryChannel: null
+    appModule: ''
+    deliveryChannel: ''
     technical:
-      userId: null
+      userId: ''
 schedule:
   cron:
-    parkedFee: null
+    parkedFee: ''
 members:
 - businessUnit: ''
   applicationMember: ''

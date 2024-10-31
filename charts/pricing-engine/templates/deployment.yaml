@@ -141,31 +141,31 @@ spec:
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
             - name: KAFKA_TOPIC_BILLINGITEMREQUEST_NAME
-              value: {{ .Values.kafka.topics.billingitemrequest.name | quote }}
+              value: {{ required "Please specify kafka.topics.billingitemrequest.name" .Values.kafka.topics.billingitemrequest.name | quote }}
             - name: KAFKA_TOPIC_BILLINGITEMRESPONSE_NAME
-              value: {{ .Values.kafka.topics.billingitemresponse.name | quote }}
+              value: {{ required "Please specify kafka.topics.billingitemresponse.name" .Values.kafka.topics.billingitemresponse.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_BILLINGITEMRESPONSE_NAME
-              value: {{ .Values.kafka.topics.billingitemresponse.consumerGroup | quote }}
+              value: {{ required "Please specify kafka.topics.billingitemresponse.consumerGroup" .Values.kafka.topics.billingitemresponse.consumerGroup | quote }}
             - name: KAFKA_TOPIC_BILLINGITEMRESPONSE_RETRY_MAXATTEMPTS
-              value: {{ .Values.kafka.topics.billingitemresponse.retry.maxAttempts | quote }}
+              value: {{ required "Please specify kafka.topics.billingitemresponse.retry.maxAttempts" .Values.kafka.topics.billingitemresponse.retry.maxAttempts | quote }}
             - name: KAFKA_TOPIC_BILLINGITEMRESPONSE_RETRY_DELAY
-              value: {{ .Values.kafka.topics.billingitemresponse.retry.delay | quote }}
+              value: {{ required "Please specify kafka.topics.billingitemresponse.retry.delay" .Values.kafka.topics.billingitemresponse.retry.delay | quote }}
             - name: KAFKA_TOPIC_FEECALCULATIONREQUEST_NAME
-              value: {{ .Values.kafka.topics.feecalculationrequest.name | quote }}
+              value: {{ required "Please specify kafka.topics.feecalculationrequest.name" .Values.kafka.topics.feecalculationrequest.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_FEECALCULATIONREQUEST_NAME
-              value: {{ .Values.kafka.topics.feecalculationrequest.consumerGroup | quote }}
+              value: {{ required "Please specify kafka.topics.feecalculationrequest.consumerGroup" .Values.kafka.topics.feecalculationrequest.consumerGroup | quote }}
             - name: KAFKA_TOPIC_FEECALCULATIONREQUEST_RETRY_MAXATTEMPTS
-              value: {{ .Values.kafka.topics.feecalculationrequest.retry.maxAttempts | quote }}
+              value: {{ required "Please specify kafka.topics.feecalculationrequest.retry.maxAttempts" .Values.kafka.topics.feecalculationrequest.retry.maxAttempts | quote }}
             - name: KAFKA_TOPIC_FEECALCULATIONREQUEST_RETRY_DELAY
-              value: {{ .Values.kafka.topics.feecalculationrequest.retry.delay | quote }}
+              value: {{ required "Please specify kafka.topics.feecalculationrequest.retry.delay" .Values.kafka.topics.feecalculationrequest.retry.delay | quote }}
             - name: PRICING_ENGINE_APPMODULE
-              value: {{ .Values.pricing.engine.appModule | quote }}
+              value: {{ required "Please specify pricing.engine.appModule" .Values.pricing.engine.appModule | quote }}
             - name: PRICING_ENGINE_DELIVERYCHANNEL
-              value: {{ .Values.pricing.engine.deliveryChannel | quote }}
+              value: {{ required "Please specify pricing.engine.deliveryChannel" .Values.pricing.engine.deliveryChannel | quote }}
             - name: PRICING_ENGINE_TECHNICAL_USERID
-              value: {{ .Values.pricing.engine.technical.userId | quote }}
+              value: {{ required "Please specify pricing.engine.technical.userId" .Values.pricing.engine.technical.userId | quote }}
             - name: SCHEDULE_CRON_PARKEDFEE
-              value: {{ .Values.schedule.cron.parkedfee | quote }}
+              value: {{ required "Please specify schedule.cron.parkedFee" .Values.schedule.cron.parkedFee | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
