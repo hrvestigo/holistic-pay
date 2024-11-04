@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.50.0
+    tag: 1.54.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -48,6 +48,21 @@ members:
     dbName: ''
     user: ''
     password: ''
+product:
+  engine:
+    appModule: ''
+    deliveryChannel: ''
+    technical:
+      userId: ''
+scheduleTask:
+  packageFeeCalc:
+    enabled: true
+    cron: ''
+personRegistry:
+  replicatedPersonData:
+    baseUrl: ''
+    url: ''
+    timeout: ''
 kafka:
   readinessProbeEnabled: true
   user: ''
@@ -64,10 +79,15 @@ kafka:
     url: ''
   topics:
     contractedproducts:
-      name: hr.vestigo.hp.contractedproducts
-      consumerGroup: hr.vestigo.hp.contractedproducts
+      name: ''
+      consumerGroup: ''
     packagerequestcoreproductinfo:
-      name: hr.vestigo.hp.packagerequestcoreproductinfo
+      name: ''
+    requestpackagefeecalculation:
+      name: ''
+      consumerGroup: ''
+    feecalculationrequest:
+      name: ''
 oauth2:
   enabled: false
   resourceUri: ''

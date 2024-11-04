@@ -147,11 +147,37 @@ spec:
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
             - name: KAFKA_TOPIC_CONTRACTEDPRODUCTS_NAME
-              value: {{ .Values.kafka.topics.contractedproducts.name | quote }}
+              value: {{ required "Please specify kafka.topics.contractedproducts.name" .Values.kafka.topics.contractedproducts.name | quote }}
             - name: KAFKA_TOPIC_PACKAGEREQUESTCOREPRODUCTINFO_NAME
-              value: {{ .Values.kafka.topics.packagerequestcoreproductinfo.name | quote }}
+              value: {{ required "Please specify kafka.topics.packagerequestcoreproductinfo.name" .Values.kafka.topics.packagerequestcoreproductinfo.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CONTRACTEDPRODUCTS_NAME
-              value: {{ .Values.kafka.topics.contractedproducts.consumerGroup | quote }}
+              value: {{ required "Please specify kafka.topics.contractedproducts.consumerGroup" .Values.kafka.topics.contractedproducts.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_REQUESTPACKAGEFEECALCULATION_NAME
+              value: {{ required "Please specify kafka.topics.requestpackagefeecalculation.name" .Values.kafka.topics.requestpackagefeecalculation.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_REQUESTPACKAGEFEECALCULATION_NAME
+              value: {{ required "Please specify kafka.topics.requestpackagefeecalculation.consumerGroup" .Values.kafka.topics.requestpackagefeecalculation.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_FEECALCULATIONREQUEST_NAME
+              value: {{ required "Please specify kafka.topics.feecalculationrequest.name" .Values.kafka.topics.feecalculationrequest.name | quote }}
+            - name: PRODUCT_ENGINE_APPMODULE
+              value: {{ required "Please specify product.engine.appModule" .Values.product.engine.appModule | quote }}
+            - name: PRODUCT_ENGINE_DELIVERYCHANNEL
+              value: {{ required "Please specify product.engine.deliveryChannel" .Values.product.engine.deliveryChannel | quote }}
+            - name: PRODUCT_ENGINE_TECHNICAL_USER_ID
+              value: {{ required "Please specify product.engine.technical.userId" .Values.product.engine.technical.userId | quote }}
+            - name: SCHEDULED_TASK_PRDENG_PACKAGEFEECALC_CRON
+            {{- if .Values.scheduleTask.packageFeeCalc.enabled }}
+              value: {{ required "Please specify scheduleTask.packageFeeCalc.cron" .Values.scheduleTask.packageFeeCalc.cron | quote }}
+            {{- else }}
+              value: "-"
+            {{- end }}
+            - name: SCHEDULED_TASK_PRDENG_PACKAGEFEECALC_ENABLED
+              value: {{ .Values.scheduleTask.packageFeeCalc.enabled | quote }}
+            - name: GET_ALL_REPLICATED_PERSON_DATA_INTERFACE_BASE_URL
+              value: {{ required "Please specify personRegistry.replicatedPersonData.baseUrl" .Values.personRegistry.replicatedPersonData.baseUrl | quote }}
+            - name: GET_ALL_REPLICATED_PERSON_DATA_INTERFACE_URL
+              value: {{ required "Please specify personRegistry.replicatedPersonData.url" .Values.personRegistry.replicatedPersonData.url | quote }}
+            - name: GET_ALL_REPLICATED_PERSON_DATA_INTERFACE_INITIATE_TIMEOUT
+              value: {{ required "Please specify personRegistry.replicatedPersonData.timeout" .Values.personRegistry.replicatedPersonData.timeout | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

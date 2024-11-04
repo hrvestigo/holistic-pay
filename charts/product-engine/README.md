@@ -134,6 +134,30 @@ datasource:
 
 Setup from this example would result with string "&ssl=true&sslmode=enable" appended to database connection URL.
 
+### Product engine variable setup
+
+Defining parameters that are used while producing kafka messages, task scheduling or retrieving data from person registry.
+
+```yaml
+product:
+  engine:
+    appModule: PRDENG # Application module
+    deliveryChannel: HP # Delivery channel
+    technical:
+      userId: HP001 # Application technical user
+      
+scheduleTask:
+  packageFeeCalc:
+    enabled: true # default value, enabling package fee calculation functionality
+    cron: 0 0 4 * * * # Mandatory in case task is enabled. Scheduling package fee calculation functionality (e.g. each day at 4 AM)
+
+personRegistry:
+  replicatedPersonData:
+    baseUrl: https://hostname:port # Url that defines hostname and port
+    url: /api/example # Url that defines resource
+    timeout: 30000 # Defined timeout time
+```
+
 ### Kafka setup
 
 product-engine  uses Kafka as event stream backend.
@@ -181,16 +205,15 @@ kafka:
 
 #### Topics and consumer groups setup
 
-Kafka topics and consumer group names used by product-engine have default names defined in `values.yaml` file, but can be overridden with following setup:
+Kafka topics and consumer group names used by ${rootArtifactId} have to be defined in `values.yaml` file.
+List of required topics for configuration is defined also in `values.yaml` file.
 
 ```yaml
 kafka:
   topics:
-    contractedproducts:
-      name: hr.vestigo.hp.contractedproducts # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.contractedproducts # default value, set custom name if required
-    packagerequestcoreproductinfo:
-      name: hr.vestigo.hp.packagerequestcoreproductinfo # default value, set custom name if required
+    example: # business topic name
+      name: hr.vestigo.hp.example # topic name
+      consumerGroup: hr.vestigo.hp.example # topic consumer group
 ```
 
 
