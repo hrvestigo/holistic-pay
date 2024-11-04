@@ -8,7 +8,7 @@ image:
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 2.110.0
+    tag: 2.111.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -80,6 +80,16 @@ kafka:
       name: hr.vestigo.hp.personcrosscheckdelay
       consumerGroup: hr.vestigo.hp.personcrosscheckdelay
       delayTime: 30
+    replicateddata:
+      name: hr.vestigo.hp.replicateddata
+      consumerGroup: hr.vestigo.hp.replicateddata
+    personlink:
+      name: hr.vestigo.hp.personlink
+      consumerGroup: hr.vestigo.hp.personlink
+    preparedistributionpersonreplicateddata:
+      name: hr.vestigo.hp.preparedistributionpersonreplicateddata
+    distributepersonreplicateddata:
+      name: hr.vestigo.hp.distributepersonreplicateddata
   outbox:
     deleteEntity: false
     scheduler:

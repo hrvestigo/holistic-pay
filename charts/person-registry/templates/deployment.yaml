@@ -168,6 +168,18 @@ spec:
               value: {{ .Values.kafka.topics.personcrosscheckdelay.consumerGroup | quote }}
             - name: KAFKA_TOPIC_PERSONCROSSCHECKDELAY_DELAYTIME
               value: {{ .Values.kafka.topics.personcrosscheckdelay.delayTime | quote }}
+            - name: KAFKA_TOPIC_REPLICATEDDATA_NAME
+              value: {{ .Values.kafka.topics.replicateddata.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_REPLICATEDDATA_NAME
+              value: {{ .Values.kafka.topics.replicateddata.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_PERSONLINK_NAME
+              value: {{ .Values.kafka.topics.personlink.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PERSONLINK_NAME
+              value: {{ .Values.kafka.topics.personlink.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_PREPAREDISTRIBUTIONPERSONREPLICATEDDATA_NAME
+              value: {{ .Values.kafka.topics.preparedistributionpersonreplicateddata.name | quote }}
+            - name: KAFKA_TOPIC_DISTRIBUTEPERSONREPLICATEDDATA_NAME
+              value: {{ .Values.kafka.topics.distributepersonreplicateddata.name | quote }}
             - name: HR_VESTIGO_HP_OUTBOX_DELETEENTITY
               value: {{ .Values.kafka.outbox.deleteEntity | quote }}
             - name: HR_VESTIGO_HP_OUTBOX_SCHEDULER

@@ -2,5 +2,5 @@ apiVersion: v2
 name: person-registry
 description: Helm chart for person registry application
 type: application
-version: 2.110.0
-appVersion: 2.110.0
+version: 2.111.0
+appVersion: 2.111.0
