@@ -136,6 +136,7 @@ Setup from this example would result with string "&ssl=true&sslmode=enable" appe
 
 ### Pricing engine variable setup
 
+Defining required parameters that are used while producing kafka messages and task scheduling.
 
 ```yaml
 pricing:
@@ -197,14 +198,15 @@ kafka:
 
 #### Topics and consumer groups setup
 
-Kafka topics and consumer group names used by ${rootArtifactId} have default names defined in `values.yaml` file, but can be overridden with following setup:
+Kafka topics and consumer group names used by ${rootArtifactId} have to be defined in `values.yaml` file.
+List of required topics and topic parameters for configuration is defined also in `values.yaml` file.
 
 ```yaml
 kafka:
   topics:
-    example: # topic name
-      name: hr.vestigo.hp.example # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.example # default value, set custom name if required
+    example: # business topic name
+      name: hr.vestigo.hp.example # topic name
+      consumerGroup: hr.vestigo.hp.example # set custom name if required
       retry:
         maxAttempts: 5 # number of max processing attempts in case retry topic is present, 5 means 1 original attempt and 4 additional attempts from retry topic, after that message goes in Dead Letter Topic if it is not processed successfully
         delay: 10000 # delay between attempts in milliseconds
