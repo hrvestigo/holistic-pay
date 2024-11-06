@@ -91,6 +91,7 @@ kafka:
 oauth2:
   enabled: false
   resourceUri: ''
+  resource: pega
   authorizationPrefix: ''
 request:
   sanitization:
