@@ -108,6 +108,7 @@ secret:
   liquibasePassword: ''
   trustStorePassword: ''
   keyStorePassword: ''
+  oauth2ClientToken: ''
 logger:
   format: STRING
   level:
