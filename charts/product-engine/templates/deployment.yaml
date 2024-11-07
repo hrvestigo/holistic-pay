@@ -268,7 +268,7 @@ spec:
                 {{ required "Please specify Keycloak server URL in oauth2.resourceUri" .Values.oauth2.resourceUri }}
             - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKENURI
               value: >-
-                {{ required "Please specify Keycloak server URL in oauth2.resourceUri" .Values.oauth2.resourceUri }}/realms/Holistic-Pay/protocol/openid-connect/token
+                {{ required "Please specify Keycloak server URL in oauth2.resourceUri" .Values.oauth2.resourceUri }}/protocol/openid-connect/token
             - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENTID
               value: {{ required "Please specify Keycloak resource name in oauth2.resource" .Values.oauth2.resource | quote }}
             - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_SCOPE
