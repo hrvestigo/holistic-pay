@@ -220,7 +220,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 vpa:
   enabled: false
-  updateMode: 'Off'
+  updateMode: "Off"
 mountServerCertFromSecret:
   enabled: false
   secretName: ''
