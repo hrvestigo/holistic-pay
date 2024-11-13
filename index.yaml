@@ -21977,6 +21977,16 @@ entries:
     version: 1.0.1
   swift-mx:
   - apiVersion: v2
+    appVersion: 1.29.0
+    created: "2024-11-13T11:59:56.269845006Z"
+    description: Helm chart for swift-mx application
+    digest: 6f7090137a55577be3774c6523a5eae51652f171f8570013ba99dc197e5cc6cc
+    name: swift-mx
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/swift-mx-1.29.0/swift-mx-1.29.0.tgz
+    version: 1.29.0
+  - apiVersion: v2
     appVersion: 1.28.0
     created: "2024-11-04T10:47:12.291870428Z"
     description: Helm chart for swift-mx application
@@ -23957,4 +23967,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2024-11-13T11:19:22.931287932Z"
+generated: "2024-11-13T11:59:56.286429962Z"
