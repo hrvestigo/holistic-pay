@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.23.0
+    tag: 1.29.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -242,13 +242,19 @@ mountCaFromSecret:
 customVolumes: []
 customMounts: []
 customEnv: []
+prometheus:
+  exposed: true
+tracing:
+  samplingProbability: 0.0
+  otlpEndpoint: ''
 application:
   api:
     validation:
-      xsdModeIn: saa
-      xsdModeOut: saa
-    formatting:
+      xsdModeIn: mix
+      xsdModeOut: mix
+    format:
       timestampOut: yyyy-MM-dd'T'HH:mm.:ss.SSSxxx
+      xmlModeOut: saa
   data:
     caching:
       expire: 12h

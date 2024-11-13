@@ -1413,26 +1413,34 @@ application:
       ## Swift MX message can be received from SWIFT Alliance Access
       ## with SAA header or can be received from other source
       ## using envelope structure. Envelope structure contains just
-      ## business application header and business 'document' message
+      ## business application header and business 'document' message.
+      ## SAA message and validation is restricted to target SAA revision.
+      ## To support both and to loose restriction to SAA revisions
+      ## we support mixed mode, which is default.
       ##
       ## Possible options:
-      ##    saa - validates Swift MX message using SAA XSD scheme (default)
+      ##    mix - validates Swift MX message using SAA XSD scheme (default)
+      ##    saa - validates Swift MX message using SAA XSD scheme
       ##    env - validates Swift MX message using ENV XSD scheme
-      xsdModeIn: saa
+      xsdModeIn: mix
       ## Validation mode for send Swift MX messages.
       ##
       ## Swift MX message can be delivered to SWIFT Alliance Access
       ## with SAA header or can be delivered to other targets
       ## using envelope structure. Envelope structure contains business
-      ## application header and business 'document' message
+      ## application header and business 'document' message.
+      ## SAA message and validation is restricted to target SAA revision.
+      ## To support both and to loose restriction to SAA revisions
+      ## we support mixed mode, which is default.
       ##
       ## This also specifies if Swift MX message is created using
       ## SAA header or using envelope.
       ##
       ## Possible options:
-      ##    saa - validates Swift MX message using SAA XSD scheme (default)
+      ##    mix - validates Swift MX message using SAA XSD scheme (default)
+      ##    saa - validates Swift MX message using SAA XSD scheme
       ##    env - validates Swift MX message using ENV XSD scheme
-      xsdModeOut: saa
+      xsdModeOut: mix
     formatting:
       ## Formatting timestamp values in send Swift MX messages
       ##
