@@ -1400,8 +1400,9 @@ configuration behavior.
 application:
   ## Application components configuration.
   ##
-  ## @param api  configuration for API component
-  ## @param data configuration for data component
+  ## @param api         configuration for API component
+  ## @param data        configuration for data component
+  ## @param integration configuration for application integration component
   api:
     ## Configuration for API component.
     ##
@@ -1475,4 +1476,50 @@ application:
       ## For PostgreSQL this means that pg_partman and pg_cron
       ## must be enabled on instance to effectively manage partitions
       partitionsEnabled: false
+  integration:
+    ## Configuration for application integration component.
+    ##
+    ## @param file     file integration component
+    file:
+      ## File reading configuration.
+      ##
+      ## When enabled, 'readPath' must point to volume mount
+      ## from which files are polled. When enabled, files are polled
+      ## and produced into 'swiftincomingmessage' Kafka topic
+      readEnabled: false
+      ## File reading volume mount from which files are polled.
+      ## Currently, nfs volumes are supported.
+      readPath: ''
+      ## File reading polling interval.
+      ## Default is 5 seconds, meaning, files are polled every 5 seconds.
+      readInterval: 5s
+      ## File reading polling maximum message number.
+      ## Default is 1, meaning, maximum of one file is fetched from every poll.
+      readMaxMessagesPerPoll: 1
+      ## File reading volume parameters. For example, nfs volume parameters have to be set like:
+      readVolumeParameters:
+        nfs:
+          server: "server"
+          path: "path"
+      ## File writing configuration.
+      ##
+      ## When enabled, 'writePath' must point to volume mount
+      ## to which files are written to. When enabled,
+      ## Kafka topic 'swiftincomingmessage' is consumed from
+      ## and files are created.
+      writeEnabled: false
+      ## File writing volume mount to which files are written to.
+      ## Currently, nfs volumes are supported.
+      writePath: ''
+      ## File writing interval.
+      ## Only applicable for poll writing mode, in which source is pulled
+      ## and file is written with polled data
+      writeInterval: 5s
+      ## File writing mode in which source message is retrieved
+      writeMode: pull
+      ## File writing volume parameters. For example, nfs volume parameters have to be set like:
+      writeVolumeParameters:
+        nfs:
+          server: "server"
+          path: "path"
 ```

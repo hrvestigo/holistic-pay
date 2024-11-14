@@ -191,7 +191,21 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Volumes
 */}}
 {{- define "swift-mx.volumes" -}}
-{{- with .Values.customVolumes -}}
+{{- if .Values.application.integration.file.readEnabled }}
+- name: in
+{{- with .Values.application.integration.file.readVolumeParameters -}}
+{{- toYaml . | default "" | nindent 2 -}}
+{{ "" }}
+{{- end }}
+{{- end }}
+{{- if .Values.application.integration.file.writeEnabled }}
+- name: out
+{{- with .Values.application.integration.file.writeVolumeParameters -}}
+{{- toYaml . | default "" | nindent 2 -}}
+{{ "" }}
+{{- end }}
+{{- end }}
+{{with .Values.customVolumes -}}
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
@@ -253,7 +267,15 @@ Volumes
 Mounts for swift-mx application
 */}}
 {{- define "swift-mx.mounts" -}}
-{{- with .Values.customMounts -}}
+{{- if .Values.application.integration.file.readEnabled }}
+- name: in
+  mountPath: /swiftx/in
+{{- end }}
+{{- if .Values.application.integration.file.writeEnabled }}
+- name: out
+  mountPath: /swiftx/out
+{{- end }}
+{{with .Values.customMounts -}}
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}

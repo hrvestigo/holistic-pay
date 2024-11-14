@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.29.0
+    tag: 1.31.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -220,7 +220,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 vpa:
   enabled: false
-  updateMode: "Off"
+  updateMode: 'Off'
 mountServerCertFromSecret:
   enabled: false
   secretName: ''
@@ -261,3 +261,15 @@ application:
     eventsLog:
       enabled: false
       partitionsEnabled: false
+  integration:
+    file:
+      readEnabled: false
+      readPath: /swiftx/in
+      readInterval: 5s
+      readMaxMessagesPerPoll: 1
+      readVolumeParameters: {}
+      writeEnabled: false
+      writePath: /swiftx/out
+      writeInterval: 5s
+      writeMode: pull
+      writeVolumeParameters: {}
