@@ -58,6 +58,16 @@ spec:
             - name: TZ
               value: {{ .Values.timezone }}
             {{- end }}
+            - name: MANAGEMENT_ENDPOINTS_ENABLEDBYDEFAULT
+              value: "false"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_ENABLED
+              value: "true"
+            {{- if .Values.prometheus.exposed }}
+            - name: MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED
+              value: "true"
+            {{- end }}
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: {{ include "api-gateway.exposed.endpoints" $ }}
             - name: SERVER_SSL_ENABLED
               value: 'TRUE'
             - name: SERVER_SSL_KEYSTORE

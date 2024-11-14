@@ -242,3 +242,15 @@ Application configuration
 {{- define "api-gateway.appConfig" -}}
 {{ tpl (.Files.Get "config/application.yaml") . }}
 {{- end }}
+
+{{/*
+Create a comma separated list of endpoints that need to be exposed
+*/}}
+{{- define "api-gateway.exposed.endpoints" -}}
+{{- $endpoints := list -}}
+{{- $endpoints = append $endpoints (printf "%s" "health") }}
+{{- if .Values.prometheus.exposed }}
+{{- $endpoints = append $endpoints (printf "%s" "prometheus") }}
+{{- end }}
+{{- join "," $endpoints }}
+{{- end }}

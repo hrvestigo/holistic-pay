@@ -206,6 +206,9 @@ deployment:
       port: http
       scheme: HTTPS
 
+prometheus:
+  exposed: true
+
 autoscaling:
   enabled: false
   minReplicas: 1
