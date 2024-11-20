@@ -32,6 +32,7 @@ secret:
   kafkaPassword: "AES-encoded-kafka-password" # string value
   kafkaSchemaRegistryPassword: "AES-encoded-kafka-schema-registry-password" # string value
   liquibasePassword: "AES-encoded-liquibase-password" # string value
+  oauth2ClientToken: "AES-encoded-oauth2-password" # string value
 
 datasource:
   host: "datasource-host" # string value
@@ -147,9 +148,14 @@ kafka:
   user: "kafka-user" # user used to connect to Kafka cluster
   servers: "kafka-server1:port,kafka-server2:port" # a comma separated list of Kafka bootstrap servers
   schemaRegistry:
+    credSource: USER_INFO # default value
     user: "kafka-schema-registry-user" # user used to connect to Kafka Schema Registry
     url: "https://kafka.schema.registry.url" # URL for Kafka Schema Registry
 ```
+
+
+The `kafka.schemaRegistry.credSource` specifies how to pick the credentials for Basic authentication header.
+The currently supported value is USER_INFO.
 
 Passwords for Kafka cluster and Kafka Schema Registry are also AES encrypted.
 Passwords should be defined with `secret.kafkaPassword` and `secret.kafkaSchemaRegistryPassword` attributes, for example:
@@ -192,6 +198,68 @@ kafka:
 
 ```
 
+### Configuring rest calls
+
+This section outlines the configuration settings required for enabling REST API communication between ecs-interface-ms and message reciever.
+
+```yaml
+ecs:
+  service:
+    url: 'https://address:port'
+    uri:
+      payOrderForward: payOrderForward
+      payOrderNotification: not used
+      payOrderPosting: payOrderPosting
+      payOrderCancellation: payOrderCancellation
+      payOrderCrePosCanc: payOrderCrePosCanc
+      payOrderCancellationRequest: payOrderCancellationRequest
+      payOrderRjctCancellationRequest: payOrderRjctCancellationRequest
+      payOrderReturn: payOrderReturn
+      payOrderCancellationRequestStatu: payOrderCancellationRequestStatu
+      payOrderReceivingOutboundTransfer: payOrderReceivingOutboundTransfer
+  nonretry:
+    codes: err001, wrn007, exc008
+```
+
+The ecs.service.url represents the base URL of the service, which includes the protocol, address, and port for making REST API calls.
+This base URL is used as the foundation for all REST API requests. For example, if you want to interact with the service, you will start with this base URL.
+
+The ecs.service.uri section defines specific paths that correspond to certain logic in the application. 
+These paths are appended to the base URL (service.url) to form complete REST API endpoints
+
+The ecs.service.noretry represents REST API returned error codes for which inbox retry logic will not be used.
+
+### Inbox retry configuration
+
+This section outlines the configuration settings required for defining inbox event retry logic,
+if the rest call towards other endpoint results in bad call (wrong http response or ok http response with some business/tehnical error),
+inbox retry logic will be called. Inbox retry logic will save the message data in database and configured scheduler will try to revive the data.
+
+```yaml
+inbox:
+  scheduler:
+    start: true # scheduler logic is used (true) or not used (false)
+    level1:
+      fixedRate: '60000'
+      retryCounter: '10'
+      retryDelay: '60'
+    level2:
+      fixedRate: '600000'
+      retryCounter: '20'
+      retryDelay: '600'
+```
+
+Scheduler is configured in 2 levels (fast level1 and slow level2),
+
+The inbox.schaduler.level1.fixedRate (miliseconds) parameter defines the interval at which the first scheduler will run, starting the task at a fixed rate of execution every defined time period.
+The inbox.schaduler.level1.retryCounter parameter defines number of retries a specific message will use level1 scheduler, after counter is reached message will go to level2 scheduler.
+The inbox.schaduler.level1.retryDelay (seconds) parameter specifies the sql fetch delay which is used when fetching data from database, from database timestamp this value will be reduced to fetch the data.
+(it is recomended that this value is the same as fixedRate value considering that fixedRate value is set in miliseconds and retryDelay in seconds)
+
+The inbox.schaduler.level2.fixedRate (miliseconds) parameter controls the second scheduler, triggering it to run at a fixed interval as specified, ensuring the task is executed consistently at the defined rate.
+The inbox.schaduler.level2.retryCounter parameter defines number of retries a specific message will use level1 scheduler, after counter is reached message will go to death topic queue.
+The inbox.schaduler.level2.retryDelay (seconds) parameter specifies the sql fetch delay which is used when fetching data from database, from database timestamp this value will be reduced to fetch the data.
+(it is recomended that this value is the same as fixedRate value considering that fixedRate value is set in miliseconds and retryDelay in seconds)
 
 ### Configuring image source and pull secrets
 
@@ -859,6 +927,17 @@ Examples of how log entries would look like for each value:
   ```log
   {"timestamp":"2023-03-17T10:33:14.218078900Z","severity":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","logging.googleapis.com/sourceLocation":{"function":"org.springframework.boot.availability.ApplicationAvailabilityBean.onApplicationEvent"},"logging.googleapis.com/insertId":"1051","_exception":{"stackTrace":""},"_thread":"main","_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
+### Observing distributed tracing
+
+In order to start exporting tracing information to Tempo (or any tool that knows how to interpret OpenTelemetry formatted data), payment-order microservice should define next attributes:
+  ```yaml
+  tracing:
+    samplingProbability: 0.0 # decimal value, default is 0.0
+    otlpEndpoint: '' # string value, default is empty
+  ```
+First parameter dictates what percentage of requests should be exported to processing system. 0.0 means 0% of requests and 1.0 means 100%.
+Second parameter defines URL on which should be tracing information sent.
+If second parameter is not defined, no tracing information will be sent, regardless of sampling probability.
 
 ### Modifying deployment strategy
 
@@ -939,6 +1018,20 @@ autoscaling:
 CPU and/or memory utilization metrics can be used to autoscale ecs-interface pod.
 It's possible to define one or both of those metrics.
 If only `autoscaling.enabled` attribute is set to `true`, without setting other attributes, only CPU utilization metric will be used with percentage set to 80.
+
+
+#### Using `VerticalPodAutoscaler`
+
+By default, VPA is disabled in configuration, but it can enabled with following setup:
+
+```yaml
+vpa:
+  enabled: true # default is false, has to be set to true to enable VPA
+  updateMode: Off # default mode if Off, other possible values are "Initial", "Recreate" and "Auto"
+```
+
+Please note that this feature requires VPA controller to be installed on Kubernetes cluster. Please refer to [VPA documentation](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) for additional info.
+
 
 ### Customizing probes
 
