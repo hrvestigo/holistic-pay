@@ -144,6 +144,13 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
+        - id: gsf-core-ms_route
+          predicates:
+            - Path=/api/*/gsf/code-validation
+          uri: https://{{ required "GSF core application service name has to be defined in routes.gsfCore.serviceName" .Values.routes.gsfCore.serviceName }}:{{ required "Pan manager application port number has to be defined in routes.gsfCore.servicePortNumber" .Values.routes.gsfCore.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
         - id: veto-manager-ms_route
           predicates:
             - Path=/api/*/vetos

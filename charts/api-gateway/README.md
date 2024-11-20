@@ -73,7 +73,10 @@ routes:
     servicePortNumber: "8443" # port number on which pricing-engine service is exposed, default is 8443
   swiftMx:
     serviceName: swift-mx # name of swift-mx service, default is swift-mx
-    portNumber: "8443" # port number on which swift-mx service is exposed, default is 8443    
+    portNumber: "8443" # port number on which swift-mx service is exposed, default is 8443
+  gsfCore:
+    serviceName: gsf-core # name of gsf-core service, default is gsf-core
+    servicePortNumber: "8443" # port number on which gsf-core service is exposed, default is 8443
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value, no default value
