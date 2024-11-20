@@ -267,9 +267,10 @@ application:
       readPath: /swiftx/in
       readInterval: 5s
       readMaxMessagesPerPoll: 1
-      readVolumeParameters: {}
       writeEnabled: false
       writePath: /swiftx/out
       writeInterval: 5s
       writeMode: pull
-      writeVolumeParameters: {}
+applicationFileVolumes:
+  readVolumeParameters: {}
+  writeVolumeParameters: {}

@@ -1496,11 +1496,6 @@ application:
       ## File reading polling maximum message number.
       ## Default is 1, meaning, maximum of one file is fetched from every poll.
       readMaxMessagesPerPoll: 1
-      ## File reading volume parameters. For example, nfs volume parameters have to be set like:
-      readVolumeParameters:
-        nfs:
-          server: "server"
-          path: "path"
       ## File writing configuration.
       ##
       ## When enabled, 'writePath' must point to volume mount
@@ -1517,9 +1512,17 @@ application:
       writeInterval: 5s
       ## File writing mode in which source message is retrieved
       writeMode: pull
-      ## File writing volume parameters. For example, nfs volume parameters have to be set like:
-      writeVolumeParameters:
-        nfs:
-          server: "server"
-          path: "path"
+
+## Additional configuration providing details about volume needed for application file integration.
+applicationFileVolumes:
+  ## File reading volume parameters. For example, nfs volume parameters have to be set like:
+  readVolumeParameters:
+    nfs:
+      server: "server"
+      path: "path"
+  ## File writing volume parameters. For example, nfs volume parameters have to be set like:
+  writeVolumeParameters:
+    nfs:
+      server: "server"
+      path: "path"
 ```

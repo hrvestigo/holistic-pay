@@ -193,14 +193,14 @@ Volumes
 {{- define "swift-mx.volumes" -}}
 {{- if .Values.application.integration.file.readEnabled }}
 - name: in
-{{- with .Values.application.integration.file.readVolumeParameters -}}
+{{- with .Values.applicationFileVolumes.readVolumeParameters -}}
 {{- toYaml . | default "" | nindent 2 -}}
 {{ "" }}
 {{- end }}
 {{- end }}
 {{- if .Values.application.integration.file.writeEnabled }}
 - name: out
-{{- with .Values.application.integration.file.writeVolumeParameters -}}
+{{- with .Values.applicationFileVolumes.writeVolumeParameters -}}
 {{- toYaml . | default "" | nindent 2 -}}
 {{ "" }}
 {{- end }}
