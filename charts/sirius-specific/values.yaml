@@ -87,7 +87,7 @@ kafka:
     application:
       id: sirius-specific
     auto:
-      startup: true
+      startup: "false"
   topics:
     paymentOriginalMessage:
       name: gcp.ipt1.hp.evt.paymentoriginalmessage
