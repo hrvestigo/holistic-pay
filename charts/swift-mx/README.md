@@ -776,29 +776,13 @@ To enable logging to file, following attribute should be set in values file:
 
 ```yaml
 level:
-  kafka: DEBUG              # default value, user for logging general kafka logic
+  kafka: INFO              # default value, user for logging general kafka logic
   kafkaCore: INFO           # default value, used for logging org.apache.kafka.*
-  rest: DEBUG               # default value, used for logging REST operations
-  database: ERROR           # default value, used for logging all DB related operations (root DB logger)
-  databaseSql: DEBUG        # default value, used for logging DB SQL operations (CRUD)
-  databaseBind: TRACE       # default value, used for logging DB bind parameters (root DB logger)
-  databaseExtract: TRACE    # default value, used for logging DB extracted values
-  databaseSlowQuery: INFO   # default value, used for logging slow queries for configured threshold 'databaseSlowQueryThreshold'
-  businessLogic: DEBUG      # default value, used for logging service business logic
-  health: DEBUG             # default value, used for logging health checks
-  general: DEBUG            # default value, used for logging other components
-```
-
-NOTE: *Logging DB operations and business logic can be expensive.
-If application performance is degraded, consider lowering log levels to `ERROR`.*
-
-Logging slow DB queries can be done using `databaseSlowQueryThreshold` parameter,
-which defines threshold in milliseconds above which queries are logged. If set
-to value more than a zero, slow queries are logged using `databaseSlowQuery` logger.
-
-```yaml
-logger:
-  databaseSlowQueryThreshold: 0 # default value, slow query logging disabled
+  rest: INFO               # default value, used for logging REST operations
+  database: INFO           # default value, used for logging all DB related operations (root DB logger)
+  businessLogic: INFO      # default value, used for logging service business logic
+  health: INFO             # default value, used for logging health checks
+  general: INFO            # default value, used for logging other components
 ```
 
 To enable logging to file, following attribute should be set in values file:

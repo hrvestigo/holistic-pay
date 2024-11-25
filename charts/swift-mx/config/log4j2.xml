@@ -135,35 +135,7 @@
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.hibernate" level={{ .level.database | upper | quote }} additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="${applicationAppender}"/>
-      {{- end }}
-      <AppenderRef ref="${consoleAppender}"/>
-    </Logger>
-
-    <Logger name="org.hibernate.SQL" level={{ .level.databaseSql | upper | quote }} additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="${applicationAppender}"/>
-      {{- end }}
-      <AppenderRef ref="${consoleAppender}"/>
-    </Logger>
-
-    <Logger name="org.hibernate.orm.jdbc.bind" level={{ .level.databaseBind | upper | quote }} additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="${applicationAppender}"/>
-      {{- end }}
-      <AppenderRef ref="${consoleAppender}"/>
-    </Logger>
-
-    <Logger name="org.hibernate.orm.jdbc.extract" level={{ .level.databaseExtract | upper | quote }} additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="${applicationAppender}"/>
-      {{- end }}
-      <AppenderRef ref="${consoleAppender}"/>
-    </Logger>
-
-    <Logger name="org.hibernate.SQL_SLOW" level={{ .level.databaseSlowQuery | upper | quote }} additivity="false">
+    <Logger name="org.springframework.jdbc.core" level={{ .level.database | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
