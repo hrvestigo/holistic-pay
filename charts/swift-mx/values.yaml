@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.34.0
+    tag: 1.36.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -261,7 +261,8 @@ application:
       readEnabled: false
       readPath: /swiftx/in
       readInterval: 5s
-      readMaxMessagesPerPoll: 1
+      readIntervalMax: 1
+      readFilePrefixEnabled: true
       writeEnabled: false
       writePath: /swiftx/out
       writeInterval: 5s

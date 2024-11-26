@@ -128,9 +128,9 @@ spec:
             - name: SPRING_KAFKA_PROPERTIES_SASL_MECHANISM
               value: {{ .Values.kafka.saslMechanism | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SASL_JAAS_CONFIG
-              value: >-
-                org.apache.kafka.common.security.plain.PlainLoginModule required username=
-                {{- required "Please specify Kafka user in kafka.user" .Values.kafka.user | quote }} password="${kafka.password}";
+                value: >-
+                  {{ include "swift-mx.kafka.loginModule" . }} required username=
+                  {{- required "Please specify Kafka user in kafka.user" .Values.kafka.user | quote }} password="${kafka.password}";
             - name: SPRING_KAFKA_BOOTSTRAPSERVERS
               value: {{ required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL

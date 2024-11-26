@@ -139,6 +139,17 @@ Liquibase init container resources
 {{- end }}
 
 {{/*
+Kafka login module
+*/}}
+{{- define "swift-mx.kafka.loginModule" -}}
+{{- if contains "SCRAM" .Values.kafka.saslMechanism }}
+{{- "org.apache.kafka.common.security.scram.ScramLoginModule" }}
+{{- else }}
+{{- "org.apache.kafka.common.security.plain.PlainLoginModule" }}
+{{- end }}
+{{- end }}
+
+{{/*
 Trust store env variables
 */}}
 {{- define "swift-mx.trustStoreEnv" -}}

@@ -161,6 +161,7 @@ All attributes under `kafka` parent attribute are required:
 kafka:
   user: "kafka-user" # user used to connect to Kafka cluster
   servers: "kafka-server1:port,kafka-server2:port" # a comma separated list of Kafka bootstrap servers
+  saslMechanism: "PLAIN" #SASL mechanism, supported values PLAIN, SCRAM-SHA-256 and SCRAM-SHA-512
   schemaRegistry:
     user: "kafka-schema-registry-user" # user used to connect to Kafka Schema Registry
     url: "https://kafka.schema.registry.url" # URL for Kafka Schema Registry
@@ -1477,9 +1478,17 @@ application:
       ## File reading polling interval.
       ## Default is 5 seconds, meaning, files are polled every 5 seconds.
       readInterval: 5s
-      ## File reading polling maximum message number.
-      ## Default is 1, meaning, maximum of one file is fetched from every poll.
-      readMaxMessagesPerPoll: 1
+      ## Maximum files read in reading interval
+      ## Default is 1, meaning, maximum of one file is read in reading interval
+      readIntervalMax: 1
+      ## File can have file prefix equal to any member sign from members installation.
+      ## When true (default), file prefix must be equal to any member sign from
+      ## members installation. This prefix then used as key to select correct member
+      ## datasource
+      ## When false, file prefix is not mandatory. In this case first member sign
+      ## from members installation list is used as key to select correct member
+      ## datasource
+      readFilePrefixEnabled: true
       ## File writing configuration.
       ##
       ## When enabled, 'writePath' must point to volume mount
