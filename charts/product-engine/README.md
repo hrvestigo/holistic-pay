@@ -647,12 +647,23 @@ product-engine application can use oAuth2 service for authorization. By default,
 oAuth2:
   enabled: true # default is false
   resourceUri: "" # has to be specified if enabled, no default value
+  resource: sup # default value, specify other if required
   authorizationPrefix: "" # defines variable prefix of the scope/role
+  
+secret:
+oauth2ClientToken: "" # no default value
 ```
 
 To configure oAuth2, it first has to be enabled with `oAuth2.enabled` parameter.
 When enabled, `oAuth2.resourceUri` should also be defined.
-This URI should point to oAuth2 server with defined converter type and name, for example `https://oauth2.server/realm/Holistic-Pay`. If scope/role has variable prefix, which should not be considered as full role/scope name, this variable prefix should be defined. Every part of this variable part should be defined (e.g. if scopes are defined as MY_PREFIX:scope1 MY_PREFIX:scope2 etc, then variable prefix is 'MY_PREFIX:')
+This URI should point to oAuth2 server with defined converter type and name, for example `https://oauth2.server/realm/Holistic-Pay`. 
+
+Third parameter is used to define Keycloak client ID, which is by default set to `sup`.
+This value can be modified with `oAuth2.resource` attribute.
+
+If scope/role has variable prefix, which should not be considered as full role/scope name, this variable prefix should be defined with `oAuth2.authorizationPrefix`. Every part of this variable part should be defined (e.g. if scopes are defined as MY_PREFIX:scope1 MY_PREFIX:scope2 etc, then variable prefix is 'MY_PREFIX:')
+
+Next parameter to set is Keycloak client token, which should be set with `secret.oauth2ClientToken` attribute. This is an AES encrypted token which is encrypted using the same encryption key as other secrets (`secret.decryptionKey`).
 
 ### Request body sanitization and response body encoding
 
