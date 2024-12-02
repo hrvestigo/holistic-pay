@@ -344,19 +344,27 @@ csm:
   config:
     camt_025:
       xsdCheck: inherit
+      saveNoOriginal: false
     camt_029:
       xsdCheck: inherit
+      saveNoOriginal: false
     camt_050:
       xsdCheck: inherit
+      saveNoOriginal: false
+    camt_054:
+      xsdCheck: inherit
+      saveNoOriginal: true
     camt_056:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
+      saveNoOriginal: true
     izvj:
       xsdCheck: inherit
     liq_req:
       xsdCheck: inherit
     liq_sts:
       xsdCheck: inherit
+      saveNoOriginal: false
     pacs_002_negative:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
@@ -383,6 +391,9 @@ csm:
 The parameter `xsdCheck` has the same meaning as the global parameter on CSM level,
 but with additional option `inherit`. This is a default option, which means that
 CSM level parameter value is applicable.
+
+The parameter `saveNoOriginal` is a flag that determines if value without original should be saved
+and returned in a response as OK, or should it be processed without saving.
 
 Using CSM level configuration `inout` and message level configuration `off`
 we can disable XSD check for single message only. To enable XSD check for single

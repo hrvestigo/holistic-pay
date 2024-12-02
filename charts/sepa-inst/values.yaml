@@ -85,19 +85,27 @@ csm:
   config:
     camt_025:
       xsdCheck: inherit
+      saveNoOriginal: false
     camt_029:
       xsdCheck: inherit
+      saveNoOriginal: false
     camt_050:
       xsdCheck: inherit
+      saveNoOriginal: false
+    camt_054:
+      xsdCheck: inherit
+      saveNoOriginal: true
     camt_056:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
+      saveNoOriginal: true
     izvj:
       xsdCheck: inherit
     liq_req:
       xsdCheck: inherit
     liq_sts:
       xsdCheck: inherit
+      saveNoOriginal: false
     pacs_002_negative:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
