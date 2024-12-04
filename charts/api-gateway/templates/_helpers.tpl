@@ -78,7 +78,6 @@ Common labels
 */}}
 {{- define "api-gateway.labels" -}}
 helm.sh/chart: {{ include "api-gateway.chart" . }}
-app: {{ include "api-gateway.name" . }}
 project: HolisticPay
 {{ include "api-gateway.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
@@ -91,6 +90,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "api-gateway.selectorLabels" -}}
+app: {{ include "api-gateway.name" . }}
 app.kubernetes.io/name: {{ include "api-gateway.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
