@@ -1,0 +1,16 @@
+{{- if .Values.vpa.enabled }}
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: {{ include "product-factory.name" . }}
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: {{ include "product-factory.name" . }}
+  updatePolicy:
+  {{- if and .Values.vpa.updateMode (not (or (eq "Off" .Values.vpa.updateMode) (eq "Auto" .Values.vpa.updateMode) (eq "Initial" .Values.vpa.updateMode) (eq "Recreate" .Values.vpa.updateMode)) ) }}
+  {{ fail (printf "%s%s" "Possible values for VPA updateMode are: Off, Auto, Initial and Recreate. Provided value is: " .Values.vpa.updateMode) }}
+  {{- end }}
+  updateMode: {{ .Values.vpa.updateMode }}
+{{- end }}
