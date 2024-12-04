@@ -170,7 +170,6 @@ Common labels
 */}}
 {{- define "transaction-streaming.labels" -}}
 helm.sh/chart: {{ include "transaction-streaming.chart" . }}
-app: {{ include "transaction-streaming.name" . }}
 project: HolisticPay
 {{ include "transaction-streaming.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
@@ -183,6 +182,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "transaction-streaming.selectorLabels" -}}
+app: {{ include "transaction-streaming.name" . }}
 app.kubernetes.io/name: {{ include "transaction-streaming.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
