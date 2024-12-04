@@ -1092,7 +1092,7 @@ Following are the default values for Person structure requests and limits:
 ```yaml
 resources:
   limits:
-    cpu: 500m
+    cpu: 1
     memory: 512Mi
   requests:
     cpu: 50m

@@ -170,7 +170,6 @@ Common labels
 */}}
 {{- define "person-structure.labels" -}}
 helm.sh/chart: {{ include "person-structure.chart" . }}
-app: {{ include "person-structure.name" . }}
 project: HolisticPay
 {{ include "person-structure.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
@@ -183,6 +182,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "person-structure.selectorLabels" -}}
+app: {{ include "person-structure.name" . }}
 app.kubernetes.io/name: {{ include "person-structure.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

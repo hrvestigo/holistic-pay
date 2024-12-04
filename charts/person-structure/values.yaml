@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.81.0
+    tag: 4.86.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -211,7 +211,7 @@ ingress:
   tls: []
 resources:
   limits:
-    cpu: 500m
+    cpu: 1
     memory: 768Mi
   requests:
     cpu: 50m
@@ -281,7 +281,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 vpa:
   enabled: false
-  updateMode: "Off"
+  updateMode: 'Off'
 mountServerCertFromSecret:
   enabled: false
   secretName: ''
