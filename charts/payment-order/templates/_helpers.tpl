@@ -182,7 +182,6 @@ Common labels
 */}}
 {{- define "payment-order.labels" -}}
 helm.sh/chart: {{ include "payment-order.chart" . }}
-app: {{ include "payment-order.name" . }}
 project: HolisticPay
 {{ include "payment-order.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
@@ -195,6 +194,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "payment-order.selectorLabels" -}}
+app: {{ include "payment-order.name" . }}
 app.kubernetes.io/name: {{ include "payment-order.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
