@@ -171,7 +171,6 @@ Common labels
 */}}
 {{- define "sirius-specific.labels" -}}
 helm.sh/chart: {{ include "sirius-specific.chart" . }}
-app: {{ include "sirius-specific.name" . }}
 project: HolisticPay
 {{ include "sirius-specific.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
@@ -184,6 +183,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "sirius-specific.selectorLabels" -}}
+app: {{ include "sirius-specific.name" . }}
 app.kubernetes.io/name: {{ include "sirius-specific.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
