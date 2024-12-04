@@ -172,7 +172,6 @@ Common labels
 */}}
 {{- define "sepa-inst.labels" -}}
 helm.sh/chart: {{ include "sepa-inst.chart" . }}
-app: {{ include "sepa-inst.name" . }}
 project: HolisticPay
 {{ include "sepa-inst.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
@@ -185,6 +184,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "sepa-inst.selectorLabels" -}}
+app: {{ include "sepa-inst.name" . }}
 app.kubernetes.io/name: {{ include "sepa-inst.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
