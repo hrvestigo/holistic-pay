@@ -159,6 +159,7 @@ Common labels
 */}}
 {{- define "product-factory.labels" -}}
 helm.sh/chart: {{ include "product-factory.chart" . }}
+app: {{ include "product-factory.name" . }}
 project: HolisticPay
 {{ include "product-factory.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
@@ -171,7 +172,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "product-factory.selectorLabels" -}}
-app: {{ include "product-factory.name" . }}
 app.kubernetes.io/name: {{ include "product-factory.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
