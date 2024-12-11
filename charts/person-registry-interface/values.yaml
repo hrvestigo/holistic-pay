@@ -120,6 +120,7 @@ logger:
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
 podAnnotations: {}
+podLabels: {}
 deploymentAnnotations: {}
 serviceAnnotations: {}
 podSecurityContext:
@@ -143,6 +144,7 @@ ingress:
   annotations: {}
   hosts: []
   tls: []
+  labels: {}
 resources:
   limits:
     cpu: 500m

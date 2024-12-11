@@ -31,6 +31,9 @@ spec:
         {{- end }}
       labels:
         {{- include "person-registry-interface.selectorLabels" . | nindent 8 }}
+        {{ - with .Values.podLabels }}
+        {{ toYaml . | nindent 8 }}
+        {{ - end }}
     spec:
       automountServiceAccountToken: false
       {{- with .Values.imagePullSecrets }}
