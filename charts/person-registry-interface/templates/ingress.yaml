@@ -18,12 +18,12 @@ metadata:
   name: {{ $name }}
   labels:
     {{- include "person-registry-interface.labels" . | nindent 4 }}
-      {{- if .Values.ingress.labels }}
-      {{ toYaml .Values.ingress.labels | indent 4 }}
-      {{- end }}
+    {{- if .Values.ingress.labels }}
+    {{- toYaml .Values.ingress.labels | indent 4 }}
+    {{- end }}
   {{- with .Values.ingress.annotations }}
   annotations:
-  {{ toYaml . | nindent 4 }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
   {{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
