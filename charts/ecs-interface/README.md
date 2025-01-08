@@ -261,6 +261,24 @@ The inbox.schaduler.level2.retryCounter parameter defines number of retries a sp
 The inbox.schaduler.level2.retryDelay (seconds) parameter specifies the sql fetch delay which is used when fetching data from database, from database timestamp this value will be reduced to fetch the data.
 (it is recomended that this value is the same as fixedRate value considering that fixedRate value is set in miliseconds and retryDelay in seconds)
 
+### Configuring incoming transaction settlement date
+
+This section outlines the configuration settings required for defining the incoming transaction settlement date logic
+before sending the value to ECS (External core system) in interfaces.
+
+```yaml
+  interface:
+    ws9013:
+      requestedExecutionDateMode: IntrBkSttlmDt # default value, set custom value if required
+    ws9016:
+      settlementDateMode: IntrBkSttlmDt # default value, set custom value if required
+```      
+`IntrBkSttlmDt` is a default value for `requestedExecutionDateMode` and `settlementDateMode`. 
+This indicates that the interbank settlement date received will be used as the settlement date for incoming transactions when transmitted to the External Core System (ECS).
+An alternative supported value is `currentDate`. When this value is configured, the interbank settlement date (IntrBkSttlmDt) from incoming instant credit transfer (pacs.008) 
+or payment return (pacs.004) messages will be replaced with the current date before sending these messages to the ECS.
+
+
 ### Configuring image source and pull secrets
 
 By default,  ecs-interface  image is pulled directly from Vestigo's repository hosted by Docker Hub.

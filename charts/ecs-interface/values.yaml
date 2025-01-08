@@ -103,6 +103,11 @@ ecs:
       payOrderReceivingOutboundTransfer: WS9004
   nonretry:
     codes: wrnA205,wrnA50,wrnB20,wrnA243,DU05,inf995
+  interface:
+    ws9013:
+      requestedExecutionDateMode: IntrBkSttlmDt
+    ws9016:
+      settlementDateMode: IntrBkSttlmDt
 keycloak:
   enabled: false
   realm: Holistic-Pay
