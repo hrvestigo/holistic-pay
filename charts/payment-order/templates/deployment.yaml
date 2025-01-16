@@ -210,6 +210,8 @@ spec:
               value: {{ .Values.cache.refresh.rate | default "43200" | quote }}
             - name: PAYMENT_ORDER_CALENDAR_ITEM_REPLICATION_AGE_DAYS
               value: {{ .Values.payment.calendarItem.replicationAge.days | default "365" | quote }}
+            - name: PAYMENT_ORDER_FETCHING_ORIGINAL_ORDER_MODE
+              value: {{ .Values.payment.fetching.originalOrder.mode | default "UNIQUE" | quote }}
             - name: BATCH_BPOR01_ZIPFILE
               value: {{ .Values.batch.bpor01.zip | quote }}
             - name: BATCH_BPOR01_SCHEDULED_NATIONAL

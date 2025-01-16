@@ -199,6 +199,21 @@ payment:
       days: 365 # default value is 365 in days
 ```
 
+### Payment Order Mode for Fetching original payment order
+
+In Payment order application, the following parameter can be set to determine which mode to use for the purposes of 
+fetching original payment order related to some process. The default value is set to "UNIQUE" mode meaning that 
+settlement date is not used when fetching original payment order and payment order fetched this way is supposed to be 
+unique regardless of the date. If the mode is not set or is set to some other value, the settlement date will be used
+when fetching original payment order and payment order fetched this way is supposed to be unique on that date.
+
+```yaml
+payment:
+  fetching:
+    originalOrder:
+      mode: UNIQUE # default value is UNIQUE
+```
+
 ### Payment Order Parameterization Exclusion List replication
 
 In Payment order application, received exclusion list parametrization is going to be stored in the database only if

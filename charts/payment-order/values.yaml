@@ -133,6 +133,9 @@ payment:
   calendarItem:
     replicationAge:
       days: 365
+  fetching:
+    originalOrder:
+      mode: UNIQUE
 oauth2:
   enabled: false
   resourceUri: ''
