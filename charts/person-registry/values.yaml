@@ -8,7 +8,7 @@ image:
     pullPolicy: null
   liquibase:
     registry: null
-    tag: 2.120.0
+    tag: 2.120.1
     pullPolicy: null
 imagePullSecrets: []
 env:
