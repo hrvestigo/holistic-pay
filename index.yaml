@@ -11606,6 +11606,16 @@ entries:
     version: 1.0.0
   person-registry-web:
   - apiVersion: v2
+    appVersion: 2.18.0
+    created: "2025-01-27T10:50:08.565607033Z"
+    description: Helm chart for person registry web application
+    digest: 7bd88179bd4153eca3b4c5e6480fee0129ef0e9f07874f99d4854e79d1a3d684
+    name: person-registry-web
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/person-registry-web-2.18.0/person-registry-web-2.18.0.tgz
+    version: 2.18.0
+  - apiVersion: v2
     appVersion: 2.16.0
     created: "2024-12-04T12:46:18.317252061Z"
     description: Helm chart for person registry web application
@@ -24908,4 +24918,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2025-01-27T10:28:01.251594562Z"
+generated: "2025-01-27T10:50:08.583065366Z"
