@@ -153,8 +153,14 @@ spec:
               value: {{ .Values.kafka.topics.confirmpersoncreation.name | quote }}
             - name: KAFKA_TOPIC_PERSONREGISTRYLINKS_NAME
               value: {{ .Values.kafka.topics.personregistrylinks.name | quote }}
+            - name: KAFKA_TOPIC_SUPERPERSON_NAME
+              value: {{ .Values.kafka.topics.superperson.name | quote }}
+            - name: KAFKA_TOPIC_SUPERPERSONCREATION_NAME
+              value: {{ .Values.kafka.topics.superpersoncreation.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CONFIRMPERSONCREATION_NAME
               value: {{ .Values.kafka.topics.confirmpersoncreation.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SUPERPERSON_NAME
+              value: {{ .Values.kafka.topics.superperson.consumerGroup | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
@@ -177,6 +183,10 @@ spec:
               value: {{ .Values.kafkaService.cmsAppModule | quote }}
             - name: SERVICE_PREINT_APP_MODULE
               value: {{ .Values.kafkaService.preintAppModule | quote }}
+            - name: PERSON_REGISTRY_INTERFACE_BASE_URL
+              value: {{ required "Please specify personRegistry.getSpLinks.baseUrl" .Values.personRegistry.getSpLinks.baseUrl | quote }}
+            - name: PERSON_REGISTRY_INTERFACE_TIMEOUT
+              value: {{ required "Please specify personRegistry.getSpLinks.timeout" .Values.personRegistry.getSpLinks.timeout | quote }}
             - name: MANAGEMENT_ENDPOINT_HEALTH_STATUS_HTTPMAPPING_DOWN
               value: {{ .Values.healthStatusDownReturnCode | quote }}
             - name: MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE

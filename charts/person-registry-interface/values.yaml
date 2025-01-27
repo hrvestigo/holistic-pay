@@ -71,6 +71,11 @@ kafka:
       consumerGroup: hr.vestigo.hp.confirmpersoncreation
     personregistrylinks:
       name: hr.vestigo.hp.personregistrylinks
+    superperson:
+      name: hr.vestigo.hp.superperson
+      consumerGroup: hr.vestigo.hp.superperson
+    superpersoncreation:
+      name: hr.vestigo.hp.superpersoncreation
 oauth2:
   enabled: false
   resourceUri: ''
@@ -86,6 +91,10 @@ kafkaService:
   deliveryChannel: BOS
   cmsAppModule: DCC
   preintAppModule: PREINT
+personRegistry:
+  getSpLinks:
+    baseUrl: ''
+    timeout: ''
 timezone: ''
 secret:
   decryptionKey: ''

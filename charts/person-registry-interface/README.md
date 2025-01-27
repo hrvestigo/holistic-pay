@@ -74,7 +74,9 @@ Additionally, liquibase is enabled by default, which requires some information i
 
 person-registry-interface (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one application member has to be defined in `members` structure for complete setup. Please refer to [Multi-member setup](#multi-member-setup) for details.
 
-### Kafka service parameters
+### Product engine variable setup
+
+Defining parameters that are used while producing kafka messages or retrieving data from person registry via WS call.
 
 Data from Kafka message regarding external topic is transformed and then pushed to internal Kafka topic for further execution.
 When publishing that message, next additional attributes must be also populated:
@@ -88,7 +90,16 @@ kafkaService:
 ```
 
 Attributes `technicalUserId`, `deliveryChannel` and `preintAppModule` are values used for populating data in kafka header when publishing data.
-Attribute `cmsAppModule` is value which populates attribute personApplicationModule in kafka when publishing data 
+Attribute `cmsAppModule` is value which populates attribute personApplicationModule in kafka when publishing data
+
+Person registry WS call params:
+
+```yaml
+personRegistry:
+  getSpLinks:
+    baseUrl: https://hostname:port # Url that defines hostname and port
+    timeout: 30000 # Defined timeout time
+```
 
 ### Datasource connection setup
 
@@ -207,6 +218,11 @@ kafka:
       consumerGroup: hr.vestigo.hp.confirmpersoncreation
     personregistrylinks:
       name: hr.vestigo.hp.personregistrylinks
+    superperson:
+      name: hr.vestigo.hp.superperson
+      consumerGroup: hr.vestigo.hp.superperson
+    superpersoncreation:
+      name: hr.vestigo.hp.superpersoncreation
 ```
 
 
