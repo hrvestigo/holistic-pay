@@ -8,9 +8,11 @@ image:
   registry: docker.io
   pullPolicy: IfNotPresent
   app:
-    registry: # defaults to image.registry
-    tag: "" # overrides the image tag whose default is the chart appVersion.
-    pullPolicy: # defaults to image.pullPolicy
+    registry: null
+    imageLocation: null
+    tag: ''
+    pullPolicy: null
+
 
 imagePullSecrets:
   - name: dockerhub-hrvestigo
