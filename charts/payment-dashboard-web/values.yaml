@@ -13,10 +13,6 @@ image:
     tag: ''
     pullPolicy: null
 
-
-imagePullSecrets:
-  - name: dockerhub-hrvestigo
-
 apiGatewayUrl: ""
 
 environmentName: "TEST"
