@@ -253,7 +253,7 @@ spec:
             {{- end }}
             - name: SECURITY_OUTBOUND_OAUTH2_TOKEN
               value: {{ .Values.oauth2.enabled | quote }}
-            {{ - if .Values.oauth2.enabled }}
+            {{- if .Values.oauth2.enabled }}
             - name: SECURITY_OAUTH2_PROVIDER
               value: keycloak
             - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUERURI
@@ -266,14 +266,14 @@ spec:
               value: {{ required "Please specify Keycloak resource name in oauth2.resource" .Values.oauth2.resource | quote }}
             - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_SCOPE
               value: openid
-            {{ - else }}
+            {{- else }}
             - name: SECURITY_AUTHENTICATION
               value: none
             - name: SECURITY_AUTHENTICATION_JWT_CONVERTER
               value: ""
             - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUERURI
               value: ""
-            { { - end } }
+            {{- end }}
             - name: REQUEST_BODY_SANITIZATION_ENABLED
               value: {{ .Values.request.sanitization.enabled | default "true" | quote }}
             - name: RESPONSE_BODY_ENCODING_ENABLED
