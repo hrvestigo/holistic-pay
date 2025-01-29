@@ -134,6 +134,12 @@ mountServerCertFromSecret:
   certPath: ""
   keyPath: ""
 
+mountTrustStoreFromSecret:
+  enabled: false
+  secretName: ''
+  trustStoreName: ''
+  trustStoreType: JKS
+
 customVolumes: []
 
 customMounts: []
