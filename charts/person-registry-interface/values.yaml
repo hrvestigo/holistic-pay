@@ -79,6 +79,7 @@ kafka:
 oauth2:
   enabled: false
   resourceUri: ''
+  resource: sup
   authorizationPrefix: ''
 request:
   sanitization:
@@ -105,6 +106,7 @@ secret:
   trustStorePassword: ''
   keyStorePassword: ''
   cmsRestPassword: ''
+  oauth2ClientToken: ''
 logger:
   format: STRING
   level:

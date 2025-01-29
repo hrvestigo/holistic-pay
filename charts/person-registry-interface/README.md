@@ -32,6 +32,7 @@ secret:
   kafkaPassword: "AES-encoded-kafka-password" # string value
   kafkaSchemaRegistryPassword: "AES-encoded-kafka-schema-registry-password" # string value
   liquibasePassword: "AES-encoded-liquibase-password" # string value
+  oauth2ClientToken: 'oauth2-client-token'# string value
 
 datasource:
   host: "datasource-host" # string value
@@ -656,6 +657,7 @@ person-registry-interface application can use oAuth2 service for authorization. 
 oAuth2:
   enabled: true # default is false
   resourceUri: "" # has to be specified if enabled, no default value
+  resource: sup # default value
   authorizationPrefix: "" # defines variable prefix of the scope/role
 ```
 
