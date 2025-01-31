@@ -21,6 +21,7 @@ secret:
   decryptionKey: ""
   trustStorePassword: ""
   keyStorePassword: ""
+  existingSecret: ""
 
 logger:
   globalLogLevel: DEBUG

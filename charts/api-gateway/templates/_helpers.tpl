@@ -106,7 +106,7 @@ Volumes
 {{- end -}}
 - name: {{ include "api-gateway.name" . }}-secret
   secret:
-    secretName: {{ include "api-gateway.name" . }}-secret
+    secretName: {{ .Values.secret.existingSecret | default (printf "%s%s" (include "api-gateway.name" .) "-secret") }}
     items:
       - path: password.conf
         key: password.conf
