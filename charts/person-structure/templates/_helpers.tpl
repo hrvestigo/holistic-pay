@@ -197,7 +197,7 @@ Volumes
 {{- end -}}
 - name: {{ include "person-structure.name" . }}-secret
   secret:
-    secretName: {{ include "person-structure.name" . }}-secret
+    secretName: {{ .Values.secret.existingSecret | default (printf "%s%s" (include "person-structure.name" .) "-secret") }}
     items:
       - path: password.conf
         key: password.conf
@@ -343,4 +343,17 @@ Defines custom datasource connection parameters appended to URL
 {{- else }}
 {{- "" }}
 {{- end }}
+{{- end }}
+
+
+{{/*
+Create a comma separated list of endpoints that need to be exposed
+*/}}
+{{- define "person-structure.exposed.endpoints" -}}
+{{- $endpoints := list -}}
+{{- $endpoints = append $endpoints (printf "%s" "health") }}
+{{- if .Values.prometheus.exposed }}
+{{- $endpoints = append $endpoints (printf "%s" "prometheus") }}
+{{- end }}
+{{- join "," $endpoints }}
 {{- end }}

@@ -256,6 +256,16 @@ spec:
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
               value: PKCS12
+            - name: MANAGEMENT_ENDPOINTS_ENABLEDBYDEFAULT
+              value: "false"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_ENABLED
+              value: "true"
+            {{ - if .Values.prometheus.exposed }}
+            - name: MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED
+              value: "true"
+            {{ - end }}
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: {{ include "person-structure.exposed.endpoints" $ }}
             - name: MANAGEMENT_ENDPOINT_HEALTH_STATUS_HTTPMAPPING_DOWN
               value: {{ .Values.healthStatusDownReturnCode | quote }}
             - name: MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE

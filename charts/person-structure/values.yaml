@@ -162,6 +162,7 @@ secret:
   liquibasePassword: ''
   trustStorePassword: ''
   keyStorePassword: ''
+  existingSecret: ''
 logger:
   format: STRING
   level:
@@ -303,6 +304,8 @@ mountCaFromSecret:
 customVolumes: []
 customMounts: []
 customEnv: []
+prometheus:
+  exposed: true
 tracing:
   samplingProbability: 0.0
   otlpEndpoint: ''
