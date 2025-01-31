@@ -205,7 +205,7 @@ Volumes
 {{- end -}}
 - name: {{ include "transaction-streaming.name" . }}-secret
   secret:
-    secretName: {{ include "transaction-streaming.name" . }}-secret
+    secretName: {{ .Values.secret.existingSecret | default (printf "%s%s" (include "transaction-streaming.name" .) "-secret") }}
     items:
       - path: password.conf
         key: password.conf

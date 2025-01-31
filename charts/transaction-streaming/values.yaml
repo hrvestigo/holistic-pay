@@ -200,6 +200,7 @@ secret:
   liquibasePassword: ''
   trustStorePassword: ''
   keyStorePassword: ''
+  existingSecret: ''
 logger:
   format: STRING
   level:
