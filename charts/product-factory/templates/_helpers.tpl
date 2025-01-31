@@ -186,7 +186,7 @@ Volumes
 {{- end -}}
 - name: {{ include "product-factory.name" . }}-secret
   secret:
-    secretName: {{ include "product-factory.name" . }}-secret
+    secretName: {{ .Values.secret.existingSecret | default (printf "%s%s" (include "product-factory.name" .) "-secret") }}
     items:
       - path: password.conf
         key: password.conf
