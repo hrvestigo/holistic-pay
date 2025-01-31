@@ -107,6 +107,18 @@ spec:
               value: "{{ .Values.atomikos.connectionFactory.minPoolSize | int }}"
             - name: EXTERNAL_CORE_SYSTEM_MEMBER_SIGN_DEFAULT
               value: {{ .Values.external.core.system.member.sign.default | quote }}
+            {{ - if .Values.grpc.server.enabled }}
+            - name: GRPC_SERVER_PORT
+              value: {{ .Values.grpc.server.port | default "9090" | quote }}
+            - name: GRPC_SERVER_SECURITY_ENABLED
+              value: {{ .Values.grpc.server.security.enabled | default "false" | quote }}
+                {{ - if .Values.grpc.server.security.enabled }}
+            - name: GRPC_SERVER_SECURITY_CERTIFICATECHAIN
+              value: "file:{{ .Values.grpc.server.security.certificate }}"
+            - name: GRPC_SERVER_SECURITY_PRIVATEKEY
+              value: "file:{{ .Values.grpc.server.security.key }}"
+                {{ - end }}
+            {{ - end }}
             - name: SEPA_INST_URL
               value: {{ .Values.sepa.inst.url | quote }}
             {{- if .Values.security.oauth2.outbound.enabled }}

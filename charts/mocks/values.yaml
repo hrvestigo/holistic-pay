@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 3.33.0
+    tag: 3.59.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -84,6 +84,7 @@ secret:
   datasourcePassword: ''
   liquibasePassword: ''
   mqPassword: ''
+  existingSecret: ''
 logger:
   format: STRING
   level:
@@ -203,7 +204,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 vpa:
   enabled: false
-  updateMode: "Off"
+  updateMode: 'Off'
 mountServerCertFromSecret:
   enabled: false
   secretName: ''
@@ -266,3 +267,11 @@ external:
       member:
         sign:
           default: RB
+grpc:
+  server:
+    enabled: false
+    port: 9090
+    security:
+      enabled: false
+      certificate: null
+      key: null

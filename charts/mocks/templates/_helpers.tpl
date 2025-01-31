@@ -199,7 +199,7 @@ Volumes
 {{- end -}}
 - name: {{ include "mocks.name" . }}-secret
   secret:
-    secretName: {{ include "mocks.name" . }}-secret
+    secretName: {{ .Values.secret.existingSecret | default (printf "%s%s" (include "mocks.name" .) "-secret") }}
     items:
       - path: password.conf
         key: password.conf

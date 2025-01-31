@@ -89,6 +89,27 @@ external:
           default: "XX" # Default member sign to be used for tables which have no member sign in the external core system
 ```
 
+#### Get person structure functionalities using gRPC
+
+Person structure data can be retrieved using gRPC.
+This is enabled through the following configuration:
+
+```yaml
+grpc:
+  server:
+    enabled: false #default value signifying gRPC server is shut down
+    port: 9090 #default value for the port the server runs on
+    security:
+      enabled: false #default value for the connection to the gRPC server
+      certificate: #path to TLS server certificate
+      key: #path to TLS server key file
+```
+
+`grpc.server.enabled` should be set to true if you want gRPC server to start.
+`grpc.server.security.enabled` should be set to true if you want this connection to use TLS protocol.
+If security enabled, `grpc.server.security.certificate` and `grpc.server.security.key` should also be provided and represent
+TLS certificate and key files location.
+
 ### Datasource connection setup
 
 All values required for PostgreSQL database connection are defined within `datasource` parent attribute.
@@ -517,6 +538,46 @@ secret:
 ```
 
 When using secret to mount key store, no additional custom setup is required.
+
+### Using `existingSecret`
+
+Instead of defining and holding encryption key and passwords in values file, `existingSecret` option can be used.
+In this case, only existing secret name should be defined in `secret` block, for example:
+
+```yaml
+secret:
+  existingSecret: custom-predefined-secret-name
+```
+
+Predefined secret has to be prepared and created in the target namespace prior to installation.
+
+The content of the predefined secret has to have a single file called "password.conf" which should contain all required passwords (depending on the used features), for example:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: custom-predefined-secret-name
+type: Opaque
+data:
+  password.conf: |-
+    ...
+```
+
+Complete content of the "password.conf" file:
+
+```properties
+key.for.decryption=(plaintext encryption/decrpytion key)
+aes.spring.datasource.password=(aes encrypted datasource password)
+aes.spring.datasource.password.memberSign=(aes encrypted datasource password for specific memberSign)
+aes.kafka.password=(aes encrypted kafka password)
+aes.kafka.schemaregistry.password=(aes encrypted kafka schema registry password)
+aes.ssl.key.store.password=(aes encrypted key store password)
+aes.spring.kafka.properties.ssl.truststore.password=(aes encrypted trust store password)
+aes.ssl.trust.store.password=(aes encrypted trust store password)
+aes.liquibase.password=(aes encrypted liquibase password)
+```
+
 
 ## Customizing installation
 
