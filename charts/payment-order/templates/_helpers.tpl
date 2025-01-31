@@ -209,7 +209,7 @@ Volumes
 {{- end -}}
 - name: {{ include "payment-order.name" . }}-secret
   secret:
-   secretName: {{ .Values.secret.existingSecret | default (printf "%s%s" (include "payment-order.name" .) "-secret") }}
+    secretName: {{ .Values.secret.existingSecret | default (printf "%s%s" (include "payment-order.name" .) "-secret") }}
     items:
       - path: password.conf
         key: password.conf
