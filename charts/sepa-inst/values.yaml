@@ -147,6 +147,7 @@ secret:
   trustStorePassword: ''
   keyStorePassword: ''
   keyStoreSignaturePassword: ''
+  existingSecret: ''
 logger:
   format: STRING
   level:

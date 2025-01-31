@@ -199,7 +199,7 @@ Volumes
 {{- end -}}
 - name: {{ include "sepa-inst.name" . }}-secret
   secret:
-    secretName: {{ include "sepa-inst.name" . }}-secret
+    secretName: {{ .Values.secret.existingSecret | default (printf "%s%s" (include "sepa-inst.name" .) "-secret") }}
     items:
       - path: password.conf
         key: password.conf
