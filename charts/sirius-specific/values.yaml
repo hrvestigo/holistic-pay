@@ -230,6 +230,7 @@ secret:
   keyStorePassword: ''
   datasourcePassword: ''
   mqPassword: ''
+  existingSecret: ''
 logger:
   format: STRING
   level:
