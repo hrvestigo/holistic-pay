@@ -1,0 +1,112 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mmpa-web.name" . }}
+  labels:
+    {{- include "mmpa-web.labels" . | nindent 4 }}
+{{- with .Values.deployment.labels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+{{- with .Values.deployment.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.deployment.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "mmpa-web.selectorLabels" . | nindent 6 }}
+  strategy:
+    {{- toYaml .Values.deployment.strategy | nindent 4 }}
+  minReadySeconds: {{ .Values.deployment.minReadySeconds }}
+  template:
+    metadata:
+      annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "mmpa-web.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      terminationGracePeriodSeconds: {{ .Values.deployment.terminationGracePeriodSeconds }}
+      restartPolicy: {{ .Values.deployment.restartPolicy }}
+      {{- if .Values.initContainers }}
+      initContainers:
+        {{- with .Values.initContainers }}
+        {{- toYaml . | trim | nindent 8 }}
+        {{- end }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ include "mmpa-web.app.repository" . }}:{{ .Values.image.app.tag | default .Chart.AppVersion }}
+          imagePullPolicy: {{ include "mmpa-web.app.imagePullPolicy" . }}
+          env:
+            {{- if .Values.timezone }}
+            - name: TZ
+              value: {{ .Values.timezone }}
+            {{- end }}
+            - name: REACT_APP_API_URL
+              value: "{{ .Values.appUrl }}"
+            - name: REACT_APP_API_GATEWAY_URL
+              value: {{ required "Please specify API Gateway URL apiGatewayUrl" .Values.apiGatewayUrl | quote }}
+            - name: REACT_APP_MEMBERS
+              value: {{ required "Please specify  appMembers" .Values.appMembers | quote }}
+            - name: REACT_APP_MEMBER_LOCALE
+              value: {{ required "Please specify member locale appMemberLocale" .Values.appMemberLocale | quote }}
+            - name: REACT_APP_CC_DEFAULT_SCHEMA
+              value: {{ required "Please specify API Gateway URL CCMemberDefaultDbSchema" .Values.CCMemberDefaultDbSchema | quote }}
+            - name: REACT_APP_CC_PAR_SCHEMA
+              value: {{ required "Please specify API Gateway URL CCMemberParamDbSchema" .Values.CCMemberParamDbSchema | quote }}
+            - name: REACT_APP_CE_DEFAULT_SCHEMA
+              value: {{ required "Please specify API Gateway URL CEMemberDefaultDbSchema" .Values.CEMemberDefaultDbSchema | quote }}
+            - name: REACT_APP_CE_PAR_SCHEMA
+              value: {{ required "Please specify API Gateway URL CEMemberParamDbSchema" .Values.CEMemberParamDbSchema | quote }}
+            - name: REACT_APP_CU_DEFAULT_SCHEMA
+              value: {{ required "Please specify API Gateway URL CUMemberDefaultDbSchema" .Values.CUMemberDefaultDbSchema | quote }}
+            - name: REACT_APP_CU_PAR_SCHEMA
+              value: {{ required "Please specify API Gateway URL CUMemberParamDbSchema" .Values.CUMemberParamDbSchema | quote }}
+            - name: REACT_APP_ENVIRONMENT
+              value: {{ required "Please specify environment name in environmentName" .Values.environmentName | quote }}
+            - name: REACT_APP_SESSION_TIMEOUT_IN_SECONDS
+              value: {{ required "Please specify HTTP session timeout in httpSessionTimeout" .Values.httpSessionTimeout | quote }}
+            - name: REACT_APP_SESSION_TIMEOUT_MESSAGE
+              value: "Session expired! Please login."
+            {{- with .Values.customEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: 8443
+              protocol: TCP
+          livenessProbe:
+            {{- toYaml .Values.deployment.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.deployment.readinessProbe | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            {{- include "mmpa-web.mounts" . | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        {{- include "mmpa-web.volumes" . | nindent 8 }}
