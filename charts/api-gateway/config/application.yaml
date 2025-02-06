@@ -186,6 +186,7 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
+            - StripPrefix=1
         - id: person-registry-web_route
           predicates:
             - Path=/**
