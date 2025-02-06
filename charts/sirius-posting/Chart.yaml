@@ -1,6 +1,0 @@
-apiVersion: v2
-name: sirius-posting
-description: Helm chart for sirius-posting application
-type: application
-version: 1.15.0
-appVersion: 1.15.0
