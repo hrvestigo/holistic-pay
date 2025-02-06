@@ -179,6 +179,13 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
+        - id: ipc-backend_route
+          predicates:
+            - Path=/services/**
+          uri: https://{{ required "Issuing Product Configurator application service name has to be defined in routes.ipcBackend.serviceName" .Values.routes.ipcBackend.serviceName }}:{{ required "Issuing Product Configurator application port number has to be defined in routes.ipcBackend.servicePortNumber" .Values.routes.ipcBackend.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
         - id: person-registry-web_route
           predicates:
             - Path=/**
