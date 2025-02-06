@@ -6340,6 +6340,16 @@ entries:
     version: 1.0.0
   mmpa-web:
   - apiVersion: v2
+    appVersion: 7.49.0
+    created: "2025-02-06T11:37:33.14046367Z"
+    description: Helm chart for mmpa web application
+    digest: 2b34fd8984294e98fa0cee06577410c0fd57e49682a2adbd6da9b88677203fc8
+    name: mmpa-web
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/mmpa-web-7.49.0/mmpa-web-7.49.0.tgz
+    version: 7.49.0
+  - apiVersion: v2
     appVersion: 7.48.0
     created: "2025-02-05T15:47:21.904190868Z"
     description: Helm chart for mmpa web application
@@ -25349,4 +25359,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2025-02-06T09:38:31.656757873Z"
+generated: "2025-02-06T11:37:33.157987582Z"
