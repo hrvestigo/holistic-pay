@@ -2,5 +2,5 @@ apiVersion: v2
 name: mmpa-web
 description: Helm chart for mmpa web application
 type: application
-version: 7.48.0
-appVersion: 7.48.0
+version: 7.49.0
+appVersion: 7.49.0
