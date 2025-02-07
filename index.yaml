@@ -6358,6 +6358,17 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/ecs-interface-1.0.0/ecs-interface-1.0.0.tgz
     version: 1.0.0
+  hp-dashboard:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-02-07T15:43:37.045521826Z"
+    description: Helm chart for hp-dashboard application
+    digest: bc2178803cd5584c519a0b15826aca0633f4d4f9a2efceaf96fd9ee37018058b
+    name: hp-dashboard
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/hp-dashboard-1.0.0/hp-dashboard-1.0.0.tgz
+    version: 1.0.0
   mmpa-web:
   - apiVersion: v2
     appVersion: 7.49.0
@@ -25389,4 +25400,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2025-02-07T09:52:16.090444422Z"
+generated: "2025-02-07T15:43:37.063025909Z"
