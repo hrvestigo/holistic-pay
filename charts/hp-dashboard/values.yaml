@@ -59,28 +59,13 @@ kafka:
     user: ''
     url: ''
   topics:
-    swiftincomingmessage:
-      name: hr.vestigo.hp.swiftincomingmessage
-      consumerGroup: hr.vestigo.hp.swiftincomingmessage
+    paymentFlowTopic:
+      name: hr.vestigo.hp.paymentflow
+      consumerGroup: hr.vestigo.hp.paymentflow
       enabled: true
-      nbrEnabled: true
-      nbrBackOff: 50000;5s
-      nbrName: ''
-      dltName: ''
-    swiftoutgoingmessage:
-      name: hr.vestigo.hp.swiftoutgoingmessage
-      enabled: true
-    paymentfinmessage:
-      name: hr.vestigo.hp.paymentfinmessage
-      consumerGroup: hr.vestigo.hp.paymentfinmessage
-      enabled: true
-    paymentnonfinmessage:
-      name: hr.vestigo.hp.paymentnonfinmessage
-      consumerGroup: hr.vestigo.hp.paymentnonfinmessage
-      enabled: true
-    paymentxmlmessage:
-      name: hr.vestigo.hp.paymentxmlmessage
-      consumerGroup: hr.vestigo.hp.paymentxmlmessage
+    paymentMessageTopic:
+      name: hr.vestigo.hp.paymentmessage
+      consumerGroup: hr.vestigo.hp.paymentmessage
       enabled: true
 oauth2:
   enabled: false
