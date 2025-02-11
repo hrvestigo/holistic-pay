@@ -59,11 +59,11 @@ kafka:
     user: ''
     url: ''
   topics:
-    paymentFlowTopic:
+    paymentFlow:
       name: hr.vestigo.hp.paymentflow
       consumerGroup: hr.vestigo.hp.paymentflow
       enabled: true
-    paymentMessageTopic:
+    paymentMessage:
       name: hr.vestigo.hp.paymentmessage
       consumerGroup: hr.vestigo.hp.paymentmessage
       enabled: true
