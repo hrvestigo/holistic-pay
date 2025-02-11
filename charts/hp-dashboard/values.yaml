@@ -226,7 +226,7 @@ prometheus:
   exposed: true
 tracing:
   samplingProbability: 0.0
-  otlpEndpoint: ''
+  otlpEndpoint: http://tempo.monitor:4318/v1/traces
 application:
   api:
     validation:
