@@ -59,11 +59,11 @@ kafka:
     user: ''
     url: ''
   topics:
-    paymentFlow:
+    paymentflow:
       name: hr.vestigo.hp.paymentflow
       consumerGroup: hr.vestigo.hp.paymentflow
       enabled: true
-    paymentMessage:
+    paymentmessage:
       name: hr.vestigo.hp.paymentmessage
       consumerGroup: hr.vestigo.hp.paymentmessage
       enabled: true
@@ -244,12 +244,12 @@ application:
   integration:
     file:
       readEnabled: false
-      readPath: /swiftx/in
+      readPath: /hpdash/in
       readInterval: 5s
       readIntervalMax: 1
       readFilePrefixEnabled: true
       writeEnabled: false
-      writePath: /swiftx/out
+      writePath: /hpdash/out
       writeInterval: 5s
       writeMode: pull
 applicationFileVolumes:

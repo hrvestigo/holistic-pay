@@ -280,11 +280,11 @@ Mounts for hp-dashboard application
 {{- define "hp-dashboard.mounts" -}}
 {{- if .Values.application.integration.file.readEnabled }}
 - name: in
-  mountPath: /swiftx/in
+  mountPath: /hpdash/in
 {{- end }}
 {{- if .Values.application.integration.file.writeEnabled }}
 - name: out
-  mountPath: /swiftx/out
+  mountPath: /hpdash/out
 {{- end }}
 {{with .Values.customMounts -}}
 {{- toYaml . | default "" }}
@@ -368,29 +368,29 @@ Defines custom datasource connection parameters appended to URL
 {{- end }}
 
 {{/*
-Swift mx Kafka topics configuration
+Hp dashboard Kafka topics configuration
 */}}
 {{- define "hp-dashboard.kafka.topics" }}
 {{- range $key, $value := .Values.kafka.topics }}
 {{- range $k, $v := $value }}
-- name: SWIFT_MX_KAFKA_TOPICS_{{ $key | upper }}_{{ $k | snakecase | upper }}
+- name: HP_DASHBOARD_KAFKA_TOPICS_{{ $key | upper }}_{{ $k | snakecase | upper }}
   value: {{ $v | quote }}
 {{- end }}
 {{- end }}
 {{- end }}
 
 {{/*
-Swift mx application configuration.
+Hp dashboard application configuration.
 Iterates over configuration per application module/components.
 Each module/component has configuration per named key.
-Final configuration name is SWIFT_MX_<module>_<moduleKey>_<name>=<value>,
+Final configuration name is HP_DASHBOARD_<module>_<moduleKey>_<name>=<value>,
 where 'name' is configuration parameter and 'value' is configuration value
 */}}
 {{- define "hp-dashboard.application.config" }}
 {{- range $module, $configs := .Values.application }}
 {{- range $moduleKey, $config := $configs }}
 {{- range $name, $value := $config }}
-- name: SWIFT_MX_{{ $module | upper }}_{{ $moduleKey | upper }}_{{ $name | snakecase | upper }}
+- name: HP_DASHBOARD_{{ $module | upper }}_{{ $moduleKey | upper }}_{{ $name | snakecase | upper }}
   value: {{ $value | quote }}
 {{- end }}
 {{- end }}
