@@ -1,0 +1,357 @@
+nameOverride: ''
+image:
+  registry: docker.io
+  pullPolicy: IfNotPresent
+  app:
+    registry: null
+    imageLocation: null
+    tag: ''
+    pullPolicy: null
+  liquibase:
+    registry: null
+    imageLocation: null
+    tag: 1.72.30
+    pullPolicy: null
+imagePullSecrets: []
+env:
+  type: ''
+  label: ''
+datasource:
+  host: ''
+  port: ''
+  dbName: ''
+  user: ''
+  globalSchemaPrefix: wo
+  connTimeout: 60000
+  maxPoolSize: 2
+  minIdle: 0
+  idleTimeout: 120000
+  connectionParams: {}
+liquibase:
+  enabled: true
+  syncOnly: false
+  user: ''
+  role: ''
+  replicationRole: ''
+  resources: {}
+members:
+- businessUnit: ''
+  applicationMember: ''
+  memberSign: ''
+  liquibase:
+    role: ''
+    replicationRole: ''
+  datasource:
+    globalSchema: false
+    host: ''
+    port: ''
+    dbName: ''
+    user: ''
+    password: ''
+kafka:
+  user: ''
+  servers: ''
+  saslMechanism: PLAIN
+  securityProtocol: SASL_SSL
+  sslEndpointIdentAlg: HTTPS
+  schemaRegistry:
+    credSource: USER_INFO
+    user: ''
+    url: ''
+  streams:
+    replication:
+      factor: '3'
+    application:
+      id: transaction-streaming
+    auto:
+      startup: true
+    numThreads: 1
+    commitInterval: 1000
+    delete:
+      application:
+        id: transaction-streaming-delete
+      auto:
+        startup: true
+      scanFrequency: 12
+      numThreads: 1
+      maximumAge:
+        turnover: 1
+        turnCustomer: 1
+        paymentOrder: 1
+        fPayment: 1
+        paymentListQ: 1
+        event: 1
+        interfaceCollTbl: 1
+        trxAnnounce: 1
+        customerAccountStatement: 30
+        futuristicForeignPayment: 30
+    join:
+      window: 60
+      grace: 40
+  topics:
+    paymentOrder:
+      name: hr.vestigo.hp.paymentorder
+    turnover:
+      name: hr.vestigo.hp.turnover
+    customerAccountStatement:
+      name: hr.vestigo.hp.customeraccountstatement
+    fPayment:
+      name: hr.vestigo.hp.fpayment
+    paymentListQ:
+      name: hr.vestigo.hp.paymentlistq
+    futuristicForeignPayment:
+      name: hr.vestigo.hp.futuristicForeignPayment
+    event:
+      name: hr.vestigo.hp.event
+    interfaceCollTbl:
+      name: hr.vestigo.hp.interfaceCollTbl
+    customer:
+      name: hr.vestigo.hp.customer
+    customerAccount:
+      name: hr.vestigo.hp.customerAccount
+    extTurnoverType:
+      name: hr.vestigo.hp.extturnovertype
+      consumerGroup: hr.vestigo.hp.extturnovertype
+    organizationUnit:
+      name: hr.vestigo.hp.organizationunit
+      consumerGroup: hr.vestigo.hp.organizationunit
+    postOffice:
+      name: hr.vestigo.hp.postoffice
+      consumerGroup: hr.vestigo.hp.postoffice
+    terminal:
+      name: hr.vestigo.hp.terminal
+      consumerGroup: hr.vestigo.hp.terminal
+    turnoverType:
+      name: hr.vestigo.hp.turnovertype
+      consumerGroup: hr.vestigo.hp.turnovertype
+    paymCashCurr:
+      name: hr.vestigo.hp.paymcashcurr
+    trxAnnounce:
+      name: hr.vestigo.hp.trxannounce
+    turnCustomer:
+      name: hr.vestigo.hp.turncustomer
+    currency:
+      name: hr.vestigo.hp.currency
+      consumerGroup: hr.vestigo.hp.currency
+    country:
+      name: hr.vestigo.hp.country
+      consumerGroup: hr.vestigo.hp.country
+    bank:
+      name: hr.vestigo.hp.bank
+    citizen:
+      name: hr.vestigo.hp.citizen
+    craftsman:
+      name: hr.vestigo.hp.craftsman
+    legalEntity:
+      name: hr.vestigo.hp.legalEntity
+    tombstone:
+      turnover:
+        name: hr.vestigo.hp.turnover
+      turnCustomer:
+        name: hr.vestigo.hp.turncustomer
+      customerAccountStatement:
+        name: hr.vestigo.hp.customeraccountstatement
+      paymentOrder:
+        name: hr.vestigo.hp.paymentorder
+      fPayment:
+        name: hr.vestigo.hp.fpayment
+      paymentListQ:
+        name: hr.vestigo.hp.paymentlistq
+      futuristicForeignPayment:
+        name: hr.vestigo.hp.futuristicforeignpayment
+      event:
+        name: hr.vestigo.hp.event
+      interfaceCollTbl:
+        name: hr.vestigo.hp.interfacecolltbl
+      trxAnnounce:
+        name: hr.vestigo.hp.trxannounce
+    banproamotype:
+      name: hr.vestigo.hp.banproamotype
+      consumerGroup: hr.vestigo.hp.banproamotype
+    internal:
+      customer:
+        name: hr.vestigo.hp.customer.internal
+      customerAccount:
+        name: hr.vestigo.hp.customeraccount.internal
+      bank:
+        name: hr.vestigo.hp.bank.internal
+      citizen:
+        name: hr.vestigo.hp.citizen.internal
+      craftsman:
+        name: hr.vestigo.hp.craftsman.internal
+      legalEntity:
+        name: hr.vestigo.hp.legalEntity.internal
+oauth2:
+  enabled: false
+  resourceUri: ''
+  authorizationPrefix: ''
+request:
+  sanitization:
+    enabled: true
+response:
+  encoding:
+    enabled: false
+timezone: ''
+secret:
+  decryptionKey: ''
+  datasourcePassword: ''
+  kafkaPassword: ''
+  kafkaSchemaRegistryPassword: ''
+  liquibasePassword: ''
+  trustStorePassword: ''
+  keyStorePassword: ''
+  existingSecret: ''
+logger:
+  format: STRING
+  level:
+    health: DEBUG
+    kafka: DEBUG
+    kafkaCore: INFO
+    rest: DEBUG
+    database: ERROR
+    databaseSql: DEBUG
+    databaseBind: TRACE
+    databaseExtract: TRACE
+    databaseSlowQuery: INFO
+    businessLogic: DEBUG
+    general: DEBUG
+  logToFile: false
+  rollingFileAppender: false
+  logDir: /var/log/app
+  logDirMount:
+    enabled: false
+  microserviceTag: ''
+  databaseSlowQueryThreshold: 0
+healthStatusDownReturnCode: '418'
+health:
+  readiness:
+    stateEnabled: true
+    dbEnabled: true
+    kafkaEnabled: true
+    streamStateEnabled: false
+javaOpts: -Xms256M -Xmx256M
+podAnnotations: {}
+deploymentAnnotations: {}
+serviceAnnotations: {}
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+securityContext: {}
+service:
+  enabled: true
+  type: ClusterIP
+  port: 8443
+  nodePort: ''
+  clusterIP: ''
+  loadBalancerIP: ''
+  loadBalancerSourceRanges: []
+  annotations: {}
+  labels: {}
+ingress:
+  enabled: false
+  className: ''
+  annotations: {}
+  hosts: []
+  tls: []
+resources:
+  limits:
+    cpu: 1
+    memory: 1Gi
+  requests:
+    cpu: 50m
+    memory: 1Gi
+initContainers: []
+nodeSelector: {}
+tolerations: []
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/arch
+          operator: In
+          values:
+          - amd64
+        - key: kubernetes.io/os
+          operator: In
+          values:
+          - linux
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - transaction-streaming
+        topologyKey: kubernetes.io/hostname
+deployment:
+  replicaCount: 2
+  annotations: {}
+  labels: {}
+  strategy:
+    type: RollingUpdate
+  terminationGracePeriodSeconds: 60
+  restartPolicy: Always
+  readinessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 60
+    timeoutSeconds: 10
+    successThreshold: 1
+    failureThreshold: 2
+    httpGet:
+      path: /health/readiness
+      port: http
+      scheme: HTTPS
+  livenessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 60
+    timeoutSeconds: 10
+    failureThreshold: 3
+    httpGet:
+      path: /health/liveness
+      port: http
+      scheme: HTTPS
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+vpa:
+  enabled: false
+  updateMode: "Off"
+mountServerCertFromSecret:
+  enabled: false
+  secretName: ''
+  certPath: ''
+  keyPath: ''
+mountKeyStoreFromSecret:
+  enabled: false
+  secretName: ''
+  keyStoreName: ''
+  keyStoreType: JKS
+mountTrustStoreFromSecret:
+  enabled: false
+  secretName: ''
+  trustStoreName: ''
+  trustStoreType: JKS
+mountCaFromSecret:
+  enabled: false
+  secretName: ''
+volumeProvisioning:
+  dynamic: false
+  storage:
+    capacity: 20Gi
+    parameters:
+      storageClassName: ''
+      type: {}
+customVolumes: []
+customMounts: []
+customEnv: []
+tracing:
+  samplingProbability: 0.0
+  otlpEndpoint: ''
