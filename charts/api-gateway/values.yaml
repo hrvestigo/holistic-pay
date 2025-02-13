@@ -93,6 +93,7 @@ routes:
     servicePortNumber: "8443"
   ipcBackend:
     serviceName: mmpa-services
+    servicePortNumber: "8443"
   hpDash:
     serviceName: hp-dashboard
     servicePortNumber: "8443"
