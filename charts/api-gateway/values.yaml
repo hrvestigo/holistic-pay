@@ -61,9 +61,6 @@ routes:
   crdPayInstIss:
     serviceName: crd-pay-inst-iss
     servicePortNumber: "8443"
-  personRegistryWeb:
-    serviceName: person-registry-web
-    servicePortNumber: "8443"
   balanceCheck:
     serviceName: balance-check
     servicePortNumber: "8443"
@@ -96,6 +93,8 @@ routes:
     servicePortNumber: "8443"
   ipcBackend:
     serviceName: mmpa-services
+  hpDash:
+    serviceName: hp-dashboard
     servicePortNumber: "8443"
 
 oauth2:

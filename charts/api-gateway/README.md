@@ -76,7 +76,10 @@ routes:
     portNumber: "8443" # port number on which swift-mx service is exposed, default is 8443
   gsfCore:
     serviceName: gsf-core # name of gsf-core service, default is gsf-core
-    servicePortNumber: "8443" # port number on which gsf-core service is exposed, default is 8443
+    servicePortNumber: "8443" # port number on which gsf-core service is exposed, default is 8443 
+  hpDash:
+    serviceName: hp-dashboard # name of hp-dashboard service, default is hp-dashboard
+    portNumber: "8443" # port number on which hp-dashboard service is exposed, default is 8443        
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value, no default value
