@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.9.0
+    tag: 1.11.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -59,14 +59,22 @@ kafka:
     user: ''
     url: ''
   topics:
-    paymentflow:
+    paymentFlow:
       name: hr.vestigo.hp.paymentflow
       consumerGroup: hr.vestigo.hp.paymentflow
       enabled: true
-    paymentmessage:
+    paymentMessage:
       name: hr.vestigo.hp.paymentmessage
       consumerGroup: hr.vestigo.hp.paymentmessage
       enabled: true
+    externalCheck:
+      name: hr.vestigo.hp.externalcheck
+      consumerGroup: hr.vestigo.hp.externalcheck
+      enabled: false
+    externalCheckResult:
+      name: hr.vestigo.hp.externalcheckresult
+      consumerGroup: hr.vestigo.hp.externalcheckresult
+      enabled: false
 oauth2:
   enabled: false
   resourceUri: ''
@@ -227,31 +235,3 @@ prometheus:
 tracing:
   samplingProbability: 0.0
   otlpEndpoint: http://tempo.monitor:4318/v1/traces
-application:
-  api:
-    validation:
-      xsdModeIn: mix
-      xsdModeOut: mix
-    format:
-      timestampOut: yyyy-MM-dd'T'HH:mm.:ss.SSSxxx
-      xmlModeOut: saa
-  data:
-    caching:
-      expire: 12h
-    eventsLog:
-      enabled: false
-      partitionsEnabled: false
-  integration:
-    file:
-      readEnabled: false
-      readPath: /hpdash/in
-      readInterval: 5s
-      readIntervalMax: 1
-      readFilePrefixEnabled: true
-      writeEnabled: false
-      writePath: /hpdash/out
-      writeInterval: 5s
-      writeMode: pull
-applicationFileVolumes:
-  readVolumeParameters: {}
-  writeVolumeParameters: {}

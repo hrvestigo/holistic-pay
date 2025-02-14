@@ -202,21 +202,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Volumes
 */}}
 {{- define "hp-dashboard.volumes" -}}
-{{- if .Values.application.integration.file.readEnabled }}
-- name: in
-{{- with .Values.applicationFileVolumes.readVolumeParameters -}}
-{{- toYaml . | default "" | nindent 2 -}}
-{{ "" }}
-{{- end }}
-{{- end }}
-{{- if .Values.application.integration.file.writeEnabled }}
-- name: out
-{{- with .Values.applicationFileVolumes.writeVolumeParameters -}}
-{{- toYaml . | default "" | nindent 2 -}}
-{{ "" }}
-{{- end }}
-{{- end }}
-{{with .Values.customVolumes -}}
+{{- with .Values.customVolumes -}}
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
@@ -278,15 +264,7 @@ Volumes
 Mounts for hp-dashboard application
 */}}
 {{- define "hp-dashboard.mounts" -}}
-{{- if .Values.application.integration.file.readEnabled }}
-- name: in
-  mountPath: /hpdash/in
-{{- end }}
-{{- if .Values.application.integration.file.writeEnabled }}
-- name: out
-  mountPath: /hpdash/out
-{{- end }}
-{{with .Values.customMounts -}}
+{{- with .Values.customMounts -}}
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
