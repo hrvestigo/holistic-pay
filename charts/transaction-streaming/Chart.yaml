@@ -1,0 +1,6 @@
+apiVersion: v2
+name: transaction-streaming
+description: Helm chart for transaction-streaming application
+type: application
+version: 3.18.0
+appVersion: 3.18.0
