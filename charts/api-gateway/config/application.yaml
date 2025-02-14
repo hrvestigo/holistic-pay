@@ -205,7 +205,7 @@ spring:
             - SaveSession
         - id: hp-dashboard-ms_route
           predicates:
-            - Path=/api/*/dashboard/*
+            - Path=/api/*/dashboard/**
           uri: https://{{ required "HP dashboard application service name has to be defined in routes.hpDash.serviceName" .Values.routes.hpDash.serviceName }}:{{ required "HP dashboard application port number has to be defined in routes.hpDash.servicePortNumber" .Values.routes.hpDash.servicePortNumber }}
           filters:
             - TokenRelay
