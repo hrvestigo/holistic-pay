@@ -1,15 +1,15 @@
-# Person registry web application
+# Payment dashboard web application
 
 ## Purpose
 
-This Helm chart installs Person registry web application into your Kubernetes cluster.
+This Helm chart installs Payment dashboard web application into your Kubernetes cluster.
 
 Helm release name set during installation will be used for naming all resources created by this Helm chart.
 For example, if Chart is installed with name "my-chart", deployment name will have "my-chart" prefix, as well as all configmaps, secrets and other resources created by this chart.
 It is possible to override this behavior and to set custom name for resources using attribute `nameOverride` in custom values file.
 If this attribute is set, its value will be used to name all the resources, and release name will be ignored.
 
-It is not possible to install application using default values only, there is a list of required attributes which should be applied when installing Person registry web.
+It is not possible to install application using default values only, there is a list of required attributes which should be applied when installing Payment dashboard web.
 
 ## Required setup
 
@@ -28,11 +28,11 @@ imagePullSecrets:
   - name: "image-pull-secret-name" # string value
 ```
 
-Person registry web applications requires a location (endpoint) of API Gateway through which it will be called (defined with `apiGatewayUrl` attribute).
+Payment dashboard web applications requires a location (endpoint) of API Gateway through which it will be called (defined with `apiGatewayUrl` attribute).
 
 ### TLS setup
 
-Person registry application is prepared to use TLS, but requires provided server certificate.
+Payment dashboard web application is prepared to use TLS, but requires provided server certificate.
 Server certificate is not provided by default but is expected to be provided manually.
 There are several different possibilities for customizing TLS setup.
 
@@ -62,7 +62,7 @@ When using initContainer for server certificate, volume will be stored in memory
 #### Provide server certificate from predefined secret
 
 Server certificate can be provided using predefined secret.
-**Note that this secret has to be created in target namespace prior to installation of Person registry web application.**
+**Note that this secret has to be created in target namespace prior to installation of Payment dashboard web application.**
 Additionally, both certificate and key files should be in one single secret.
 
 When using secret for server certificate, following values have to be provided:
@@ -80,7 +80,7 @@ The only requirement is to set secret name and names of certificate and key file
 
 ## Customizing installation
 
-Besides required attributes, installation of Person registry web application can be customized in different ways.
+Besides required attributes, installation of Payment dashboard web application can be customized in different ways.
 
 ### Request body sanitization and response body encoding
 
@@ -147,7 +147,7 @@ customMounts:
 
 ### Modifying deployment strategy
 
-Default deployment strategy for Person registry web application is `RollingUpdate`, but it can be overridden, along with other deployment parameters using following attributes (default values are shown):
+Default deployment strategy for Payment dashboard web application is `RollingUpdate`, but it can be overridden, along with other deployment parameters using following attributes (default values are shown):
 
 ```yaml
 deployment:
@@ -163,11 +163,11 @@ deployment:
   restartPolicy: Always
 ```
 
-By default, one replica of Person registry web is installed on Kubernetes cluster. Number of replicas can be statically modified with above configuration, or `HorizontalPodAutoscaler` option can be used to let Kubernetes automatically scale application when required.
+By default, one replica of Payment dashboard web is installed on Kubernetes cluster. Number of replicas can be statically modified with above configuration, or `HorizontalPodAutoscaler` option can be used to let Kubernetes automatically scale application when required.
 
 #### Customizing pod resource requests and limits
 
-Following are the default values for Person registry web requests and limits:
+Following are the default values for Payment dashboard web requests and limits:
 
 ```yaml
 resources:
@@ -194,13 +194,13 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80 # not used by default
 ```
 
-CPU and/or memory utilization metrics can be used to autoscale Person registry web pod.
+CPU and/or memory utilization metrics can be used to autoscale Payment dashboard web pod.
 It's possible to define one or both of those metrics.
 If only `autoscaling.enabled` attribute is set to `true`, without setting other attributes, only CPU utilization metric will be used with percentage set to 80.
 
 ### Customizing probes
 
-Person registry web application has predefined health check probes (readiness and liveness).
+Payment dashboard web application has predefined health check probes (readiness and liveness).
 Following are the default values:
 
 ```yaml
@@ -245,12 +245,12 @@ deployment:
           value: localhost
 ```
 
-Note that Person registry web has health checks available within the `/health` endpoint (`/health/readiness` for readiness and `/health/liveness` for liveness), and this base paths should not modified, only query parameters are subject to change.
+Note that Payment dashboard web has health checks available within the `/health` endpoint (`/health/readiness` for readiness and `/health/liveness` for liveness), and this base paths should not modified, only query parameters are subject to change.
 `scheme` attribute should also be set to `HTTPS` at all times, as well as `http` value for `port` attribute.
 
 ### Customizing security context
 
-Security context for Person registry web can be set on pod and/or on container level.
+Security context for Payment dashboard web can be set on pod and/or on container level.
 By default, pod security context is defined with following values:
 
 ```yaml
@@ -273,7 +273,7 @@ securityContext:
 
 #### Service setup
 
-When installing Person registry web using default setup, a `Service` object will be created of `ClusterIP` type exposed on port 8443.
+When installing Payment dashboard web using default setup, a `Service` object will be created of `ClusterIP` type exposed on port 8443.
 Those values can be modified by setting following attributes in custom values file, for example for `NodePort`:
 
 ```yaml
@@ -372,7 +372,7 @@ Init container can have all standard Kubernetes attributes in its specification.
 
 ### Customizing affinity rules, node selector and tolerations
 
-Person registry web deployment has some predefined affinity rules, as listed below:
+Payment dashboard web deployment has some predefined affinity rules, as listed below:
 
 ```yaml
 affinity:
@@ -438,7 +438,7 @@ deployment:
 
 ### Additional custom configuration
 
-There are some other customizable attributes predefined in Person registry web application.
+There are some other customizable attributes predefined in Payment dashboard web application.
 
 There's a possibility to define a custom timezone (there is no default one), by simply defining following attribute:
 
