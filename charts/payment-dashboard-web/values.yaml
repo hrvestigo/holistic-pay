@@ -12,14 +12,13 @@ image:
     tag: "" # overrides the image tag whose default is the chart appVersion.
     pullPolicy: # defaults to image.pullPolicy
 
-imagePullSecrets:
-  - name: dockerhub-hrvestigo
+imagePullSecrets: []
 
 apiGatewayUrl: ""
 
 environmentName: "TEST"
 
-appLocale: "hr"
+appLocale: ""
 
 backendUrl: ""
 
@@ -32,7 +31,7 @@ deploymentAnnotations: {}
 serviceAnnotations: {}
 
 podSecurityContext:
-  runAsNonRoot: false
+  runAsNonRoot: true
   runAsUser: 1000
   runAsGroup: 1000
 
@@ -64,20 +63,7 @@ resources:
     cpu: 50m
     memory: 16Mi
 
-initContainers:
-  - name: create-cacert
-    securityContext:
-      runAsUser: 0
-      runAsGroup: 0
-    image: hrvestigo/k8s-cert-init
-    imagePullPolicy: Always
-    command:
-      - bash
-      - -c
-      - "APP_NAME=payment-dashboard-web && HOST_NAME=$APP_NAME && cd /etc/pki && ./VestigoContainerInfra_k8s.sh $HOST_NAME && cp ./VestigoContainerInfra/$APP_NAME.crt /var/tmp/cert.pem && cp ./VestigoContainerInfra/$APP_NAME.key /var/tmp/key.pem && chmod 664 /var/tmp/*"
-    volumeMounts:
-      - mountPath: /var/tmp
-        name: server-cert
+initContainers: []
 
 nodeSelector: {}
 
