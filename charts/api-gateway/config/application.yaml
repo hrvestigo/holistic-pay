@@ -193,31 +193,31 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
-        {{ - if and (.Values.routes.ipcBackend).serviceName (.Values.routes.ipcBackend).servicePortNumber }}
+        {{- if and (.Values.routes.ipcBackend).serviceName (.Values.routes.ipcBackend).servicePortNumber }}
         - id: ipc-backend_route
           predicates:
             - Path=/services/**
-          uri: https://{{ required "Issuing Product Configurator application service name has to be defined in routes.ipcBackend.serviceName" .Values.routes.ipcBackend.serviceName }}:{{ required "Issuing Product Configurator application port number has to be defined in routes.ipcBackend.servicePortNumber" .Values.routes.ipcBackend.servicePortNumber }}
+          uri: https://{{ .Values.routes.ipcBackend.serviceName }}:{{ .Values.routes.ipcBackend.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
             - StripPrefix=1
-        {{ - end }}
-        {{ - if and (.Values.routes.ipcWeb).serviceName (.Values.routes.ipcWeb).servicePortNumber }}
+        {{- end }}
+        {{- if and (.Values.routes.ipcWeb).serviceName (.Values.routes.ipcWeb).servicePortNumber }}
         - id: ipc-web_route
           predicates:
             - Path=/**
-          uri: https://{{ "Issuing Product Configurator service name has to be defined in routes.ipcWeb.serviceName" .Values.routes.ipcWeb.serviceName }}:{{ "Issuing Product Configurator application port number has to be defined in routes.ipcWeb.servicePortNumber" .Values.routes.ipcWeb.servicePortNumber }}
+          uri: https://{{.Values.routes.ipcWeb.serviceName }}:{{.Values.routes.ipcWeb.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
-        {{ - end }}
-        {{ - if and (.Values.routes.personRegistryWeb).serviceName (.Values.routes.personRegistryWeb).servicePortNumber }}
+        {{- end }}
+        {{- if and (.Values.routes.personRegistryWeb).serviceName (.Values.routes.personRegistryWeb).servicePortNumber }}
         - id: person-registry-web_route
           predicates:
             - Path=/**
-          uri: https://{{ "Person registry application service name has to be defined in routes.personRegistryWeb.serviceName" .Values.routes.personRegistryWeb.serviceName }}:{{ "Person structure application port number has to be defined in routes.personRegistryWeb.servicePortNumber" .Values.routes.personRegistryWeb.servicePortNumber }}
+          uri: https://{{.Values.routes.personRegistryWeb.serviceName }}:{{.Values.routes.personRegistryWeb.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
-        {{ - end }}
+        {{- end }}
