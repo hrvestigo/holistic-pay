@@ -91,11 +91,8 @@ routes:
   gsfCore:
     serviceName: gsf-core
     servicePortNumber: "8443"
-  ipcBackend:
-    serviceName: mmpa-services
-    servicePortNumber: "8443"
-  hpDash:
-    serviceName: hp-dashboard
+  consumerFinance:
+    serviceName: consumer-finance
     servicePortNumber: "8443"
 
 oauth2:

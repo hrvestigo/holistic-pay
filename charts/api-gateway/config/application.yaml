@@ -160,7 +160,7 @@ spring:
             - SaveSession
         - id: product-engine-ms_route
           predicates:
-            - Path=/api/*/package-request/**, /api/*/products-overview/**
+            - Path=/api/*/package-request/**, /api/*/products-overview/**, /api/*/package-contract/**
           uri: https://{{ required "Product engine application service name has to be defined in routes.productEngine.serviceName" .Values.routes.productEngine.serviceName }}:{{ required "Product engine application port number has to be defined in routes.productEngine.servicePortNumber" .Values.routes.productEngine.servicePortNumber }}
           filters:
             - TokenRelay
@@ -179,6 +179,21 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
+        - id: consumer-finance-ms_route
+          predicates:
+            - Path=/api/*/consumer-finance/**
+          uri: https://{{ required "Consumer finance application service name has to be defined in routes.consumerFinance.serviceName" .Values.routes.consumerFinance.serviceName }}:{{ required "Consumer finance application port number has to be defined in routes.consumerFinance.servicePortNumber" .Values.routes.consumerFinance.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        - id: swift-mx-ms_route
+          predicates:
+            - Path=/api/*/swift/*
+          uri: https://{{ required "Swift mx application service name has to be defined in routes.swiftMx.serviceName" .Values.routes.swiftMx.serviceName }}:{{ required "Swift mx application port number has to be defined in routes.swiftMx.servicePortNumber" .Values.routes.swiftMx.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        {{ - if and (.Values.routes.ipcBackend).serviceName (.Values.routes.ipcBackend).servicePortNumber }}
         - id: ipc-backend_route
           predicates:
             - Path=/services/**
@@ -187,7 +202,17 @@ spring:
             - TokenRelay
             - SaveSession
             - StripPrefix=1
-        {{- if and (.Values.routes.personRegistryWeb).serviceName (.Values.routes.personRegistryWeb).servicePortNumber }}
+        {{ - end }}
+        {{ - if and (.Values.routes.ipcWeb).serviceName (.Values.routes.ipcWeb).servicePortNumber }}
+        - id: ipc-web_route
+          predicates:
+            - Path=/**
+          uri: https://{{ "Issuing Product Configurator service name has to be defined in routes.ipcWeb.serviceName" .Values.routes.ipcWeb.serviceName }}:{{ "Issuing Product Configurator application port number has to be defined in routes.ipcWeb.servicePortNumber" .Values.routes.ipcWeb.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        {{ - end }}
+        {{ - if and (.Values.routes.personRegistryWeb).serviceName (.Values.routes.personRegistryWeb).servicePortNumber }}
         - id: person-registry-web_route
           predicates:
             - Path=/**
@@ -195,18 +220,4 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
-        {{- end }}
-        - id: swift-mx-ms_route
-          predicates:
-            - Path=/api/*/swift/*
-          uri: https://{{ required "Swift mx application service name has to be defined in routes.swiftMx.serviceName" .Values.routes.swiftMx.serviceName }}:{{ required "Swift mx application port number has to be defined in routes.swiftMx.servicePortNumber" .Values.routes.swiftMx.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        - id: hp-dashboard-ms_route
-          predicates:
-            - Path=/api/*/dashboard/**
-          uri: https://{{ required "HP dashboard application service name has to be defined in routes.hpDash.serviceName" .Values.routes.hpDash.serviceName }}:{{ required "HP dashboard application port number has to be defined in routes.hpDash.servicePortNumber" .Values.routes.hpDash.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
+        {{ - end }}

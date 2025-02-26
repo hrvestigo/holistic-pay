@@ -79,7 +79,10 @@ routes:
     servicePortNumber: "8443" # port number on which gsf-core service is exposed, default is 8443 
   hpDash:
     serviceName: hp-dashboard # name of hp-dashboard service, default is hp-dashboard
-    portNumber: "8443" # port number on which hp-dashboard service is exposed, default is 8443        
+    portNumber: "8443" # port number on which hp-dashboard service is exposed, default is 8443 
+  consumerFinance:
+    serviceName: consumer-finance # name of consumer-finance service, default is consumer-finance
+    servicePortNumber: "8443" # port number on which consumer-finance service is exposed, default is 8443 
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value, no default value
