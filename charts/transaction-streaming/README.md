@@ -1499,3 +1499,22 @@ until a Pod using the persistent volume claim (PVC) is created instead of when t
 
 For more information, please refer to the 
 [Kubernetes documentation](https://kubernetes.io/docs/concepts/storage/persistent-volumes/).
+
+### Memory bounding for Kafka Streams RocksDB
+Transaction-streaming uses Kafka Streams for processing data. RocksDB is a high-performance embedded database for 
+key-value data by default used by Kafka Streams. Before storing data on disk, RocksDB stores data in memory, a.k.a. 
+cache.
+In order to limit cache capacity, the following parameters can be set:
+```yaml 
+kafka:
+  streams:
+    rocksdb:
+      memory:
+        offHeap:
+          totalMemory: 16 # default value, in megabytes
+          blockSize: 16 # default value, in kilobytes
+        memTable:
+          totalMemory: 16 # default value, in megabytes
+          blockSize: 16 # default value, in kilobytes
+          maxNumber: 2 # default integer value
+```

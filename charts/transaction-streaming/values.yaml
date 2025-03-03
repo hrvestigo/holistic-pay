@@ -67,6 +67,15 @@ kafka:
       startup: true
     numThreads: 1
     commitInterval: 1000
+    rocksdb:
+      memory:
+        offHeap:
+          totalMemory: 16
+          blockSize: 16
+        memTable:
+          totalMemory: 16
+          blockSize: 16
+          maxNumber: 2
     delete:
       application:
         id: transaction-streaming-delete

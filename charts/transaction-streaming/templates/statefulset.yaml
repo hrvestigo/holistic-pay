@@ -241,6 +241,16 @@ spec:
               value: {{ .Values.kafka.streams.join.grace | default "40" | quote }}
             - name: SPRING_KAFKA_STREAMS_PROPERTIES_COMMIT_INTERVAL_MS
               value: {{ .Values.kafka.streams.commitInterval | default "1000" | quote }}
+            - name: SPRING_KAFKA_STREAMS_PROPERTIES_ROCKSDB_MEMORY_OFFHEAP_TOTALMEMORY
+              value: {{ .Values.kafka.streams.rocksdb.memory.offHeap.totalMemory | default "16" | quote }}
+            - name: SPRING_KAFKA_STREAMS_PROPERTIES_ROCKSDB_MEMORY_OFFHEAP_BLOCKSIZE
+              value: {{ .Values.kafka.streams.rocksdb.memory.offHeap.blockSize | default "16" | quote }}
+            - name: SPRING_KAFKA_STREAMS_PROPERTIES_ROCKSDB_MEMORY_MEMTABLE_TOTALMEMORY
+              value: {{ .Values.kafka.streams.rocksdb.memory.memTable.totalMemory | default "16" | quote }}
+            - name: SPRING_KAFKA_STREAMS_PROPERTIES_ROCKSDB_MEMORY_MEMTABLE_BLOCKSIZE
+              value: {{ .Values.kafka.streams.rocksdb.memory.memTable.blockSize | default "16" | quote }}
+            - name: SPRING_KAFKA_STREAMS_PROPERTIES_ROCKSDB_MEMORY_MEMTABLE_MAXNUMBER
+              value: {{ .Values.kafka.streams.rocksdb.memory.memTable.maxNumber | default "2" | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDER_NAME
               value: {{ .Values.kafka.topics.paymentOrder.name | quote }}
             - name: KAFKA_TOPIC_TURNOVER_NAME
