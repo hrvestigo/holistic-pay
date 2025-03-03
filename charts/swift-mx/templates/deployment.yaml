@@ -30,7 +30,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "swift-mx.selectorLabels" . | nindent 8 }}
+        {{- include "swift-mx.labels" . | nindent 8 }}
     spec:
       automountServiceAccountToken: false
       {{- with .Values.imagePullSecrets }}
@@ -281,4 +281,10 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
+        - name: {{ include "swift-mx.name" . }}-secret
+          secret:
+            secretName: {{ .Values.secret.existingSecret | default (printf "%s%s" (include "swift-mx.name" .) "-secret") }}
+            items:
+              - path: password.conf
+                key: password.conf
         {{- include "swift-mx.volumes" . | nindent 8 }}

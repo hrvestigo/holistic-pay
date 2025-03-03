@@ -201,19 +201,21 @@ kafka:
 #### Topics, consumer groups and non-blocking retry setup
 
 Kafka topics and consumer group names used by Swift mx have default names defined in
-`values.yaml` file, but can be overridden with following setup:
+`values.yaml` file, but can be overridden. Each topic has reference name under which
+topic configuration is added.
+
+Note that topic reference name defined in `values.yaml` must not be changed due to
+its references in application.
 
 ```yaml
 kafka:
   topics:
-    swiftincomingmessage:
-      name: hr.vestigo.hp.swiftincomingmessage              # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.swiftincomingmessage     # default value, set custom consumer group if required
-      enabled: true                                         # default value, consumer is enabled
-      nbrEnabled: true                                      # default value, non-blocking retry is enabled
-      nbrBackOff: 50000;5s                                  # default value, non-blocking retry fixed back-off
-      nbrName: ''                                           # default value, non-blocking retry topic name
-      dltName: ''                                           # default value, non-blocking DTL topic name
+    <topic-reference-name-1>:
+      <config1>: <value1>
+    <topic-reference-name-2>:
+      <config1>: <value1>
+    <topic-reference-name-3>:
+      <config1>: <value1>
 ```
 
 #### Kafka consumer retry logic
@@ -559,6 +561,46 @@ secret:
 ```
 
 When using secret to mount key store, no additional custom setup is required.
+
+### Using `existingSecret`
+
+Instead of defining and holding encryption key and passwords in values file, `existingSecret` option can be used.
+In this case, only existing secret name should be defined in `secret` block, for example:
+
+```yaml
+secret:
+  existingSecret: custom-predefined-secret-name
+```
+
+Predefined secret has to be prepared and created in the target namespace prior to installation.
+
+The content of the predefined secret has to have a single file called "password.conf" which should contain all required passwords (depending on the used features), for example:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: custom-predefined-secret-name
+type: Opaque
+data:
+  password.conf: |-
+    ...
+```
+
+Complete content of the "password.conf" file:
+
+```properties
+key.for.decryption=(plaintext encryption/decrpytion key)
+aes.spring.datasource.password=(aes encrypted datasource password)
+aes.spring.datasource.password.memberSign=(aes encrypted datasource password for specific memberSign)
+aes.kafka.password=(aes encrypted kafka password)
+aes.kafka.schemaregistry.password=(aes encrypted kafka schema registry password)
+aes.ssl.key.store.password=(aes encrypted key store password)
+aes.spring.kafka.properties.ssl.truststore.password=(aes encrypted trust store password)
+aes.ssl.trust.store.password=(aes encrypted trust store password)
+aes.liquibase.password=(aes encrypted liquibase password)
+```
+
 
 ## Customizing installation
 
@@ -1408,6 +1450,7 @@ application:
       ##    mix - validates Swift MX message using SAA XSD scheme (default)
       ##    saa - validates Swift MX message using SAA XSD scheme
       ##    env - validates Swift MX message using ENV XSD scheme
+      ##    off - do not validate received Swift mX message against XSD schema
       xsdModeIn: mix
       ## Validation mode for send Swift MX messages.
       ##
@@ -1473,22 +1516,33 @@ application:
       ## and produced into 'swiftincomingmessage' Kafka topic
       readEnabled: false
       ## File reading volume mount from which files are polled.
-      ## Currently, nfs volumes are supported.
-      readPath: ''
+      ##
+      ## Currently, nfs volumes are supported. By default, mounted
+      ## automatically via Helm.
+      readPath: '/swiftx/in'
       ## File reading polling interval.
+      ##
       ## Default is 5 seconds, meaning, files are polled every 5 seconds.
       readInterval: 5s
-      ## Maximum files read in reading interval
-      ## Default is 1, meaning, maximum of one file is read in reading interval
+      ## Maximum files read in reading interval.
+      ##
+      ## Default is 1, meaning, maximum of one file is read in reading interval.
       readIntervalMax: 1
       ## File can have file prefix equal to any member sign from members installation.
+      ##
       ## When true (default), file prefix must be equal to any member sign from
-      ## members installation. This prefix then used as key to select correct member
+      ## members installation. This prefix is then used as key to select correct member
       ## datasource
       ## When false, file prefix is not mandatory. In this case first member sign
       ## from members installation list is used as key to select correct member
-      ## datasource
+      ## datasource.
       readFilePrefixEnabled: true
+      ## Rejects duplicate file by name.
+      ##
+      ## By default, duplicate file by file name is rejected by producing error file.
+      ## If disabled, duplicate file by file name is accepted. If
+      ## 'readFilePrefixEnabled' is false ensure each installation member has unique file names.
+      readRejectDuplicate: true
       ## File writing configuration.
       ##
       ## When enabled, 'writePath' must point to volume mount
@@ -1497,14 +1551,29 @@ application:
       ## and files are created.
       writeEnabled: false
       ## File writing volume mount to which files are written to.
-      ## Currently, nfs volumes are supported.
-      writePath: ''
+      ##
+      ## Currently, nfs volumes are supported. By default, mounted
+      ## automatically via Helm.
+      writePath: '/swiftx/out'
       ## File writing interval.
+      ##
       ## Only applicable for poll writing mode, in which source is pulled
-      ## and file is written with polled data
+      ## and file is written with polled data.
       writeInterval: 5s
-      ## File writing mode in which source message is retrieved
+      ## File writing mode in which source message is retrieved.
       writeMode: pull
+      ## Producing event after file is written.
+      ##
+      ## If enabled to event is produced to Kafka topic 'paymentxmlmessage'.
+      writeFileEventEnabled: false
+      ## Producing marker event after files are written.
+      ##
+      ## Marker XML event is special event to indicate that all related XMLs
+      ## are processed. For example, if single caller request produces multiple XMLs
+      ## single marker XML event is produced at the end.
+      ## If enabled to marker event is produced to Kafka topic 'paymentxmlmessage'.
+      ## This property is used only when 'writeFileEventEnabled' is true.
+      writeFileMarkerEventEnabled: false
 
 ## Additional configuration providing details about volume needed for application file integration.
 applicationFileVolumes:
