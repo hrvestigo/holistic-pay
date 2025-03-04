@@ -410,4 +410,4 @@ inbox:
       retryDelay: '600'
 ecs:
   communication:
-    outbox: false
+    type: "template"
