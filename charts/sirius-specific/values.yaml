@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.348.0
+    tag: 1.368.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -87,7 +87,7 @@ kafka:
     application:
       id: sirius-specific
     auto:
-      startup: "false"
+      startup: 'false'
   topics:
     paymentOriginalMessage:
       name: gcp.ipt1.hp.evt.paymentoriginalmessage
@@ -171,6 +171,13 @@ kafka:
       enabled: false
     balanceMigration:
       name: hr.vestigo.hp.balancemigration.01
+    paymentfinmessage:
+      name: gw.ipt1.hp.evt.paymentfinmessage.01
+      consumerGroup: gw.ipt1.hp.evt.paymentfinmessage
+      enabled: false
+    paymentfinmessageinbox:
+      name: gw.ipt1.hp.evt.paymentfinmessageinbox.01
+      consumerGroup: gw.ipt1.hp.evt.paymentfinmessageinbox
 external:
   core:
     system:
@@ -354,7 +361,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 vpa:
   enabled: false
-  updateMode: "Off"
+  updateMode: 'Off'
 mountServerCertFromSecret:
   enabled: false
   secretName: ''

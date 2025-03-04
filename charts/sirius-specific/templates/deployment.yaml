@@ -290,6 +290,16 @@ spec:
               value: {{ .Values.kafkaConsumer.balannounce.enabled | quote }}
             - name: KAFKA_CONSUMER_TRANSACTION_SCREENING_ENABLED
               value: {{ .Values.kafkaConsumer.transactionscreening.enabled | quote }}
+            - name: KAFKA_TOPIC_PAYMENTFINMESSAGE_NAME
+              value: {{ .Values.kafka.topics.paymentfinmessage.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PAYMENTFINMESSAGE_NAME
+              value: {{ .Values.kafka.topics.paymentfinmessage.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_PAYMENTFINMESSAGE_ENABLED
+              value: {{ .Values.kafka.topics.paymentfinmessage.enabled | quote }}
+            - name: KAFKA_TOPIC_PAYMENTFINMESSAGEINBOX_NAME
+              value: {{ .Values.kafka.topics.paymentfinmessageinbox.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PAYMENTFINMESSAGEINBOX_NAME
+              value: {{ .Values.kafka.topics.paymentfinmessageinbox.consumerGroup | quote }}
             - name: EXTERNAL_CORE_SYSTEM_MEMBER_SIGN_DEFAULT
               value: {{ .Values.external.core.system.member.sign.default | quote }}
             - name: SIRIUS_SPECIFIC_CACHE_EXPIREAFTERWRITE
