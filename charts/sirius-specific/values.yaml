@@ -172,12 +172,14 @@ kafka:
     balanceMigration:
       name: hr.vestigo.hp.balancemigration.01
     paymentfinmessage:
-      name: gw.ipt1.hp.evt.paymentfinmessage.01
+      name: hr.vestigo.hp.paymentfinmessage.01
       consumerGroup: gw.ipt1.hp.evt.paymentfinmessage
       enabled: false
     paymentfinmessageinbox:
-      name: gw.ipt1.hp.evt.paymentfinmessageinbox.01
+      name: hr.vestigo.hp.paymentfinmessageinbox.01
       consumerGroup: gw.ipt1.hp.evt.paymentfinmessageinbox
+    ecsCommunicationLog:
+      name: hr.vestigo.hp.ecscommunicationlog.01
 external:
   core:
     system:
@@ -406,3 +408,6 @@ inbox:
       fixedRate: '600000'
       retryCounter: '20'
       retryDelay: '600'
+ecs:
+  communication:
+    outbox: false
