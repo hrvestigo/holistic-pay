@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.11.0
+    tag: 1.22.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -74,6 +74,10 @@ kafka:
     externalCheckResult:
       name: hr.vestigo.hp.externalcheckresult
       consumerGroup: hr.vestigo.hp.externalcheckresult
+      enabled: false
+    ecsCommunicationLog:
+      name: hr.vestigo.hp.ecscommunicationlog.01
+      consumerGroup: hr.vestigo.hp.ecscommunicationlog
       enabled: false
 oauth2:
   enabled: false
