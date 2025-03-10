@@ -22,6 +22,7 @@ secret:
   trustStorePassword: ""
   keyStorePassword: ""
   existingSecret: ""
+  encryptionAlgorithm: "AES_CBC"
 
 logger:
   globalLogLevel: DEBUG

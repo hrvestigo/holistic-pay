@@ -22,12 +22,26 @@ Trust store env variables
 {{- $trustStorePath := printf "%s%s" $trustStoreLocation $trustStoreName -}}
 - name: JAVAX_NET_SSL_TRUST_STORE
   value: {{ $trustStorePath }}
+{{- if and .Values.secret.existingSecret (eq "NONE" .Values.secret.encryptionAlgorithm) }}
+- name: JAVAX_NET_SSL_KEYSTOREPASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.secret.existingSecret }}
+      key: keystore.password
+{{- end }}
 - name: JAVAX_NET_SSL_TRUST_STORE_TYPE
   value: {{ .Values.mountTrustStoreFromSecret.trustStoreType }}
 {{- else if .Values.mountCaFromSecret.enabled -}}
 {{- $trustStorePath := printf "%s%s" $trustStoreLocation "cacerts" -}}
 - name: JAVAX_NET_SSL_TRUST_STORE
   value: {{ $trustStorePath }}
+{{- if and .Values.secret.existingSecret (eq "NONE" .Values.secret.encryptionAlgorithm) }}
+- name: JAVAX_NET_SSL_TRUST_STOREPASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.secret.existingSecret }}
+      key: truststore.password
+{{- end }}
 - name: JAVAX_NET_SSL_TRUST_STORE_TYPE
   value: JKS
 {{- end -}}
@@ -104,12 +118,14 @@ Volumes
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
+{{- if ne "NONE" .Values.secret.encryptionAlgorithm }}
 - name: {{ include "api-gateway.name" . }}-secret
   secret:
     secretName: {{ .Values.secret.existingSecret | default (printf "%s%s" (include "api-gateway.name" .) "-secret") }}
     items:
       - path: password.conf
         key: password.conf
+{{- end }}
 - name: {{ include "api-gateway.name" . }}-configmap
   configMap:
     name: {{ include "api-gateway.name" . }}-configmap
@@ -166,8 +182,10 @@ Mounts for api-gateway application
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
+{{- if ne "NONE" .Values.secret.encryptionAlgorithm }}
 - mountPath: /mnt/k8s/secrets/
   name: {{ include "api-gateway.name" . }}-secret
+{{- end }}
 - mountPath: /opt/app/application.yaml
   name: {{ include "api-gateway.name" . }}-configmap
   subPath: application.yaml
