@@ -136,6 +136,9 @@ payment:
   fetching:
     originalOrder:
       mode: UNIQUE
+  finalStatus:
+    publish:
+      enabled: false
 oauth2:
   enabled: false
   resourceUri: ''

@@ -226,6 +226,22 @@ parameterization:
       exclusionList: false # default value is false
 ```
 
+### Payment Order final status publishing
+
+In Payment order application, payment orders have different statuses during the processing signalizing the current state
+of the payment order.
+Each payment order has a final status which is set when the payment order is completely processed.
+The following parameter can be set to determine whether the final status of each payment order is to be published to 
+Kafka. The default value is set to false, meaning that the final status of each payment order is not published.
+This default behavior is set when no other application needs this information.
+
+```yaml
+payment:
+  finalStatus:
+    publish:
+      enabled: false
+```
+
 ### Datasource connection setup
 
 All values required for PostgreSQL database connection are defined within `datasource` parent attribute.
