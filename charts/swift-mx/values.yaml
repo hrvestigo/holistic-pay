@@ -90,6 +90,14 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
+    swiftpaymentchargesrequest:
+      name: hr.vestigo.hp.swiftpaymentchargesrequest
+      consumerGroup: hr.vestigo.hp.swiftpaymentchargesrequest
+      enabled: true
+      nbrEnabled: true
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
 oauth2:
   enabled: false
   resourceUri: ''
