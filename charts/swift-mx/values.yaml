@@ -265,7 +265,7 @@ application:
       xsdModeIn: mix
       xsdModeOut: mix
     format:
-      timestampOut: yyyy-MM-dd'T'HH:mm.:ss.SSSxxx
+      timestampOut: yyyy-MM-dd'T'HH:mm:ss.SSSxxx
       xmlModeOut: saa
   data:
     caching:
