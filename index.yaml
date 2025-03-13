@@ -6420,6 +6420,16 @@ entries:
     version: 1.0.0
   hp-dashboard:
   - apiVersion: v2
+    appVersion: 1.30.0
+    created: "2025-03-13T10:53:34.945650698Z"
+    description: Helm chart for hp-dashboard application
+    digest: e2938af031a658ade718f15eded9c3ca5a741201fd6f0af5706299fb2a45cdee
+    name: hp-dashboard
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/hp-dashboard-1.30.0/hp-dashboard-1.30.0.tgz
+    version: 1.30.0
+  - apiVersion: v2
     appVersion: 1.29.0
     created: "2025-03-13T10:17:12.428199187Z"
     description: Helm chart for hp-dashboard application
@@ -26190,4 +26200,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2025-03-13T10:17:12.446077091Z"
+generated: "2025-03-13T10:53:34.963359184Z"
