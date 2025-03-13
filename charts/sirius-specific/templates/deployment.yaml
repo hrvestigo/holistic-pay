@@ -302,6 +302,18 @@ spec:
               value: {{ .Values.kafka.topics.paymentfinmessageinbox.consumerGroup | quote }}
             - name: KAFKA_TOPIC_ECSCOMMUNICATIONLOG_NAME
               value: {{ .Values.kafka.topics.ecsCommunicationLog.name | quote }}
+            - name: KAFKA_TOPIC_PAYMENTSWIFTORIGINALMESSAGE_NAME
+              value: {{ .Values.kafka.topics.paymentSwiftOriginalMessage.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PAYMENTSWIFTORIGINALMESSAGE_NAME
+              value: {{ .Values.kafka.topics.paymentSwiftOriginalMessage.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_PAYMENTSWIFTORIGINALMESSAGE_ENABLED
+              value: {{ .Values.kafka.topics.paymentSwiftOriginalMessage.enabled | quote }}
+            - name: KAFKA_TOPIC_PAYMENTSWIFTORIGINALMESSAGEINBOX_NAME
+              value: {{ .Values.kafka.topics.paymentSwiftOriginalMessageInbox.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PAYMENTSWIFTORIGINALMESSAGEINBOX_NAME
+              value: {{ .Values.kafka.topics.paymentSwiftOriginalMessageInbox.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_PAYMENTSWIFTORIGINALMESSAGEINBOX_ENABLED
+              value: {{ .Values.kafka.topics.paymentSwiftOriginalMessageInbox.enabled | quote }}
             - name: EXTERNAL_CORE_SYSTEM_MEMBER_SIGN_DEFAULT
               value: {{ .Values.external.core.system.member.sign.default | quote }}
             - name: SIRIUS_SPECIFIC_CACHE_EXPIREAFTERWRITE
