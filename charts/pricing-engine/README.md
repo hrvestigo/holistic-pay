@@ -145,6 +145,7 @@ pricing:
     deliveryChannel: HP # Delivery channel
     technical:
       userId: HP001 # Application technical user
+    processPeriod: 800 # default value 800, minimum seconds between processing 2 billing requests for the same package
 schedule:
   cron:
     parkedFee: 0 0 4 * * * # Scheduling parking fee functionality (e.g. each day at 4 AM)
