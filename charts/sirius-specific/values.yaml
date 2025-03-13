@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.368.0
+    tag: 1.375.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -180,6 +180,14 @@ kafka:
       consumerGroup: gw.ipt1.hp.evt.paymentfinmessageinbox
     ecsCommunicationLog:
       name: hr.vestigo.hp.ecscommunicationlog.01
+    paymentSwiftOriginalMessage:
+      name: hr.vestigo.hp.paymentxmlmessage
+      consumerGroup: hr.vestigo.hp.paymentxmlmessage
+      enabled: false
+    paymentSwiftOriginalMessageInbox:
+      name: hr.vestigo.hp.paymentxmlmessageinbox
+      consumerGroup: hr.vestigo.hp.paymentxmlmessageinbox
+      enabled: false
 external:
   core:
     system:
@@ -410,4 +418,4 @@ inbox:
       retryDelay: '600'
 ecs:
   communication:
-    type: "template"
+    type: template
