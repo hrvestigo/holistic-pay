@@ -175,6 +175,9 @@
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
+      <Filters>
+        <RegexFilter regex="^Fetching JDBC Connection from DataSource$" onMatch="DENY" onMismatch="ACCEPT" />
+      </Filters>
     </Logger>
 
     <Logger name="org.springframework.boot.autoconfigure" level={{ .level.general | upper | quote }} additivity="false">

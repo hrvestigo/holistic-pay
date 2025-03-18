@@ -204,25 +204,22 @@ Volumes
 {{- define "swift-mx.volumes" -}}
 {{- if .Values.application.integration.file.readEnabled }}
 - name: in
-{{- with .Values.applicationFileVolumes.readVolumeParameters -}}
-{{- toYaml . | default "" | nindent 2 -}}
-{{ "" }}
+{{- with .Values.applicationFileVolumes.readVolumeParameters }}
+{{- toYaml . | default "" | nindent 2 }}
 {{- end }}
 {{- end }}
 {{- if .Values.application.integration.file.writeEnabled }}
 - name: out
-{{- with .Values.applicationFileVolumes.writeVolumeParameters -}}
-{{- toYaml . | default "" | nindent 2 -}}
-{{ "" }}
+{{- with .Values.applicationFileVolumes.writeVolumeParameters }}
+{{- toYaml . | default "" | nindent 2 }}
 {{- end }}
 {{- end }}
-{{with .Values.customVolumes -}}
+{{- with .Values.customVolumes }}
 {{- toYaml . | default "" }}
-{{ "" }}
-{{- end -}}
+{{- end }}
 - name: {{ include "swift-mx.name" . }}-secret
   secret:
-    secretName: {{ include "swift-mx.name" . }}-secret
+    secretName: {{ .Values.secret.existingSecret | default (printf "%s%s" (include "swift-mx.name" .) "-secret") }}
     items:
       - path: password.conf
         key: password.conf
