@@ -208,7 +208,7 @@ Volumes
 {{- end -}}
 - name: {{ include "hp-dashboard.name" . }}-secret
   secret:
-    secretName: {{ include "hp-dashboard.name" . }}-secret
+    secretName: {{ .Values.secret.existingSecret | default (printf "%s%s" (include "hp-dashboard.name" .) "-secret") }}
     items:
       - path: password.conf
         key: password.conf
