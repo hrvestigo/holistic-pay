@@ -158,8 +158,6 @@ kafka:
         name: hr.vestigo.hp.turnover
       turnCustomer:
         name: hr.vestigo.hp.turncustomer
-      customerAccountStatement:
-        name: hr.vestigo.hp.customeraccountstatement
       paymentOrder:
         name: hr.vestigo.hp.paymentorder
       fPayment:

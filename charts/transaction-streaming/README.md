@@ -298,8 +298,6 @@ kafka:
         name: hr.vestigo.hp.turnover # default value, set custom name if required
       turnCustomer:
         name: hr.vestigo.hp.turncustomer # default value, set custom name if required
-      customerAccountStatement:
-        name: hr.vestigo.hp.customeraccountstatement # default value, set custom name if required
       paymentOrder:
         name:  hr.vestigo.hp.paymentorder # default value, set custom name if required
       fPayment:
