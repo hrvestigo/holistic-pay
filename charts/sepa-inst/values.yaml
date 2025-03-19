@@ -74,6 +74,8 @@ kafka:
     sepainstmsgcheck:
       name: hr.vestigo.hp.sepainstmsgcheck
       consumerGroup: hr.vestigo.hp.sepainstmsgcheck
+    alertTopic:
+      name: hr.vestigo.hp.alert
 csm:
   id: NKS9999998
   url: ''
@@ -298,3 +300,6 @@ customEnv: []
 tracing:
   samplingProbability: 0.0
   otlpEndpoint: ''
+alert:
+  communication:
+    type: template
