@@ -95,6 +95,8 @@ kafka:
       name: hr.vestigo.hp.ecspaymentcalllog
     ecsPaymentCompensation:
       name: hr.vestigo.hp.ecspaymentcompensation
+    alertTopic:
+      name: hr.vestigo.hp.alert
 paymentExternalChecks:
   topicRealNames:
     personStructureChecks: hr.vestigo.hp.personstructurechecks
@@ -304,3 +306,6 @@ customEnv: []
 tracing:
   samplingProbability: 0.0
   otlpEndpoint: ''
+alert:
+  communication:
+    type: template
