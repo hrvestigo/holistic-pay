@@ -188,6 +188,8 @@ kafka:
       name: hr.vestigo.hp.paymentxmlmessageinbox
       consumerGroup: hr.vestigo.hp.paymentxmlmessageinbox
       enabled: false
+    alertTopic:
+      name: hr.vestigo.hp.alert
 external:
   core:
     system:
