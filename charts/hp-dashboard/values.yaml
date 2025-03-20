@@ -79,6 +79,10 @@ kafka:
       name: hr.vestigo.hp.ecscommunicationlog.01
       consumerGroup: hr.vestigo.hp.ecscommunicationlog
       enabled: false
+    alertTopic:
+      name: hr.vestigo.hp.alertTopic.01
+      consumerGroup: hr.vestigo.hp.alertTopic
+      enabled: false
 oauth2:
   enabled: false
   resourceUri: ''
