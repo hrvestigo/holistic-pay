@@ -168,8 +168,8 @@ Scan frequency can be set through `kafka.streams.delete.scanFrequency` in hours.
 Default value is 12 hours, meaning old data is deleted every 12 hours. 
 Maximum age for these records can be set through `kafka.streams.delete.maximumAge` in days.
 Default value is 1 day for input topics (`turnover`, `turnCustomer`, `paymentOrder`, `fPayment`, `paymentListQ`, 
-`event`, `interfaceCollTbl` and `trxAnnounce`) and 30 days for output topics (`customerAccountStatement` and 
-`futuristicForeignPayment`).
+`event`, `interfaceCollTbl`, `trxAnnounce` and `customerAccountStatement`) and 30 days for output topic 
+`futuristicForeignPayment`.
 With this setup, additionally it is required to set `kafka.topics.tombstone` topic names for these topics.
 These should be different from original topics as they may contain null values, a.k.a. tombstones.
 These topics need not be set if `kafka.streams.delete.auto.startup` is false.
@@ -217,7 +217,7 @@ kafka:
         event: 1 # in days, default value is 1
         interfaceCollTbl: 1 # in days, default value is 1
         trxAnnounce: 1 # in days, default value is 1
-        customerAccountStatement: 30 # in days, default value is 30
+        customerAccountStatement: 2 # in days, default value is 2
         futuristicForeignPayment: 30 # in days, default value is 30
     join:
       window: 60 # default value is 60
@@ -298,6 +298,8 @@ kafka:
         name: hr.vestigo.hp.turnover # default value, set custom name if required
       turnCustomer:
         name: hr.vestigo.hp.turncustomer # default value, set custom name if required
+      customerAccountStatement:
+        name: hr.vestigo.hp.customeraccountstatement # default value, set custom name if required
       paymentOrder:
         name:  hr.vestigo.hp.paymentorder # default value, set custom name if required
       fPayment:

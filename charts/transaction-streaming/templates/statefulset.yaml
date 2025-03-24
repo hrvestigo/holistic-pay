@@ -190,13 +190,15 @@ spec:
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_TRXANNOUNCE
               value: {{ .Values.kafka.streams.delete.maximumAge.trxAnnounce | default "1" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_CUSTOMERACCOUNTSTATEMENT
-              value: {{ .Values.kafka.streams.delete.maximumAge.customerAccountStatement | default "30" | quote }}
+              value: {{ .Values.kafka.streams.delete.maximumAge.customerAccountStatement | default "2" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_FUTURISTICFOREIGNPAYMENT
               value: {{ .Values.kafka.streams.delete.maximumAge.futuristicForeignPayment | default "30" | quote }}
             - name: KAFKA_TOPIC_TURNOVER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.tombstone.turnover.name | quote }}
             - name: KAFKA_TOPIC_TURNCUSTOMER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.tombstone.turnCustomer.name | quote }}
+            - name: KAFKA_TOPIC_CUSTOMERACCOUNTSTATEMENT_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.tombstone.customerAccountStatement.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.tombstone.paymentOrder.name | quote }}
             - name: KAFKA_TOPIC_FPAYMENT_TOMBSTONE_NAME
@@ -216,6 +218,8 @@ spec:
               value: {{ .Values.kafka.topics.turnover.name | quote }}
             - name: KAFKA_TOPIC_TURNCUSTOMER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.turnCustomer.name | quote }}
+            - name: KAFKA_TOPIC_CUSTOMERACCOUNTSTATEMENT_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.customerAccountStatement.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.paymentOrder.name | quote }}
             - name: KAFKA_TOPIC_FPAYMENT_TOMBSTONE_NAME
