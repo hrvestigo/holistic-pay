@@ -601,7 +601,6 @@ aes.ssl.trust.store.password=(aes encrypted trust store password)
 aes.liquibase.password=(aes encrypted liquibase password)
 ```
 
-
 ## Customizing installation
 
 Besides required attributes, installation of swift-mx can be customized in different ways.
@@ -1555,6 +1554,23 @@ application:
       ## Currently, nfs volumes are supported. By default, mounted
       ## automatically via Helm.
       writePath: '/swiftx/out'
+      ## File writing subpath in volume mount to which files are written to.
+      ##
+      ## Uses writePath as base path to which this path is added.
+      ##
+      ## Supported values: '{uetr}', '{msg}', '{date}', ''
+      ## With '{uetr}' file is written in UUID subpath, extracted from file.
+      ## If '{uetr}' is not found, '{msg}' is used.
+      ## With '{msg}' file is written in message type subpath, extracted from file.
+      ## If '{msg}' is not found, '{date}' is used.
+      ## With '{date}' file is written in date subpath, when message is created using yyyMMdd format.
+      ## With '' no subpath is used.
+      ## Default is '{date}'.
+      ##
+      ## It is also possible to support fixed subpath and mix supported values.
+      ## Examples: 'subout/{msg}', '{uetr}/{date}'
+      ## First slash is not needed
+      writeSubPath: '{date}'
       ## File writing interval.
       ##
       ## Only applicable for poll writing mode, in which source is pulled

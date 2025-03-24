@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.46.0
+    tag: 1.47.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -283,6 +283,7 @@ application:
       readRejectDuplicate: true
       writeEnabled: false
       writePath: /swiftx/out
+      writeSubPath: '{date}'
       writeInterval: 5s
       writeMode: pull
       writeFileEventEnabled: false
