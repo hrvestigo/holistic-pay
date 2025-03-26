@@ -50,7 +50,12 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
+            {{- if .Values.securityContext }}
             {{- toYaml .Values.securityContext | nindent 12 }}
+            {{ end }}
+            {{- if not (hasKey .Values.securityContext "allowPrivilegeEscalation") }}
+            {{- "allowPrivilegeEscalation: false" | nindent 12 }}
+            {{- end }}
           image: {{ include "api-gateway.app.repository" . }}:{{ .Values.image.app.tag | default .Chart.AppVersion }}
           imagePullPolicy: {{ include "api-gateway.app.imagePullPolicy" . }}
           env:
