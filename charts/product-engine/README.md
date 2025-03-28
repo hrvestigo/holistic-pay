@@ -158,6 +158,19 @@ personRegistry:
     timeout: 30000 # Defined timeout time
 ```
 
+### Audit log setup
+Saving to audit log can be enabled or disabled.
+Sequence to use are set in sequence attribute.
+
+```yaml
+status:
+  auditLog:
+    enabled: false # Example for disabled saving to audit log
+
+ms:
+  sequence:
+    name: "my_sequence_name" # Example for sequence
+```
 ### Kafka setup
 
 product-engine  uses Kafka as event stream backend.

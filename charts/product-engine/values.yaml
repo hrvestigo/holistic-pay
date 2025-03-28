@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.104.0
+    tag: 1.113.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -63,6 +63,12 @@ personRegistry:
     baseUrl: ''
     url: ''
     timeout: ''
+status:
+  auditLog:
+    enabled: false
+ms:
+  sequence:
+    name: ''
 kafka:
   readinessProbeEnabled: true
   user: ''
@@ -88,6 +94,9 @@ kafka:
       consumerGroup: ''
     feecalculationrequest:
       name: ''
+    custpackprodaction:
+      name: ''
+      consumerGroup: ''
 oauth2:
   enabled: false
   resourceUri: ''
