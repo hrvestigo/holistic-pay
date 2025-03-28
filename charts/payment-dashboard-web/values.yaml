@@ -20,6 +20,8 @@ environmentName: "TEST"
 
 appLocale: ""
 
+appAutoRefreshInterval: 3000
+
 backendUrl: ""
 
 timezone: ""

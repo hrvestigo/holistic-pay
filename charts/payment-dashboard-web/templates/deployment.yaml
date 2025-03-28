@@ -59,6 +59,8 @@ spec:
               value: {{ required "Please specify environment name in environmentName" .Values.environmentName | quote }}
             - name: APP_LOCALE
               value: {{ required "Please specify app locale via appLocale" .Values.appLocale | quote }}
+            - name: APP_AUTO_REFRESH_INTERVAL
+              value: {{ required "Please specify app auto-refresh interval appAutoRefreshInterval" .Values.appAutoRefreshInterval | quote }}
             - name: REACT_APP_BACKEND_URL
               value: {{ required "Please specify backend URL via backendUrl" .Values.backendUrl | quote }}
             {{- with .Values.customEnv }}
