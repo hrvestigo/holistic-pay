@@ -94,6 +94,15 @@ kafka:
       consumerGroup: ''
     feecalculationrequest:
       name: ''
+    statusmanagemententitystatus:
+      name: ''
+      consumerGroup: ''
+    requestentitystatuschange:
+      name: ''
+      consumerGroup: ''
+    statusonlineeffects:
+      name: ''
+      consumerGroup: ''
     custpackprodaction:
       name: ''
       consumerGroup: ''

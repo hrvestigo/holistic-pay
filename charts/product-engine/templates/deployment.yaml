@@ -158,6 +158,22 @@ spec:
               value: {{ required "Please specify kafka.topics.requestpackagefeecalculation.consumerGroup" .Values.kafka.topics.requestpackagefeecalculation.consumerGroup | quote }}
             - name: KAFKA_TOPIC_FEECALCULATIONREQUEST_NAME
               value: {{ required "Please specify kafka.topics.feecalculationrequest.name" .Values.kafka.topics.feecalculationrequest.name | quote }}
+            - name: KAFKA_TOPIC_STATUSMANAGEMENTENTITYSTATUS_NAME
+              value: {{ required "Please specify kafka.topics.statusmanagemententitystatus.name" .Values.kafka.topics.statusmanagemententitystatus.name | quote }}
+            - name: KAFKA_TOPIC_REQUESTENTITYSTATUSCHANGE_NAME
+              value: {{ required "Please specify kafka.topics.requestentitystatuschange.name" .Values.kafka.topics.requestentitystatuschange.name | quote }}
+            - name: KAFKA_TOPIC_STATUSONLINEEFFECTS_NAME
+              value: {{ required "Please specify kafka.topics.statusonlineeffects.name" .Values.kafka.topics.statusonlineeffects.name | quote }}
+            - name: KAFKA_TOPIC_CUSTPACKPRODACTION_NAME
+              value: {{ required "Please specify kafka.topics.custpackprodaction.name" .Values.kafka.topics.custpackprodaction.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_STATUSMANAGEMENTENTITYSTATUS_NAME
+              value: {{ required "Please specify kafka.topics.statusmanagemententitystatus.consumerGroup" .Values.kafka.topics.statusmanagemententitystatus.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_REQUESTENTITYSTATUSCHANGE_NAME
+              value: {{ required "Please specify kafka.topics.requestentitystatuschange.consumerGroup" .Values.kafka.topics.requestentitystatuschange.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_STATUSONLINEEFFECTS_NAME
+              value: {{ required "Please specify kafka.topics.statusonlineeffects.consumerGroup" .Values.kafka.topics.statusonlineeffects.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSTPACKPRODACTION_NAME
+              value: {{ required "Please specify kafka.topics.custpackprodaction.consumerGroup" .Values.kafka.topics.custpackprodaction.consumerGroup | quote }}
             - name: PRODUCT_ENGINE_APPMODULE
               value: {{ required "Please specify product.engine.appModule" .Values.product.engine.appModule | quote }}
             - name: PRODUCT_ENGINE_DELIVERYCHANNEL
