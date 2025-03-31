@@ -188,7 +188,7 @@ spec:
             {{- end }}
             - name: SCHEDULED_TASK_PRDENG_PACKAGEFEECALC_ENABLED
               value: {{ .Values.scheduleTask.packageFeeCalc.enabled | quote }}
-            - name: STATUS_AUDITLOG_ENABLED
+            - name: STATUS_AUDIT_LOG_ENABLED
               value: {{ .Values.status.auditLog.enabled | quote }}
             - name: MS_SEQUENCE_NAME
               value: {{ .Values.ms.sequence.name | quote }}
