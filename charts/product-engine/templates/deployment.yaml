@@ -189,9 +189,9 @@ spec:
             - name: SCHEDULED_TASK_PRDENG_PACKAGEFEECALC_ENABLED
               value: {{ .Values.scheduleTask.packageFeeCalc.enabled | quote }}
             - name: STATUS_AUDITLOG_ENABLED
-              value: { { .Values.status.auditLog.enabled | quote } }
+              value: {{ .Values.status.auditLog.enabled | quote }}
             - name: MS_SEQUENCE_NAME
-              value: { { .Values.ms.sequence.name | quote } }
+              value: {{ .Values.ms.sequence.name | quote }}
             - name: GET_ALL_REPLICATED_PERSON_DATA_INTERFACE_BASE_URL
               value: {{ required "Please specify personRegistry.replicatedPersonData.baseUrl" .Values.personRegistry.replicatedPersonData.baseUrl | quote }}
             - name: GET_ALL_REPLICATED_PERSON_DATA_INTERFACE_URL
