@@ -360,6 +360,8 @@ spec:
               value: {{ .Values.inbox.scheduler.level2.retryDelay | int | quote }}
             - name: ECS_COMMUNICATION_TYPE
               value: {{ .Values.ecs.communication.type | quote }}
+            - name: ACTIVE_PARTY_CHECK_FLAG
+              value: {{ .Values.activePartyCheckFlag | quote }}
             {{- if .Values.grpc.server.enabled }}
             - name: GRPC_SERVER_PORT
               value: {{ .Values.grpc.server.port | default "9090" | quote }}

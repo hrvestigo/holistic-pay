@@ -421,3 +421,4 @@ inbox:
 ecs:
   communication:
     type: template
+activePartyCheckFlag: 'DISABLE_WITH_AC01'
