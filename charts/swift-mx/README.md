@@ -1434,6 +1434,7 @@ application:
     ##
     ## @param validation  API component validation configuration
     ## @param formatting  API component formatting configuration
+    ## @param event       API component events configuration
     validation:
       ## Validation mode for received Swift MX messages.
       ##
@@ -1475,6 +1476,17 @@ application:
       ## Default format includes timestamp with milliseconds precision
       ## and time zone offset. For example: 2024-10-25T11:15:21.950+02:00
       timestampOut: yyyy-MM-dd'T'HH:mm.:ss.SSSxxx
+    event:
+      ## Producing XML event for received Swift MX messages.
+      ##
+      ## By default, received Swift MX message is produced to Kafka topic 'paymentxmlmessage'
+      xmlIn: true
+      ## Producing XML event for generated Swift MX messages.
+      ##
+      ## By default, generated Swift MX message is produced to Kafka topic 'paymentxmlmessage'.
+      ## Note that if outgoing file integration is enabled and parameter 'writeFileEventEnabled'
+      ## is set to true, duplicate event is produced. In this case this parameter can be disabled.
+      xmlOut: true
   data:
     ## Configuration for data component.
     ##
@@ -1580,14 +1592,15 @@ application:
       writeMode: pull
       ## Producing event after file is written.
       ##
-      ## If enabled to event is produced to Kafka topic 'paymentxmlmessage'.
+      ## If enabled, event is produced to Kafka topic 'paymentxmlmessage'.
+      ## Note that this property is independent of 'api.event.xmlOut' property.
       writeFileEventEnabled: false
       ## Producing marker event after files are written.
       ##
       ## Marker XML event is special event to indicate that all related XMLs
       ## are processed. For example, if single caller request produces multiple XMLs
       ## single marker XML event is produced at the end.
-      ## If enabled to marker event is produced to Kafka topic 'paymentxmlmessage'.
+      ## If enabled, marker event is produced to Kafka topic 'paymentxmlmessage'.
       ## This property is used only when 'writeFileEventEnabled' is true.
       writeFileMarkerEventEnabled: false
 
