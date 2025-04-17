@@ -22,26 +22,19 @@ Trust store env variables
 {{- $trustStorePath := printf "%s%s" $trustStoreLocation $trustStoreName -}}
 - name: JAVAX_NET_SSL_TRUST_STORE
   value: {{ $trustStorePath }}
-{{- if and .Values.secret.existingSecret (eq "NONE" .Values.secret.encryptionAlgorithm) }}
-- name: JAVAX_NET_SSL_KEYSTOREPASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: {{ .Values.secret.existingSecret }}
-      key: keystore.password
-{{- end }}
 - name: JAVAX_NET_SSL_TRUST_STORE_TYPE
   value: {{ .Values.mountTrustStoreFromSecret.trustStoreType }}
-{{- else if .Values.mountCaFromSecret.enabled -}}
-{{- $trustStorePath := printf "%s%s" $trustStoreLocation "cacerts" -}}
-- name: JAVAX_NET_SSL_TRUST_STORE
-  value: {{ $trustStorePath }}
 {{- if and .Values.secret.existingSecret (eq "NONE" .Values.secret.encryptionAlgorithm) }}
-- name: JAVAX_NET_SSL_TRUST_STOREPASSWORD
+- name: JAVAX_NET_SSL_TRUST_STORE_PASSWORD
   valueFrom:
     secretKeyRef:
       name: {{ .Values.secret.existingSecret }}
       key: truststore.password
 {{- end }}
+{{- else if .Values.mountCaFromSecret.enabled -}}
+{{- $trustStorePath := printf "%s%s" $trustStoreLocation "cacerts" -}}
+- name: JAVAX_NET_SSL_TRUST_STORE
+  value: {{ $trustStorePath }}
 - name: JAVAX_NET_SSL_TRUST_STORE_TYPE
   value: JKS
 {{- end -}}
@@ -59,6 +52,13 @@ Key store env variables
   value: {{ $keyStorePath }}
 - name: JAVAX_NET_SSL_KEY_STORE_TYPE
   value: {{ .Values.mountKeyStoreFromSecret.keyStoreType }}
+{{- if and .Values.secret.existingSecret (eq "NONE" .Values.secret.encryptionAlgorithm) }}
+- name: JAVAX_NET_SSL_KEY_STORE_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.secret.existingSecret }}
+      key: keystore.password
+{{- end }}
 {{- end -}}
 {{- end }}
 
@@ -154,24 +154,31 @@ Volumes
         key: {{ .Values.mountKeyStoreFromSecret.keyStoreName }}
 {{- end }}
 {{- end }}
-{{- if .Values.mountTrustStoreFromSecret.enabled }}
 - name: truststore
+{{- if .Values.mountTrustStoreFromSecret.enabled }}
   secret:
     secretName: {{ .Values.mountTrustStoreFromSecret.secretName }}
-{{- if .Values.mountTrustStoreFromSecret.trustStoreName }}
+  {{- if .Values.mountTrustStoreFromSecret.trustStoreName }}
     items:
       - path: {{ .Values.mountTrustStoreFromSecret.trustStoreName }}
         key: {{ .Values.mountTrustStoreFromSecret.trustStoreName }}
-{{- end }}
-{{- else if .Values.mountCaFromSecret.enabled }}
-- name: truststore
+  {{- end }}
+{{- else }}
+  emptyDir: {}
+  {{- if .Values.mountCaFromSecret.enabled }}
+- name: certs
   secret:
     secretName: {{ required "Secret name is required when mounting CA from secret, please specify in mountCaFromSecret.secretName" .Values.mountCaFromSecret.secretName }}
+  {{- end }}
 {{- end }}
-{{- if and .Values.logger.logDirMount.enabled .Values.logger.logDirMount.spec }}
 - name: logdir
+{{- if and .Values.logger.logDirMount.enabled .Values.logger.logDirMount.spec }}
 {{- toYaml .Values.logger.logDirMount.spec | nindent 2 }}
+{{- else }}
+  emptyDir: {}
 {{- end }}
+- name: tmp
+  emptyDir: {}
 {{- end }}
 
 {{/*
@@ -211,17 +218,16 @@ Mounts for api-gateway application
 - mountPath: /mnt/k8s/key-store
   name: keystore
 {{- end }}
-{{- if .Values.mountTrustStoreFromSecret.enabled }}
+{{- if .Values.mountCaFromSecret.enabled }}
+- mountPath: /mnt/k8s/client-certs
+  name: certs
+{{- end }}
 - mountPath: /mnt/k8s/trust-store
   name: truststore
-{{- else if .Values.mountCaFromSecret.enabled }}
-- mountPath: /mnt/k8s/client-certs
-  name: truststore
-{{- end }}
-{{- if and .Values.logger.logDirMount.enabled .Values.logger.logDirMount.spec }}
 - mountPath: {{ .Values.logger.logDir }}
   name: logdir
-{{- end}}
+- mountPath: /tmp
+  name: tmp
 {{- end }}
 
 {{/*

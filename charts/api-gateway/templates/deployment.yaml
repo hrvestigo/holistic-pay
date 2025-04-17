@@ -29,6 +29,9 @@ spec:
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
+        {{- if not (hasKey .Values.podAnnotations "cluster-autoscaler.kubernetes.io/safe-to-evict") }}
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        {{- end }}
       labels:
         {{- include "api-gateway.labels" . | nindent 8 }}
     spec:
@@ -55,6 +58,9 @@ spec:
             {{ end }}
             {{- if not (hasKey .Values.securityContext "allowPrivilegeEscalation") }}
             {{- "allowPrivilegeEscalation: false" | nindent 12 }}
+            {{- end }}
+            {{- if not (hasKey .Values.securityContext "readOnlyRootFilesystem") }}
+            {{- "readOnlyRootFilesystem: true" | nindent 12 }}
             {{- end }}
           image: {{ include "api-gateway.app.repository" . }}:{{ .Values.image.app.tag | default .Chart.AppVersion }}
           imagePullPolicy: {{ include "api-gateway.app.imagePullPolicy" . }}

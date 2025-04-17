@@ -6,6 +6,8 @@ api:
 {{- end }}
 
 spring:
+  main:
+    banner-mode: off
   {{- if .Values.oauth2.enabled }}
   security:
     oauth2:
