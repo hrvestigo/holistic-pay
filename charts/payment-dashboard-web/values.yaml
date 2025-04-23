@@ -24,6 +24,14 @@ appAutoRefreshInterval: 3000
 
 backendUrl: ""
 
+logoutUrl: ""
+
+oauth2:
+  enabled: false
+  realm: Holistic-Pay
+  serverUrl: ""
+  resource: aux
+
 timezone: ""
 
 podAnnotations: {}
