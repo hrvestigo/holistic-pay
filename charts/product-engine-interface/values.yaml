@@ -225,6 +225,8 @@ ccms:
         timeout: 30000
       ws2i68:
         url: ''
+      ws2i94:
+        url: ''
 autoscaling:
   enabled: false
   minReplicas: 1
