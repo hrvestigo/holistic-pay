@@ -152,12 +152,34 @@ spec:
               value: {{ .Values.kafka.topics.packagerequestcoreproductinfosystem.consumerGroup | quote }}
             - name: KAFKA_TOPIC_PACKAGEREQUESTCOREPRODUCTINFOSYSTEM_RETRY_MAXATTEMPTS
               value: {{ .Values.kafka.topics.packagerequestcoreproductinfosystem.retry.maxAttempts | quote }}
+            - name: KAFKA_TOPIC_CUSTPACKPRODACTION_NAME
+              value: {{ .Values.kafka.topics.custpackprodaction.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSTPACKPRODACTION_NAME
+              value: {{ .Values.kafka.topics.custpackprodaction.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CUSTPACKPRODACTION_RETRY_MAXATTEMPTS
+              value: {{ .Values.kafka.topics.custpackprodaction.retry.maxAttempts | quote }}
+            - name: KAFKA_TOPIC_CUSTPACKPRODACTION_RETRY_DELAY
+              value: {{ .Values.kafka.topics.custpackprodaction.retry.delay | quote }}
             - name: KAFKA_TOPIC_PACKAGEREQUESTCOREPRODUCTINFO_NAME
               value: {{ .Values.kafka.topics.packagerequestcoreproductinfo.name | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
               value: PKCS12
+            - name: CCMS_WS_URL
+              value: {{ .Values.ccms.ws.url | quote }}
+            - name: CCMS_REST_SERVICE_INITIATE_TIMEOUT
+              value: {{ .Values.ccms.rest.service.initiate.timeout | quote }}
+            - name: CCMS_REST_SERVICE_RESPONSE_TIMEOUT
+              value: {{ .Values.ccms.rest.service.response.timeout | quote }}
+            - name: CCMS_REST_SERVICE_WS2I68_URL
+              value: {{ .Values.ccms.rest.service.ws2i68.url | quote }}
+            - name: REQUEST_INTEROPERABILITY_BLOCK_REQUESTORCOMPONENTNAME
+              value: {{ .Values.request.interoperability.block.requestorcomponentname | quote }}
+            - name: REQUEST_INTEROPERABILITY_BLOCK_TECHNICALUSER
+              value: {{ .Values.request.interoperability.block.technicaluser | quote }}
+            - name: REQUEST_INTEROPERABILITY_BLOCK_ORGANIZATION
+              value: {{ .Values.request.interoperability.block.organization | quote }}
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
               value: loggers,health,prometheus
             - name: MANAGEMENT_ENDPOINTS_LOGGERS_ENABLED
