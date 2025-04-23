@@ -154,7 +154,7 @@ spec:
               value: {{ .Values.kafka.topics.packagerequestcoreproductinfosystem.retry.maxAttempts | quote }}
             - name: KAFKA_TOPIC_CUSTPACKPRODACTION_NAME
               value: {{ .Values.kafka.topics.custpackprodaction.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CUSTPACKPRODACTION_NAME
+            - name: KAFKA_TOPIC_CUSTPACKPRODACTION_CONSUMERGROUP
               value: {{ .Values.kafka.topics.custpackprodaction.consumerGroup | quote }}
             - name: KAFKA_TOPIC_CUSTPACKPRODACTION_RETRY_MAXATTEMPTS
               value: {{ .Values.kafka.topics.custpackprodaction.retry.maxAttempts | quote }}
