@@ -78,7 +78,7 @@ spec:
               value: N/A
             {{- end }}
             - name: APP_LOGOUT_REDIRECT_URL
-              value: {{ required "Please specify logout URL via logoutUrl" .Values.logoutUrl | quote }}
+              value: {{ .Values.logoutUrl | quote }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
