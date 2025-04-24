@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.225.0
+    tag: 1.226.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -308,4 +308,4 @@ tracing:
   otlpEndpoint: ''
 alert:
   communication:
-    type: template
+    type: skip
