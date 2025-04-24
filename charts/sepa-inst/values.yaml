@@ -302,4 +302,4 @@ tracing:
   otlpEndpoint: ''
 alert:
   communication:
-    type: template
+    type: skip
