@@ -420,5 +420,8 @@ inbox:
       retryDelay: '600'
 ecs:
   communication:
-    type: template
+    type: skip
+alert:
+  communication:
+    type: skip
 activePartyCheckFlag: 'DISABLE_WITH_AC01'
