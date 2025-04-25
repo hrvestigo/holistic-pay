@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.375.0
+    tag: 1.398.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -424,4 +424,4 @@ ecs:
 alert:
   communication:
     type: skip
-activePartyCheckFlag: 'DISABLE_WITH_AC01'
+activePartyCheckFlag: DISABLE_WITH_AC01
