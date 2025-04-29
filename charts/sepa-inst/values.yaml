@@ -113,8 +113,8 @@ csm:
       responseMsgRetry: 3;0.1s
     pacs_002_positive:
       xsdCheck: inherit
-      requestMsgRetry: 10;5s
-      responseMsgTimeout: 25s
+      requestMsgRetry: 10;2s
+      responseMsgTimeout: 9s
     pacs_002_nksinst:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
@@ -122,10 +122,11 @@ csm:
       xsdCheck: inherit
     pacs_008:
       xsdCheck: inherit
-      responseMsgTimeout: 25s
+      requestMsgTimeout: 3s
+      responseMsgTimeout: 9s
     pacs_028:
       xsdCheck: inherit
-      requestMsgRetry: 10;5s
+      requestMsgRetry: 10;2s
     pacs_028_056:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s

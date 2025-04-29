@@ -370,8 +370,8 @@ csm:
       responseMsgRetry: 3;0.1s
     pacs_002_positive:
       xsdCheck: inherit
-      requestMsgRetry: 10;5s
-      responseMsgTimeout: 25s
+      requestMsgRetry: 10;2s
+      responseMsgTimeout: 9s
     pacs_002_nksinst:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
@@ -379,10 +379,11 @@ csm:
       xsdCheck: inherit
     pacs_008:
       xsdCheck: inherit
-      responseMsgTimeout: 25s
+      requestMsgTimeout: 5s
+      responseMsgTimeout: 9s
     pacs_028:
       xsdCheck: inherit
-      requestMsgRetry: 10;5s
+      requestMsgRetry: 10;2s
     pacs_028_056:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
@@ -481,6 +482,14 @@ With parameter `responseMsgTimeout` we configure timeout to wait for response me
 from CSM after which request message retry functionality is triggered.
 
 Response message timeout can be disabled by setting `responseMsgTimeout` value to `0s`.
+To configure timeout on millisecond level, convert to seconds. For example, 100ms should be configured as 0.1s.
+
+##### Request message timeout configuration
+
+With parameter `requestMsgTimeout` we configure timeframe in which message should be processed before sending
+to CSM after which, if it exceeds, we raise alert and return reject response.
+
+Request message timeout can be disabled by setting `requestMsgTimeout` value to `0s`, or not configuring it.
 To configure timeout on millisecond level, convert to seconds. For example, 100ms should be configured as 0.1s.
 
 ### TLS setup
