@@ -188,6 +188,14 @@ spec:
             {{- end }}
             - name: SCHEDULED_TASK_PRDENG_PACKAGEFEECALC_ENABLED
               value: {{ .Values.scheduleTask.packageFeeCalc.enabled | quote }}
+            - name: SCHEDULED_TASK_PRDENG_CLOSEPACKAGEONEFFECTIVEDATE_CRON
+            {{- if .Values.scheduleTask.closePackageOnEffectiveDate.enabled }}
+              value: {{ required "Please specify scheduleTask.closePackageOnEffectiveDate.cron" .Values.scheduleTask.closePackageOnEffectiveDate.cron | quote }}
+            {{- else }}
+              value: "-"
+            {{- end }}
+            - name: SCHEDULED_TASK_PRDENG_CLOSEPACKAGEONEFFECTIVEDATE_ENABLED
+              value: {{ .Values.scheduleTask.closePackageOnEffectiveDate.enabled | quote }}
             - name: STATUS_AUDIT_LOG_ENABLED
               value: {{ .Values.status.auditLog.enabled | quote }}
             - name: MS_SEQUENCE_NAME

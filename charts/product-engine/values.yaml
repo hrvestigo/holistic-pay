@@ -58,6 +58,9 @@ scheduleTask:
   packageFeeCalc:
     enabled: true
     cron: ''
+  closePackageOnEffectiveDate:
+    enabled: true
+    cron: ''
 personRegistry:
   replicatedPersonData:
     baseUrl: ''
