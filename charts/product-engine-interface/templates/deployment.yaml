@@ -168,6 +168,8 @@ spec:
               value: PKCS12
             - name: CCMS_WS_URL
               value: {{ .Values.ccms.ws.url | quote }}
+            - name: CCMS_WS_USERID
+              value: {{ .Values.ccms.ws.userid | quote }}
             - name: CCMS_REST_SERVICE_INITIATE_TIMEOUT
               value: {{ .Values.ccms.rest.service.initiate.timeout | quote }}
             - name: CCMS_REST_SERVICE_RESPONSE_TIMEOUT

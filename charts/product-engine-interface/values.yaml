@@ -217,6 +217,7 @@ deployment:
 ccms:
   ws:
     url: ''
+    userid: ''
   rest:
     service:
       initiate:
