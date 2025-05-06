@@ -5598,6 +5598,16 @@ entries:
     - https://github.com/hrvestigo/holistic-pay/releases/download/cms-interface-3.11.0/cms-interface-3.11.0.tgz
     version: 3.11.0
   - apiVersion: v2
+    appVersion: 3.10.1
+    created: "2025-05-06T11:41:20.948577432Z"
+    description: Helm chart for CMS interface application
+    digest: 212160543971d8496c59a1cac8388a4b9d2291f7a1b47b3a16f3b9a5eb9e0faa
+    name: cms-interface
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/cms-interface-3.10.1/cms-interface-3.10.1.tgz
+    version: 3.10.1
+  - apiVersion: v2
     appVersion: 3.10.0
     created: "2025-04-25T14:12:50.429529631Z"
     description: Helm chart for CMS interface application
@@ -27932,4 +27942,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2025-05-06T09:31:50.628809247Z"
+generated: "2025-05-06T11:41:20.967357848Z"
