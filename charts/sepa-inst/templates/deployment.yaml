@@ -131,7 +131,7 @@ spec:
               value: >-
                 {{ include "sepa-inst.kafka.loginModule" . }} required username=
                 {{- required "Please specify Kafka user in kafka.user" .Values.kafka.user | quote }} password="${kafka.password}";
-            - name: SPRING_KAFKA_PROPERTIES_BOOTSTRAP_SERVERS
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: {{ required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL
               value: {{ .Values.kafka.securityProtocol | quote }}
@@ -193,7 +193,7 @@ spec:
               value: "true"
             - name: MANAGEMENT_ENDPOINTS_WEB_BASEPATH
               value: /
-            - name: MANAGEMENT_HEALTH_PROBES_ENABLED
+            - name: MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED
               value: "true"
             - name: MANAGEMENT_ENDPOINT_HEALTH_SHOWDETAILS
               value: always
