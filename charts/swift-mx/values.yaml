@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.49.0
+    tag: 1.50.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -82,6 +82,10 @@ kafka:
       name: hr.vestigo.hp.paymentxmlmessage
       consumerGroup: hr.vestigo.hp.paymentxmlmessage
       enabled: true
+    paymentinitmessage:
+      name: hr.vestigo.hp.paymentinitmessage
+      consumerGroup: hr.vestigo.hp.paymentinitmessage
+      enabled: true
     swiftpaymentrequest:
       name: hr.vestigo.hp.swiftpaymentrequest
       consumerGroup: hr.vestigo.hp.swiftpaymentrequest
@@ -93,6 +97,14 @@ kafka:
     swiftpaymentchargesrequest:
       name: hr.vestigo.hp.swiftpaymentchargesrequest
       consumerGroup: hr.vestigo.hp.swiftpaymentchargesrequest
+      enabled: true
+      nbrEnabled: true
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
+    swiftcustomerpaymentstatusreport:
+      name: hr.vestigo.hp.swiftcustomerpaymentstatusreport
+      consumerGroup: hr.vestigo.hp.swiftcustomerpaymentstatusreport
       enabled: true
       nbrEnabled: true
       nbrBackOff: 50000;5s
