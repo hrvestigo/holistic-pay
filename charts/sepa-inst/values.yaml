@@ -299,8 +299,11 @@ customVolumes: []
 customMounts: []
 customEnv: []
 tracing:
+  enabled: false
   samplingProbability: 0.0
   otlpEndpoint: ''
 alert:
   communication:
     type: skip
+prometheus:
+  exposed: true

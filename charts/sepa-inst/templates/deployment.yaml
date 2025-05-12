@@ -63,10 +63,12 @@ spec:
             {{- end }}
             - name: SERVER_PORT
               value: "8443"
+            {{- if .Values.tracing.enabled }}
             - name: MANAGEMENT_TRACING_SAMPLING_PROBABILITY
               value: "{{.Values.tracing.samplingProbability}}"
             - name: MANAGEMENT_OTLP_TRACING_ENDPOINT
               value: "{{.Values.tracing.otlpEndpoint}}"
+            {{- end }}
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:postgresql://{{- required "Please specify DB host name in datasource.host" .Values.datasource.host -}}:
               {{- required "Please specify DB port in datasource.port" .Values.datasource.port -}}/
@@ -181,16 +183,22 @@ spec:
             - name: SEPA_INST_CSM_MSG_SIGNATURE_ALGORITHM
               value: {{ .Values.csm.msgSignatureAlgorithm | quote }}
             {{- if (include "sepa-inst.endpoint.config" .) -}}
-            {{- include "sepa-inst.endpoint.config" . | nindent 12 -}}
+            {{- include "sepa-inst.endpoint.config" . | indent 12 -}}
             {{- end }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
               value: PKCS12
-            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-              value: loggers,health,prometheus
-            - name: MANAGEMENT_ENDPOINTS_LOGGERS_ENABLED
+            - name: MANAGEMENT_ENDPOINTS_ENABLEDBYDEFAULT
+              value: "false"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_ENABLED
               value: "true"
+            {{- if .Values.prometheus.exposed }}
+            - name: MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED
+              value: "true"
+            {{- end }}
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: {{ include "sepa-inst.exposed.endpoints" $ }}
             - name: MANAGEMENT_ENDPOINTS_WEB_BASEPATH
               value: /
             - name: MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED

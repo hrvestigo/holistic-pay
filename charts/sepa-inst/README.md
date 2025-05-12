@@ -1192,17 +1192,23 @@ Supported values for this parameter are: `STRING`,`ECS`,`LOGSTASH`,`GELF`,`GCP`.
 
 ### Observing distributed tracing
 
-In order to start exporting tracing information to Tempo (or any tool that knows how to interpret OpenTelemetry formatted data), sepa-inst microservice should define next attributes:
+In order to start exporting tracing information to Tempo (or any tool that knows how to interpret OpenTelemetry formatted data),
+sepa-inst microservice should define next attributes:
 
 ```yaml
 tracing:
+  enabled: false
   samplingProbability: 0.0 # decimal value, default is 0.0
   otlpEndpoint: ''
 ```
 
-First parameter dictates what percentage of requests should be exported to processing system. 0.0 means 0% of requests and 1.0 means 100%.
-Second parameter defines URL on which should be tracing information sent.
-If second parameter is not defined, no tracing information will be sent, regardless of sampling probability.
+First, you enabled tracing using `enabled: true`.
+
+Then, with parameter `samplingProbability` you define percentage of requests
+that should be exported to processing system.
+`0.0` means 0% of requests and `1.0` means 100%.
+
+With parameter `otlpEndpoint` you define URL to which tracing information is sent.
 
 ### Modifying deployment strategy
 

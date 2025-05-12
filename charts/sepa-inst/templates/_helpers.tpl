@@ -369,6 +369,19 @@ SEPA Inst endpoint configuration
 {{- range $k, $v := $value }}
 - name: SEPA_INST_CSM_CONFIG_{{ $key | upper }}_{{ $k | snakecase | upper }}
   value: {{ $v | quote }}
-{{ end -}}
-{{ end -}}
 {{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
+Create a comma separated list of endpoints that need to be exposed
+*/}}
+{{- define "sepa-inst.exposed.endpoints" -}}
+{{- $endpoints := list -}}
+{{- $endpoints = append $endpoints (printf "%s" "health") }}
+{{- if .Values.prometheus.exposed }}
+{{- $endpoints = append $endpoints (printf "%s" "prometheus") }}
+{{- end }}
+{{- join "," $endpoints }}
+{{- end }}
+
