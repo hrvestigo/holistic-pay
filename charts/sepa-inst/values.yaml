@@ -170,6 +170,8 @@ logger:
   logDir: /var/log/app
   logDirMount:
     enabled: false
+    spec:
+      emptyDir: {}
   microserviceTag: SEPINS
   maskSensitive: false
   databaseSlowQueryThreshold: 0

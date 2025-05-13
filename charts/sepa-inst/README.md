@@ -820,8 +820,6 @@ aes.ssl.trust.store.password=(aes encrypted trust store password)
 aes.liquibase.password=(aes encrypted liquibase password)
 ```
 
-
-
 ## Customizing installation
 
 Besides required attributes, installation of `SEPA inst` can be customized in different ways.
