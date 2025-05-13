@@ -19348,6 +19348,16 @@ entries:
     version: 0.0.1
   sepa-inst:
   - apiVersion: v2
+    appVersion: 2.2.0
+    created: "2025-05-13T11:35:28.924618255Z"
+    description: Helm chart for sepa-inst application
+    digest: f5e42a89467a3c2b9d7676bafdd0e3d698fa644557ef1c2a7191fa7b0ddae6a4
+    name: sepa-inst
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/sepa-inst-2.2.0/sepa-inst-2.2.0.tgz
+    version: 2.2.0
+  - apiVersion: v2
     appVersion: 2.1.0
     created: "2025-05-12T14:50:27.697150783Z"
     description: Helm chart for sepa-inst application
@@ -28122,4 +28132,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2025-05-13T10:49:04.706041009Z"
+generated: "2025-05-13T11:35:28.942966127Z"
