@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.92.0
+    tag: 4.94.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -128,6 +128,10 @@ paramWarmup:
 personStructure:
   produce: true
   completenessFlagAlgorithm: DEBIT_GATEWAY
+  semaphore:
+    enabled: false
+  currencyStaging:
+    enabled: false
 personStructureEffect:
   produce: false
 personStructureInitial:

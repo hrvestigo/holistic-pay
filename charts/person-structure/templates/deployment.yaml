@@ -240,6 +240,10 @@ spec:
               value: {{ .Values.paramWarmup.enabled | quote }}
             - name: GRPC_SERVER_ENABLED
               value: {{ .Values.grpc.server.enabled | default "false" | quote }}
+            - name: PERSON_STRUCTURE_SEMAPHORE_ENABLED
+              value: {{ .Values.personStructure.semaphore.enabled | default "false" | quote }}
+            - name: PERSON_STRUCTURE_CURRENCY_STAGING_ENABLED
+              value: {{ .Values.personStructure.currencyStaging.enabled | default "false" | quote }}
             - name: PERSON_STRUCTURE_PRODUCE
               value: {{ .Values.personStructure.produce | quote }}
             - name: PERSON_STRUCTURE_INITIAL_SEARCH_ALGORITHM

@@ -98,7 +98,7 @@ cms:
   Attribute `userId` should point to technical user for HolisticPay.
 
 
-###Define microservice specifics
+### Define microservice specifics
 ```yaml
 ms:
   sequence: perstr_seq #default value
@@ -108,14 +108,14 @@ ms:
 `appModuleName` value defines application module name of microservice which has default value 'PERSTR'.
 
 
-###Enabling risk limit functionalities
+#### Enabling risk limit functionalities
 ```yaml
 riskLimits:
   enabled: false  #default value, disables all risk limit functionalities
 ```
 Enables/disables all risk limits functionalities in the microservice.
 
-###Enabling status functionalities
+#### Enabling status functionalities
 ```yaml
 status:
   management:
@@ -129,7 +129,7 @@ Additionally, consumer group for personstructure topic should be specified.
 This functionality is used for tracking changes on "status_applied" and "status_effect" tables
 by saving old and new values of different attributes in audit_log table.
 
-###Enabling person structure checks functionalities
+#### Enabling person structure checks functionalities
 ```yaml
 personStructureChecks:
   enabled: false  #default value, disables all person structure checks functionalities
@@ -137,6 +137,29 @@ personStructureChecks:
 Enables/disables person structure checks functionalities.
 Additionally, topic name and consumer group for personstructurechecks topic and topic name for personstructurechecksresult 
 topic should be specified.
+
+#### Enabling persons structure semaphore functionalities
+```yaml
+personStructure:
+  semaphore:
+    enabled: false  #default value, disables all person structure semaphores
+```
+Enables/disables person structure semaphore.
+Semaphore is used for locking person structure table unique information when performing insert or update operations on it.
+Semaphore is provided through parameterization for some member signs only. So far, only iban uniqueness semaphore 
+for one member is provided but it is also disabled by default.
+
+#### Enabling persons structure currency staging functionalities
+```yaml
+personStructure:
+  currencyStaging:
+    enabled: false  #default value, disables person structure currency staging logic
+```
+Enables/disables person structure currency staging logic.
+Currency staging is used for storing account currency values in staging table before they are applied to person structure table.
+It temporarily stores currency data if there is no data found for account ID in person_structure table.
+This prevents possible duplicate inserts in case kafka messages are consumed in order: CURRENCY, CUSTOMER, ACCOUNT
+or CUSTOMER, CURRENCY, ACCOUNT.
 
 #### Caching custom configuration for person structure checks functionality
 
