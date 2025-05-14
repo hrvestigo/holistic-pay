@@ -20,7 +20,7 @@ environmentName: "TEST"
 
 appLocale: ""
 
-appAutoRefreshInterval: 3000
+appAutoRefreshInterval: 60
 
 backendUrl: ""
 
