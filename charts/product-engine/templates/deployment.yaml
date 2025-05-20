@@ -178,6 +178,10 @@ spec:
               value: {{ required "Please specify kafka.topics.custpackprodaction.consumerGroup" .Values.kafka.topics.custpackprodaction.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CALCULATEDFEERESPONSE_NAME
               value: {{ required "Please specify kafka.topics.calculatedfeeresponse.consumerGroup" .Values.kafka.topics.calculatedfeeresponse.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CALCULATEDFEERESPONSE_RETRY_MAXATTEMPTS
+              value: {{ required "Please specify kafka.topics.calculatedfeeresponse.retry.maxAttempts" .Values.kafka.topics.calculatedfeeresponse.retry.maxAttempts | quote }}
+            - name: KAFKA_TOPIC_CALCULATEDFEERESPONSE_RETRY_DELAY
+              value: {{ required "Please specify kafka.topics.calculatedfeeresponse.retry.delay" .Values.kafka.topics.calculatedfeeresponse.retry.delay | quote }}
             - name: PRODUCT_ENGINE_APPMODULE
               value: {{ required "Please specify product.engine.appModule" .Values.product.engine.appModule | quote }}
             - name: PRODUCT_ENGINE_DELIVERYCHANNEL

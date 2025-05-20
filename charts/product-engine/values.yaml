@@ -112,6 +112,9 @@ kafka:
     calculatedfeeresponse:
       name: ''
       consumerGroup: ''
+      retry:
+        maxAttempts: ''
+        delay: ''
 oauth2:
   enabled: false
   resourceUri: ''
