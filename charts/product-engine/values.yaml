@@ -109,6 +109,9 @@ kafka:
     custpackprodaction:
       name: ''
       consumerGroup: ''
+    calculatedfeeresponse:
+      name: ''
+      consumerGroup: ''
 oauth2:
   enabled: false
   resourceUri: ''
