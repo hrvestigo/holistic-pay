@@ -179,8 +179,6 @@ spec:
               value: {{ .Values.kafka.streams.delete.maximumAge.turnCustomer | default "1" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_PAYMENTORDER
               value: {{ .Values.kafka.streams.delete.maximumAge.paymentOrder | default "1" | quote }}
-            - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_FPAYMENT
-              value: {{ .Values.kafka.streams.delete.maximumAge.fPayment | default "1" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_PAYMENTLISTQ
               value: {{ .Values.kafka.streams.delete.maximumAge.paymentListQ | default "1" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_EVENT
@@ -201,8 +199,6 @@ spec:
               value: {{ .Values.kafka.topics.tombstone.customerAccountStatement.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.tombstone.paymentOrder.name | quote }}
-            - name: KAFKA_TOPIC_FPAYMENT_TOMBSTONE_NAME
-              value: {{ .Values.kafka.topics.tombstone.fPayment.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTLISTQ_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.tombstone.paymentListQ.name | quote }}
             - name: KAFKA_TOPIC_FUTURISTICFOREIGNPAYMENT_TOMBSTONE_NAME
@@ -222,8 +218,6 @@ spec:
               value: {{ .Values.kafka.topics.customerAccountStatement.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.paymentOrder.name | quote }}
-            - name: KAFKA_TOPIC_FPAYMENT_TOMBSTONE_NAME
-              value: {{ .Values.kafka.topics.fPayment.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTLISTQ_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.paymentListQ.name | quote }}
             - name: KAFKA_TOPIC_FUTURISTICFOREIGNPAYMENT_TOMBSTONE_NAME
@@ -257,8 +251,6 @@ spec:
               value: {{ .Values.kafka.topics.turnover.name | quote }}
             - name: KAFKA_TOPIC_CUSTOMERACCOUNTSTATEMENT_NAME
               value: {{ .Values.kafka.topics.customerAccountStatement.name | quote }}
-            - name: KAFKA_TOPIC_FPAYMENT_NAME
-              value: {{ .Values.kafka.topics.fPayment.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTLISTQ_NAME
               value: {{ .Values.kafka.topics.paymentListQ.name | quote }}
             - name: KAFKA_TOPIC_FUTURISTICFOREIGNPAYMENT_NAME

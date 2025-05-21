@@ -87,7 +87,6 @@ kafka:
         turnover: 1
         turnCustomer: 1
         paymentOrder: 1
-        fPayment: 1
         paymentListQ: 1
         event: 1
         interfaceCollTbl: 1
@@ -104,8 +103,6 @@ kafka:
       name: hr.vestigo.hp.turnover
     customerAccountStatement:
       name: hr.vestigo.hp.customeraccountstatement
-    fPayment:
-      name: hr.vestigo.hp.fpayment
     paymentListQ:
       name: hr.vestigo.hp.paymentlistq
     futuristicForeignPayment:
@@ -162,8 +159,6 @@ kafka:
         name: hr.vestigo.hp.customeraccountstatement
       paymentOrder:
         name: hr.vestigo.hp.paymentorder
-      fPayment:
-        name: hr.vestigo.hp.fpayment
       paymentListQ:
         name: hr.vestigo.hp.paymentlistq
       futuristicForeignPayment:
