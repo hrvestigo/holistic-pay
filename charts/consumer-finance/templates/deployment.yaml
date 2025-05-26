@@ -4,6 +4,9 @@ metadata:
   name: {{ include "consumer-finance.name" . }}
   labels:
     {{- include "consumer-finance.labels" . | nindent 4 }}
+  {{- with .Values.deployment.labels }}
+  {{ toYaml . | indent 4 }}
+  {{- end }}
   {{- with .Values.deployment.annotations }}
 annotations:
   {{ toYaml . | indent 4 }}
@@ -141,14 +144,28 @@ spec:
               value: {{ required "Please specify address for person structure gRPC server in grpc.getPersonData.address" .Values.grpc.getPersonData.address | quote }}
             - name: GRPC_CLIENT_GETLIMITBUCKETS_ADDRESS
               value: {{ required "Please specify address for limit buckets gRPC server in grpc.getLimitBuckets.address" .Values.grpc.getLimitBuckets.address | quote }}
+            - name: GRPC_CLIENT_GETPRICINGENGINE_ADDRESS
+              value: {{ required "Please specify address for pricing engine gRPC server in grpc.getPricingEngine.address" .Values.grpc.getPricingEngine.address | quote }}
+            - name: GRPC_CLIENT_UPDATELIMITBUCKETS_ADDRESS
+              value: {{ required "Please specify address for limit buckets gRPC server in grpc.updateLimitBuckets.address" .Values.grpc.updateLimitBuckets.address | quote }}
             - name: GRPC_CLIENT_GETPERSONDATA_NEGOTIATIONTYPE
               value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
             - name: GRPC_CLIENT_GETLIMITBUCKETS_NEGOTIATIONTYPE
+              value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
+            - name: GRPC_CLIENT_GETPRICINGENGINE_NEGOTIATIONTYPE
+              value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
+            - name: GRPC_CLIENT_UPDATELIMITBUCKETS_NEGOTIATIONTYPE
               value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
             - name: GRPC_GETPERSONDATA_TIMEOUT
               value: {{ .Values.grpc.getPersonData.timeout | default "10000" | quote }}
             - name: GRPC_GETLIMITBUCKETS_TIMEOUT
               value: {{ .Values.grpc.getLimitBuckets.timeout | default "10000" | quote }}
+            - name: GRPC_GETPRICINGENGINE_TIMEOUT
+              value: {{ .Values.grpc.getPricingEngine.timeout | default "10000" | quote }}
+            - name: GRPC_UPDATELIMITBUCKETS_TIMEOUT
+              value: {{ .Values.grpc.updateLimitBuckets.timeout | default "10000" | quote }}
+            - name: KAFKA_TOPIC_LIMITBUCKETCOMPENSATION_NAME
+              value: {{ .Values.kafka.topics.limitbucketcompensation.name | quote }}
             - name: TRX_MAX_NUMBER
               value: {{ .Values.trx.max.number | default "10" | quote }}
             - name: CONSUMER_FINANCE_CACHE_EXPIREAFTERWRITE

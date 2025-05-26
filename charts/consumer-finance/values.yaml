@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.9.0
+    tag: 1.10.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -58,12 +58,21 @@ kafka:
     credSource: USER_INFO
     user: ''
     url: ''
+  topics:
+    limitbucketcompensation:
+      name: null
 grpc:
   negotiation: TLS
   getPersonData:
     address: ''
     timeout: 10000
   getLimitBuckets:
+    address: ''
+    timeout: 10000
+  getPricingEngine:
+    address: ''
+    timeout: 10000
+  updateLimitBuckets:
     address: ''
     timeout: 10000
 trx:
