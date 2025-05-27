@@ -4,9 +4,6 @@ metadata:
   name: {{ include "consumer-finance.name" . }}
   labels:
     {{- include "consumer-finance.labels" . | nindent 4 }}
-  {{- with .Values.deployment.labels }}
-  {{ toYaml . | indent 4 }}
-  {{- end }}
   {{- with .Values.deployment.annotations }}
 annotations:
   {{ toYaml . | indent 4 }}
