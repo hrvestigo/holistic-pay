@@ -352,6 +352,8 @@ spec:
               value: {{ .Values.sirius.rest.uri.payOrderCancellationRequestStatu | quote }}
             - name: SIRIUS_REST_URI_PAYORDERRECEIVINGOUTBOUNDTRANSFER
               value: {{ .Values.sirius.rest.uri.payOrderReceivingOutboundTransfer | quote }}
+            - name: SIRIUS_REST_URI_PAYINITIATION
+              value: {{ .Values.sirius.rest.uri.payInitiation | quote }}
             - name: SIRIUS_NONRETRY_CODES
               value: {{ .Values.sirius.nonretry.codes | quote }}
             - name: INBOX_SCHEDULER
