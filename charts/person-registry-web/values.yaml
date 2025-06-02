@@ -16,6 +16,8 @@ imagePullSecrets: []
 
 apiGatewayUrl: ""
 
+internalBackendServiceUrl: ""
+
 environmentName: "TEST"
 
 httpSessionTimeout: "14400"
@@ -113,15 +115,12 @@ deployment:
   terminationGracePeriodSeconds: 60
   restartPolicy: Always
   readinessProbe:
+    enabled: false
     initialDelaySeconds: 10
     periodSeconds: 60
     timeoutSeconds: 10
     successThreshold: 1
     failureThreshold: 2
-    httpGet:
-      path: /health/readiness
-      port: http
-      scheme: HTTPS
   livenessProbe:
     initialDelaySeconds: 60
     periodSeconds: 60

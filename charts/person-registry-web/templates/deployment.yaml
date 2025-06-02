@@ -90,8 +90,21 @@ spec:
               protocol: TCP
           livenessProbe:
             {{- toYaml .Values.deployment.livenessProbe | nindent 12 }}
+          {{- if and .Values.deployment.readinessProbe.enabled .Values.internalBackendServiceUrl }}
           readinessProbe:
-            {{- toYaml .Values.deployment.readinessProbe | nindent 12 }}
+            exec:
+              command:
+                - sh
+                - -c
+                - curl -f -s -k -m 5 {{ .Values.internalBackendServiceUrl | quote }}/health/readiness
+            initialDelaySeconds: {{ .Values.deployment.readinessProbe.initialDelaySeconds | default 10 }}
+            periodSeconds: {{ .Values.deployment.readinessProbe.periodSeconds | default 10 }}
+            timeoutSeconds: {{ .Values.deployment.readinessProbe.timeoutSeconds | default 10 }}
+            successThreshold: {{ .Values.deployment.readinessProbe.successThreshold | default 1 }}
+            failureThreshold: {{ .Values.deployment.readinessProbe.failureThreshold | default 3 }}
+          {{- else if .Values.deployment.readinessProbe.enabled }}
+          {{- fail "readinessProbe is enabled but internalBackendServiceUrl is not set" }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
