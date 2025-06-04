@@ -63,6 +63,8 @@ spec:
             {{- end }}
             - name: SERVER_PORT
               value: "8443"
+            - name: MANAGEMENT_TRACING_ENABLED
+              value: {{ .Values.tracing.enabled | quote }}
             - name: MANAGEMENT_TRACING_SAMPLING_PROBABILITY
               value: "{{ .Values.tracing.samplingProbability }}"
             - name: MANAGEMENT_OTLP_TRACING_ENDPOINT
@@ -147,8 +149,8 @@ spec:
             {{- if (include "swift-mx.kafka.topics" .) }}
             {{- include "swift-mx.kafka.topics" . | indent 12 }}
             {{- end }}
-            {{- if (include "swift-mx.application.config" .) }}
-            {{- include "swift-mx.application.config" . | indent 12 }}
+            {{- if (include "swift-mx.application.config" .) -}}
+            {{- include "swift-mx.application.config" . | indent 12 -}}
             {{- end }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
@@ -225,8 +227,8 @@ spec:
             {{- include "swift-mx.trustStoreEnv" . | nindent 12 -}}
             {{- end }}
             {{- if .Values.mountKeyStoreFromSecret.enabled }}
-            - name: SERVER_SSL_KEY_STORE_FILE
-              value: {{ required "Please specify key store location in mountKeyStoreFromSecret.location" .Values.mountKeyStoreFromSecret.location }}/{{ required "Please specify key store file name in mountKeyStoreFromSecret.keyStoreName" .Values.mountKeyStoreFromSecret.keyStoreName }}
+            - name: SSL_KEY_STORE_FILE
+              value: /mnt/k8s/key-store/{{ required "Please specify mTLS key store file name in mountKeyStoreFromSecret.keyStoreName" .Values.mountKeyStoreFromSecret.keyStoreName }}
             - name: SSL_KEY_STORE_TYPE
               value: {{ required "Please specify key store type in mountKeyStoreFromSecret.keyStoreType" .Values.mountKeyStoreFromSecret.keyStoreType }}
             {{- end }}
