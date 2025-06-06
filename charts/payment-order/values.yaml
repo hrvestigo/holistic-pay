@@ -97,6 +97,10 @@ kafka:
       name: hr.vestigo.hp.ecspaymentcompensation
     alertTopic:
       name: hr.vestigo.hp.alert
+    paymentOrderCreation:
+      name: hr.vestigo.hp.paymentOrderCreation
+      consumerGroup: hr.vestigo.hp.paymentordercreation
+      enabled: false
 paymentExternalChecks:
   topicRealNames:
     personStructureChecks: hr.vestigo.hp.personstructurechecks

@@ -386,6 +386,10 @@ kafka:
     parameterization:
       name: hr.vestigo.hp.parameterization # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.parameterization # default value, set custom name if required
+    paymentOrderCreation:
+      name: hr.vestigo.hp.paymentOrderCreation # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.paymentordercreation # default value, set custom name if required
+      enabled: false # default value, set to true if you want to enable payment order creation consumer
 ```
 
 

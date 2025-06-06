@@ -204,6 +204,14 @@ spec:
               value: {{ .Values.kafka.topics.paymentOrderOutgoing.consumerGroup | quote }}
             - name: KAFKA_TOPIC_ALERTTOPIC_NAME
               value: {{ .Values.kafka.topics.alertTopic.name | quote }}
+            - name: KAFKA_TOPIC_PAYMENTORDERCREATION_ENABLED
+              value: {{ .Values.kafka.topics.paymentOrderCreation.enabled | default "false" | quote }}
+            {{- if .Values.kafka.topics.paymentOrderCreation.enabled }}
+            - name: KAFKA_TOPIC_PAYMENTORDERCREATION_NAME
+              value: {{ .Values.kafka.topics.paymentOrderCreation.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PAYMENTORDERCREATION_NAME
+              value: {{ .Values.kafka.topics.paymentOrderCreation.consumerGroup | quote }}
+            {{- end }}
             - name: ALERT_COMMUNICATION_TYPE
               value: {{ .Values.alert.communication.type | quote }}
             - name: AUTOMATIC_REJECTION_SCHEDULED
