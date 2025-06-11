@@ -482,7 +482,7 @@ With parameter `responseMsgTimeout` we configure timeout to wait for response me
 from CSM after which request message retry functionality is triggered.
 
 Response message timeout can be disabled by setting `responseMsgTimeout` value to `0s`.
-To configure timeout on millisecond level, convert to seconds. For example, 100ms should be configured as 0.1s.
+To configure timeout on millisecond level use milliseconds precision, for example 100ms.
 
 ##### Request message timeout configuration
 
@@ -490,7 +490,7 @@ With parameter `requestMsgTimeout` we configure timeframe in which message shoul
 to CSM after which, if it exceeds, we raise alert and return reject response.
 
 Request message timeout can be disabled by setting `requestMsgTimeout` value to `0s`, or not configuring it.
-To configure timeout on millisecond level, convert to seconds. For example, 100ms should be configured as 0.1s.
+To configure timeout on millisecond level use milliseconds precision, for example 100ms.
 
 ### TLS setup
 

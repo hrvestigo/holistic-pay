@@ -159,7 +159,7 @@
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
       <Filters>
-        <RegexFilter regex=".*\[VARBINARY\].*" onMatch="DENY" onMismatch="ACCEPT" />
+        <RegexFilter regex=".*VARBINARY\).*" onMatch="DENY" onMismatch="ACCEPT" />
       </Filters>
     </Logger>
 
