@@ -1244,6 +1244,12 @@ grpc:
   getLimitBuckets: # properties specific to get limit buckets
     address: "dns:///limit-bucket-server:port" # dns address on which the limit bucket gRPC server runs
     timeout: 10000 # default value of timeout for the connection to the gRPC server
+  getPricingEngine:
+    address: "dns:///pricing-engine-server:port" # dns address on which the pricing engine gRPC server runs
+    timeout: 10000 # default value of timeout for the connection to the gRPC server
+  updateLimitBuckets:
+    address: "dns:///limit-bucket-server:port" # dns address on which the limit bucket gRPC server runs
+    timeout: 10000 # default value of timeout for the connection to the gRPC server
 ```
 
 Instead of dns, a static address can also be given following the next pattern: "static://person-structure-server:port".
@@ -1270,4 +1276,18 @@ That behaviour is modifiable by this attribute in minutes:
 cache:
   refresh:
     rate: 1440 # default value is 1440
+```
+
+### Scheduled task for sending due instalments
+
+Consumer finance has scheduled task `instalmentSending` used for finding  all due instalments and publishing them on 
+the dueinstalment topic.
+It is possible to disable this task by setting `enabled` attribute to `false`.
+If this task is enabled, it is mandatory to define `cron` attribute which defines the schedule for this task.
+
+```yaml
+scheduleTask:
+  instalmentSending:
+    enabled: true # default value, enabling instalment sending calculation functionality
+    cron: 0 0 4 * * * # Mandatory in case task is enabled. Scheduling instalment sending functionality (e.g. each day at 4 AM)	
 ```

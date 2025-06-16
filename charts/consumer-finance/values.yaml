@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.14.0
+    tag: 1.15.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -48,6 +48,10 @@ members:
     dbName: ''
     user: ''
     password: ''
+scheduleTask:
+  instalmentSending:
+    enabled: true
+    cron: ''
 kafka:
   user: ''
   servers: ''
@@ -60,7 +64,10 @@ kafka:
     url: ''
   topics:
     limitbucketcompensation:
-      name: null
+      name: hr.vestigo.hp.limitbucketcompensation
+    dueinstalment:
+      name: hr.vestigo.hp.dueinstalment
+      consumerGroup: hr.vestigo.hp.dueinstalment
 grpc:
   negotiation: TLS
   getPersonData:

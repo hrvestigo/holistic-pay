@@ -4,10 +4,13 @@ metadata:
   name: {{ include "consumer-finance.name" . }}
   labels:
     {{- include "consumer-finance.labels" . | nindent 4 }}
-  {{- with .Values.deployment.annotations }}
-annotations:
-  {{ toYaml . | indent 4 }}
-  {{- end }}
+{{- with .Values.deployment.labels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+{{- with .Values.deployment.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.deployment.replicaCount }}
@@ -163,6 +166,18 @@ spec:
               value: {{ .Values.grpc.updateLimitBuckets.timeout | default "10000" | quote }}
             - name: KAFKA_TOPIC_LIMITBUCKETCOMPENSATION_NAME
               value: {{ .Values.kafka.topics.limitbucketcompensation.name | quote }}
+            - name: KAFKA_TOPIC_DUEINSTALMENT_NAME
+              value: {{ .Values.kafka.topics.dueinstalment.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_DUEINSTALMENT_NAME
+              value: {{ .Values.kafka.topics.dueinstalment.consumerGroup | quote }}
+            - name: SCHEDULED_TASK_CONFIN_INSTALMENTSENDING_ENABLED
+              value: {{ .Values.scheduleTask.instalmentSending.enabled | quote }}
+            - name: SCHEDULED_TASK_CONFIN_INSTALMENTSENDING_CRON
+            {{- if .Values.scheduleTask.instalmentSending.enabled }}
+              value: {{ required "Please specify scheduleTask.instalmentSending.cron" .Values.scheduleTask.instalmentSending.cron | quote }}
+            {{- else }}
+              value: "-"
+            {{- end }}
             - name: TRX_MAX_NUMBER
               value: {{ .Values.trx.max.number | default "10" | quote }}
             - name: CONSUMER_FINANCE_CACHE_EXPIREAFTERWRITE
