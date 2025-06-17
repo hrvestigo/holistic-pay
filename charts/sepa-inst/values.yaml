@@ -124,6 +124,7 @@ csm:
       xsdCheck: inherit
       requestMsgTimeout: 0s
       responseMsgTimeout: 25s
+      responseMsgPendingTimeout: 0s
     pacs_028:
       xsdCheck: inherit
       requestMsgRetry: 10;5s

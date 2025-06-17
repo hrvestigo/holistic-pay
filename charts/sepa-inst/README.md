@@ -370,8 +370,8 @@ csm:
       responseMsgRetry: 3;0.1s
     pacs_002_positive:
       xsdCheck: inherit
-      requestMsgRetry: 10;2s
-      responseMsgTimeout: 9s
+      requestMsgRetry: 10;5s
+      responseMsgTimeout: 25s
     pacs_002_nksinst:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
@@ -379,11 +379,12 @@ csm:
       xsdCheck: inherit
     pacs_008:
       xsdCheck: inherit
-      requestMsgTimeout: 5s
-      responseMsgTimeout: 9s
+      requestMsgTimeout: 0s
+      responseMsgTimeout: 25s
+      responseMsgPendingTimeout: 0s
     pacs_028:
       xsdCheck: inherit
-      requestMsgRetry: 10;2s
+      requestMsgRetry: 10;5s
     pacs_028_056:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
@@ -436,6 +437,8 @@ Request message retry functionality can be disabled by setting `requestMsgRetry`
 Meaning, no retry messages are send to CSM. To configure retry intervals on millisecond level, convert to seconds.
 For example, 100ms should be configured as 0.1s.
 
+Note that retry request to CSM occurs at intervals calculated on *best-effort* basis. This is due to current implementation which uses Kafka topic `sepainstmsgcheck` for non-blocking processing of messages and tracking delays and intervals. But, it is more save that tracking delays inside application, which may be killed.
+
 ##### Response message retry configuration
 
 With parameter `responseMsgRetry` we configure retry policy for processing received response message from CSM.
@@ -476,14 +479,6 @@ Response message retry is applicable for the following business use cases:
 Response message retry functionality can be disabled by setting `responseMsgRetry` value to `0;0s` or `0`.
 To configure retry intervals on millisecond level, convert to seconds. For example, 100ms should be configured as 0.1s.
 
-##### Response message timeout configuration
-
-With parameter `responseMsgTimeout` we configure timeout to wait for response message
-from CSM after which request message retry functionality is triggered.
-
-Response message timeout can be disabled by setting `responseMsgTimeout` value to `0s`.
-To configure timeout on millisecond level use milliseconds precision, for example 100ms.
-
 ##### Request message timeout configuration
 
 With parameter `requestMsgTimeout` we configure timeframe in which message should be processed before sending
@@ -491,6 +486,44 @@ to CSM after which, if it exceeds, we raise alert and return reject response.
 
 Request message timeout can be disabled by setting `requestMsgTimeout` value to `0s`, or not configuring it.
 To configure timeout on millisecond level use milliseconds precision, for example 100ms.
+
+##### Response message timeout configuration
+
+With parameter `responseMsgTimeout` we configure timeout to wait for response message
+from CSM after which request message retry functionality is triggered on `requestMsgRetry`.
+
+Response message timeout can be disabled by setting `responseMsgTimeout` value to `0s`.
+To configure timeout on millisecond level use milliseconds precision, for example 100ms.
+
+Note that response timeout is calculated on *best-effort* basis. This is due to current implementation which uses Kafka topic `sepainstmsgcheck` for non-blocking processing of messages and tracking delays and intervals. But, it is more save that tracking delays inside application, which may be killed.
+
+##### Response message pending timeout configuration
+
+With parameter `responseMsgPendingTimeout` we configure timeout to wait for response message
+from CSM after which message sent to CSM temporary goes to pending state. CSM is not aware
+of this pending state.
+
+Response message pending timeout can be disabled by setting `responseMsgPendingTimeout` value to `0s`.
+To configure timeout on millisecond level use milliseconds precision, for example 100ms.
+
+This timeout is processed independently from `responseMsgTimeout`, which can retry request.
+But, sent message will never go to pending state if response is received. Also, if response
+is received, sent message goes out of pending state.
+
+Note that response timeout is calculated on *best-effort* basis. This is due to current implementation which uses Kafka topic `sepainstmsgcheck` for non-blocking processing of messages and tracking delays and intervals. But, it is more save that tracking delays inside application, which may be killed.
+
+Response message pending timeout is applicable for the following business use cases:
+
+- `pacs.008` message is sent to CSM, response `pacs.002` message from CSM is not received
+
+  ```mermaid
+  sequenceDiagram
+    Sepa Inst->>CSM: pacs_008
+    note over Sepa Inst,CSM: responseMsgPendingTimeout
+    Sepa Inst->>Sepa Inst: pending
+    CSM->>Sepa Inst: pacs_002
+    Sepa Inst->>Sepa Inst: pending removed
+  ```
 
 ### TLS setup
 
