@@ -178,6 +178,32 @@ spec:
               value: {{ .Values.ccms.rest.service.ws2i68.url | quote }}
             - name: CCMS_REST_SERVICE_WS2I94_URL
               value: {{ .Values.ccms.rest.service.ws2i94.url | quote }}
+            - name: CCMS_REST_SERVICE_WS1J06_URL
+              value: { { .Values.ccms.rest.service.ws1j06.url | quote }}
+            - name: CCMS_REST_SERVICE_WS2I54_URL
+              value: {{ .Values.ccms.rest.service.ws2i54.url | quote }}
+            - name: CCMS_REST_SERVICE_WS2I91_URL
+              value: {{ .Values.ccms.rest.service.ws2i91.url | quote }}
+            - name: CCMS_REST_SERVICE_WS2I41_URL
+              value: {{ .Values.ccms.rest.service.ws2i41.url | quote }}
+            - name: CCMS_REST_SERVICE_WS2I99_URL
+              value: {{ .Values.ccms.rest.service.ws2i99.url | quote }}
+            - name: CCMS_REST_SERVICE_WS2I20_URL
+              value: {{ .Values.ccms.rest.service.ws2i20.url | quote }}
+            - name: CCMS_REST_SERVICE_WSE356_URL
+              value: {{ .Values.ccms.rest.service.wsE356.url | quote }}
+            - name: CCMS_REST_SERVICE_WS2I49_URL
+              value: {{ .Values.ccms.rest.service.ws2i49.url | quote }}
+            - name: CCMS_REST_SERVICE_WS2I52_URL
+              value: {{ .Values.ccms.rest.service.ws2i52.url | quote }}
+            - name: CCMS_REST_SERVICE_WS2I60_URL
+              value: {{ .Values.ccms.rest.service.ws2i60.url | quote }}
+            - name: CCMS_REST_SERVICE_WS2I62_URL
+              value: {{ .Values.ccms.rest.service.ws2i62.url | quote }}
+            - name: CCMS_REST_SERVICE_WS2I53_URL
+              value: {{ .Values.ccms.rest.service.ws2i53.url | quote }}
+            - name: CCMS_REST_SERVICE_WS2I84_URL
+              value: {{ .Values.ccms.rest.service.ws2i84.url | quote } }
             - name: REQUEST_INTEROPERABILITY_BLOCK_REQUESTORCOMPONENTNAME
               value: {{ .Values.request.interoperability.block.requestorcomponentname | quote }}
             - name: REQUEST_INTEROPERABILITY_BLOCK_TECHNICALUSER

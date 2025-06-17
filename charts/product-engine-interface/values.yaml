@@ -228,6 +228,32 @@ ccms:
         url: ''
       ws2i94:
         url: ''
+      ws1j06:
+        url: ''
+      ws2i54:
+        url: ''
+      ws2i91:
+        url: ''
+      ws2i41:
+        url: ''
+      ws2i99:
+        url: ''
+      ws2i20:
+        url: ''
+      wsE356:
+        url: ''
+      ws2i49:
+        url: ''
+      ws2i52:
+        url: ''
+      ws2i60:
+        url: ''
+      ws2i62:
+        url: ''
+      ws2i53:
+        url: ''
+      ws2i84:
+        url: ''
 autoscaling:
   enabled: false
   minReplicas: 1
