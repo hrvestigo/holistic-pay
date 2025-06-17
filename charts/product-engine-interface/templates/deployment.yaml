@@ -179,7 +179,7 @@ spec:
             - name: CCMS_REST_SERVICE_WS2I94_URL
               value: {{ .Values.ccms.rest.service.ws2i94.url | quote }}
             - name: CCMS_REST_SERVICE_WS1J06_URL
-              value: { { .Values.ccms.rest.service.ws1j06.url | quote }}
+              value: {{ .Values.ccms.rest.service.ws1j06.url | quote }}
             - name: CCMS_REST_SERVICE_WS2I54_URL
               value: {{ .Values.ccms.rest.service.ws2i54.url | quote }}
             - name: CCMS_REST_SERVICE_WS2I91_URL
@@ -203,7 +203,7 @@ spec:
             - name: CCMS_REST_SERVICE_WS2I53_URL
               value: {{ .Values.ccms.rest.service.ws2i53.url | quote }}
             - name: CCMS_REST_SERVICE_WS2I84_URL
-              value: {{ .Values.ccms.rest.service.ws2i84.url | quote } }
+              value: {{ .Values.ccms.rest.service.ws2i84.url | quote }}
             - name: REQUEST_INTEROPERABILITY_BLOCK_REQUESTORCOMPONENTNAME
               value: {{ .Values.request.interoperability.block.requestorcomponentname | quote }}
             - name: REQUEST_INTEROPERABILITY_BLOCK_TECHNICALUSER
