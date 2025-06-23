@@ -2,5 +2,5 @@ apiVersion: v2
 name: product-engine
 description: Helm chart for product engine application
 type: application
-version: 1.180.0
-appVersion: 1.180.0
+version: 1.181.0
+appVersion: 1.181.0
