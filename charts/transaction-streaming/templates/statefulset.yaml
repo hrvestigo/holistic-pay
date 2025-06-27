@@ -329,6 +329,8 @@ spec:
               value: {{ .Values.kafka.topics.internal.craftsman.name | quote }}
             - name: KAFKA_TOPIC_LEGALENTITY_INTERNAL_NAME
               value: {{ .Values.kafka.topics.internal.legalEntity.name | quote }}
+            - name: TRANSACTION_STREAMING_ARCHIVE_MODE_ENABLED
+              value: {{ .Values.transaction.streaming.archive.mode.enabled | default "false" | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

@@ -1518,3 +1518,14 @@ kafka:
           blockSize: 16 # default value, in kilobytes
           maxNumber: 2 # default integer value
 ```
+
+### Archive mode for transaction-streaming
+Transaction-streaming provides an option to process archived data. This option is disabled by default. If enabled,
+existing topologies act differently to process data they would normally ignore.
+```yaml 
+transaction:
+  streaming:
+    archive:
+      mode:
+        enabled: false # default value, if set to true, archived data will be processed and stored in the output topic
+```

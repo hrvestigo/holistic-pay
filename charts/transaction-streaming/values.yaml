@@ -364,3 +364,8 @@ customEnv: []
 tracing:
   samplingProbability: 0.0
   otlpEndpoint: ''
+transaction:
+  streaming:
+    archive:
+      mode:
+        enabled: false
