@@ -66,6 +66,11 @@ personRegistry:
     baseUrl: ''
     url: ''
     timeout: ''
+pricingEngine:
+  updateFeeBillingAccount:
+    baseUrl: ''
+    url: ''
+    timeout: ''
 status:
   auditLog:
     enabled: false

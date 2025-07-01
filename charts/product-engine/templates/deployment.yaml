@@ -214,6 +214,12 @@ spec:
               value: {{ required "Please specify personRegistry.replicatedPersonData.url" .Values.personRegistry.replicatedPersonData.url | quote }}
             - name: GET_ALL_REPLICATED_PERSON_DATA_INTERFACE_INITIATE_TIMEOUT
               value: {{ required "Please specify personRegistry.replicatedPersonData.timeout" .Values.personRegistry.replicatedPersonData.timeout | quote }}
+            - name: UPDATE_FEE_BILLING_ACCOUNT_INTERFACE_BASE_URL
+              value: {{ required "Please specify pricingEngine.updateFeeBillingAccount.baseUrl" .Values.pricingEngine.updateFeeBillingAccount.baseUrl | quote }}
+            - name: UPDATE_FEE_BILLING_ACCOUNT_INTERFACE_URL
+              value: {{ required "Please specify pricingEngine.updateFeeBillingAccount.url" .Values.pricingEngine.updateFeeBillingAccount.url | quote }}
+            - name: UPDATE_FEE_BILLING_ACCOUNT_INTERFACE_INITIATE_TIMEOUT
+              value: {{ required "Please specify pricingEngine.updateFeeBillingAccount.timeout" .Values.pricingEngine.updateFeeBillingAccount.timeout | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
