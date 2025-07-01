@@ -186,8 +186,8 @@ spec:
               value: {{ .Values.ccms.rest.service.ws2i91.url | quote }}
             - name: CCMS_REST_SERVICE_WS2I41_URL
               value: {{ .Values.ccms.rest.service.ws2i41.url | quote }}
-            - name: CCMS_REST_SERVICE_WS2I99_URL
-              value: {{ .Values.ccms.rest.service.ws2i99.url | quote }}
+            - name: CCMS_REST_SERVICE_WS2IA0_URL
+              value: {{ .Values.ccms.rest.service.ws2ia0.url | quote }}
             - name: CCMS_REST_SERVICE_WS2I20_URL
               value: {{ .Values.ccms.rest.service.ws2i20.url | quote }}
             - name: CCMS_REST_SERVICE_WSE356_URL
