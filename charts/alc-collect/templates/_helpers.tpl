@@ -69,7 +69,11 @@ Liquibase init container definition
 - name: liquibase-{{ .memberSign | lower }}
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
-  image: {{ include "alc-collect.liquibase.image" $ }}
+  {{- if $.Values.image.liquibase.imageLocation }}
+    image: {{ include "alc-collect.liquibase.image" $ }}
+  {{- else }}
+  image: {{ printf "%s%s%s%s%s" (include "alc-collect.liquibase.image" $) "-" ($member.businessUnit | lower ) ":" $.Values.image.liquibase.tag }}
+  {{- end }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   resources:
   {{- include "alc-collect.liquibase.initContainer.resources" $ | nindent 4 }}
@@ -155,7 +159,6 @@ Common labels
 */}}
 {{- define "alc-collect.labels" -}}
 helm.sh/chart: {{ include "alc-collect.chart" . }}
-app: {{ include "alc-collect.name" . }}
 project: HolisticPay
 {{ include "alc-collect.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
@@ -168,6 +171,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "alc-collect.selectorLabels" -}}
+app: {{ include "alc-collect.name" . }}
 app.kubernetes.io/name: {{ include "alc-collect.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
@@ -182,7 +186,7 @@ Volumes
 {{- end -}}
 - name: {{ include "alc-collect.name" . }}-secret
   secret:
-    secretName: {{ include "alc-collect.name" . }}-secret
+    secretName: {{ .Values.secret.existingSecret | default (printf "%s%s" (include "alc-collect.name" .) "-secret") }}
     items:
       - path: password.conf
         key: password.conf
@@ -328,4 +332,16 @@ Defines custom datasource connection parameters appended to URL
 {{- else }}
 {{- "" }}
 {{- end }}
+{{- end }}
+
+{{/*
+Create a comma separated list of endpoints that need to be exposed
+*/}}
+{{- define "alc-collect.exposed.endpoints" -}}
+{{- $endpoints := list -}}
+{{- $endpoints = append $endpoints (printf "%s" "health") }}
+{{- if .Values.prometheus.exposed }}
+{{- $endpoints = append $endpoints (printf "%s" "prometheus") }}
+{{- end }}
+{{- join "," $endpoints }}
 {{- end }}

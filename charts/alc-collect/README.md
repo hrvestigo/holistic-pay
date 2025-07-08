@@ -520,6 +520,46 @@ secret:
 
 When using secret to mount key store, no additional custom setup is required.
 
+### Using `existingSecret`
+
+Instead of defining and holding encryption key and passwords in values file, `existingSecret` option can be used.
+In this case, only existing secret name should be defined in `secret` block, for example:
+
+```yaml
+secret:
+  existingSecret: custom-predefined-secret-name
+```
+
+Predefined secret has to be prepared and created in the target namespace prior to installation.
+
+The content of the predefined secret has to have a single file called "password.conf" which should contain all required passwords (depending on the used features), for example:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: custom-predefined-secret-name
+type: Opaque
+data:
+  password.conf: |-
+    ...
+```
+
+Complete content of the "password.conf" file:
+
+```properties
+key.for.decryption=(plaintext encryption/decrpytion key)
+aes.spring.datasource.password=(aes encrypted datasource password)
+aes.spring.datasource.password.memberSign=(aes encrypted datasource password for specific memberSign)
+aes.kafka.password=(aes encrypted kafka password)
+aes.kafka.schemaregistry.password=(aes encrypted kafka schema registry password)
+aes.ssl.key.store.password=(aes encrypted key store password)
+aes.spring.kafka.properties.ssl.truststore.password=(aes encrypted trust store password)
+aes.ssl.trust.store.password=(aes encrypted trust store password)
+aes.liquibase.password=(aes encrypted liquibase password)
+```
+
+
 ## Customizing installation
 
 Besides required attributes, installation of ALC collect can be customized in different ways.
@@ -871,7 +911,7 @@ Following are the default values for ALC collect requests and limits:
 ```yaml
 resources:
   limits:
-    cpu: 500m
+    cpu: 1
     memory: 512Mi
   requests:
     cpu: 50m
@@ -925,6 +965,15 @@ autoscaling:
 CPU and/or memory utilization metrics can be used to autoscale ALC collect pod.
 It's possible to define one or both of those metrics.
 If only `autoscaling.enabled` attribute is set to `true`, without setting other attributes, only CPU utilization metric will be used with percentage set to 80.
+
+#### Using `VerticalPodAutoscaler`
+By default, VPA is disabled in configuration, but it can enabled with following setup:
+```yaml
+vpa:
+enabled: true # default is false, has to be set to true to enable VPA
+updateMode: Off # default mode if Off, other possible values are "Initial", "Recreate" and "Auto"
+```
+Please note that this feature requires VPA controller to be installed on Kubernetes cluster. Please refer to [VPA documentation](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) for additional info.
 
 ### Customizing probes
 
@@ -1197,3 +1246,16 @@ javaOpts: "-Xms256M -Xmx512M -Dcustom.jvm.param=true"
 ```
 
 Note that defining custom `javaOpts` attribute will override default one, so make sure to keep `Xms` and `Xmx` parameters.
+
+
+### Caching custom configuration
+
+In Alc collect application, parametrization that is often used is cached or temporarily stored in the memory for the
+performance purposes. By default, application refreshes all cached data after a period of 24 hours.
+That behaviour is modifiable by this attribute in minutes:
+
+```yaml
+cache:
+  refresh:
+    rate: 1440 # default value is 1440
+```

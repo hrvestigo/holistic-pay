@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 3.6.0
+    tag: 4.0.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -100,6 +100,7 @@ secret:
   liquibasePassword: ''
   trustStorePassword: ''
   keyStorePassword: ''
+  existingSecret: ''
 logger:
   format: STRING
   level:
@@ -144,7 +145,7 @@ ingress:
   tls: []
 resources:
   limits:
-    cpu: 500m
+    cpu: 1
     memory: 512Mi
   requests:
     cpu: 50m
@@ -233,3 +234,11 @@ mountCaFromSecret:
 customVolumes: []
 customMounts: []
 customEnv: []
+vpa:
+  enabled: false
+  updateMode: 'Off'
+prometheus:
+  exposed: true
+cache:
+  refresh:
+    rate: 1440

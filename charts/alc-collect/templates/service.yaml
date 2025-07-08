@@ -10,6 +10,10 @@ metadata:
     {{- end }}
   {{- with .Values.service.annotations }}
   annotations:
+    prometheus.io/path: /prometheus
+    prometheus.io/port: {{ .Values.service.port }}
+    prometheus.io/scheme: https
+    prometheus.io/scrape: 'true'
   {{ toYaml . | nindent 4 }}
   {{- end }}
 spec:
