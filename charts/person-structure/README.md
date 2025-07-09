@@ -223,11 +223,11 @@ In case you want to stop publishing on personstructure topic then you need chang
 ###Define conditions for completed person structure
 ```yaml
 personStructure:
-  completenessFlagAlgorithm: DEBIT_GATEWAY  #default value, checks value of account and card attributes in person_structure table
+  completenessFlagAlgorithm: CARD_LEVEL  #default value, checks value of account and card attributes in person_structure table
 ```
 `completenessFlagAlgorithm` value defines conditions by which person structure is to be declared completed.
-Default value of this attribute is 'DEBIT_GATEWAY' which checks basic account and card data values (account id, account code, etc.).
-Possible values of completeness flag algorithm are: DEBIT_GATEWAY, INSTANT_PAYMENT, BALANCE_CHECK or NONE and their values can be seen
+Default value of this attribute is 'CARD_LEVEL' which checks basic account and card data values (account id, account code, etc.).
+Possible values of completeness flag algorithm are: ACCOUNT_LEVEL, CARD_LEVEL or NONE and their values can be seen
 in CompletenessFlagAlgorithm enum class. Value 'NONE' means no attributes are checked before declaring person structure completed.
 
 
@@ -244,7 +244,27 @@ With this default value, in case service doesn't find any data for given account
 If you want to service to also check if there is data for given customer id after it doesn't find anything for account id in the table, then you have to
 change the `searchAlgorithm` to `customeraccount` value.
 
-###Enabling initial account lifecycle status check
+### Enabling person structure initial listener
+```yaml
+personStructureInitial:
+  listener: 
+     enabled: true #default value, enables person structure initial listener
+```
+Enables/disables person structure initial listener.
+Default value is set to true, meaning that person structure initial listener is enabled.
+
+### Enabling person structure parameterization listener
+
+```yaml
+personStructure:
+  paramListener:
+    enabled: true #default value, enables person structure parameterization listener
+```
+Enables/disables person structure parameterization listener.
+Default value is set to true, meaning that person structure parameterization listener is enabled.
+
+
+### Enabling initial account lifecycle status check
 ```yaml
 initial:
   account:

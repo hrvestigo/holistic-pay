@@ -131,7 +131,7 @@ spec:
               value: >-
                 {{ include "person-structure.kafka.loginModule" . }} required username=
                 {{- required "Please specify Kafka user in kafka.user" .Values.kafka.user | quote }} password="${kafka.password}";
-            - name: SPRING_KAFKA_PROPERTIES_BOOTSTRAP_SERVERS
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: {{ required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL
               value: {{ .Values.kafka.securityProtocol | quote }}
@@ -246,6 +246,10 @@ spec:
               value: {{ .Values.personStructure.currencyStaging.enabled | default "false" | quote }}
             - name: PERSON_STRUCTURE_PRODUCE
               value: {{ .Values.personStructure.produce | quote }}
+            - name: PERSON_STRUCTURE_PARAM_LISTENER_ENABLED
+              value: {{ .Values.personStructure.paramListener.enabled | quote }}
+            - name: PERSON_STRUCTURE_INITIAL_LISTENER_ENABLED
+              value: {{ .Values.personStructureInitial.listener.enabled | quote }}
             - name: PERSON_STRUCTURE_INITIAL_SEARCH_ALGORITHM
               value: {{ .Values.personStructureInitial.searchAlgorithm | quote }}
             - name: INITIAL_ACCOUNT_LIFECYCLE_CHECK

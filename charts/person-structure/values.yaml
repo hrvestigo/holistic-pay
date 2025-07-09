@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.95.0
+    tag: 5.0.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -113,6 +113,10 @@ ms:
   appModuleName: PERSTR
 riskLimits:
   enabled: false
+  accprodcheck:
+    enabled: false
+  acclifecyclecheck:
+    enabled: false
 status:
   management:
     enabled: false
@@ -127,15 +131,19 @@ paramWarmup:
   enabled: false
 personStructure:
   produce: true
-  completenessFlagAlgorithm: DEBIT_GATEWAY
+  completenessFlagAlgorithm: CARD_LEVEL
   semaphore:
     enabled: false
   currencyStaging:
     enabled: false
+  paramListener:
+    enabled: true
 personStructureEffect:
   produce: false
 personStructureInitial:
   searchAlgorithm: account
+  listener:
+    enabled: true
 initial:
   account:
     lifecycleCheck: false
