@@ -69,7 +69,11 @@ Liquibase init container definition
 - name: liquibase-{{ .memberSign | lower }}
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
+  {{- if $.Values.image.liquibase.imageLocation }}
   image: {{ include "auth-limit-control.liquibase.image" $ }}
+  {{- else }}
+  image: {{ printf "%s%s%s%s%s" (include "auth-limit-control.liquibase.image" $) "-" ($member.businessUnit | lower ) ":" $.Values.image.liquibase.tag }}
+  {{- end }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   resources:
   {{- include "auth-limit-control.liquibase.initContainer.resources" $ | nindent 4 }}
@@ -182,7 +186,7 @@ Volumes
 {{- end -}}
 - name: {{ include "auth-limit-control.name" . }}-secret
   secret:
-    secretName: {{ include "auth-limit-control.name" . }}-secret
+     secretName: {{ .Values.secret.existingSecret | default (printf "%s%s" (include "auth-limit-control.name" .) "-secret") }}
     items:
       - path: password.conf
         key: password.conf
@@ -340,4 +344,16 @@ Readiness probes
 {{- else }}
 {{- print $probes }}
 {{- end }}
+{{- end }}
+
+{{/*
+Create a comma separated list of endpoints that need to be exposed
+*/}}
+{{- define "auth-limit-control.exposed.endpoints" -}}
+{{- $endpoints := list -}}
+{{- $endpoints = append $endpoints (printf "%s" "health") }}
+{{- if .Values.prometheus.exposed }}
+{{- $endpoints = append $endpoints (printf "%s" "prometheus") }}
+{{- end }}
+{{- join "," $endpoints }}
 {{- end }}
