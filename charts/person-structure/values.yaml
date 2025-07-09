@@ -114,9 +114,9 @@ ms:
 riskLimits:
   enabled: false
   accprodcheck:
-    enabled: false
+    enabled: true
   acclifecyclecheck:
-    enabled: false
+    enabled: true
 status:
   management:
     enabled: false
