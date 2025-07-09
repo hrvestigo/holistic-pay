@@ -159,6 +159,7 @@ Common labels
 */}}
 {{- define "alc-collect.labels" -}}
 helm.sh/chart: {{ include "alc-collect.chart" . }}
+app: {{ include "alc-collect.name" . }}
 project: HolisticPay
 {{ include "alc-collect.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
@@ -171,7 +172,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "alc-collect.selectorLabels" -}}
-app: {{ include "alc-collect.name" . }}
 app.kubernetes.io/name: {{ include "alc-collect.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
