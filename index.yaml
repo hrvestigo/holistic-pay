@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   alc-collect:
   - apiVersion: v2
+    appVersion: 4.3.0
+    created: "2025-07-09T07:40:46.597987025Z"
+    description: Helm chart for ALC collect application
+    digest: 5ae8143a17a1952dcd3a3918d99cb9515ea46dfb7b5227f241cb55fc7518a329
+    name: alc-collect
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/alc-collect-4.3.0/alc-collect-4.3.0.tgz
+    version: 4.3.0
+  - apiVersion: v2
     appVersion: 4.2.0
     created: "2025-07-09T06:53:24.760968023Z"
     description: Helm chart for ALC collect application
@@ -29642,4 +29652,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2025-07-09T06:53:24.781082221Z"
+generated: "2025-07-09T07:40:46.61853985Z"
