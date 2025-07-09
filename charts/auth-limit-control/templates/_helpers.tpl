@@ -186,7 +186,7 @@ Volumes
 {{- end -}}
 - name: {{ include "auth-limit-control.name" . }}-secret
   secret:
-     secretName: {{ .Values.secret.existingSecret | default (printf "%s%s" (include "auth-limit-control.name" .) "-secret") }}
+    secretName: {{ .Values.secret.existingSecret | default (printf "%s%s" (include "auth-limit-control.name" .) "-secret") }}
     items:
       - path: password.conf
         key: password.conf
