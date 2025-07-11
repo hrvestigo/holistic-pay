@@ -150,6 +150,7 @@ oauth2:
   resourceUri: ''
   authorizationPrefix: ''
 request:
+  maxHttpRequestHeaderSize: 64KB
   sanitization:
     enabled: true
 response:
@@ -184,6 +185,8 @@ logger:
   logDir: /var/log/app
   logDirMount:
     enabled: false
+    spec:
+      emptyDir: {}
   microserviceTag: PAYORD
   maskSensitive: false
   databaseSlowQueryThreshold: 0
@@ -308,8 +311,11 @@ customVolumes: []
 customMounts: []
 customEnv: []
 tracing:
+  enabled: false
   samplingProbability: 0.0
   otlpEndpoint: ''
 alert:
   communication:
     type: skip
+prometheus:
+  exposed: true

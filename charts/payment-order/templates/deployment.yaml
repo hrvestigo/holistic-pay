@@ -63,6 +63,8 @@ spec:
             {{- end }}
             - name: SERVER_PORT
               value: "8443"
+            - name: MANAGEMENT_TRACING_ENABLED
+              value: {{ .Values.tracing.enabled | quote }}
             - name: MANAGEMENT_TRACING_SAMPLING_PROBABILITY
               value: "{{ .Values.tracing.samplingProbability }}"
             - name: MANAGEMENT_OTLP_TRACING_ENDPOINT
@@ -133,7 +135,7 @@ spec:
               value: >-
                 {{ include "payment-order.kafka.loginModule" . }} required username=
                 {{- required "Please specify Kafka user in kafka.user" .Values.kafka.user | quote }} password="${kafka.password}";
-            - name: SPRING_KAFKA_PROPERTIES_BOOTSTRAP_SERVERS
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: {{ required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL
               value: {{ .Values.kafka.securityProtocol | quote }}
@@ -256,13 +258,19 @@ spec:
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
               value: PKCS12
-            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-              value: loggers,health,prometheus
-            - name: MANAGEMENT_ENDPOINTS_LOGGERS_ENABLED
+            - name: MANAGEMENT_ENDPOINTS_ENABLEDBYDEFAULT
+              value: "false"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_ENABLED
               value: "true"
+            {{- if .Values.prometheus.exposed }}
+            - name: MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED
+              value: "true"
+            {{- end }}
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: {{ include "payment-order.exposed.endpoints" $ }}
             - name: MANAGEMENT_ENDPOINTS_WEB_BASEPATH
               value: /
-            - name: MANAGEMENT_HEALTH_PROBES_ENABLED
+            - name: MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED
               value: "true"
             - name: MANAGEMENT_ENDPOINT_HEALTH_SHOWDETAILS
               value: always
@@ -299,6 +307,8 @@ spec:
                 [%{yyyy-MM-dd HH:mm:ss.SSS}t] %h %l %u "%r" %s
             - name: SERVER_TOMCAT_ACCESSLOG_CONDITIONUNLESS
               value: access
+            - name: SERVER_MAXHTTPREQUESTHEADERSIZE
+              value: {{ .Values.request.maxHttpRequestHeaderSize | quote }}
             - name: LOGGING_CONFIG
               value: /usr/app/config/log4j2.xml
             - name: LOGGER_EXCLUDE_ENDPOINTS

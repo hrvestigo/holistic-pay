@@ -402,7 +402,7 @@ If mirror registry is used for example, image source can be modified using follo
 image:
   registry: custom.image.registry # will be used as default for both images, docker.io is default (image repository and image name will be automatically appended)
   app:
-    registry: custom.app.image.registry # will override image.registry for sepa-inst app (image repository and image name will be automatically appended)
+    registry: custom.app.image.registry # will override image.registry for payment-order app (image repository and image name will be automatically appended)
     imageLocation: custom.app.image.registry/custom-location/custom-name # will override image registry, repository and name (only image tag will be automatically appended)
   liquibase:
     registry: custom.liquibase.image.registry # will override image.registry for Liquibase (image repository and image name will be automatically appended)
@@ -873,6 +873,16 @@ To configure oAuth2, it first has to be enabled with `oAuth2.enabled` parameter.
 When enabled, `oAuth2.resourceUri` should also be defined.
 This URI should point to oAuth2 server with defined converter type and name, for example `https://oauth2.server/realm/Holistic-Pay`. If scope/role has variable prefix, which should not be considered as full role/scope name, this variable prefix should be defined. Every part of this variable part should be defined (e.g. if scopes are defined as MY_PREFIX:scope1 MY_PREFIX:scope2 etc, then variable prefix is 'MY_PREFIX:')
 
+### Request header size limitations
+
+We can limit the size of HTTP request header using the following configuration:
+
+```yaml
+request:
+  maxHttpRequestHeaderSize: 64KB  # default value is 64KB
+```
+
+
 ### Request body sanitization and response body encoding
 
 Payment order application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
@@ -1116,12 +1126,14 @@ What is treated as sensitive is implementation specific and is defined inside th
 In order to start exporting tracing information to Tempo (or any tool that knows how to interpret OpenTelemetry formatted data), payment-order microservice should define next attributes:
   ```yaml
   tracing:
+    enabled: false # boolean value, default is false
     samplingProbability: 0.0 # decimal value, default is 0.0
     otlpEndpoint: '' # string value, default is empty
   ```
-First parameter dictates what percentage of requests should be exported to processing system. 0.0 means 0% of requests and 1.0 means 100%.
-Second parameter defines URL on which should be tracing information sent.
-If second parameter is not defined, no tracing information will be sent, regardless of sampling probability.
+First parameter enables or disables tracing. If set to `true`, tracing will be enabled.
+Second parameter dictates what percentage of requests should be exported to processing system. 0.0 means 0% of requests and 1.0 means 100%.
+Third parameter defines URL on which should be tracing information sent.
+If third parameter is not defined, no tracing information will be sent, regardless of sampling probability.
 
 ### Modifying deployment strategy
 

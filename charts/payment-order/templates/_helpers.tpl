@@ -346,3 +346,15 @@ Defines custom datasource connection parameters appended to URL
 {{- "" }}
 {{- end }}
 {{- end }}
+
+{{/*
+Create a comma separated list of endpoints that need to be exposed
+*/}}
+{{- define "payment-order.exposed.endpoints" -}}
+{{- $endpoints := list -}}
+{{- $endpoints = append $endpoints (printf "%s" "health") }}
+{{- if .Values.prometheus.exposed }}
+{{- $endpoints = append $endpoints (printf "%s" "prometheus") }}
+{{- end }}
+{{- join "," $endpoints }}
+{{- end }}

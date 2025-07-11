@@ -217,7 +217,7 @@
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.springframework.kafka.listener" level={{ .level.general | upper | quote }} additivity="false">
+    <Logger name="org.springframework.kafka.listener" level={{ .level.kafka | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
