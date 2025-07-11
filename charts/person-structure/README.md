@@ -115,6 +115,15 @@ riskLimits:
 ```
 Enables/disables all risk limits functionalities in the microservice.
 
+#### Enabling risk limit listener functionalities
+```yaml
+riskLimits:
+  listener: 
+    enabled: true  #default value, enables risk limit listener
+```
+Enables/disables risk limit listener functionalities.
+
+
 #### Enabling status functionalities
 ```yaml
 status:

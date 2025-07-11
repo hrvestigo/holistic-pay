@@ -117,6 +117,8 @@ riskLimits:
     enabled: true
   acclifecyclecheck:
     enabled: true
+  listener:
+    enabled: true
 status:
   management:
     enabled: false

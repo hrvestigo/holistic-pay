@@ -153,10 +153,6 @@ spec:
             - name: PERSON_STRUCTURE_EFFECT_PRODUCE
               value: {{ .Values.personStructureEffect.produce | default "false" | quote }}
             {{- if .Values.riskLimits.enabled }}
-            - name: KAFKA_TOPIC_RISKLIMITCONTRACT_NAME
-              value: {{ required "Please specify Kafka topic name for risk limit functionality in kafka.topics.risklimitcontract.name" .Values.kafka.topics.risklimitcontract.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_RISKLIMITCONTRACT_NAME
-              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.topics.risklimitcontract.consumerGroup" .Values.kafka.topics.risklimitcontract.consumerGroup | quote }}
             - name: KAFKA_TOPIC_RISKLIMITDEF_NAME
               value: {{ required "Please specify Kafka topic name for risk limit functionality in kafka.topics.risklimitdef.name" .Values.kafka.topics.risklimitdef.name | quote }}
             - name: RISK_LIMIT_ALC_URL
@@ -181,6 +177,12 @@ spec:
               value: {{ required "Please specify Kafka topic name for person structure checks results functionality in kafka.topics.personstructurechecksresult.name" .Values.kafka.topics.personstructurechecksresult.name | quote }}
             - name: PERSON_STRUCTURE_CHECKS_CACHE_EXPIREAFTERWRITE
               value: {{ .Values.personStructureChecks.cache.refresh.rate | quote }}
+            {{- end }}
+            {{-if .Values.risk.limits.listener.enabled }}
+            - name: KAFKA_TOPIC_RISKLIMITCONTRACT_NAME
+              value: {{ required "Please specify Kafka topic name for risk limit functionality in kafka.topics.risklimitcontract.name" .Values.kafka.topics.risklimitcontract.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_RISKLIMITCONTRACT_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.topics.risklimitcontract.consumerGroup" .Values.kafka.topics.risklimitcontract.consumerGroup | quote }}
             {{- end }}
             {{- if .Values.grpc.server.enabled }}
             - name: GRPC_SERVER_PORT
@@ -210,6 +212,8 @@ spec:
               value: {{ .Values.cms.userId | quote }}
             - name: RISK_LIMITS_ENABLED
               value: {{ .Values.riskLimits.enabled | quote }}
+            - name: RISK_LIMITS_LISTENER_ENABLED
+              value: {{ .Values.riskLimits.listener.enabled | default "true" | quote }}
             - name: KAFKA_CONSUMER_LIMITHISTORY_ENABLED
               value: {{ .Values.kafka.consumer.limithistory.enabled | default "false" | quote }}
             {{- if .Values.kafka.consumer.limithistory.enabled }}
