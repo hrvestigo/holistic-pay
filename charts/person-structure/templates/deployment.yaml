@@ -178,7 +178,7 @@ spec:
             - name: PERSON_STRUCTURE_CHECKS_CACHE_EXPIREAFTERWRITE
               value: {{ .Values.personStructureChecks.cache.refresh.rate | quote }}
             {{- end }}
-            {{-if .Values.risk.limits.listener.enabled }}
+            {{- if .Values.riskLimits.listener.enabled }}
             - name: KAFKA_TOPIC_RISKLIMITCONTRACT_NAME
               value: {{ required "Please specify Kafka topic name for risk limit functionality in kafka.topics.risklimitcontract.name" .Values.kafka.topics.risklimitcontract.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITCONTRACT_NAME
@@ -189,12 +189,12 @@ spec:
               value: {{ .Values.grpc.server.port | default "9090" | quote }}
             - name: GRPC_SERVER_SECURITY_ENABLED
               value: {{ .Values.grpc.server.security.enabled | default "false" | quote }}
-              {{- if .Values.grpc.server.security.enabled }}
+            {{- if .Values.grpc.server.security.enabled }}
             - name: GRPC_SERVER_SECURITY_CERTIFICATECHAIN
               value: "file:{{ .Values.grpc.server.security.certificate }}"
             - name: GRPC_SERVER_SECURITY_PRIVATEKEY
               value: "file:{{ .Values.grpc.server.security.key }}"
-              {{- end }}
+            {{- end }}
             {{- end }}
             - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
               value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}
