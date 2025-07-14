@@ -178,7 +178,7 @@ spec:
             - name: PERSON_STRUCTURE_CHECKS_CACHE_EXPIREAFTERWRITE
               value: {{ .Values.personStructureChecks.cache.refresh.rate | quote }}
             {{- end }}
-            {{- if .Values.riskLimits.listener.enabled }}
+            {{- if .Values.kafka.topics.risklimitcontract.enabled }}
             - name: KAFKA_TOPIC_RISKLIMITCONTRACT_NAME
               value: {{ required "Please specify Kafka topic name for risk limit functionality in kafka.topics.risklimitcontract.name" .Values.kafka.topics.risklimitcontract.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITCONTRACT_NAME
@@ -213,7 +213,7 @@ spec:
             - name: RISK_LIMITS_ENABLED
               value: {{ .Values.riskLimits.enabled | quote }}
             - name: RISK_LIMITS_LISTENER_ENABLED
-              value: {{ .Values.riskLimits.listener.enabled | default "true" | quote }}
+              value: {{ .Values.kafka.topics.risklimitcontract.enabled | quote }}
             - name: KAFKA_CONSUMER_LIMITHISTORY_ENABLED
               value: {{ .Values.kafka.consumer.limithistory.enabled | default "false" | quote }}
             {{- if .Values.kafka.consumer.limithistory.enabled }}
