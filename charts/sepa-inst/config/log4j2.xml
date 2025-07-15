@@ -118,6 +118,13 @@
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
+    <Logger name="hr.vestigo.hp.sepa.inst.util" level={{ .level.businessTimeout | upper | quote }} additivity="false">
+      {{- if .logToFile }}
+      <AppenderRef ref="${applicationAppender}"/>
+      {{- end }}
+      <AppenderRef ref="${consoleAppender}"/>
+    </Logger>
+
     <Logger name="hr.vestigo.springtemplate.app.logging.HttpRequestAndResponseLoggingFilter" level={{ .level.rest | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>

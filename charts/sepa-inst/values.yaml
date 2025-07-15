@@ -78,6 +78,7 @@ kafka:
       name: hr.vestigo.hp.alert
 csm:
   id: NKS9999998
+  bic: FNAGHR22
   url: ''
   msgPath: /instant-core/api/msg
   info: ''
@@ -125,12 +126,17 @@ csm:
       requestMsgTimeout: 0s
       responseMsgTimeout: 25s
       responseMsgPendingTimeout: 0s
+      processingTimeout: 0ms
     pacs_028:
       xsdCheck: inherit
       requestMsgRetry: 10;5s
     pacs_028_056:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
+    req_tech_ack:
+      xsdCheck: inherit
+    tech_ack:
+      xsdCheck: inherit
   format:
     dateFormat: "yyyy-MM-dd"
     timeFormat: "HH:mm:ss"
@@ -141,6 +147,7 @@ oauth2:
   resourceUri: ''
   authorizationPrefix: ''
 request:
+  maxHttpRequestHeaderSize: 64KB
   sanitization:
     enabled: true
 response:
@@ -160,17 +167,18 @@ secret:
 logger:
   format: STRING
   level:
-    kafka: DEBUG
+    kafka: INFO
     kafkaCore: INFO
-    rest: DEBUG
-    database: ERROR
-    databaseSql: DEBUG
-    databaseBind: TRACE
-    databaseExtract: TRACE
+    rest: INFO
+    database: INFO
+    databaseSql: INFO
+    databaseBind: INFO
+    databaseExtract: INFO
     databaseSlowQuery: INFO
-    businessLogic: DEBUG
-    health: DEBUG
-    general: DEBUG
+    businessLogic: INFO
+    businessTimeout: INFO
+    health: INFO
+    general: INFO
   logToFile: false
   rollingFileAppender: false
   logDir: /var/log/app

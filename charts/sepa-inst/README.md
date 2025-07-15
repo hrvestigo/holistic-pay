@@ -301,6 +301,8 @@ resources for `POST` to CSM:
 - `pacs_008`
 - `pacs_028`
 - `pacs_028_056`
+- `req_tech_ack`
+- `tech_ack`
 
 For example, with `url` set to `http://localhost:8080` and using defaults for other
 parameters, application sends `pacs008` message by sending `POST` request to CSM on
@@ -382,12 +384,17 @@ csm:
       requestMsgTimeout: 0s
       responseMsgTimeout: 25s
       responseMsgPendingTimeout: 0s
+      processingTimeout: 0ms
     pacs_028:
       xsdCheck: inherit
       requestMsgRetry: 10;5s
     pacs_028_056:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
+    req_tech_ack:
+      xsdCheck: inherit
+    tech_ack:
+      xsdCheck: inherit
 ```
 
 The parameter `xsdCheck` has the same meaning as the global parameter on CSM level,
@@ -524,6 +531,25 @@ Response message pending timeout is applicable for the following business use ca
     CSM->>Sepa Inst: pacs_002
     Sepa Inst->>Sepa Inst: pending removed
   ```
+
+##### Processing timeout configuration
+
+With parameter `processingTimeout` we can configure if processing timeout is logged
+on level `logger.level.businessTimeout`. This is useful if metrics and/or
+observability system is not setup for all application components, but still
+logs can show application bottlenecks.
+
+Note that this is per use case configuration and implementation. Meaning, we may
+add additional logs for other use cases if processing timeout occurs.
+
+Also note that this configuration can be overridden by other configuration,
+like `requestMsgTimeout` for particular use case.
+
+Log output example:
+
+```log
+Processing timeout occurred, measured 5.46s, configured 3s, endpoint pacs_008, process acceptance date/time check
+```
 
 ### TLS setup
 
@@ -994,6 +1020,15 @@ considered as full role/scope name, this variable prefix should be defined. Ever
 variable part should be defined (e.g. if scopes are defined as MY_PREFIX:scope1 MY_PREFIX:scope2
 etc, then variable prefix is 'MY_PREFIX:')
 
+### Request header size limitations
+
+We can limit the size of HTTP request header using the following configuration:
+
+```yaml
+request:
+  maxHttpRequestHeaderSize: 64KB  # default value is 64KB
+```
+
 ### Request body sanitization and response body encoding
 
 `SEPA inst` application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
@@ -1056,17 +1091,18 @@ To change logging level for different components, following attribute should be 
 
 ```yaml
   level:
-    kafka: DEBUG              # default value, user for logging general kafka logic
+    kafka: INFO               # default value, user for logging general kafka logic
     kafkaCore: INFO           # default value, used for logging org.apache.kafka.*
-    rest: DEBUG               # default value, used for logging REST operations
-    database: ERROR           # default value, used for logging all DB related operations (root DB logger)
-    databaseSql: DEBUG        # default value, used for logging DB SQL operations (CRUD)
-    databaseBind: TRACE       # default value, used for logging DB bind parameters (root DB logger)
-    databaseExtract: TRACE    # default value, used for logging DB extracted values
+    rest: INFO                # default value, used for logging REST operations
+    database: INFO            # default value, used for logging all DB related operations (root DB logger)
+    databaseSql: INFO         # default value, used for logging DB SQL operations (CRUD)
+    databaseBind: INFO        # default value, used for logging DB bind parameters (root DB logger)
+    databaseExtract: INFO     # default value, used for logging DB extracted values
     databaseSlowQuery: INFO   # default value, used for logging slow queries for configured threshold 'databaseSlowQueryThreshold'
-    businessLogic: DEBUG      # default value, used for logging service business logic
-    health: DEBUG             # default value, used for logging health checks
-    general: DEBUG            # default value, used for logging other components
+    businessLogic: INFO       # default value, used for logging service business logic
+    businessTimeout: INFO     # default value, used for logging service business timeouts (slow processing)
+    health: INFO              # default value, used for logging health checks
+    general: INFO             # default value, used for logging other components
 ```
 
 NOTE: *Logging DB operations and business logic can be expensive.

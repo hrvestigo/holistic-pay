@@ -170,6 +170,8 @@ spec:
               value: {{ .Values.alert.communication.type | quote }}
             - name: SEPA_INST_CSM_ID
               value: {{ required "Please specify clearing system id in csm.id" .Values.csm.id | quote }}
+            - name: SEPA_INST_CSM_BIC
+              value: {{ required "Please specify clearing system id in csm.bic" .Values.csm.bic | quote }}
             - name: SEPA_INST_CSM_URL
               value: {{ required "Please specify Clearing System base URL in cms.url" .Values.csm.url | quote }}
             - name: SEPA_INST_CSM_MSG_PATH
@@ -238,6 +240,8 @@ spec:
                 [%{yyyy-MM-dd HH:mm:ss.SSS}t] %h %l %u "%r" %s
             - name: SERVER_TOMCAT_ACCESSLOG_CONDITIONUNLESS
               value: access
+            - name: SERVER_MAXHTTPREQUESTHEADERSIZE
+              value: {{ .Values.request.maxHttpRequestHeaderSize | quote }}
             - name: LOGGING_CONFIG
               value: /usr/app/config/log4j2.xml
             - name: LOGGER_EXCLUDE_ENDPOINTS
