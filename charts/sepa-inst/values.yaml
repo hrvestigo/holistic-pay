@@ -76,6 +76,8 @@ kafka:
       consumerGroup: hr.vestigo.hp.sepainstmsgcheck
     alertTopic:
       name: hr.vestigo.hp.alert
+  consumer:
+    brBackOff: 3;0.1s
 csm:
   id: NKS9999998
   bic: FNAGHR22

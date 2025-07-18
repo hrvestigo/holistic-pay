@@ -215,7 +215,21 @@ kafka:
     sepainstmsgcheck:
       name: hr.vestigo.hp.sepainstmsgcheck # default, set custom name if required
       consumerGroup: hr.vestigo.hp.sepainstmsgcheck # default, set custom if required
+    alertTopic:
+      name: hr.vestigo.hp.alert # default, set custom name if required
+  consumer:
+    brBackOff: 3;0.1s
 ```
+
+With `consumer.brBackOff` we configure blocking retry back off policy to retry
+processing of Kafka message. This is global consumers configuration for all
+topics. Default is 3 retries in fixed 100ms intervals. Note that milliseconds
+are represented in W3C format (as fraction of seconds).
+
+This is preferred retry mechanism for processing triggered by Kafka message
+in order to honor Kafka's max poll intervals. For example, if processing of
+Kafka message calls CSM and CSM fails, we retry whole flow via Kafka mechanism
+not just CSM call.
 
 ### Configuring image source and pull secrets
 

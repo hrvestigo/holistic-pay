@@ -168,6 +168,8 @@ spec:
               value: {{ .Values.kafka.topics.alertTopic.name | quote }}
             - name: ALERT_COMMUNICATION_TYPE
               value: {{ .Values.alert.communication.type | quote }}
+            - name: HR_VESTIGO_KAFKA_CONSUMER_RETRY_BACKOFF
+              value: {{ .Values.kafka.consumer.brBackOff | quote }}
             - name: SEPA_INST_CSM_ID
               value: {{ required "Please specify clearing system id in csm.id" .Values.csm.id | quote }}
             - name: SEPA_INST_CSM_BIC
