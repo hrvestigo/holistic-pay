@@ -111,18 +111,16 @@ ms:
 #### Enabling risk limit functionalities
 ```yaml
 riskLimits:
-  enabled: false  #default value, disables all risk limit functionalities
+  enabled: true #default value, enable all risk limit functionalities
+  accprodcheck:
+    enabled: true #default value, enable risk limit account product check
+  acclifecyclecheck:
+    enabled: true #default value, enable risk limit account lifecycle check
 ```
-Enables/disables all risk limits functionalities in the microservice.
 
-#### Enabling risk limit listener functionalities
-```yaml
-riskLimits:
-  listener: 
-    enabled: true  #default value, enables risk limit listener
-```
-Enables/disables risk limit listener functionalities.
-
+`riskLimits.enabled` Enables/disables all risk limits functionalities in the microservice.
+`riskLimits.accprodcheck.enabled` Enables/disables account product check in the microservice.
+`riskLimits.acclifecyclecheck.enabled` Enables/disables enable risk limit account lifecycle check in the microservice.
 
 #### Enabling status functionalities
 ```yaml
@@ -433,6 +431,7 @@ kafka:
     risklimitcontract: # consumption of external risk limit definitions
       name: hr.vestigo.hp.risklimitcontract # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.risklimitcontract # default value, set custom name if required
+      enabled: true # default value, set to false if risk limit contract consumption is not required
     risklimitdef: # publishing of risk limits
       name: hr.vestigo.hp.risklimitdef # default value, set custom name if required
     # Person Structure Checks functionality is enabled through personStructureChecks property.

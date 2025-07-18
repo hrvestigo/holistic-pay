@@ -113,7 +113,7 @@ ms:
   sequence: perstr_seq
   appModuleName: PERSTR
 riskLimits:
-  enabled: false
+  enabled: true
   accprodcheck:
     enabled: true
   acclifecyclecheck:
