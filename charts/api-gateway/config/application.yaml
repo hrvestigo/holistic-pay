@@ -36,7 +36,7 @@ spring:
             - SaveSession
         - id: auth-limit-control_route
           predicates:
-            - Path=/api/*/authLimitControl/**
+            - Path=/api/*/authLimitControl/**, /api/*/authorization-request
           uri: https://{{ required "Auth limit control application service name has to be defined in routes.authLimitControl.serviceName" .Values.routes.authLimitControl.serviceName }}:{{ required "Auth limit control application port number has to be defined in routes.authLimitControl.servicePortNumber" .Values.routes.authLimitControl.servicePortNumber }}
           filters:
             - TokenRelay
