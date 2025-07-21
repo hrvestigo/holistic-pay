@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.2.0
+    tag: 4.6.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -120,6 +120,8 @@ appWarmup:
   serviceWarmupCronSchedule: 0 * * * * *
   serviceWarmupRestEnabled: true
   serviceWarmupRestUrl: https://localhost:8443
+bucketOpening:
+  enabled: true
 timezone: ''
 secret:
   decryptionKey: ''

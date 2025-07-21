@@ -79,6 +79,16 @@ Starting from chart version 0.3.0 (application version 1.1.21), Auth limit contr
 partnerBankServiceUrl: https://partner-bank-interface:8443 # default value, should point to partner-bank-interface Service name and port number
 ```
 
+#### Enabling bucket opening functionality
+```yaml
+bucketOpening:
+  enabled: true #default value, bucket opening functionality
+```
+
+`bucketOpening.enable` Enables/disables bucket opening functionality in the microservice. Is set to false, 
+only person structure data will be saved when consuming received message, but no limit buckets opened. 
+Same logic is applied also when updating person structure
+
 ### Datasource connection setup
 
 All values required for PostgreSQL database connection are defined within `datasource` parent attribute.

@@ -244,6 +244,8 @@ spec:
               value: {{ .Values.datasource.minIdle | quote }}
             - name: SPRING_DATASOURCE_HIKARI_IDLETIMEOUT
               value: {{ .Values.datasource.idleTimeout | quote }}
+            - name: BUCKET_OPENING_ENABLED
+              value: {{ .Values.bucketOpening.enabled | default "true" | quote }}
             - name: SECRET_PROPERTIES
               value: /mnt/k8s/secrets/password.conf
             - name: JAVA_OPTS
