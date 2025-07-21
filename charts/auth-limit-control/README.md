@@ -85,7 +85,7 @@ bucketOpening:
   enabled: true #default value, bucket opening functionality
 ```
 
-`bucketOpening.enable` Enables/disables bucket opening functionality in the microservice. Is set to false, 
+`bucketOpening.enabled` Enables/disables bucket opening functionality in the microservice. Is set to false, 
 only person structure data will be saved when consuming received message, but no limit buckets opened. 
 Same logic is applied also when updating person structure
 
