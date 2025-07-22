@@ -265,9 +265,9 @@ spec:
             - name: MS_APP_MODULE_NAME
               value: {{ .Values.ms.appModuleName | quote }}
             - name: RISK_LIMITS_ACCPRODCHECK_ENABLED
-              value: {{ .Values.riskLimits.accprodcheck.enabled | default "true" | quote }}
+              value: {{ .Values.riskLimits.accprodcheck.enabled | quote }}
             - name: RISK_LIMITS_ACCLIFECYCLECHECK_ENABLED
-              value: {{ .Values.riskLimits.acclifecyclecheck.enabled | default "true" | quote }}
+              value: {{ .Values.riskLimits.acclifecyclecheck.enabled | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
