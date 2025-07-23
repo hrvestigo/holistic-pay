@@ -213,9 +213,12 @@ kafka:
       consumerGroup: hr.vestigo.hp.limitbucket # default value, set custom name if required
     limitbucketh:
       consumerGroup: hr.vestigo.hp.limitbucketh # default value, set custom name if required
+    # Parameterization functionality, enabled through parameterization property.
+    # If enabled, define following topic and consumer group:
     parameterization:
       name: hr.vestigo.hp.parameterization # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.parameterization # default value, set custom name if required
+      enabled: true # default value, set to false if parameterization topic should not be used
 ```
 
 ### Configuring image source and pull secrets

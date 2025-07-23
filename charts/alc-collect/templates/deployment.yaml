@@ -150,8 +150,6 @@ spec:
               value: {{ .Values.kafka.topics.personstructure.name | quote }}
             - name: KAFKA_TOPIC_LIMITBUCKET_NAME
               value: {{ .Values.kafka.topics.limitbucket.name | quote }}
-            - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.name | quote }}
             - name: KAFKA_TOPIC_AUTHLOG_NAME
               value: {{ .Values.kafka.topics.authlog.name | quote }}
             - name: KAFKA_TOPIC_AUTHMSG_NAME
@@ -164,14 +162,20 @@ spec:
               value: {{ .Values.kafka.topics.limitbucket.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_LIMITBUCKETH_NAME
               value: {{ .Values.kafka.topics.limitbucketh.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_AUTHMSG_NAME
               value: {{ .Values.kafka.topics.authmsg.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITDEF_NAME
               value: {{ .Values.kafka.topics.risklimitdef.consumerGroup | quote }}
             - name: ALC_COLLECT_CACHE_EXPIREAFTERWRITE
               value: {{ .Values.cache.refresh.rate | default "1440" | quote }}
+            - name: PARAMETERIZATION_LISTENER_ENABLED
+              value: {{ .Values.kafka.topics.parameterization.enabled | quote }}
+            {{- if .Values.kafka.topics.parameterization.enabled }}
+            - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
+              value: {{ required "Please specify Kafka topic name for parameterization functionality in kafka.topics.parameterization.name" .Values.kafka.topics.parameterization.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
+              value: {{ required "Please specify Kafka consumer group for parameterization functionality in kafka.topics.parameterization.consumerGroup" .Values.kafka.topics.parameterization.consumerGroup | quote }}
+            {{- end }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
