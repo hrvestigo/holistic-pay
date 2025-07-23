@@ -83,11 +83,14 @@ kafka:
     expiredauth:
       name: hr.vestigo.hp.expiredauth
       consumerGroup: hr.vestigo.hp.expiredauth
+      enabled: true
     matchedauth:
       name: hr.vestigo.hp.matchedauth
       consumerGroup: hr.vestigo.hp.matchedauth
+      enabled: true
     parameterization:
       name: hr.vestigo.hp.parameterization
+      enabled: true
       authptragrmtlimalc:
         consumerGroup: hr.vestigo.hp.authptragrmtlimalc.parameterization.alc
       authptragrmtparamalc:

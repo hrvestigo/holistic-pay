@@ -247,14 +247,23 @@ kafka:
     risklimitdef:
       name: hr.vestigo.hp.risklimitdef # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.risklimitdef # default value, set custom name if required
+    # Expired authorization functionality, enabled through expiredauth property.
+    # If enabled, define following one topic and consumer group: 
     expiredauth:
       name: hr.vestigo.hp.expiredauth # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.expiredauth # default value, set custom name if required
+      enabled: true # default value, disable if not needed
+    # Match authorization functionality, enabled through matchedauth property.
+    # If enabled, define following one topic and consumer group: 
     matchedauth:
       name: hr.vestigo.hp.matchedauth # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.matchedauth # default value, set custom name if required
+      enabled: true # default value, disable if not needed
+    # Parameterization functionality, enabled through parameterization property.
+    # If enabled, define following one topic and five consumer group:  
     parameterization: 
       name: hr.vestigo.hp.parameterization # default value, set custom name if required
+      enabled: true # default value, disable if not needed
       authptragrmtlimalc:
         consumerGroup: hr.vestigo.hp.authptragrmtlimalc.parameterization # default value, set custom name if required
       authptragrmtparamalc:

@@ -158,12 +158,6 @@ spec:
               value: {{ .Values.kafka.topics.partnerbankinterface10s.name | quote }}
             - name: KAFKA_TOPIC_RISKLIMITDEF_NAME
               value: {{ .Values.kafka.topics.risklimitdef.name | quote }}
-            - name: KAFKA_TOPIC_EXPIREDAUTH_NAME
-              value: {{ .Values.kafka.topics.expiredauth.name | quote }}
-            - name: KAFKA_TOPIC_MATCHEDAUTH_NAME
-              value: {{ .Values.kafka.topics.matchedauth.name | quote }}
-            - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.name | quote }}
             - name: KAFKA_TOPIC_TIMEOUTEDAUTH_NAME
               value: {{ .Values.kafka.topics.timeoutedauth.name | quote }}
             - name: KAFKA_TOPIC_AUTHLOG_NAME
@@ -178,20 +172,6 @@ spec:
               value: {{ .Values.kafka.topics.authprocgroupitem.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_RISKLIMITDEF_NAME
               value: {{ .Values.kafka.topics.risklimitdef.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_EXPIREDAUTH_NAME
-              value: {{ .Values.kafka.topics.expiredauth.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_MATCHEDAUTH_NAME
-              value: {{ .Values.kafka.topics.matchedauth.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRMTLIMALC_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.authptragrmtlimalc.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRMTPARAMALC_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.authptragrmtparamalc.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_FINCTRLLIMTYPEALC_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.finctrllimtypealc.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CURRENCY_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.currency.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_COUNTRY_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.country.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_TIMEOUTEDAUTH_NAME
               value: {{ .Values.kafka.topics.authlog.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_AUTHLOG_NAME
@@ -246,6 +226,38 @@ spec:
               value: {{ .Values.datasource.idleTimeout | quote }}
             - name: BUCKET_OPENING_ENABLED
               value: {{ .Values.bucketOpening.enabled | quote }}
+            - name: LISTENER_EXPIREDAUTH_ENABLED
+              value: {{ .Values.kafka.topics.expiredauth.enabled | quote }}
+            {{- if .Values.kafka.topics.expiredauth.enabled }}
+            - name: KAFKA_TOPIC_EXPIREDAUTH_NAME
+              value: {{ required "Please specify Kafka topic name for expiredauth functionality in kafka.topics.expiredauth.name" .Values.kafka.topics.expiredauth.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_EXPIREDAUTH_NAME
+              value: {{ required "Please specify Kafka consumer group for expiredauth functionality in kafka.topics.expiredauth.consumerGroup" .Values.kafka.topics.expiredauth.consumerGroup | quote }}
+            {{- end }}
+            - name: LISTENER_MATCHEDAUTH_ENABLED
+              value: {{ .Values.kafka.topics.matchedauth.enabled | quote }}
+            {{- if .Values.kafka.topics.matchedauth.enabled }}
+            - name: KAFKA_TOPIC_MATCHEDAUTH_NAME
+              value: {{ required "Please specify Kafka topic name for matchedauth functionality in kafka.topics.matchedauth.name" .Values.kafka.topics.matchedauth.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_MATCHEDAUTH_NAME
+              value: {{ required "Please specify Kafka consumer group for matchedauth functionality in kafka.topics.matchedauth.consumerGroup" .Values.kafka.topics.matchedauth.consumerGroup | quote }}
+            {{- end }}
+            - name: LISTENER_PARAMETERIZATION_ENABLED
+              value: {{ .Values.kafka.topics.parameterization.enabled | quote }}
+            {{- if .Values.kafka.topics.matchedauth.enabled }}
+            - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
+              value: {{ required "Please specify Kafka topic name for parameterization functionality in kafka.topics.parameterization.name" .Values.kafka.topics.parameterization.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRMTLIMALC_PARAMETERIZATION_NAME
+              value: {{ required "Please specify Kafka consumer group for partner agreement limit functionality in kafka.topics.parameterization.authptragrmtlimalc.consumerGroup" .Values.kafka.topics.parameterization.authptragrmtlimalc.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_AUTHPTRAGRMTPARAMALC_PARAMETERIZATION_NAME
+              value: {{ required "Please specify Kafka consumer group for partner agreement param functionality in kafka.topics.parameterization.authptragrmtparamalc.consumerGroup" .Values.kafka.topics.parameterization.authptragrmtparamalc.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_FINCTRLLIMTYPEALC_PARAMETERIZATION_NAME
+              value: {{ required "Please specify Kafka consumer group for limit type functionality in kafka.topics.parameterization.finctrllimtypealc.consumerGroup" .Values.kafka.topics.parameterization.finctrllimtypealc.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CURRENCY_PARAMETERIZATION_NAME
+              value: {{ required "Please specify Kafka consumer group for currency functionality in kafka.topics.parameterization.currency.consumerGroup" .Values.kafka.topics.parameterization.currency.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_COUNTRY_PARAMETERIZATION_NAME
+              value: {{ required "Please specify Kafka consumer group for country functionality in kafka.topics.parameterization.country.consumerGroup" .Values.kafka.topics.parameterization.country.consumerGroup | quote }}
+            {{- end }}
             - name: SECRET_PROPERTIES
               value: /mnt/k8s/secrets/password.conf
             - name: JAVA_OPTS
