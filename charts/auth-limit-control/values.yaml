@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.6.0
+    tag: 4.12.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -66,9 +66,6 @@ kafka:
     personstructure:
       name: hr.vestigo.hp.personstructure
       consumerGroup: hr.vestigo.hp.personstructure
-    limitdef:
-      name: hr.vestigo.hp.limitdef
-      consumerGroup: hr.vestigo.hp.limitdef
     authprocgroupfinctrllim:
       name: hr.vestigo.hp.authprocgroupfinctrllim
       consumerGroup: hr.vestigo.hp.authprocgroupfinctrllim

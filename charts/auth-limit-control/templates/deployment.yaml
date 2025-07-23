@@ -148,8 +148,6 @@ spec:
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
             - name: KAFKA_TOPIC_PERSONSTRUCTURE_NAME
               value: {{ .Values.kafka.topics.personstructure.name | quote }}
-            - name: KAFKA_TOPIC_LIMITDEF_NAME
-              value: {{ .Values.kafka.topics.limitdef.name | quote }}
             - name: KAFKA_TOPIC_AUTHPROCGROUPFINCTRLLIM_NAME
               value: {{ .Values.kafka.topics.authprocgroupfinctrllim.name | quote }}
             - name: KAFKA_TOPIC_AUTHPROCGROUPITEM_NAME
@@ -164,8 +162,6 @@ spec:
               value: {{ .Values.kafka.topics.authlog.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PERSONSTRUCTURE_NAME
               value: {{ .Values.kafka.topics.personstructure.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_LIMITDEF_NAME
-              value: {{ .Values.kafka.topics.limitdef.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_AUTHPROCGROUPFINCTRLLIM_NAME
               value: {{ .Values.kafka.topics.authprocgroupfinctrllim.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_AUTHPROCGROUPITEM_NAME
