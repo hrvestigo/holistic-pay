@@ -403,9 +403,12 @@ mountCaFromSecret:
 customVolumes: []
 customMounts: []
 customEnv: []
+prometheus:
+  exposed: true
 tracing:
+  enabled: false
   samplingProbability: 0.0
-  otlpEndpoint: http://tempo.monitor:4318/v1/traces
+  otlpEndpoint: ''
 kafkaConsumer:
   ecsPaymentCompensation:
     enabled: false
