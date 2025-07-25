@@ -320,5 +320,6 @@ customEnv: []
 prometheus:
   exposed: true
 tracing:
+  enabled: false
   samplingProbability: 0.0
   otlpEndpoint: ''
