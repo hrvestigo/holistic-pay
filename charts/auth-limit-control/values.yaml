@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.12.0
+    tag: 4.15.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -101,6 +101,8 @@ kafka:
     timeoutedauth:
       name: hr.vestigo.hp.timeoutedauth
       consumerGroup: hr.vestigo.hp.timeoutedauth
+      enabled: true
+      enabledv2: false
     authlog:
       name: hr.vestigo.hp.authlog
       consumerGroup: hr.vestigo.hp.authlog
