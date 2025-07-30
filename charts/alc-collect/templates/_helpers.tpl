@@ -70,7 +70,7 @@ Liquibase init container definition
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
   {{- if $.Values.image.liquibase.imageLocation }}
-    image: {{ include "alc-collect.liquibase.image" $ }}
+  image: {{ include "alc-collect.liquibase.image" $ }}
   {{- else }}
   image: {{ printf "%s%s%s%s%s" (include "alc-collect.liquibase.image" $) "-" ($member.businessUnit | lower ) ":" $.Values.image.liquibase.tag }}
   {{- end }}
