@@ -883,6 +883,27 @@ Examples of how log entries would look like for each value:
   {"timestamp":"2023-03-17T10:33:14.218078900Z","severity":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","logging.googleapis.com/sourceLocation":{"function":"org.springframework.boot.availability.ApplicationAvailabilityBean.onApplicationEvent"},"logging.googleapis.com/insertId":"1051","_exception":{"stackTrace":""},"_thread":"main","_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
 
+### Observing distributed tracing
+
+In order to start exporting tracing information to Tempo (or any tool that knows how to interpret OpenTelemetry formatted data),
+person-structure microservice should define next attributes:
+
+```yaml
+tracing:
+  enabled: false
+  samplingProbability: 0.0 # decimal value, default is 0.0
+  otlpEndpoint: ''
+```
+
+First, you enabled tracing using `enabled: true`.
+
+Then, with parameter `samplingProbability` you define percentage of requests
+that should be exported to processing system.
+`0.0` means 0% of requests and `1.0` means 100%.
+
+With parameter `otlpEndpoint` you define URL to which tracing information is sent.
+
+
 ### Modifying deployment strategy
 
 Default deployment strategy for CMS interface application is `RollingUpdate`, but it can be overridden, along with other deployment parameters using following attributes (default values are shown):
