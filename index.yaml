@@ -17293,6 +17293,16 @@ entries:
     version: 1.0.0
   product-engine:
   - apiVersion: v2
+    appVersion: 1.214.0
+    created: "2025-08-14T14:02:51.191787311Z"
+    description: Helm chart for product engine application
+    digest: 71878454244c3c9333426c4d9a46e45cbd49e6b045c9bd6f7926c8cc4bd983eb
+    name: product-engine
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/product-engine-1.214.0/product-engine-1.214.0.tgz
+    version: 1.214.0
+  - apiVersion: v2
     appVersion: 1.213.0
     created: "2025-08-14T09:46:14.470434024Z"
     description: Helm chart for product engine application
@@ -30672,4 +30682,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2025-08-14T13:08:18.7210044Z"
+generated: "2025-08-14T14:02:51.214455691Z"
