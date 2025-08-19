@@ -63,6 +63,8 @@ spec:
             {{- end }}
             - name: SERVER_PORT
               value: "8443"
+            - name: MANAGEMENT_TRACING_ENABLED
+              value: {{ .Values.tracing.enabled | quote }}
             - name: MANAGEMENT_TRACING_SAMPLING_PROBABILITY
               value: "{{ .Values.tracing.samplingProbability }}"
             - name: MANAGEMENT_OTLP_TRACING_ENDPOINT
@@ -222,13 +224,19 @@ spec:
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
               value: PKCS12
-            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-              value: loggers,health,prometheus
-            - name: MANAGEMENT_ENDPOINTS_LOGGERS_ENABLED
+            - name: MANAGEMENT_ENDPOINTS_ENABLEDBYDEFAULT
+              value: "false"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_ENABLED
               value: "true"
+            {{- if .Values.prometheus.exposed }}
+            - name: MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED
+              value: "true"
+            {{- end }}
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: {{ include "ecs-interface.exposed.endpoints" $ }}
             - name: MANAGEMENT_ENDPOINTS_WEB_BASEPATH
               value: /
-            - name: MANAGEMENT_HEALTH_PROBES_ENABLED
+            - name: MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED
               value: "true"
             - name: MANAGEMENT_ENDPOINT_HEALTH_SHOWDETAILS
               value: always
