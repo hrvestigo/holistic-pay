@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.21.0
+    tag: 1.22.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -68,6 +68,13 @@ kafka:
     dueinstalment:
       name: hr.vestigo.hp.dueinstalment
       consumerGroup: hr.vestigo.hp.dueinstalment
+    authtransaction:
+      name: hr.vestigo.hp.authtransaction
+    crdauthtrxmatch:
+      name: null
+      consumerGroup: null
+      retry:
+        maxAttempts: null
 grpc:
   negotiation: TLS
   getPersonData:
