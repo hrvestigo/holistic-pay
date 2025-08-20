@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 3.65.0
+    tag: 3.66.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -226,7 +226,10 @@ mountCaFromSecret:
 customVolumes: []
 customMounts: []
 customEnv: []
+prometheus:
+  exposed: true
 tracing:
+  enabled: false
   samplingProbability: null
   otlpEndpoint: ''
 request:
