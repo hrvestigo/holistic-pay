@@ -4,14 +4,13 @@ metadata:
   name: {{ include "consumer-finance.name" . }}
   labels:
     {{- include "consumer-finance.labels" . | nindent 4 }}
-  {{- with .Values.deployment.labels }}
-  {{ toYaml . | indent 4 }}
-  {{- end }}
-  {{- with .Values.deployment.annotations }}
-annotations:
-  {{ toYaml . | indent 4 }}
-  {{- end }}
-
+{{- with .Values.deployment.labels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+{{- with .Values.deployment.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.deployment.replicaCount }}
@@ -170,9 +169,9 @@ spec:
             - name: KAFKA_TOPIC_DUEINSTALMENT_NAME
               value: {{ .Values.kafka.topics.dueinstalment.name | quote }}
             - name: KAFKA_TOPIC_AUTHTRANSACTION_NAME
-              value: { { .Values.kafka.topics.authtransaction.name | quote } }
+              value: {{ .Values.kafka.topics.authtransaction.name | quote }}
             - name: KAFKA_TOPIC_CRDAUTHTRXMATCH_NAME
-              value: { { .Values.kafka.topics.crdauthtrxmatch.name | quote } }
+              value: {{ .Values.kafka.topics.crdauthtrxmatch.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_DUEINSTALMENT_NAME
               value: {{ .Values.kafka.topics.dueinstalment.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDAUTHTRXMATCH_NAME
