@@ -170,9 +170,11 @@ spec:
               value: {{ .Values.kafka.topics.dueinstalment.name | quote }}
             - name: KAFKA_TOPIC_AUTHTRANSACTION_NAME
               value: {{ .Values.kafka.topics.authtransaction.name | quote }}
-            - name: KAFKA_TOPIC_AUTHTRANSACTION__RETRY_MAXATTEMPTS
+            - name: KAFKA_CONSUMER_GROUP_AUTHTRANSACTION_NAME
+              value: {{ .Values.kafka.topics.authtransaction.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_AUTHTRANSACTION_RETRY_MAXATTEMPTS
               value: {{ .Values.kafka.topics.authtransaction.retry.maxAttempts | quote }}
-            - name: KAFKA_TOPIC_AUTHTRANSACTION__RETRY_DELAY
+            - name: KAFKA_TOPIC_AUTHTRANSACTION_RETRY_DELAY
               value: {{ .Values.kafka.topics.authtransaction.retry.delay | quote }}
             - name: KAFKA_TOPIC_CRDAUTHTRXMATCH_NAME
               value: {{ .Values.kafka.topics.crdauthtrxmatch.name | quote }}
@@ -180,7 +182,7 @@ spec:
               value: {{ .Values.kafka.topics.dueinstalment.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDAUTHTRXMATCH_NAME
               value: {{ .Values.kafka.topics.crdauthtrxmatch.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_CRDAUTHTRXMATCH__RETRY_MAXATTEMPTS
+            - name: KAFKA_TOPIC_CRDAUTHTRXMATCH_RETRY_MAXATTEMPTS
               value: {{ .Values.kafka.topics.crdauthtrxmatch.retry.maxAttempts | quote }}
             - name: SCHEDULED_TASK_CONFIN_INSTALMENTSENDING_ENABLED
               value: {{ .Values.scheduleTask.instalmentSending.enabled | quote }}
