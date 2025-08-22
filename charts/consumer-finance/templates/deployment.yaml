@@ -140,6 +140,12 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
+            - name: SPRING_KAFKA_STREAMS_AUTOSTARTUP
+              value: {{ .Values.kafka.streams.auto.startup | default "true" | quote }}
+            {{- if .Values.kafka.streams.auto.startup }}
+            - name: SPRING_KAFKA_STREAMS_APPLICATIONID
+              value: {{ .Values.kafka.streams.application.id | default "consumer-finance" | quote }}
+            {{- end }}
             - name: GRPC_CLIENT_GETPERSONDATA_ADDRESS
               value: {{ required "Please specify address for person structure gRPC server in grpc.getPersonData.address" .Values.grpc.getPersonData.address | quote }}
             - name: GRPC_CLIENT_GETLIMITBUCKETS_ADDRESS
@@ -184,6 +190,18 @@ spec:
               value: {{ .Values.kafka.topics.crdauthtrxmatch.consumerGroup | quote }}
             - name: KAFKA_TOPIC_CRDAUTHTRXMATCH_RETRY_MAXATTEMPTS
               value: {{ .Values.kafka.topics.crdauthtrxmatch.retry.maxAttempts | quote }}
+            - name: KAFKA_TOPIC_INSTALMENTOFFER_NAME
+              value: {{ .Values.kafka.topics.instalmentoffer.name | quote }}
+            - name: KAFKA_TOPIC_SYSINSTALMENTOFFER_NAME
+              value: {{ .Values.kafka.topics.sysInstalmentOffer.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_INSTALMENTOFFER_NAME
+              value: {{ .Values.kafka.topics.instalmentoffer.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_INSTALMENTOFFERRESPONSE_NAME
+              value: {{ .Values.kafka.topics.instalmentofferresponse.name | quote }}
+            - name: KAFKA_TOPIC_SYSINSTALMENTOFFERRESPONSE_NAME
+              value: {{ .Values.kafka.topics.sysinstalmentofferresponse.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_INSTALMENTOFFERRESPONSE_NAME
+              value: {{ .Values.kafka.topics.instalmentofferresponse.consumerGroup | quote }}
             - name: SCHEDULED_TASK_CONFIN_INSTALMENTSENDING_ENABLED
               value: {{ .Values.scheduleTask.instalmentSending.enabled | quote }}
             - name: SCHEDULED_TASK_CONFIN_INSTALMENTSENDING_CRON
