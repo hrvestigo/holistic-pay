@@ -231,6 +231,11 @@ in order to honor Kafka's max poll intervals. For example, if processing of
 Kafka message calls CSM and CSM fails, we retry whole flow via Kafka mechanism
 not just CSM call.
 
+When `toManyRequestsRetry` is configured on CSM level, the `consumer.brBackOff`
+configuration is ignored. Meaning, retry is done inside client performing request to CSM
+when processing Kafka message for CSM. By default, `toManyRequestsRetry` configuration
+is turned off.
+
 ### Configuring image source and pull secrets
 
 By default, `SEPA inst` image is pulled directly from Vestigo's repository hosted by Docker Hub.
@@ -290,6 +295,7 @@ csm:
   xsdCheck: inout                       # XSD check enabled for messages from and to CSM
   msgSignature: inout                   # create/verify message signature for messages to/from CSM
   msgSignatureAlgorithm: SHA256withRSA  # algorithm used for signature
+  toManyRequestsRetry: 0;0s             # back off for retries when HTTP 429 (to many requests) from CSM
 ```
 
 Using `id` parameter we configure CSM id for which CSM specific parameters are
@@ -348,6 +354,11 @@ The following values are applicable:
 - `in`     - signature is not created for messages to CSM but validated from messages from CSM
 - `out`    - signature is created for messages to CSM and not validated for messages from CSM
 - `off`    - signature is not created nor validated
+
+Using parameter `toManyRequestsRetry` we set retry back off when sending message to CSM
+and CSM returns HTTP 429 (to many requests). By, default this is disabled and to retry is performed.
+If configured like `3;0.1s` 3 retries are done in fixed intervals of 100ms. Note that milliseconds
+are configured in W3C format (as fraction of seconds).
 
 #### CSM configuration per message
 

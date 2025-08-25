@@ -186,6 +186,8 @@ spec:
               value: {{ .Values.csm.msgSignature | quote }}
             - name: SEPA_INST_CSM_MSG_SIGNATURE_ALGORITHM
               value: {{ .Values.csm.msgSignatureAlgorithm | quote }}
+            - name: SEPA_INST_CSM_TO_MANY_REQUESTS_RETRY
+              value: {{ required "Please specify to many requests retry backoff id in csm.toManyRequestsRetry" .Values.csm.toManyRequestsRetry | quote }}
             {{- if (include "sepa-inst.endpoint.config" .) -}}
             {{- include "sepa-inst.endpoint.config" . | indent 12 -}}
             {{- end }}

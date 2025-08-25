@@ -87,6 +87,7 @@ csm:
   xsdCheck: inout
   msgSignature: inout
   msgSignatureAlgorithm: SHA256withRSA
+  toManyRequestsRetry: 0;0s
   config:
     camt_025:
       xsdCheck: inherit
