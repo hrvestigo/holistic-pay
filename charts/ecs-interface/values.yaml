@@ -83,6 +83,8 @@ kafka:
     paymentOrderEventFlowInbox:
       name: gw.ipt1.hp.evt.paymentordereventflowinbox.01
       consumerGroup: gw.ipt1.sirspec.paymentordereventflowinbox
+    alertTopic:
+      name: hr.vestigo.hp.alert
 ecs:
   service:
     url: ''
@@ -288,3 +290,6 @@ inbox:
       fixedRate: '600000'
       retryCounter: '20'
       retryDelay: '600'
+alert:
+  communication:
+    type: skip

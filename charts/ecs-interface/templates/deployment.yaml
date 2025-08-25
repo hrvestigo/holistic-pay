@@ -164,6 +164,8 @@ spec:
               value: {{ .Values.kafka.topics.paymentOriginalMessageInbox.consumerGroup | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDERFLOW_NAME
               value: {{ .Values.kafka.topics.paymentOrderFlow.name | quote }}
+            - name: KAFKA_TOPIC_ALERTTOPIC_NAME
+              value: {{ .Values.kafka.topics.alertTopic.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORDERFLOW_NAME
               value: {{ .Values.kafka.topics.paymentOrderFlow.consumerGroup | quote }}
             - name: KAFKA_TOPIC_PAYMENTORDERFLOWINBOX_NAME
@@ -220,6 +222,8 @@ spec:
               value: {{ .Values.ecs.interface.ws9013.requestedExecutionDateMode | quote }}
             - name: ECS_INTERFACE_WS9016_SETTLEMENTDATE_MODE
               value: {{ .Values.ecs.interface.ws9016.settlementDateMode | quote }}
+            - name: ALERT_COMMUNICATION_TYPE
+              value: {{ .Values.alert.communication.type | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
