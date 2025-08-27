@@ -212,6 +212,8 @@ spec:
             {{- end }}
             - name: TRX_MAX_NUMBER
               value: {{ .Values.trx.max.number | default "10" | quote }}
+            - name: DEMO_TRX_ENABLED
+              value: {{ .Values.demo.trx.enabled | default "false" | quote }}
             - name: CONSUMER_FINANCE_CACHE_EXPIREAFTERWRITE
               value: {{ .Values.cache.refresh.rate | default "1440" | quote }}
             - name: SERVER_SSL_KEYSTORE
