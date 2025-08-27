@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.98.0
+    tag: 2.15.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -115,10 +115,12 @@ csm:
     pacs_002_negative:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
+      requestIdempotence: false
     pacs_002_positive:
       xsdCheck: inherit
       requestMsgRetry: 10;5s
       responseMsgTimeout: 25s
+      requestIdempotence: false
     pacs_002_nksinst:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
@@ -130,6 +132,7 @@ csm:
       responseMsgTimeout: 25s
       responseMsgPendingTimeout: 0s
       processingTimeout: 0ms
+      requestIdempotence: false
     pacs_028:
       xsdCheck: inherit
       requestMsgRetry: 10;5s
@@ -141,10 +144,10 @@ csm:
     tech_ack:
       xsdCheck: inherit
   format:
-    dateFormat: "yyyy-MM-dd"
-    timeFormat: "HH:mm:ss"
-    dateTimeFormat: "yyyy-MM-dd'T'HH:mm:ss.SSS"
-    dateTimeOffsetFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+    dateFormat: yyyy-MM-dd
+    timeFormat: HH:mm:ss
+    dateTimeFormat: yyyy-MM-dd'T'HH:mm:ss.SSS
+    dateTimeOffsetFormat: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
 oauth2:
   enabled: false
   resourceUri: ''
@@ -290,7 +293,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 vpa:
   enabled: false
-  updateMode: "Off"
+  updateMode: 'Off'
 mountServerCertFromSecret:
   enabled: false
   secretName: ''

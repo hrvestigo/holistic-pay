@@ -395,10 +395,12 @@ csm:
     pacs_002_negative:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
+      requestIdempotence: false
     pacs_002_positive:
       xsdCheck: inherit
       requestMsgRetry: 10;5s
       responseMsgTimeout: 25s
+      requestIdempotence: false
     pacs_002_nksinst:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
@@ -410,6 +412,7 @@ csm:
       responseMsgTimeout: 25s
       responseMsgPendingTimeout: 0s
       processingTimeout: 0ms
+      requestIdempotence: false
     pacs_028:
       xsdCheck: inherit
       requestMsgRetry: 10;5s
@@ -518,6 +521,12 @@ to CSM after which, if it exceeds, we raise alert and return reject response.
 
 Request message timeout can be disabled by setting `requestMsgTimeout` value to `0s`, or not configuring it.
 To configure timeout on millisecond level use milliseconds precision, for example 100ms.
+
+##### Request message idempotence check configuration
+
+With parameter `requestIdempotence` for specified endpoints we configure if
+idempotence check is performed before request is sent to `CSM`. If enabled,
+and per endpoint implementation, idempotence check is performed.
 
 ##### Response message timeout configuration
 
