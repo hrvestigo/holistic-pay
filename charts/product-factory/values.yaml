@@ -344,4 +344,4 @@ prometheus:
 tracing:
   enabled: false
   samplingProbability: 1.0
-  otlpEndpoint: http://tempo.monitor:4318/v1/traces
+  otlpEndpoint: ''
