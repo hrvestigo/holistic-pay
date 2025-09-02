@@ -92,9 +92,6 @@ grpc:
 trx:
   max:
     number: 10
-demo:
-  trx:
-    enabled: true
 cache:
   refresh:
     rate: 1440
