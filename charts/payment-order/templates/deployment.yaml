@@ -229,7 +229,7 @@ spec:
             - name: PAYMENT_ORDER_FINAL_STATUS_PUBLISH_ENABLED
               value: {{ .Values.payment.finalStatus.publish.enabled | default "false" | quote }}
             - name: PAYMENT_ORDER_ACCEPTANCEDATETIME_OVERRIDE
-              value: {{ .Values.payment.acceptanceDateTime.override | default "true" | quote }}
+              value: {{ .Values.payment.acceptanceDateTime.override | default "empty" | quote }}
             - name: BATCH_BPOR01_ZIPFILE
               value: {{ .Values.batch.bpor01.zip | quote }}
             - name: BATCH_BPOR01_SCHEDULED_NATIONAL

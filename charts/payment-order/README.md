@@ -244,16 +244,20 @@ payment:
 
 ### Payment Order acceptance datetime overriding
 
-In Payment order application, payment orders can either receive acceptance datetime from the request or generate it with
-current datetime when payment order is saved in the database.
-The following parameter can be set to determine whether the acceptance datetime is to be generated or received.
-The default value is set to true, meaning that payment order generates this value.
+In Payment order application, payment orders can either receive acceptance datetime from the request, generate it with
+current datetime when payment order is saved in the database or send it as null.
+The following parameter can be set to determine the behaviour.
+The default value is set to empty, meaning that payment order sends this data as null.
 So far, this behavior is used only for asynchronous payment order calls.
+All possible values are:
+- empty - payment order sends acceptance datetime as null
+- current - payment order generates acceptance datetime with current datetime when payment order is saved in the database
+- request - payment order receives acceptance datetime from the request
 
 ```yaml
 payment:
   acceptanceDateTime:
-    override: true
+    override: empty
 ```
 
 ### Datasource connection setup

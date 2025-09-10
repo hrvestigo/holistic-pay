@@ -146,7 +146,7 @@ payment:
     publish:
       enabled: false
   acceptanceDateTime:
-    override: true
+    override: empty
 oauth2:
   enabled: false
   resourceUri: ''
