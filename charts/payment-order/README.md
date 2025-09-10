@@ -242,6 +242,20 @@ payment:
       enabled: false
 ```
 
+### Payment Order acceptance datetime overriding
+
+In Payment order application, payment orders can either receive acceptance datetime from the request or generate it with
+current datetime when payment order is saved in the database.
+The following parameter can be set to determine whether the acceptance datetime is to be generated or received.
+The default value is set to true, meaning that payment order generates this value.
+So far, this behavior is used only for asynchronous payment order calls.
+
+```yaml
+payment:
+  acceptanceDateTime:
+    override: true
+```
+
 ### Datasource connection setup
 
 All values required for PostgreSQL database connection are defined within `datasource` parent attribute.
