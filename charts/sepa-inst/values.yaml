@@ -62,6 +62,7 @@ kafka:
     paymentorderflow:
       name: hr.vestigo.hp.paymentorderflow
       consumerGroup: hr.vestigo.hp.sepins.paymentorderflow
+      concurrency: 1
     originalpaymentmessage:
       name: hr.vestigo.hp.originalpaymentmessage
     paymentordereventin:
@@ -71,13 +72,20 @@ kafka:
     paymentordereventflow:
       name: hr.vestigo.hp.paymentordereventflow
       consumerGroup: hr.vestigo.hp.paymentordereventflow
+      concurrency: 1
     sepainstmsgcheck:
       name: hr.vestigo.hp.sepainstmsgcheck
       consumerGroup: hr.vestigo.hp.sepainstmsgcheck
+      concurrency: 1
     alertTopic:
       name: hr.vestigo.hp.alert
   consumer:
     brBackOff: 3;0.1s
+    properties:
+      sessionTimeoutMs: 45000
+      heartbeatIntervalMs: 3000
+      maxPollRecords: 500
+      maxPollIntervalMs: 300000
 csm:
   id: NKS9999998
   bic: FNAGHR22
@@ -87,7 +95,15 @@ csm:
   xsdCheck: inout
   msgSignature: inout
   msgSignatureAlgorithm: SHA256withRSA
+  connectionTimeout: 30s
+  connectionTimeoutRetry: 0;0s
+  connectionTimeoutMsgReject: true
+  responseTimeout: 60s
+  responseTimeoutRetry: 0;0s
+  responseTimeoutMsgSent: true
   toManyRequestsRetry: 0;0s
+  toManyRequestsMsgReject: false
+  maxConnections: 500
   config:
     camt_025:
       xsdCheck: inherit
@@ -329,3 +345,6 @@ alert:
     type: skip
 prometheus:
   exposed: true
+metrics:
+  jvm: true
+  httpClientRequests: true

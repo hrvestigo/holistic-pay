@@ -201,24 +201,32 @@ Kafka topics and consumer group names used by `SEPA inst` have default names def
 kafka:
   topics:
     paymentorderflow:
-      name: hr.vestigo.hp.paymentorderflow  # default, set custom name if required
-      consumerGroup: hr.vestigo.hp.sepins.paymentorderflow  # default, set custom if required
+      name: hr.vestigo.hp.paymentorderflow                        # default, set custom name if required
+      consumerGroup: hr.vestigo.hp.sepins.paymentorderflow        # default, set custom if required
+      concurrency: 1                                              # default, used to vertical scaling
     originalpaymentmessage:
-      name: hr.vestigo.hp.originalpaymentmessage  # default, set custom name if required
+      name: hr.vestigo.hp.originalpaymentmessage                  # default, set custom name if required
     paymentordereventin:
-      name: hr.vestigo.hp.paymentordereventin  # default, set custom name if required
+      name: hr.vestigo.hp.paymentordereventin                     # default, set custom name if required
     paymentorderincoming:
-      name: hr.vestigo.hp.paymentorderincoming #default, set custom name if required
+      name: hr.vestigo.hp.paymentorderincoming                    #default, set custom name if required
     paymentordereventflow:
-      name: hr.vestigo.hp.paymentordereventflow  # default, set custom name if required
-      consumerGroup: hr.vestigo.hp.sepins.paymentordereventflow  # default, set custom if required
+      name: hr.vestigo.hp.paymentordereventflow                   # default, set custom name if required
+      consumerGroup: hr.vestigo.hp.sepins.paymentordereventflow   # default, set custom if required
+      concurrency: 1                                              # default, used to vertical scaling
     sepainstmsgcheck:
-      name: hr.vestigo.hp.sepainstmsgcheck # default, set custom name if required
-      consumerGroup: hr.vestigo.hp.sepainstmsgcheck # default, set custom if required
+      name: hr.vestigo.hp.sepainstmsgcheck                        # default, set custom name if required
+      consumerGroup: hr.vestigo.hp.sepainstmsgcheck               # default, set custom if required
+      concurrency: 1                                              # default, used to vertical scaling
     alertTopic:
-      name: hr.vestigo.hp.alert # default, set custom name if required
+      name: hr.vestigo.hp.alert                                   # default, set custom name if required
   consumer:
-    brBackOff: 3;0.1s
+    brBackOff: 3;0.1s                                             # default retry backoff policy, 3 times, every 100ms
+    properties:                                                   # see https://kafka.apache.org/documentation/#consumerconfigs
+      sessionTimeoutMs: 45000
+      heartbeatIntervalMs: 3000
+      maxPollRecords: 500
+      maxPollIntervalMs: 300000
 ```
 
 With `consumer.brBackOff` we configure blocking retry back off policy to retry
@@ -230,11 +238,6 @@ This is preferred retry mechanism for processing triggered by Kafka message
 in order to honor Kafka's max poll intervals. For example, if processing of
 Kafka message calls CSM and CSM fails, we retry whole flow via Kafka mechanism
 not just CSM call.
-
-When `toManyRequestsRetry` is configured on CSM level, the `consumer.brBackOff`
-configuration is ignored. Meaning, retry is done inside client performing request to CSM
-when processing Kafka message for CSM. By default, `toManyRequestsRetry` configuration
-is turned off.
 
 ### Configuring image source and pull secrets
 
@@ -295,7 +298,15 @@ csm:
   xsdCheck: inout                       # XSD check enabled for messages from and to CSM
   msgSignature: inout                   # create/verify message signature for messages to/from CSM
   msgSignatureAlgorithm: SHA256withRSA  # algorithm used for signature
+  connectionTimeout: 30s                # connection timeout to CSM
+  connectionTimeoutRetry: 0;0s          # connection timeout retry specification
+  connectionTimeoutMsgReject: true      # message reject on connection timeout
+  responseTimeout: 60s                  # read/response timeout from CSM
+  responseTimeoutRetry: 0;0s            # read/response timeout retry specification
+  responseTimeoutMsgSent: true          # message in sent status on response timeout
   toManyRequestsRetry: 0;0s             # back off for retries when HTTP 429 (to many requests) from CSM
+  toManyRequestsMsgReject: false        # message reject on HTTP 429 (to many requests) from CSM
+  maxConnections: 500                   # max connection to CSM
 ```
 
 Using `id` parameter we configure CSM id for which CSM specific parameters are
@@ -351,14 +362,39 @@ Using parameter `msgSignature` we configure if message signature is created or v
 The following values are applicable:
 
 - `inout`  - signature is created for messages to CSM and validated for messages from CSM
-- `in`     - signature is not created for messages to CSM but validated from messages from CSM
+- `in`     - signature is not created for messages to CSM but validated for messages from CSM
 - `out`    - signature is created for messages to CSM and not validated for messages from CSM
 - `off`    - signature is not created nor validated
 
-Using parameter `toManyRequestsRetry` we set retry back off when sending message to CSM
-and CSM returns HTTP 429 (to many requests). By, default this is disabled and to retry is performed.
-If configured like `3;0.1s` 3 retries are done in fixed intervals of 100ms. Note that milliseconds
-are configured in W3C format (as fraction of seconds).
+#### CSM timeouts and connections configuration
+
+When communicating to CSM certain timeouts and errors can occur.
+If message for sending to CSM originates from Kafka event and an error occurs, by default,
+message sending is retried from Kafka using `kafka.consumer.brBackOff` policy.
+This can be overridden using following configuration:
+
+- connection timeout to CSM
+  - if `connectionTimeout` occurs and `connectionTimeoutRetry` is set, retry to CSM
+  is performed on web client level. If `connectionTimeoutMsgReject` is `true`, sending
+  message is rejected after `connectionTimeoutRetry` is exhausted or after no retry is
+  performed on web client level. No other retries are done.
+- response timeout from CSM
+  - if `responseTimeout` occurs and `responseTimeoutRetry` is set, retry to CSM is
+  performed on web client level. If `responseTimeoutMsgSent` is `true`, message status
+  is set to SENT after `responseTimeoutRetry` is exhausted or after not retry is performed
+  on web client level. No other retries are done.
+- 429 (to many requests) response from CSM
+  - if `toManyRequestsRetry` is set, retry to CSM is performed on web client level.
+  If `toManyRequestsMsgReject` is `true`, sending message is rejected after
+  `toManyRequestsRetry` is exhausted or after no retry is performed on web client level.
+  No other retires are done.
+- max connections
+  - with `maxConnections` we define maximum number of connections to CSM. This is usually
+  defined by CSM and should be set based on application scaling.
+
+Each retry configuration is defined using W3C standard. For example, retry `3;0.1s`
+configuration means 3 retries every 100 milliseconds.
+
 
 #### CSM configuration per message
 
@@ -1678,3 +1714,18 @@ javaOpts: "-Xms256M -Xmx512M -Dcustom.jvm.param=true"
 ```
 
 Note that defining custom `javaOpts` attribute will override default one, so make sure to keep `Xms` and `Xmx` parameters.
+
+
+### Metrics configuration
+
+Application can expose metrics to Prometheus monitoring system.
+By default, this is enabled and default metrics are exposed.
+With `metrics` configuration additional metrics can be exposed.
+
+```yaml
+prometheus:
+  exposed: true
+metrics:
+  jvm: true
+  httpClientRequests: true
+```

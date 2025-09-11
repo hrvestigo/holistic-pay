@@ -164,12 +164,21 @@ spec:
               value: {{ .Values.kafka.topics.paymentordereventflow.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_SEPAINSTMSGCHECK_NAME
               value: {{ .Values.kafka.topics.sepainstmsgcheck.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTORDERFLOW
+              value: {{ .Values.kafka.topics.paymentorderflow.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTORDEREVENTFLOW
+              value: {{ .Values.kafka.topics.paymentordereventflow.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_SEPAINSTMSGCHECK
+              value: {{ .Values.kafka.topics.sepainstmsgcheck.concurrency | quote }}
             - name: KAFKA_TOPIC_ALERTTOPIC_NAME
               value: {{ .Values.kafka.topics.alertTopic.name | quote }}
             - name: ALERT_COMMUNICATION_TYPE
               value: {{ .Values.alert.communication.type | quote }}
             - name: HR_VESTIGO_KAFKA_CONSUMER_RETRY_BACKOFF
               value: {{ .Values.kafka.consumer.brBackOff | quote }}
+            {{- if (include "sepa-inst.kafka.consumer.properties.config" .) -}}
+            {{- include "sepa-inst.kafka.consumer.properties.config" . | indent 12 -}}
+            {{- end }}
             - name: SEPA_INST_CSM_ID
               value: {{ required "Please specify clearing system id in csm.id" .Values.csm.id | quote }}
             - name: SEPA_INST_CSM_BIC
@@ -190,6 +199,9 @@ spec:
               value: {{ required "Please specify to many requests retry backoff id in csm.toManyRequestsRetry" .Values.csm.toManyRequestsRetry | quote }}
             {{- if (include "sepa-inst.endpoint.config" .) -}}
             {{- include "sepa-inst.endpoint.config" . | indent 12 -}}
+            {{- end }}
+            {{- if (include "sepa-inst.metrics.config" .) -}}
+            {{- include "sepa-inst.metrics.config" . | indent 12 -}}
             {{- end }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
