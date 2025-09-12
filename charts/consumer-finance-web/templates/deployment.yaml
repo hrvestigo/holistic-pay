@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "consumer-finance-web.name" . }}
+  labels:
+    {{- include "consumer-finance-web.labels" . | nindent 4 }}
+{{- with .Values.deployment.labels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+{{- with .Values.deployment.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.deployment.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "consumer-finance-web.selectorLabels" . | nindent 6 }}
+  strategy:
+    {{- toYaml .Values.deployment.strategy | nindent 4 }}
+  minReadySeconds: {{ .Values.deployment.minReadySeconds }}
+  template:
+    metadata:
+      annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "consumer-finance-web.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      terminationGracePeriodSeconds: {{ .Values.deployment.terminationGracePeriodSeconds }}
+      restartPolicy: {{ .Values.deployment.restartPolicy }}
+      {{- if .Values.initContainers }}
+      initContainers:
+        {{- with .Values.initContainers }}
+        {{- toYaml . | trim | nindent 8 }}
+        {{- end }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ include "consumer-finance-web.app.repository" . }}:{{ .Values.image.app.tag | default .Chart.AppVersion }}
+          imagePullPolicy: {{ include "consumer-finance-web.app.imagePullPolicy" . }}
+          env:
+            {{- if .Values.timezone }}
+            - name: TZ
+              value: {{ .Values.timezone }}
+            {{- end }}
+            - name: REACT_APP_BACKEND_URL
+              value: {{ required "Please specify backend URL apiGatewayUrl" .Values.apiGatewayUrl | quote }}
+            - name: REACT_APP_ENVIRONMENT
+              value: {{ required "Please specify environment name in environmentName" .Values.environmentName | quote }}
+            {{- with .Values.customEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: 8443
+              protocol: TCP
+          livenessProbe:
+            {{- toYaml .Values.deployment.livenessProbe | nindent 12 }}
+          {{- if and .Values.deployment.readinessProbe.enabled .Values.internalBackendServiceUrl }}
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - curl -f -s -k -m 5 {{ .Values.internalBackendServiceUrl | quote }}/health/readiness
+            initialDelaySeconds: {{ .Values.deployment.readinessProbe.initialDelaySeconds | default 10 }}
+            periodSeconds: {{ .Values.deployment.readinessProbe.periodSeconds | default 10 }}
+            timeoutSeconds: {{ .Values.deployment.readinessProbe.timeoutSeconds | default 10 }}
+            successThreshold: {{ .Values.deployment.readinessProbe.successThreshold | default 1 }}
+            failureThreshold: {{ .Values.deployment.readinessProbe.failureThreshold | default 3 }}
+          {{- else if .Values.deployment.readinessProbe.enabled }}
+          {{- fail "readinessProbe is enabled but internalBackendServiceUrl is not set" }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            {{- include "consumer-finance-web.mounts" . | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        {{- include "consumer-finance-web.volumes" . | nindent 8 }}
