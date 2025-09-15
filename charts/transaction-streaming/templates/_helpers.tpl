@@ -361,6 +361,18 @@ Defines custom datasource connection parameters appended to URL
 {{- end }}
 
 {{/*
+Create a comma separated list of endpoints that need to be exposed
+*/}}
+{{- define "transaction-streaming.exposed.endpoints" -}}
+{{- $endpoints := list -}}
+{{- $endpoints = append $endpoints (printf "%s" "health") }}
+{{- if .Values.prometheus.exposed }}
+{{- $endpoints = append $endpoints (printf "%s" "prometheus") }}
+{{- end }}
+{{- join "," $endpoints }}
+{{- end }}
+
+{{/*
 Defines health indicators appended to readiness health group
 */}}
 {{- define "transaction-streaming.env.health" -}}

@@ -367,6 +367,7 @@ customVolumes: []
 customMounts: []
 customEnv: []
 tracing:
+  enabled: false
   samplingProbability: 0.0
   otlpEndpoint: ''
 transaction:
@@ -374,3 +375,5 @@ transaction:
     archive:
       mode:
         enabled: false
+prometheus:
+  exposed: true
