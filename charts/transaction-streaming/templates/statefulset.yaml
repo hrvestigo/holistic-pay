@@ -349,10 +349,10 @@ spec:
               value: "false"
             - name: MANAGEMENT_ENDPOINT_HEALTH_ENABLED
               value: "true"
-            {{ - if .Values.prometheus.exposed }}
+            {{- if .Values.prometheus.exposed }}
             - name: MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED
               value: "true"
-            {{ - end }}
+            {{- end }}
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
               value: {{ include "transaction-streaming.exposed.endpoints" $ }}
             - name: MANAGEMENT_ENDPOINTS_WEB_BASEPATH
