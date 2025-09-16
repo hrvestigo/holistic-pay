@@ -328,6 +328,39 @@ spec:
               value: {{ .Values.kafka.topics.paymentSwiftOriginalMessageInbox.enabled | quote }}
             - name: KAFKA_TOPIC_ALERTTOPIC_NAME
               value: {{ .Values.kafka.topics.alertTopic.name | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_CUSTOMERACCOUNT
+              value: {{ .Values.kafka.topics.customerAccount.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_CUSACCJRR
+              value: {{ .Values.kafka.topics.cusaccJrr.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_CUSACCPAYOR
+              value: {{ .Values.kafka.topics.cusaccPayor.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_CUSACCCURRENCY
+              value: {{ .Values.kafka.topics.cusaccCurrency.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_USERCODEVALUE
+              value: {{ .Values.kafka.topics.userCodeValue.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_CUSTOMER
+              value: {{ .Values.kafka.topics.customer.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_ECSPAYMENTCOMPENSATION
+              value: {{ .Values.kafka.topics.ecsPaymentCompensation.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_ECSSPECIFICCHECKS
+              value: {{ .Values.kafka.topics.ecsSpecificChecks.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTORIGINALMESSAGE
+              value: {{ .Values.kafka.topics.paymentOriginalMessage.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTSWIFTORIGINALMESSAGE
+              value: {{ .Values.kafka.topics.paymentSwiftOriginalMessage.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTORDERFLOW
+              value: {{ .Values.kafka.topics.paymentOrderFlow.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTORDEREVENTFLOW
+              value: {{ .Values.kafka.topics.paymentOrderEventFlow.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTFINMESSAGE
+              value: {{ .Values.kafka.topics.paymentfinmessage.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTINITMESSAGE
+              value: {{ .Values.kafka.topics.paymentinitmessage.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_TRANSACTIONSCREENINGAMLCFT
+              value: {{ .Values.kafka.topics.transactionScreeningamlcft.concurrency | quote }}
+            {{- if (include "sirius-specific.kafka.consumer.properties.config" .) -}}
+            {{- include "sirius-specific.kafka.consumer.properties.config" . | indent 12 -}}
+            {{- end }}
             - name: EXTERNAL_CORE_SYSTEM_MEMBER_SIGN_DEFAULT
               value: {{ .Values.external.core.system.member.sign.default | quote }}
             - name: SIRIUS_SPECIFIC_CACHE_EXPIREAFTERWRITE
@@ -389,6 +422,9 @@ spec:
             - name: GRPC_SERVER_SECURITY_PRIVATEKEY
               value: "file:{{ .Values.grpc.server.security.key }}"
               {{- end }}
+            {{- end }}
+            {{- if (include "sirius-specific.metrics.config" .) -}}
+            {{- include "sirius-specific.metrics.config" . | indent 12 -}}
             {{- end }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12

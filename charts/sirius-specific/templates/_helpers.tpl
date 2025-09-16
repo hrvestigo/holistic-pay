@@ -347,3 +347,24 @@ Create a comma separated list of endpoints that need to be exposed
 {{- end }}
 {{- join "," $endpoints }}
 {{- end }}
+
+{{/*
+Sirius specific metrics configuration
+*/}}
+{{- define "sirius-specific.metrics.config" -}}
+{{- range $key, $value := .Values.metrics }}
+- name: MANAGEMENT_METRICS_ENABLE_{{ $key | snakecase | upper }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- end }}
+
+{{/*
+Sirius specific Kafka consumer properties configuration
+*/}}
+{{- define "sirius-specific.kafka.consumer.properties.config" -}}
+{{- range $key, $value := .Values.kafka.consumer.properties }}
+- name: SPRING_KAFKA_CONSUMER_PROPERTIES_{{ $key | snakecase | upper }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- end }}
+

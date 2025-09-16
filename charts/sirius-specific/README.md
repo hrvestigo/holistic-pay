@@ -194,6 +194,13 @@ kafka:
       enabled: false # default value, consumer is disabled, set to true to enable it
     balanceMigration:
       name: hr.vestigo.hp.balancemigration.01 # default value, set custom name if required
+  consumer:
+    properties:                                                   # see https://kafka.apache.org/documentation/#consumerconfigs
+      sessionTimeoutMs: 45000
+      heartbeatIntervalMs: 3000
+      maxPollRecords: 500
+      maxPollIntervalMs: 300000
+```
 ```
 
 Some topics also give the option of choosing environment that decides which schema is to be used, those topics are:
@@ -1333,3 +1340,17 @@ javaOpts: "-Xms256M -Xmx512M -Dcustom.jvm.param=true"
 ```
 
 Note that defining custom `javaOpts` attribute will override default one, so make sure to keep `Xms` and `Xmx` parameters.
+
+### Metrics configuration
+
+Application can expose metrics to Prometheus monitoring system.
+By default, this is enabled and default metrics are exposed.
+With `metrics` configuration additional metrics can be exposed.
+
+```yaml
+prometheus:
+  exposed: true
+metrics:
+  jvm: true
+  httpClientRequests: true
+```

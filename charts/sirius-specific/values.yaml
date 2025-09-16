@@ -92,12 +92,14 @@ kafka:
     paymentOriginalMessage:
       name: gcp.ipt1.hp.evt.paymentoriginalmessage
       consumerGroup: gcp.ipt1.hp.evt.sirspec1.paymentoriginalmessage
+      concurrency: 1
     paymentOriginalMessageInbox:
       name: gcp.ipt1.hp.evt.paymentoriginalmessageinbox
       consumerGroup: gcp.ipt1.hp.evt.sirspec1.paymentoriginalmessageinbox
     paymentOrderFlow:
       name: gcp.ipt1.hp.evt.paymentorderflow
       consumerGroup: gcp.ipt1.hp.evt.sirspec1.paymentorderflow
+      concurrency: 1
     paymentOrderFlowInbox:
       name: gcp.ipt1.hp.evt.paymentoriginalmessageinbox.01
       consumerGroup: gcp.ipt1.sirspec.paymentoriginalmessageinbox
@@ -108,9 +110,11 @@ kafka:
     ecsSpecificChecks:
       name: gcp.ipt1.hp.evt.ecsspecificchecks
       consumerGroup: gcp.ipt1.hp.evt.sirspec.ecsspecificchecks
+      concurrency: 1
     paymentOrderEventFlow:
       name: gcp.ipt1.hp.evt.paymentordereventflow
       consumerGroup: gcp.ipt1.hp.evt.sirspec.paymentordereventflow
+      concurrency: 1
     paymentOrderEventFlowInbox:
       name: gw.ipt1.hp.evt.paymentordereventflowinbox.01
       consumerGroup: gw.ipt1.sirspec.paymentordereventflowinbox
@@ -123,26 +127,32 @@ kafka:
       name: gcp.ipt1.hp.evt.sirspec.customer.account
       consumerGroup: gcp.ipt1.hp.evt.sirspec.customer.account
       env: sit
+      concurrency: 1
     cusaccJrr:
       name: gcp.ipt1.hp.evt.cusacc.jrr
       consumerGroup: gcp.ipt1.hp.evt.sirspec.cusacc.jrr
       env: sit
+      concurrency: 1
     cusaccPayor:
       name: gcp.ipt1.hp.evt.cusacc.payor
       consumerGroup: gcp.ipt1.hp.evt.sirspec.cusacc.payor
       env: sit
+      concurrency: 1
     userCodeValue:
       name: gcp.ipt1.hp.evt.sirspec.user.code.value
       consumerGroup: gcp.ipt1.hp.evt.sirspec.user.code.value
       env: sit
+      concurrency: 1
     cusaccCurrency:
       name: gcp.ipt1.hp.evt.cusacc.currency
       consumerGroup: gcp.ipt1.hp.evt.sirspec.cusacc.currency
       env: sit
+      concurrency: 1
     customer:
       name: gcp.ipt1.hp.evt.sirspec.customer
       consumerGroup: gcp.ipt1.hp.evt.sirspec.customer
       env: sit
+      concurrency: 1
     bicexclusion:
       name: gcp.ipt1.hp.evt.sirspec.bicexclusion
     customerAccountStatement:
@@ -152,6 +162,7 @@ kafka:
     ecsPaymentCompensation:
       name: hr.vestigo.hp.ecspaymentcompensation
       consumerGroup: gcp.ipt1.hp.evt.sirspec.ecs.payment.compensation
+      concurrency: 1
     limithistorycdc:
       name: hr.vestigo.hp.limithistorycdc.01
       consumerGroup: hr.vestigo.hp.limithistorycdc
@@ -165,6 +176,7 @@ kafka:
     transactionScreeningamlcft:
       name: hr.vestigo.hp.transactionscreeningamlcft.01
       consumerGroup: hr.vestigo.hp.transactionscreeningamlcft
+      concurrency: 1
     cusaccBalanceLast:
       name: hr.vestigo.hp.cusaccbalancelast.01
       consumerGroup: hr.vestigo.hp.cusaccbalancelast
@@ -175,6 +187,7 @@ kafka:
       name: hr.vestigo.hp.paymentfinmessage.01
       consumerGroup: gw.ipt1.hp.evt.paymentfinmessage
       enabled: false
+      concurrency: 1
     paymentfinmessageinbox:
       name: hr.vestigo.hp.paymentfinmessageinbox.01
       consumerGroup: gw.ipt1.hp.evt.paymentfinmessageinbox
@@ -184,6 +197,7 @@ kafka:
       name: hr.vestigo.hp.paymentxmlmessage
       consumerGroup: hr.vestigo.hp.paymentxmlmessage
       enabled: false
+      concurrency: 1
     paymentSwiftOriginalMessageInbox:
       name: hr.vestigo.hp.paymentxmlmessageinbox
       consumerGroup: hr.vestigo.hp.paymentxmlmessageinbox
@@ -194,9 +208,16 @@ kafka:
       name: hr.vestigo.hp.paymentinitmessage.01
       consumerGroup: gw.ipt1.hp.evt.paymentinitmessage
       enabled: false
+      concurrency: 1
     paymentinitmessageinbox:
       name: hr.vestigo.hp.paymentinitmessageinbox.01
       consumerGroup: gw.ipt1.hp.evt.paymentinitmessageinbox
+  consumer:
+    properties:
+      sessionTimeoutMs: 45000
+      heartbeatIntervalMs: 3000
+      maxPollRecords: 500
+      maxPollIntervalMs: 300000
 external:
   core:
     system:
@@ -405,6 +426,9 @@ customMounts: []
 customEnv: []
 prometheus:
   exposed: true
+metrics:
+  jvm: true
+  httpClientRequests: true
 tracing:
   enabled: false
   samplingProbability: 0.0
