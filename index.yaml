@@ -1934,6 +1934,16 @@ entries:
     version: 0.2.0
   auth-limit-control:
   - apiVersion: v2
+    appVersion: 4.37.0
+    created: "2025-09-23T12:33:32.502724167Z"
+    description: Helm chart for auth limit control application
+    digest: 9d3365705c13fc934f27726d7338af499b090a9a684ea64a737a0a70df93686b
+    name: auth-limit-control
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/auth-limit-control-4.37.0/auth-limit-control-4.37.0.tgz
+    version: 4.37.0
+  - apiVersion: v2
     appVersion: 4.36.0
     created: "2025-09-22T12:28:28.503184887Z"
     description: Helm chart for auth limit control application
@@ -31663,4 +31673,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2025-09-22T13:21:20.55613533Z"
+generated: "2025-09-23T12:33:32.524744329Z"
