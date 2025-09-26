@@ -440,6 +440,7 @@ csm:
     pacs_002_nksinst:
       xsdCheck: inherit
       responseMsgRetry: 3;0.1s
+      temporaryStatusReasons: RJ02,9999     # list of temporary status reasons 
     pacs_004:
       xsdCheck: inherit
     pacs_008:
