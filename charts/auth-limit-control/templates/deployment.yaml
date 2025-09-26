@@ -169,7 +169,7 @@ spec:
             - name: KAFKA_CONSUMER_GROUP_AUTHLOG_NAME
               value: {{ .Values.kafka.topics.authlog.consumerGroup | quote }}
             - name: KAFKA_TOPIC_RISKLIMITDEF_ENABLED
-              value: {{ .Values.kafka.topics.risklimitdef.enabled | default "true" | quote }}
+              value: {{ .Values.kafka.topics.risklimitdef.enabled | quote }}
             {{- if .Values.kafka.topics.risklimitdef.enabled }}
             - name: KAFKA_TOPIC_RISKLIMITDEF_NAME
               value: {{ .Values.kafka.topics.risklimitdef.name | quote }}
