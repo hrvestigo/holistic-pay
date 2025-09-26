@@ -77,6 +77,7 @@ kafka:
     risklimitdef:
       name: hr.vestigo.hp.risklimitdef
       consumerGroup: hr.vestigo.hp.risklimitdef
+      enabled: true
     expiredauth:
       name: hr.vestigo.hp.expiredauth
       consumerGroup: hr.vestigo.hp.expiredauth

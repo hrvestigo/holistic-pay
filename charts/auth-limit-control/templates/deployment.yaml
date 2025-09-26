@@ -154,8 +154,6 @@ spec:
               value: {{ .Values.kafka.topics.authprocgroupitem.name | quote }}
             - name: KAFKA_TOPIC_PARTNERBANKINTERFACE10S_NAME
               value: {{ .Values.kafka.topics.partnerbankinterface10s.name | quote }}
-            - name: KAFKA_TOPIC_RISKLIMITDEF_NAME
-              value: {{ .Values.kafka.topics.risklimitdef.name | quote }}
             - name: KAFKA_TOPIC_TIMEOUTEDAUTH_NAME
               value: {{ .Values.kafka.topics.timeoutedauth.name | quote }}
             - name: KAFKA_TOPIC_AUTHLOG_NAME
@@ -166,12 +164,18 @@ spec:
               value: {{ .Values.kafka.topics.authprocgroupfinctrllim.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_AUTHPROCGROUPITEM_NAME
               value: {{ .Values.kafka.topics.authprocgroupitem.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_RISKLIMITDEF_NAME
-              value: {{ .Values.kafka.topics.risklimitdef.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_TIMEOUTEDAUTH_NAME
               value: {{ .Values.kafka.topics.authlog.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_AUTHLOG_NAME
               value: {{ .Values.kafka.topics.authlog.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_RISKLIMITDEF_ENABLED
+              value: {{ .Values.kafka.topics.risklimitdef.enabled | default "true" | quote }}
+            {{- if .Values.kafka.topics.risklimitdef.enabled }}
+            - name: KAFKA_TOPIC_RISKLIMITDEF_NAME
+              value: {{ .Values.kafka.topics.risklimitdef.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_RISKLIMITDEF_NAME
+              value: {{ .Values.kafka.topics.risklimitdef.consumerGroup | quote }}
+            {{- end }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

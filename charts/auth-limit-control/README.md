@@ -247,6 +247,7 @@ kafka:
     risklimitdef:
       name: hr.vestigo.hp.risklimitdef # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.risklimitdef # default value, set custom name if required
+      enabled: true # default value, disable if not needed
     # Expired authorization functionality, enabled through expiredauth property.
     # If enabled, define following one topic and consumer group: 
     expiredauth:
