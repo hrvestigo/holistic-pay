@@ -95,6 +95,9 @@ routes:
   consumerFinance:
     serviceName: consumer-finance
     servicePortNumber: "8443"
+  extDisputeInterface:
+    serviceName: external-dispute-interface
+    servicePortNumber: "8443"
 
 oauth2:
   enabled: false

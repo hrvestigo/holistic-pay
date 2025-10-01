@@ -83,6 +83,9 @@ routes:
   consumerFinance:
     serviceName: consumer-finance # name of consumer-finance service, default is consumer-finance
     servicePortNumber: "8443" # port number on which consumer-finance service is exposed, default is 8443 
+  extDisputeInterface:
+    serviceName: external-dispute-interface # name of external-dispute-interface service, default is external-dispute-interface
+    servicePortNumber: "8443" # port number on which external-dispute-interface service is exposed, default is 8443 
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value, no default value
