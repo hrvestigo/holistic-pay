@@ -839,12 +839,29 @@ To change logging level for different components, following attribute should be 
 
 ```yaml
   level:
-    kafka: DEBUG # default value
-    rest: DEBUG # default value
-    database: DEBUG # default value
-    businessLogic: DEBUG # default value
-    general: DEBUG # default value
-    health: DEBUG # default value
+    kafka: DEBUG              # default value, user for logging general kafka logic
+    kafkaCore: INFO           # default value, used for logging org.apache.kafka.*
+    rest: DEBUG               # default value, used for logging REST operations
+    database: ERROR           # default value, used for logging all DB related operations (root DB logger)
+    databaseSql: DEBUG        # default value, used for logging DB SQL operations (CRUD)
+    databaseBind: TRACE       # default value, used for logging DB bind parameters (root DB logger)
+    databaseExtract: TRACE    # default value, used for logging DB extracted values
+    databaseSlowQuery: INFO   # default value, used for logging slow queries for configured threshold 'databaseSlowQueryThreshold'
+    businessLogic: DEBUG      # default value, used for logging service business logic
+    health: DEBUG             # default value, used for logging health checks
+    general: DEBUG            # default value, used for logging other components
+```
+
+NOTE: *Logging DB operations and business logic can be expensive.
+If application performance is degraded, consider lowering log levels to `ERROR`.*
+
+Logging slow DB queries can be done using `databaseSlowQueryThreshold` parameter,
+which defines threshold in milliseconds above which queries are logged. If set
+to value more than a zero, slow queries are logged using `databaseSlowQuery` logger.
+
+```yaml
+logger:
+  databaseSlowQueryThreshold: 0 # default value, slow query logging disabled
 ```
 
 To enable logging to file, following attribute should be set in values file:
@@ -965,6 +982,27 @@ Examples of how log entries would look like for each value:
   ```log
   {"timestamp":"2023-03-17T10:33:14.218078900Z","severity":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","logging.googleapis.com/sourceLocation":{"function":"org.springframework.boot.availability.ApplicationAvailabilityBean.onApplicationEvent"},"logging.googleapis.com/insertId":"1051","_exception":{"stackTrace":""},"_thread":"main","_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
+  
+### Observing distributed tracing
+
+In order to start exporting tracing information to Tempo (or any tool that knows how to interpret OpenTelemetry formatted data),
+sepa-inst microservice should define next attributes:
+
+```yaml
+tracing:
+  enabled: false
+  samplingProbability: 0.0 # decimal value, default is 0.0
+  otlpEndpoint: ''
+```
+
+First, you enabled tracing using `enabled: true`.
+
+Then, with parameter `samplingProbability` you define percentage of requests
+that should be exported to processing system.
+`0.0` means 0% of requests and `1.0` means 100%.
+
+With parameter `otlpEndpoint` you define URL to which tracing information is sent.
+
 
 ### Modifying deployment strategy
 
