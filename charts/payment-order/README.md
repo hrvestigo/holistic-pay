@@ -102,8 +102,8 @@ So in personStructureChecks value you should map real name for the topic persons
 value you should map real name for the topic ecsspecificchecks and in transactionScreeningAMLCFT value you should map 
 real name for the topic transactionscreeningamlcft.
 
-Topic transactionscreeningamlcft can be set up through Kafka only and it allows external checks for Anti Money 
-Laundering and Combating Financing of Terrorism to be performed on payment orders.
+Topic transactionscreeningamlcft allows external checks for Anti Money Laundering and Combating Financing of Terrorism
+to be performed on payment orders.
 
 gRPC configuration is set like this:
 
@@ -119,6 +119,8 @@ grpc:
     address: "dns:///person-structure-server:port" # dns address on which the person structure checks gRPC server runs
   ecsspecificchecks: # properties specific to ecs specific checks
     address: "dns:///ecs-specific-server:port" # dns address on which the ecs specific checks gRPC server runs
+  transactionscreeningchecks: # properties specific to transaction screening checks
+    address: "dns:///transaction-screening-server:port" # dns address on which the transaction screening checks gRPC server runs
 ```
 
 Instead of dns, a static address can also be given following the next pattern: "static://person-structure-server:port".

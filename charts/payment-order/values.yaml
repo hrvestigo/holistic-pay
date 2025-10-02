@@ -132,6 +132,8 @@ grpc:
     address: ''
   ecsspecificchecks:
     address: ''
+  transactionscreeningchecks:
+    address: ''
 payment:
   compensation:
     service:
