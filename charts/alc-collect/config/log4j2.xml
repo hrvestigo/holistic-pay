@@ -108,35 +108,35 @@
   </Appenders>
 
   <Loggers>
-    <Logger name="hr.vestigo" level={{ required "Please specify business logic log level in logger.level.businessLogic. Possible values: TRACE, DEBUG, INFO, WARN, ERROR" .level.businessLogic | upper | quote }} additivity="false">
+    <Logger name="hr.vestigo" level={{ .level.businessLogic | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="hr.vestigo.springtemplate.app.logging.HttpRequestAndResponseLoggingFilter" level={{ required "Please specify rest log level in logger.level.rest. Possible values: TRACE, DEBUG, INFO, WARN, ERROR" .level.rest | upper | quote }} additivity="false">
+    <Logger name="hr.vestigo.springtemplate.app.logging.HttpRequestAndResponseLoggingFilter" level={{ .level.rest | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.apache" level={{ required "Please specify general log level in logger.level.general. Possible values: TRACE, DEBUG, INFO, WARN, ERROR" .level.general | upper | quote }} additivity="false">
+    <Logger name="org.apache" level={{ .level.kafkaCore | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${tomcatAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.apache.kafka" level={{ required "Please specify Kafka log level in logger.level.kafka. Possible values: TRACE, DEBUG, INFO, WARN, ERROR" .level.kafka | upper | quote }} additivity="false">
+    <Logger name="org.apache.kafka" level={{ .level.kafkaCore | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.hibernate" level={{ required "Please specify database log level in logger.level.database. Possible values: TRACE, DEBUG, INFO, WARN, ERROR" .level.database | upper | quote }} additivity="false"> <!-- da li treba s obzirom da je većina već uključena u SQL i BasicBinder? -->
+    <Logger name="org.hibernate" level={{ .level.database | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
@@ -144,7 +144,6 @@
     </Logger>
 
     <Logger name="org.hibernate.SQL" level={{ .level.databaseSql | upper | quote }} additivity="false">
-        {{- if .logToFile }}
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
@@ -158,21 +157,35 @@
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-   <Logger name="org.hibernate.orm.jdbc.extract" level={{ .level.databaseExtract | upper | quote }} additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="${applicationAppender}"/>
-      {{- end }}
-       <AppenderRef ref="${consoleAppender}"/>
-   </Logger>
-
-   <Logger name="org.hibernate.SQL_SLOW" level={{ .level.databaseSlowQuery | upper | quote }} additivity="false">
+    <Logger name="org.hibernate.orm.jdbc.extract" level={{ .level.databaseExtract | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
-   </Logger>
+    </Logger>
+
+    <Logger name="org.hibernate.SQL_SLOW" level={{ .level.databaseSlowQuery | upper | quote }} additivity="false">
+      {{- if .logToFile }}
+      <AppenderRef ref="${applicationAppender}"/>
+      {{- end }}
+      <AppenderRef ref="${consoleAppender}"/>
+    </Logger>
 
     <Logger name="org.springframework" level={{ .level.general | upper | quote }} additivity="false">
+      {{- if .logToFile }}
+      <AppenderRef ref="${applicationAppender}"/>
+      {{- end }}
+      <AppenderRef ref="${consoleAppender}"/>
+    </Logger>
+
+    <Logger name="org.springframework.kafka" level={{ .level.kafka | upper | quote }} additivity="false">
+      {{- if .logToFile }}
+      <AppenderRef ref="${applicationAppender}"/>
+      {{- end }}
+      <AppenderRef ref="${consoleAppender}"/>
+    </Logger>
+
+    <Logger name="hr.vestigo.springtemplate.kafka" level={{ .level.kafka | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}
@@ -200,6 +213,27 @@
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
+    <Logger name="org.springframework.kafka.listener" level={{ .level.kafka | upper | quote }} additivity="false">
+      {{- if .logToFile }}
+      <AppenderRef ref="${applicationAppender}"/>
+      {{- end }}
+      <AppenderRef ref="${consoleAppender}"/>
+      <Filters>
+        <RegexFilter regex="^(Commit list: \{\}|Received: 0 records)$" onMatch="DENY" onMismatch="ACCEPT" />
+      </Filters>
+    </Logger>
+
+    <Logger name="com.zaxxer.hikari.pool.HikariPool" level={{ .level.database | upper | quote }} additivity="false">
+      {{- if .logToFile }}
+      <AppenderRef ref="${applicationAppender}"/>
+      {{- end }}
+      <AppenderRef ref="${consoleAppender}"/>
+      <Filters>
+        <ThresholdFilter level="DEBUG" onMatch="NEUTRAL" onMismatch="DENY"/>
+        <RegexFilter regex="^HikariPool.*" onMatch="DENY" onMismatch="ACCEPT"/>
+      </Filters>
+    </Logger>
+
     {{- if .logToFile }}
     <Logger name="hr.vestigo.springtemplate.app.logging.AccessLogFilter" level={{ .level.health | upper | quote }} additivity="false">
       <AppenderRef ref="${healthAppender}"/>
@@ -210,28 +244,7 @@
     </Logger>
     {{- end }}
 
-    <Logger name="org.springframework.kafka.listener" level={{ .level.general | upper | quote }} additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="${applicationAppender}"/>
-        {{- end }}
-      <AppenderRef ref="${consoleAppender}"/>
-      <Filters>
-        <RegexFilter regex="^(Commit list: \{\}|Received: 0 records)$" onMatch="DENY" onMismatch="ACCEPT" />
-      </Filters>
-    </Logger>
-
-    <Logger name="com.zaxxer.hikari.pool.HikariPool" level={{ .level.database | upper | quote }} additivity="false">
-      {{- if .logToFile }}
-      <AppenderRef ref="${applicationAppender}"/>
-        {{- end }}
-      <AppenderRef ref="${consoleAppender}"/>
-      <Filters>
-        <ThresholdFilter level="DEBUG" onMatch="NEUTRAL" onMismatch="DENY"/>
-        <RegexFilter regex="^HikariPool.*" onMatch="DENY" onMismatch="ACCEPT"/>
-      </Filters>
-    </Logger>
-
-    <Root level={{ .level.general | upper | quote }}>
+    <Root level="INFO">
       <AppenderRef ref="${consoleAppender}"/>
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
