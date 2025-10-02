@@ -105,18 +105,24 @@ secret:
 logger:
   format: STRING
   level:
-    kafka: INFO
-    rest: INFO
-    database: INFO
-    businessLogic: INFO
-    general: INFO
-    health: INFO
+    health: DEBUG
+    kafka: DEBUG
+    kafkaCore: INFO
+    rest: DEBUG
+    database: ERROR
+    databaseSql: DEBUG
+    databaseBind: TRACE
+    databaseExtract: TRACE
+    databaseSlowQuery: INFO
+    businessLogic: DEBUG
+    general: DEBUG
   logToFile: false
   rollingFileAppender: false
   logDir: /var/log/app
   logDirMount:
     enabled: false
   microserviceTag: ALCCOL
+  databaseSlowQueryThreshold: 0
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
 springActiveProfile: prod
@@ -243,3 +249,8 @@ prometheus:
 cache:
   refresh:
     rate: 1440
+tracing:
+  enabled: false
+  samplingProbability: 0.0
+  otlpEndpoint: ''
+
