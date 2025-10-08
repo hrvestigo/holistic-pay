@@ -273,7 +273,7 @@ spec:
             - name: GRPC_CLIENT_ECSDIGITALCHANNELS_NEGOTIATIONTYPE
               value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
             - name: GRPC_CLIENT_TRANSACTIONSCREENINGCHECKS_ADDRESS
-              value: {{ required "Please specify address for ecs gRPC server in grpc.transactionscreeningchecks.address" .Values.grpc.transactionscreeningchecks.address | quote }}
+              value: {{ .Values.grpc.transactionscreeningchecks.address | quote }}
             - name: GRPC_CLIENT_TRANSACTIONSCREENINGCHECKS_NEGOTIATIONTYPE
               value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
             {{- end }}
