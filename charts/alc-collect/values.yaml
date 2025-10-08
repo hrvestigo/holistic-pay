@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.10.0
+    tag: 4.17.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -253,4 +253,3 @@ tracing:
   enabled: false
   samplingProbability: 0.0
   otlpEndpoint: ''
-
