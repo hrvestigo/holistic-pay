@@ -214,6 +214,23 @@ spec:
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORDERCREATION_NAME
               value: {{ .Values.kafka.topics.paymentOrderCreation.consumerGroup | quote }}
             {{- end }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTORDEREVENTIN
+              value: {{ .Values.kafka.topics.paymentOrderEventIn.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTORDERCHECKSRESULT
+              value: {{ .Values.kafka.topics.paymentOrderChecksResult.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTORDERINCOMING
+              value: {{ .Values.kafka.topics.paymentOrderIncoming.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTORDERUPDATE
+              value: {{ .Values.kafka.topics.paymentOrderUpdate.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_PARAMETERIZATION
+              value: {{ .Values.kafka.topics.parameterization.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTORDEROUTGOING
+              value: {{ .Values.kafka.topics.paymentOrderOutgoing.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTORDERCREATION
+              value: {{ .Values.kafka.topics.paymentOrderCreation.concurrency | quote }}
+            {{- if (include "payment-order.kafka.consumer.properties.config" .) -}}
+            {{- include "payment-order.kafka.consumer.properties.config" . | indent 12 -}}
+            {{- end }}
             - name: ALERT_COMMUNICATION_TYPE
               value: {{ .Values.alert.communication.type | quote }}
             - name: AUTOMATIC_REJECTION_SCHEDULED

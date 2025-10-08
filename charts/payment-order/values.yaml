@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 2.12.0
+    tag: 2.17.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -74,23 +74,29 @@ kafka:
     paymentOrderEventIn:
       name: hr.vestigo.hp.paymentordereventin
       consumerGroup: hr.vestigo.hp.paymentordereventin
+      concurrency: 1
     paymentOrderChecksResult:
       name: hr.vestigo.hp.paymentorderchecksresult
       consumerGroup: hr.vestigo.hp.paymentorderchecksresult
+      concurrency: 1
     paymentOrderIncoming:
       name: hr.vestigo.hp.paymentorderincoming
       consumerGroup: hr.vestigo.hp.paymentorderincoming
+      concurrency: 1
     paymentOrderUpdate:
       name: hr.vestigo.hp.paymentorderupdate
       consumerGroup: hr.vestigo.hp.paymentorderupdate
+      concurrency: 1
     paymentOrderEventFlow:
       name: hr.vestigo.hp.paymentordereventflow
     paymentOrderOutgoing:
       name: hr.vestigo.hp.paymentorderoutgoing
       consumerGroup: hr.vestigo.hp.paymentorderoutgoing
+      concurrency: 1
     parameterization:
       name: hr.vestigo.hp.parameterization
       consumerGroup: hr.vestigo.hp.parameterization
+      concurrency: 1
     ecsPaymentCallLog:
       name: hr.vestigo.hp.ecspaymentcalllog
     ecsPaymentCompensation:
@@ -101,6 +107,13 @@ kafka:
       name: hr.vestigo.hp.paymentOrderCreation
       consumerGroup: hr.vestigo.hp.paymentordercreation
       enabled: false
+      concurrency: 1
+  consumer:
+    properties:
+      sessionTimeoutMs: 45000
+      heartbeatIntervalMs: 3000
+      maxPollRecords: 500
+      maxPollIntervalMs: 300000
 paymentExternalChecks:
   topicRealNames:
     personStructureChecks: hr.vestigo.hp.personstructurechecks

@@ -381,20 +381,25 @@ kafka:
     paymentOrderEventIn:
       name: hr.vestigo.hp.paymentordereventin # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.paymentordereventin # default value, set custom name if required
+      concurrency: 1 # default value, used for vertical scaling
     paymentOrderChecksResult:
       name: hr.vestigo.hp.paymentorderchecksresult # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.paymentorderchecksresult # default value, set custom name if required
+      concurrency: 1 # default value, used for vertical scaling
     paymentOrderIncoming:
       name: hr.vestigo.hp.paymentorderincoming # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.paymentorderincoming # default value, set custom name if required
+      concurrency: 1 # default value, used for vertical scaling
     paymentOrderUpdate:
       name: hr.vestigo.hp.paymentorderupdate # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.paymentorderupdate # default value, set custom name if required
+      concurrency: 1 # default value, used for vertical scaling
     paymentOrderEventFlow:
       name: hr.vestigo.hp.paymentordereventflow # default value, set custom name if required
     paymentOrderOutgoing:
       name: hr.vestigo.hp.paymentorderoutgoing # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.paymentorderoutgoing # default value, set custom name if required
+      concurrency: 1 # default value, used for vertical scaling
     # Payment order compensation functionality.
     # Used to compensate outgoing payment order in extreme case in which HP fails after successful ECS call.
     ecsPaymentCallLog:
@@ -406,10 +411,18 @@ kafka:
     parameterization:
       name: hr.vestigo.hp.parameterization # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.parameterization # default value, set custom name if required
+      concurrency: 1 # default value, used for vertical scaling
     paymentOrderCreation:
       name: hr.vestigo.hp.paymentOrderCreation # default value, set custom name if required
       consumerGroup: hr.vestigo.hp.paymentordercreation # default value, set custom name if required
       enabled: false # default value, set to true if you want to enable payment order creation consumer
+      concurrency: 1 # default value, used for vertical scaling
+  consumer:
+    properties: # see https://kafka.apache.org/documentation/#consumerconfigs for details
+      sessionTimeoutMs: 45000
+      heartbeatIntervalMs: 3000
+      maxPollRecords: 500
+      maxPollIntervalMs: 300000
 ```
 
 

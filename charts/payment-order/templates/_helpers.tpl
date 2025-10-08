@@ -358,3 +358,13 @@ Create a comma separated list of endpoints that need to be exposed
 {{- end }}
 {{- join "," $endpoints }}
 {{- end }}
+
+{{/*
+Payment order Kafka consumer properties configuration
+*/}}
+{{- define "payment-order.kafka.consumer.properties.config" -}}
+{{- range $key, $value := .Values.kafka.consumer.properties }}
+- name: SPRING_KAFKA_CONSUMER_PROPERTIES_{{ $key | snakecase | upper }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- end }}
