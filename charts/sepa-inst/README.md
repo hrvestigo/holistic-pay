@@ -622,6 +622,71 @@ Log output example:
 Processing timeout occurred, measured 5.46s, configured 3s, endpoint pacs_008, process acceptance date/time check
 ```
 
+#### CSM response statistics
+
+It is possible to collect CSM response statistics using following configuration:
+
+```yaml
+csm:
+  stats:
+    enabled: false    # true to collect statistics
+    minInterval: 5s   # minimum interval at which statistics are collected
+    strict: true      # false to collect only non successful CSM responses
+```
+
+By default, statistics are not collected. If enabled, statistics are collected in `minInterval`
+intervals. By default, all responses are collected. If `strict = false` is configured, only
+non successful responses are collected.
+
+Collected statists can be useful for use cases dealing with CSM communication.
+
+#### CSM processing from queue
+
+By default, services communicates with CSM directly.
+Using queue we can offload processing, so that services calls CSM at specific point in time.
+Further, using CSM collected statistics, explained in previous section, services calls CSM
+from processing queue when minimal CMS load is in progress.
+
+So, direct processing to CSM is without queue. Queue processing to CSM uses queue.
+
+```yaml
+csm:
+  queue:
+    enabled: false                  # true to enable queueing
+    priorityThreshold: 1            # message priority above which message goes to queue
+    notPrioritized: false           # true to queue message with priority = -1
+    pollSize: 1                     # number of workers polling the queue
+    pollMaxSize: 4                  # maximum number of workers polling the queue
+    pollIntervalDelay: 10s          # initial polling delay on queue processing
+    pollInterval: 10s               # interval at which polling is repeated
+    pollIntervalFixedRate: false    # true to poll by workers at exact interval
+    pollCron: ''                    # polling using cron (example, every day at 22 PM)
+    pollTimeout: 1s                 # polling timeout
+    pollMaxMessages: 1              # maximum number of messages fetched on each poll
+    processInterval: 10s            # interval at which to process message from queue to CSM
+    processRetry: 3                 # maximum number of retries to process message from queue
+    processStrict: true             # false to process message from queue if CSM response no errors
+```
+
+Services determine to use queue using `priorityThreshold`. Each message for CSM has priority,
+but only messages with priority higher of greater than `priorityThreshold` are queued.
+
+Polling messages from queue occurs every `pollInterval`. Polling can be configured
+in parallel using `pollSize` and `pollMaxSize`. On each poll `pollMaxMessages` are fetched.
+If `pollMaxMessages = 0` is configured, polling is disabled, even with `enabled = true`.
+With `pollMaxMessages = -1` polling is done until all messages are processed.
+With `pollCron` we can configure polling using cron syntax. For example, to poll
+messages from queue every day between 22 PM and midnight, every 10s, we configure
+`pollCron = */10 * 22-23 * * *`.
+
+Processing message from queue and calling CSM by underlying services occurs at `processInterval`.
+This means that with `processStrict = true` we check if CSM response from direct communication
+occurred within `processInterval`. If so, message is requeued and no CSM call is done. If
+processing interval passes, CSM call is done. With `processStrict = false` we only check
+if failures are received from CSM within `processInterval`.
+
+If call to CSM fails, we hit retry until `processRetry` is reached.
+
 ### TLS setup
 
 `SEPA inst` application is prepared to use TLS, but requires provided server certificate.
@@ -1727,6 +1792,8 @@ With `metrics` configuration additional metrics can be exposed.
 prometheus:
   exposed: true
 metrics:
-  jvm: true
-  httpClientRequests: true
+  jvm: true                 # JVM metrics
+  httpClientRequests: true  # HTTP client requests metrics
+  executor: true            # Asycn task executors using thread pools metrics
+  jdbcConnections: true     # JDBC using DB pools metrics
 ```

@@ -107,7 +107,7 @@ Liquibase init container definition
     - -c
   {{- if $member.datasource }}
     {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" (default $.Values.datasource.host $member.datasource.host) ":" (default ($.Values.datasource.port | int) ( $member.datasource.port | int)) "/" (default $.Values.datasource.dbName  $member.datasource.dbName) }}
-    {{- $context := printf "%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" }}
+    {{- $context := printf "%s%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" (ternary ",queue-int" "" $.Values.csm.queue.enabled) }}
     {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -jar /tmp/aesdecryptor.jar -d -l && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
     {{- if $.Values.liquibase.syncOnly }}
     - {{ printf "%s%s" $params " changelog-sync" }}
@@ -116,7 +116,7 @@ Liquibase init container definition
     {{- end }}
   {{- else }}
     {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" $.Values.datasource.host ":" ($.Values.datasource.port | int) "/" $.Values.datasource.dbName }}
-    {{- $context := printf "%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" }}
+    {{- $context := printf "%s%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" (ternary ",queue-int" "" $.Values.csm.queue.enabled) }}
     {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -jar /tmp/aesdecryptor.jar -d -l && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
     {{- if $.Values.liquibase.syncOnly }}
     - {{ printf "%s%s" $params " changelog-sync" }}
@@ -362,18 +362,6 @@ Defines custom datasource connection parameters appended to URL
 {{- end }}
 
 {{/*
-SEPA Inst endpoint configuration
-*/}}
-{{- define "sepa-inst.endpoint.config" -}}
-{{- range $key, $value := .Values.csm.config }}
-{{- range $k, $v := $value }}
-- name: SEPA_INST_CSM_CONFIG_{{ $key | upper }}_{{ $k | snakecase | upper }}
-  value: {{ $v | quote }}
-{{- end }}
-{{- end }}
-{{- end }}
-
-{{/*
 Create a comma separated list of endpoints that need to be exposed
 */}}
 {{- define "sepa-inst.exposed.endpoints" -}}
@@ -383,6 +371,18 @@ Create a comma separated list of endpoints that need to be exposed
 {{- $endpoints = append $endpoints (printf "%s" "prometheus") }}
 {{- end }}
 {{- join "," $endpoints }}
+{{- end }}
+
+{{/*
+SEPA Inst endpoint configuration
+*/}}
+{{- define "sepa-inst.endpoint.config" -}}
+{{- range $key, $value := .Values.csm.config }}
+{{- range $k, $v := $value }}
+- name: SEPA_INST_CSM_CONFIG_{{ $key | upper }}_{{ $k | snakecase | upper }}
+  value: {{ $v | quote }}
+{{- end }}
+{{- end }}
 {{- end }}
 
 {{/*
@@ -401,6 +401,27 @@ SEPA Inst Kafka consumer properties configuration
 {{- define "sepa-inst.kafka.consumer.properties.config" -}}
 {{- range $key, $value := .Values.kafka.consumer.properties }}
 - name: SPRING_KAFKA_CONSUMER_PROPERTIES_{{ $key | snakecase | upper }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- end }}
+
+
+{{/*
+SEPA Inst CSM stats configuration
+*/}}
+{{- define "sepa-inst.csm.stats.config" -}}
+{{- range $key, $value := .Values.csm.stats }}
+- name: SEPA_INST_CSM_STATS_{{ $key | snakecase | upper }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- end }}
+
+{{/*
+SEPA Inst CSM queue configuration
+*/}}
+{{- define "sepa-inst.csm.queue.config" -}}
+{{- range $key, $value := .Values.csm.queue }}
+- name: SEPA_INST_CSM_QUEUE_{{ $key | snakecase | upper }}
   value: {{ $value | quote }}
 {{- end }}
 {{- end }}

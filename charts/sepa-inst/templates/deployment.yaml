@@ -200,6 +200,12 @@ spec:
             {{- if (include "sepa-inst.endpoint.config" .) -}}
             {{- include "sepa-inst.endpoint.config" . | indent 12 -}}
             {{- end }}
+            {{- if (include "sepa-inst.csm.stats.config" .) -}}
+            {{- include "sepa-inst.csm.stats.config" . | indent 12 -}}
+            {{- end }}
+            {{- if (include "sepa-inst.csm.queue.config" .) -}}
+            {{- include "sepa-inst.csm.queue.config" . | indent 12 -}}
+            {{- end }}
             {{- if (include "sepa-inst.metrics.config" .) -}}
             {{- include "sepa-inst.metrics.config" . | indent 12 -}}
             {{- end }}
