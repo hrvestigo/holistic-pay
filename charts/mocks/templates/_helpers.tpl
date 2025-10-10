@@ -377,7 +377,6 @@ Create a comma separated list of endpoints that need to be exposed
 {{- end }}
 {{- join "," $endpoints }}
 {{- end }}
-{{- end }}
 
 {{/*
 Kafka login module
