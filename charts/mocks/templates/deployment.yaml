@@ -311,9 +311,10 @@ spec:
             {{- toYaml .Values.deployment.livenessProbe | nindent 12 }}
           readinessProbe:
             {{- toYaml .Values.deployment.readinessProbe | nindent 12 }}
+          {{- if .Values.deployment.startupProbe }}  
           startupProbe:
-            {{- toYaml .Values.deployment.startupProbe | nindent 12 }}
-            {{- end }}
+          {{- toYaml .Values.deployment.startupProbe | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
