@@ -224,6 +224,10 @@ deployment:
     periodSeconds: 60
     timeoutSeconds: 10
     failureThreshold: 3
+     httpGet:
+      path: /health/liveness
+      port: http
+      scheme: HTTPS
   startupProbe:
     initialDelaySeconds: 30
     periodSeconds: 5
