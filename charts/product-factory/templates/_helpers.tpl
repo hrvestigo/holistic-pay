@@ -346,3 +346,14 @@ Create a comma separated list of endpoints that need to be exposed
 {{- end }}
 {{- join "," $endpoints }}
 {{- end }}
+
+{{/*
+Kafka login module
+*/}}
+{{- define "product-factory.kafka.loginModule" -}}
+{{- if contains "SCRAM" .Values.kafka.saslMechanism }}
+{{- "org.apache.kafka.common.security.scram.ScramLoginModule" }}
+{{- else }}
+{{- "org.apache.kafka.common.security.plain.PlainLoginModule" }}
+{{- end }}
+{{- end }}
