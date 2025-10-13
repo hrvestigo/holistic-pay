@@ -283,10 +283,21 @@ spec:
             {{- toYaml .Values.deployment.livenessProbe | nindent 12 }}
           readinessProbe:
             {{- toYaml .Values.deployment.readinessProbe | nindent 12 }}
+          {{- if .Values.deployment.startupProbe }}
+          startupProbe:
+          {{- toYaml .Values.deployment.startupProbe | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             {{- include "alc-collect.mounts" . | nindent 12 }}
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - bash
+                  - -c
+                  - kill -SIGTERM $(ps aux | grep 'java' | grep -v grep | awk '{print $2}')
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
