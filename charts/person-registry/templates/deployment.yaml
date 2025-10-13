@@ -345,6 +345,13 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             {{- include "person-registry.mounts" . | nindent 12 }}
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - bash
+                  - -c
+                  - kill -SIGTERM $(ps aux | grep 'java' | grep -v grep | awk '{print $2}')
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
