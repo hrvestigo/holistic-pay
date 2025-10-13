@@ -333,3 +333,14 @@ Defines custom datasource connection parameters appended to URL
 {{- "" }}
 {{- end }}
 {{- end }}
+
+{{/*
+Kafka login module
+*/}}
+{{- define "consumer-finance.kafka.loginModule" -}}
+{{- if contains "SCRAM" .Values.kafka.saslMechanism }}
+{{- "org.apache.kafka.common.security.scram.ScramLoginModule" }}
+{{- else }}
+{{- "org.apache.kafka.common.security.plain.PlainLoginModule" }}
+{{- end }}
+{{- end }}
