@@ -224,7 +224,7 @@ deployment:
     periodSeconds: 60
     timeoutSeconds: 10
     failureThreshold: 3
-     httpGet:
+    httpGet:
       path: /health/liveness
       port: http
       scheme: HTTPS
