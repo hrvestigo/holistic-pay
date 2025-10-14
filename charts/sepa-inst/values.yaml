@@ -304,7 +304,7 @@ deployment:
   terminationGracePeriodSeconds: 60
   restartPolicy: Always
   readinessProbe:
-    initialDelaySeconds: 10
+    initialDelaySeconds: 0
     periodSeconds: 60
     timeoutSeconds: 10
     successThreshold: 1
@@ -314,10 +314,19 @@ deployment:
       port: http
       scheme: HTTPS
   livenessProbe:
-    initialDelaySeconds: 60
+    initialDelaySeconds: 0
     periodSeconds: 60
     timeoutSeconds: 10
     failureThreshold: 3
+    httpGet:
+      path: /health/liveness
+      port: http
+      scheme: HTTPS
+  startupProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 5
+    timeoutSeconds: 1
+    failureThreshold: 60
     httpGet:
       path: /health/liveness
       port: http
