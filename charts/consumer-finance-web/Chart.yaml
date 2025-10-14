@@ -2,5 +2,5 @@ apiVersion: v2
 name: consumer-finance-web
 description: Helm chart for consumer finance web application
 type: application
-version: 1.10.0
-appVersion: 1.10.0
+version: 1.11.0
+appVersion: 1.11.0
