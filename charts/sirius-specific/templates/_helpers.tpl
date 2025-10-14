@@ -368,3 +368,14 @@ Sirius specific Kafka consumer properties configuration
 {{- end }}
 {{- end }}
 
+{{/*
+Kafka login module
+*/}}
+{{- define "sirius-specific.kafka.loginModule" -}}
+{{- if contains "SCRAM" .Values.kafka.saslMechanism }}
+{{- "org.apache.kafka.common.security.scram.ScramLoginModule" }}
+{{- else }}
+{{- "org.apache.kafka.common.security.plain.PlainLoginModule" }}
+{{- end }}
+{{- end }}
+
