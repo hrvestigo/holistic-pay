@@ -1558,16 +1558,3 @@ applicationFileVolumes:
       server: "server"
       path: "path"
 ```
-### Database UPSERT (insert/update) with batching
-This application is using batching when inserting/updating data to database. This means that data is collected in memory
-and inserted/updated in batch to database. This improves performance when upserting large amount of data
-to database.
-
-```yaml
-database:
-  upsert:
-    batchSize: 50 # default value
-```
-
-Value 'batchSize' specifies the batch size, meaning Hibernate will group up to 50 SQL statements 
-into a single batch before sending them to the database. 
