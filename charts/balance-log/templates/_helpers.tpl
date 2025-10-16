@@ -347,3 +347,14 @@ Balance log Kafka topics configuration
 {{- end }}
 {{- end }}
 {{- end }}
+
+{{/*
+Kafka login module
+*/}}
+{{- define "balance-log.kafka.loginModule" -}}
+{{- if contains "SCRAM" .Values.kafka.saslMechanism }}
+{{- "org.apache.kafka.common.security.scram.ScramLoginModule" }}
+{{- else }}
+{{- "org.apache.kafka.common.security.plain.PlainLoginModule" }}
+{{- end }}
+{{- end }}

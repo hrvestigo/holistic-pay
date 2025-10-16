@@ -985,13 +985,13 @@ If only `autoscaling.enabled` attribute is set to `true`, without setting other 
 
 ### Customizing probes
 
-balance-log application has predefined health check probes (readiness and liveness).
+balance-log application has predefined health check probes (readiness,liveness and startup).
 Following are the default values:
 
 ```yaml
 deployment:
   readinessProbe:
-    initialDelaySeconds: 10
+    initialDelaySeconds: 0
     periodSeconds: 60
     timeoutSeconds: 181
     successThreshold: 1
@@ -1001,10 +1001,19 @@ deployment:
       port: http
       scheme: HTTPS
   livenessProbe:
-    initialDelaySeconds: 60
+    initialDelaySeconds: 0
     periodSeconds: 60
     timeoutSeconds: 10
     failureThreshold: 3
+    httpGet:
+      path: /health/liveness
+      port: http
+      scheme: HTTPS
+  startupProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 5
+    timeoutSeconds: 1
+    failureThreshold: 60
     httpGet:
       path: /health/liveness
       port: http
