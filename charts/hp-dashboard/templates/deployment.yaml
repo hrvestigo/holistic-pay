@@ -150,6 +150,8 @@ spec:
             {{- if (include "hp-dashboard.application.config" .) }}
             {{- include "hp-dashboard.application.config" . | indent 12 }}
             {{- end }}
+            - name: HP_DASHBOARD_JDBC_UPSERT_BATCHSIZE
+              value: {{ .Values.database.upsert.batchSize | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
