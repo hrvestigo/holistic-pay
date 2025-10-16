@@ -1056,15 +1056,27 @@ CPU and/or memory utilization metrics can be used to autoscale Balance check pod
 It's possible to define one or both of those metrics.
 If only `autoscaling.enabled` attribute is set to `true`, without setting other attributes, only CPU utilization metric will be used with percentage set to 80.
 
+#### Using `VerticalPodAutoscaler`
+
+By default, VPA is disabled in configuration, but it can enabled with following setup:
+
+```yaml
+vpa:
+  enabled: true # default is false, has to be set to true to enable VPA
+  updateMode: Off # default mode if Off, other possible values are "Initial", "Recreate" and "Auto"
+```
+
+Please note that this feature requires VPA controller to be installed on Kubernetes cluster. Please refer to [VPA documentation](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) for additional info.
+
 ### Customizing probes
 
-Balance check application has predefined health check probes (readiness and liveness).
+Balance check application has predefined health check probes (readiness, liveness and startup).
 Following are the default values:
 
 ```yaml
 deployment:
   readinessProbe:
-    initialDelaySeconds: 10
+    initialDelaySeconds: 0
     periodSeconds: 60
     timeoutSeconds: 181
     successThreshold: 1
@@ -1074,10 +1086,19 @@ deployment:
       port: http
       scheme: HTTPS
   livenessProbe:
-    initialDelaySeconds: 60
+    initialDelaySeconds: 0
     periodSeconds: 60
     timeoutSeconds: 10
     failureThreshold: 3
+    httpGet:
+      path: /health/liveness
+      port: http
+      scheme: HTTPS
+  startupProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 5
+    timeoutSeconds: 1
+    failureThreshold: 60
     httpGet:
       path: /health/liveness
       port: http

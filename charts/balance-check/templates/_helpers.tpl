@@ -381,3 +381,14 @@ where 'name' is configuration parameter and 'value' is configuration value
 {{- end }}
 {{- end }}
 {{- end }}
+
+{{/*
+Kafka login module
+*/}}
+{{- define "balance-check.kafka.loginModule" -}}
+{{- if contains "SCRAM" .Values.kafka.saslMechanism }}
+{{- "org.apache.kafka.common.security.scram.ScramLoginModule" }}
+{{- else }}
+{{- "org.apache.kafka.common.security.plain.PlainLoginModule" }}
+{{- end }}
+{{- end }}
