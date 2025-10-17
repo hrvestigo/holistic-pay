@@ -260,16 +260,22 @@ spec:
               value: {{ .Values.personStructureInitial.searchAlgorithm | quote }}
             - name: INITIAL_ACCOUNT_LIFECYCLE_CHECK
               value: {{ .Values.initial.account.lifecycleCheck | quote }}
-            - name: PERSON_STRUCTURE_COMPLETENESS_FLAG_ALGORITHM
-              value: {{ .Values.personStructure.completenessFlagAlgorithm | quote }}
+            - name: PERSON_STRUCTURE_COMPLETENESS_FLAG_ALGORITHM_DG
+              value: {{ .Values.personStructure.completenessFlagAlgorithmDg | quote }}
+            - name: PERSON_STRUCTURE_COMPLETENESS_FLAG_ALGORITHM_IP
+              value: {{ .Values.personStructure.completenessFlagAlgorithmIp | quote }}
             - name: MS_SEQUENCE_NAME
               value: {{ .Values.ms.sequence | quote }}
             - name: MS_APP_MODULE_NAME
               value: {{ .Values.ms.appModuleName | quote }}
-            - name: RISK_LIMITS_ACCPRODCHECK_ENABLED
-              value: {{ .Values.riskLimits.accprodcheck.enabled | quote }}
-            - name: RISK_LIMITS_ACCLIFECYCLECHECK_ENABLED
-              value: {{ .Values.riskLimits.acclifecyclecheck.enabled | quote }}
+            - name: RISK_LIMITS_ACCPRODCHECK_ENABLED_DG
+              value: {{ .Values.riskLimits.accprodcheck.dg.enabled | quote }}
+            - name: RISK_LIMITS_ACCPRODCHECK_ENABLED_IP
+              value: {{ .Values.riskLimits.accprodcheck.ip.enabled | quote }}
+            - name: RISK_LIMITS_ACCLIFECYCLECHECK_ENABLED_DG
+              value: {{ .Values.riskLimits.acclifecyclecheck.dg.enabled | quote }}
+            - name: RISK_LIMITS_ACCLIFECYCLECHECK_ENABLED_IP
+              value: {{ .Values.riskLimits.acclifecyclecheck.ip.enabled | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
@@ -374,10 +380,21 @@ spec:
             {{- toYaml .Values.deployment.livenessProbe | nindent 12 }}
           readinessProbe:
             {{- toYaml .Values.deployment.readinessProbe | nindent 12 }}
+          {{- if .Values.deployment.startupProbe }}
+          startupProbe:
+          {{- toYaml .Values.deployment.startupProbe | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             {{- include "person-structure.mounts" . | nindent 12 }}
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - bash
+                  - -c
+                  - kill -SIGTERM $(ps aux | grep 'java' | grep -v grep | awk '{print $2}')
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
