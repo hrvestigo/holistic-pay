@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 5.20.0
+    tag: 5.25.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -115,15 +115,9 @@ ms:
 riskLimits:
   enabled: true
   accprodcheck:
-    dg:
-      enabled: true
-    ip:
-      enabled: false
+    enabled: true
   acclifecyclecheck:
-    dg:
-      enabled: true
-    ip:
-      enabled: false
+    enabled: true
 status:
   management:
     enabled: false
@@ -138,8 +132,7 @@ paramWarmup:
   enabled: false
 personStructure:
   produce: true
-  completenessFlagAlgorithmDg: CARD_LEVEL
-  completenessFlagAlgorithmIp: ACCOUNT_LEVEL
+  completenessFlagAlgorithm: CARD_LEVEL
   semaphore:
     enabled: false
   currencyStaging:

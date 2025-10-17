@@ -260,22 +260,16 @@ spec:
               value: {{ .Values.personStructureInitial.searchAlgorithm | quote }}
             - name: INITIAL_ACCOUNT_LIFECYCLE_CHECK
               value: {{ .Values.initial.account.lifecycleCheck | quote }}
-            - name: PERSON_STRUCTURE_COMPLETENESS_FLAG_ALGORITHM_DG
-              value: {{ .Values.personStructure.completenessFlagAlgorithmDg | quote }}
-            - name: PERSON_STRUCTURE_COMPLETENESS_FLAG_ALGORITHM_IP
-              value: {{ .Values.personStructure.completenessFlagAlgorithmIp | quote }}
+            - name: PERSON_STRUCTURE_COMPLETENESS_FLAG_ALGORITHM
+              value: {{ .Values.personStructure.completenessFlagAlgorithm | quote }}
             - name: MS_SEQUENCE_NAME
               value: {{ .Values.ms.sequence | quote }}
             - name: MS_APP_MODULE_NAME
               value: {{ .Values.ms.appModuleName | quote }}
-            - name: RISK_LIMITS_ACCPRODCHECK_ENABLED_DG
-              value: {{ .Values.riskLimits.accprodcheck.dg.enabled | quote }}
-            - name: RISK_LIMITS_ACCPRODCHECK_ENABLED_IP
-              value: {{ .Values.riskLimits.accprodcheck.ip.enabled | quote }}
-            - name: RISK_LIMITS_ACCLIFECYCLECHECK_ENABLED_DG
-              value: {{ .Values.riskLimits.acclifecyclecheck.dg.enabled | quote }}
-            - name: RISK_LIMITS_ACCLIFECYCLECHECK_ENABLED_IP
-              value: {{ .Values.riskLimits.acclifecyclecheck.ip.enabled | quote }}
+            - name: RISK_LIMITS_ACCPRODCHECK_ENABLED
+              value: {{ .Values.riskLimits.accprodcheck.enabled | quote }}
+            - name: RISK_LIMITS_ACCLIFECYCLECHECK_ENABLED
+              value: {{ .Values.riskLimits.acclifecyclecheck.enabled | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

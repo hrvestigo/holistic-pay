@@ -113,22 +113,14 @@ ms:
 riskLimits:
   enabled: true #default value, enable all risk limit functionalities
   accprodcheck:
-    dg:
-      enabled: true #default value for Debit Gateway project, enable risk limit account product check
-    ip:
-      enabled: false #default value for Instant Payment project, enable risk limit account product check
+    enabled: true #default value, enable risk limit account product check
   acclifecyclecheck:
-    dg:
-      enabled: true #default value for Debit Gateway project, enable risk limit account product check
-    ip:
-      enabled: false #default value for Instant Payment project, enable risk limit account product check
+    enabled: true #default value, enable risk limit account lifecycle check
 ```
 
 `riskLimits.enabled` Enables/disables all risk limits functionalities in the microservice.
-`riskLimits.accprodcheck.dg.enabled` Enables/disables account product check in the microservice for Debit Gateway project.
-`riskLimits.accprodcheck.ip.enabled` Enables/disables account product check in the microservice for Instant Payment project.
-`riskLimits.acclifecyclecheck.dg.enabled` Enables/disables enable risk limit account lifecycle check in the microservice for Debit Gateway project.
-`riskLimits.acclifecyclecheck.ip.enabled` Enables/disables enable risk limit account lifecycle check in the microservice for Instant Payment project.
+`riskLimits.accprodcheck.enabled` Enables/disables account product check in the microservice.
+`riskLimits.acclifecyclecheck.enabled` Enables/disables enable risk limit account lifecycle check in the microservice.
 
 #### Enabling status functionalities
 ```yaml
@@ -238,13 +230,9 @@ In case you want to stop publishing on personstructure topic then you need chang
 ###Define conditions for completed person structure
 ```yaml
 personStructure:
-  completenessFlagAlgorithmDg: CARD_LEVEL  #default value, checks value of account and card attributes in person_structure table for Debit Gateway project
-  completenessFlagAlgorithmIp: ACCOUNT_LEVEL  #default value, checks value of account attributes in person_structure table for Instant Payment project
+  completenessFlagAlgorithm: CARD_LEVEL  #default value, checks value of account and card attributes in person_structure table
 ```
-`completenessFlagAlgorithmDg` value defines conditions by which person structure is to be declared completed.
-Default value of this attribute is 'CARD_LEVEL' which checks basic account and card data values (account id, account code, etc.).
-Possible values of completeness flag algorithm are: ACCOUNT_LEVEL, CARD_LEVEL or NONE and their values can be seen
-`completenessFlagAlgorithmIp` value defines conditions by which person structure is to be declared completed.
+`completenessFlagAlgorithm` value defines conditions by which person structure is to be declared completed.
 Default value of this attribute is 'CARD_LEVEL' which checks basic account and card data values (account id, account code, etc.).
 Possible values of completeness flag algorithm are: ACCOUNT_LEVEL, CARD_LEVEL or NONE and their values can be seen
 in CompletenessFlagAlgorithm enum class. Value 'NONE' means no attributes are checked before declaring person structure completed.
