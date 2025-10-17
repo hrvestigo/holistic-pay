@@ -190,7 +190,7 @@ spring:
             - SaveSession
         - id: external-dispute-interface-ms_route
           predicates:
-            - Path=/card/*/pan, /card/*/cardholderId, /card/cardId, event/v2
+            - Path=/card/*/pan, /card/*/cardholderId, /card/cardId, /event/v2
           uri: https://{{ required "External Dispute Interface application service name has to be defined in routes.extDisputeInterface.serviceName" .Values.routes.extDisputeInterface.serviceName }}:{{ required "External Dispute Interface application port number has to be defined in routes.extDisputeInterface.servicePortNumber" .Values.routes.extDisputeInterface.servicePortNumber }}
           filters:
             - TokenRelay
