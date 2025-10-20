@@ -294,7 +294,7 @@ deployment:
     timeoutSeconds: 1
     failureThreshold: 60
     httpGet:
-      path: /health/startup
+      path: /health/liveness
       port: http
       scheme: HTTPS
 autoscaling:
