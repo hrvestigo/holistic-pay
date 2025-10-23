@@ -214,6 +214,16 @@ spec:
             - name: KAFKA_CONSUMER_GROUP_PAYMENTORDERCREATION_NAME
               value: {{ .Values.kafka.topics.paymentOrderCreation.consumerGroup | quote }}
             {{- end }}
+            - name: KAFKA_TOPIC_PAYMENTORDEREXTERNALCHECK_ENABLED
+              value: {{ .Values.kafka.topics.paymentOrderExternalCheck.enabled | default "false" | quote }}
+            {{- if .Values.kafka.topics.paymentOrderExternalCheck.enabled }}
+            - name: KAFKA_TOPIC_PAYMENTORDEREXTERNALCHECK_NAME
+              value: {{ .Values.kafka.topics.paymentOrderExternalCheck.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PAYMENTORDEREXTERNALCHECK_NAME
+              value: {{ .Values.kafka.topics.paymentOrderExternalCheck.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTORDEREXTERNALCHECK
+              value: {{ .Values.kafka.topics.paymentOrderExternalCheck.concurrency | quote }}
+            {{- end }}
             - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTORDEREVENTIN
               value: {{ .Values.kafka.topics.paymentOrderEventIn.concurrency | quote }}
             - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTORDERCHECKSRESULT

@@ -417,6 +417,11 @@ kafka:
       consumerGroup: hr.vestigo.hp.paymentordercreation # default value, set custom name if required
       enabled: false # default value, set to true if you want to enable payment order creation consumer
       concurrency: 1 # default value, used for vertical scaling
+    paymentOrderExternalCheck: # internal topic used for 
+      name: hr.vestigo.hp.paymentOrderExternalCheck # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.paymentorderextcheck # default value, set custom name if required
+      enabled: false # default value, set to true if you want to enable internal response timeout for external checks logic
+      concurrency: 1 # default value, used for vertical scaling
   consumer:
     properties: # see https://kafka.apache.org/documentation/#consumerconfigs for details
       sessionTimeoutMs: 45000
@@ -424,7 +429,6 @@ kafka:
       maxPollRecords: 500
       maxPollIntervalMs: 300000
 ```
-
 
 ### Configuring image source and pull secrets
 
