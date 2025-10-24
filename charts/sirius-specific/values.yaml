@@ -249,6 +249,8 @@ sirius:
         rate: 86400
   nonretry:
     codes: wrnA205,wrnA50,wrnB20,wrnA243,DU05,inf995
+  duplication:
+    codes: test1,test2
 grpc:
   server:
     enabled: false

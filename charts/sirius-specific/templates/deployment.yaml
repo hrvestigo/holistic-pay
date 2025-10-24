@@ -391,6 +391,8 @@ spec:
               value: {{ .Values.sirius.rest.uri.payInitiation | quote }}
             - name: SIRIUS_NONRETRY_CODES
               value: {{ .Values.sirius.nonretry.codes | quote }}
+            - name: SIRIUS_DUPLICATION_CODES
+              value: {{ .Values.sirius.duplication.codes | quote }}
             - name: INBOX_SCHEDULER
               value: {{ .Values.inbox.scheduler.start | quote }}
             - name: INBOX_SCHEDULER_LEVEL1_FIXEDRATE
