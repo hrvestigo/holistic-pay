@@ -9426,6 +9426,16 @@ entries:
     - https://github.com/hrvestigo/holistic-pay/releases/download/partner-bank-interface-3.13.0/partner-bank-interface-3.13.0.tgz
     version: 3.13.0
   - apiVersion: v2
+    appVersion: 3.11.1
+    created: "2025-10-24T07:55:18.245974932Z"
+    description: Helm chart for partner bank interface application
+    digest: ff976f0cff89ae66be60cabd536c2482e767553fae73a7a95145b07f2a48fecf
+    name: partner-bank-interface
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/partner-bank-interface-3.11.1/partner-bank-interface-3.11.1.tgz
+    version: 3.11.1
+  - apiVersion: v2
     appVersion: 3.11.0
     created: "2025-08-28T09:22:16.617705926Z"
     description: Helm chart for partner bank interface application
@@ -32743,4 +32753,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2025-10-23T13:12:49.648096615Z"
+generated: "2025-10-24T07:55:18.269225614Z"
