@@ -350,3 +350,8 @@ alert:
     type: skip
 prometheus:
   exposed: true
+metrics:
+  jvm: true
+  grpcClient: true
+  jdbcConnections: true
+  executor: true

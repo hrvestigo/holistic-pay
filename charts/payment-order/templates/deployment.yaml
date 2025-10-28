@@ -299,6 +299,9 @@ spec:
             - name: MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED
               value: "true"
             {{- end }}
+            {{- if (include "payment-order.metrics.config" .) -}}
+            {{- include "payment-order.metrics.config" . | indent 12 -}}
+            {{- end }}
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
               value: {{ include "payment-order.exposed.endpoints" $ }}
             - name: MANAGEMENT_ENDPOINTS_WEB_BASEPATH

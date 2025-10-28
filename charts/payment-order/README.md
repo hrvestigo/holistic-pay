@@ -1547,3 +1547,19 @@ javaOpts: "-Xms256M -Xmx512M -Dcustom.jvm.param=true"
 ```
 
 Note that defining custom `javaOpts` attribute will override default one, so make sure to keep `Xms` and `Xmx` parameters.
+
+### Metrics configuration
+
+Application can expose metrics to Prometheus monitoring system.
+By default, this is enabled and default metrics are exposed.
+With `metrics` configuration additional metrics can be exposed.
+
+```yaml
+prometheus:
+  exposed: true
+metrics:
+  jvm: true # java virtual machine metrics
+  grpcClient: true # gRPC client metrics
+  jdbcConnections: true # JDBC connection metrics
+  executor: true # Async task executors using thread pools metrics
+```

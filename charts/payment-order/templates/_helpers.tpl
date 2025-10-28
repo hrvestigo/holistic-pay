@@ -368,3 +368,14 @@ Payment order Kafka consumer properties configuration
   value: {{ $value | quote }}
 {{- end }}
 {{- end }}
+
+
+{{/*
+Payment order metrics configuration
+*/}}
+{{- define "payment-order.metrics.config" -}}
+{{- range $key, $value := .Values.metrics }}
+- name: MANAGEMENT_METRICS_ENABLE_{{ $key | snakecase | upper }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- end }}
