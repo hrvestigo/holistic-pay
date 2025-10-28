@@ -357,3 +357,13 @@ Create a comma separated list of endpoints that need to be exposed
 {{- end }}
 {{- join "," $endpoints }}
 {{- end }}
+
+{{/*
+Person structure metrics configuration
+*/}}
+{{- define "person-structure.metrics.config" -}}
+{{- range $key, $value := .Values.metrics }}
+- name: MANAGEMENT_METRICS_ENABLE_{{ $key | snakecase | upper }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- end }}

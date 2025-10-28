@@ -282,6 +282,9 @@ spec:
             - name: MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED
               value: "true"
             {{- end }}
+            {{- if (include "person-structure.metrics.config" .) -}}
+            {{- include "person-structure.metrics.config" . | indent 12 -}}
+            {{- end }}
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
               value: {{ include "person-structure.exposed.endpoints" $ }}
             - name: MANAGEMENT_ENDPOINT_HEALTH_STATUS_HTTPMAPPING_DOWN

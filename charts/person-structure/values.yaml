@@ -328,6 +328,10 @@ customMounts: []
 customEnv: []
 prometheus:
   exposed: true
+metrics:
+  jvm: true
+  grpc: true
+  jdbcConnections: true
 tracing:
   enabled: false
   samplingProbability: 0.0
