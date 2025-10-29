@@ -282,3 +282,7 @@ mountCaFromSecret:
 customVolumes: []
 customMounts: []
 customEnv: []
+tracing:
+  enabled: false
+  samplingProbability: 0.0
+  otlpEndpoint: ''
