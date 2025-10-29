@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.42.0
+    tag: 4.45.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -257,7 +257,6 @@ deployment:
       path: /health/liveness
       port: http
       scheme: HTTPS
-
 autoscaling:
   enabled: false
   minReplicas: 1
