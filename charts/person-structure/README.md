@@ -182,7 +182,7 @@ personStructureChecks:
 ```
 Person structure checks functionalities must be enabled for this configuration to work.
 
-####Person structure checks functionalities using gRPC
+#### Person structure checks functionalities using gRPC
 
 Person structure checks functionalities can also be set through gRPC instead of Kafka.
 This is enabled through the following configuration:
@@ -203,7 +203,20 @@ grpc:
 If security enabled, `grpc.server.security.certificate` and `grpc.server.security.key` should also be provided and represent 
 TLS certificate and key files location.
 
-###Enabling warm up for parametrization caching
+### Enabling annexing of limits 
+```yaml
+grpc:
+  negotiation: TLS # default value for the connection to the gRPC servers
+  client:
+    annexLimits:
+      address: '' # dns address on which the gRPC server runs
+      timeout: 15000 # default value of timeout for the connection to the gRPC server
+```
+For calling annexLimits gRPC service, address of the server has to be provided in `grpc.client.annexLimits.address`.
+`grpc.negotiation` defines type of connection to gRPC servers. Possible values are: PLAINTEXT, TLS, etc.
+`grpc.client.annexLimits.timeout` defines timeout for the connection to annexLimits gRPC server in milliseconds.
+
+### Enabling warm up for parametrization caching
 ```yaml
 paramWarmup:
   enabled: false  #default value, disables warm up parametrization
@@ -211,7 +224,7 @@ paramWarmup:
 If this value is set to true then warm up service will be triggered when starting application.
 This service is used for fetching and caching all data from parametrization tables.
 
-###Enable/Disable producing/publishing to personStructureEffect topic
+### Enable/Disable producing/publishing to personStructureEffect topic
 ```yaml
 personStructureEffect:
   produce: true  #default value, produces data on personstructureeffect topic
@@ -227,7 +240,7 @@ personStructure:
 If this value is set to true then every complete person structure is produced/published to personstructure topic.
 In case you want to stop publishing on personstructure topic then you need change the default value and set it to false.
 
-###Define conditions for completed person structure
+### Define conditions for completed person structure
 ```yaml
 personStructure:
   completenessFlagAlgorithm: CARD_LEVEL  #default value, checks value of account and card attributes in person_structure table
@@ -238,7 +251,7 @@ Possible values of completeness flag algorithm are: ACCOUNT_LEVEL, CARD_LEVEL or
 in CompletenessFlagAlgorithm enum class. Value 'NONE' means no attributes are checked before declaring person structure completed.
 
 
-###Define search algorithm for account related data in person service
+### Define search algorithm for account related data in person service
 ```yaml
 personStructureInitial:
   searchAlgorithm: account  #default value, searches person_structure only by account id and member sign 
@@ -820,6 +833,8 @@ members:
   - businessUnit: ""
     applicationMember: ""
     memberSign: ""
+    annexLimits:
+      enabled: false # enabling annex limits for specific member
     liquibase:
       user: ""
       role: ""
@@ -838,6 +853,8 @@ Each attribute within `members.datasource` and `members.liquibase` can be define
 
 For instance, if value of `member.datasource.dbName` attribute is modified, this value will be used instead of `datasource.dbName` for this member's datasource definition.
 Same logic is applied for all attributes.
+
+With `members.annexLimits.enabled` attribute, annex limits functionality can be enabled for specific member.
 
 #### Database setup for multi-member
 

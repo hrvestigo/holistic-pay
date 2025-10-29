@@ -124,6 +124,8 @@ spec:
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
               {{- end }}
+            - name: GRPC_ANNEXLIMITS_ENABLED_{{ .memberSign }}
+              value: {{ .annexLimits.enabled | default "false" | quote }}
             {{- end }}
             - name: MEMBERS
               value: {{ include "person-structure.members" . }}
@@ -197,6 +199,14 @@ spec:
             - name: GRPC_SERVER_SECURITY_PRIVATEKEY
               value: "file:{{ .Values.grpc.server.security.key }}"
             {{- end }}
+            {{- end }}
+            {{- if .Values.members.annexLimits.enabled }}
+            - name: GRPC_CLIENT_ANNEXLIMITS_ADDRESS
+              value: {{ .Values.grpc.client.annexLimits.address | quote }}
+            - name: GRPC_CLIENT_ANNEXLIMITS_NEGOTIATIONTYPE
+              value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
+            - name: GRPC_ANNEXLIMITS_TIMEOUT
+              value: {{ .Values.grpc.client.annexLimits.timeout | default "15000" | quote }}
             {{- end }}
             - name: KAFKA_CONSUMER_GROUP_PARAMETERIZATION_NAME
               value: {{ .Values.kafka.topics.parameterization.consumerGroup | quote }}

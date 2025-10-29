@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 5.25.0
+    tag: 5.28.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -38,6 +38,8 @@ members:
 - businessUnit: ''
   applicationMember: ''
   memberSign: ''
+  annexLimits:
+    enabled: false
   liquibase:
     role: ''
     replicationRole: ''
@@ -156,6 +158,11 @@ grpc:
       enabled: false
       certificate: null
       key: null
+  negotiation: TLS
+  client:
+    annexLimits:
+      address: ''
+      timeout: 15000
 oauth2:
   enabled: false
   resourceUri: ''
