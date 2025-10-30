@@ -442,7 +442,9 @@ metrics:
   jvm: true
   grpcClient: true
   jdbcConnection: true
+  executor: true
   httpServerRequests: true
+  httpClientRequests: true
 tracing:
   enabled: false
   samplingProbability: 0.0
