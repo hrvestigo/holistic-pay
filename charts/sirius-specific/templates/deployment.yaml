@@ -389,6 +389,8 @@ spec:
               value: {{ .Values.sirius.rest.uri.payOrderReceivingOutboundTransfer | quote }}
             - name: SIRIUS_REST_URI_PAYINITIATION
               value: {{ .Values.sirius.rest.uri.payInitiation | quote }}
+            - name: SIRIUS_REST_URI_LIMITANNEX
+              value: {{ .Values.sirius.rest.uri.limitAnnex | quote }}
             - name: SIRIUS_NONRETRY_CODES
               value: {{ .Values.sirius.nonretry.codes | quote }}
             - name: SIRIUS_NONDUPLICATION_CODES
