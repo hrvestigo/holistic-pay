@@ -151,7 +151,7 @@ spec:
               value: >-
                 {{ include "sirius-specific.kafka.loginModule" . }} required username=
                 {{- required "Please specify Kafka user in kafka.user" .Values.kafka.user | quote }} password="${kafka.password}";
-            - name: SPRING_KAFKA_PROPERTIES_BOOTSTRAP_SERVERS
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: {{ required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL
               value: {{ .Values.kafka.securityProtocol | quote }}
@@ -164,16 +164,6 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
-            - name: SPRING_KAFKA_STREAMS_BOOTSTRAPSERVERS
-              value: {{ required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
-            - name: SPRING_KAFKA_STREAMS_REPLICATIONFACTOR
-              value: {{ .Values.kafka.streams.replication.factor | default "3" | quote }}
-            - name: SPRING_KAFKA_STREAMS_AUTOSTARTUP
-              value: {{ .Values.kafka.streams.auto.startup | default "true" | quote }}
-            {{- if .Values.kafka.streams.auto.startup }}
-            - name: SPRING_KAFKA_STREAMS_APPLICATIONID
-              value: {{ .Values.kafka.streams.application.id | default "sirius-specific" | quote }}
-            {{- end }}
             - name: KAFKA_CONSUMER_CUSACCBALANCELAST_ENABLED
               value: {{ .Values.kafka.topics.cusaccBalanceLast.enabled | default "false" | quote }}
             {{- if .Values.kafka.topics.cusaccBalanceLast.enabled }}

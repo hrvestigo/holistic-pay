@@ -440,7 +440,9 @@ prometheus:
   exposed: true
 metrics:
   jvm: true
-  httpClientRequests: true
+  grpcClient: true
+  jdbcConnection: true
+  httpServerRequests: true
 tracing:
   enabled: false
   samplingProbability: 0.0
