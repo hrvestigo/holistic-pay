@@ -234,7 +234,9 @@ logger:
   logDir: /var/log/app
   logDirMount:
     enabled: false
-  microserviceTag: ''
+    spec:
+      emptyDir: {}
+  microserviceTag: TRASTR
   databaseSlowQueryThreshold: 0
 healthStatusDownReturnCode: '418'
 health:
@@ -243,7 +245,7 @@ health:
     dbEnabled: true
     kafkaEnabled: true
     streamStateEnabled: false
-javaOpts: -Xms256M -Xmx256M
+javaOpts: -Xms256M -Xmx512M
 podAnnotations: {}
 deploymentAnnotations: {}
 serviceAnnotations: {}
@@ -386,3 +388,7 @@ transaction:
         enabled: false
 prometheus:
   exposed: true
+metrics:
+  jvm: true
+  kafkaStream: true
+  kafkaProducer: true

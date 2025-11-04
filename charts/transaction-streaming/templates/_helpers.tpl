@@ -404,3 +404,14 @@ Kafka login module
 {{- "org.apache.kafka.common.security.plain.PlainLoginModule" }}
 {{- end }}
 {{- end }}
+
+
+{{/*
+Transaction streaming metrics configuration
+*/}}
+{{- define "transaction-streaming.metrics.config" -}}
+{{- range $key, $value := .Values.metrics }}
+- name: MANAGEMENT_METRICS_ENABLE_{{ $key | snakecase | upper }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- end }}

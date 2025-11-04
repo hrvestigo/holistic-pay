@@ -1042,6 +1042,20 @@ Examples of how log entries would look like for each value:
   {"timestamp":"2023-03-17T10:33:14.218078900Z","severity":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","logging.googleapis.com/sourceLocation":{"function":"org.springframework.boot.availability.ApplicationAvailabilityBean.onApplicationEvent"},"logging.googleapis.com/insertId":"1051","_exception":{"stackTrace":""},"_thread":"main","_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
 
+### Observing distributed tracing
+In order to start exporting tracing information to Tempo (or any tool that knows how to interpret OpenTelemetry formatted data),
+transaction streaming microservice should define next attributes:
+  ```yaml
+  tracing:
+    enabled: false # boolean value, default is false
+    samplingProbability: 0.0 # decimal value, default is 0.0
+    otlpEndpoint: '' # string value, default is empty
+  ```
+First parameter enables or disables tracing. If set to `true`, tracing will be enabled.
+Second parameter dictates what percentage of requests should be exported to processing system. 0.0 means 0% of requests and 1.0 means 100%.
+Third parameter defines URL on which should be tracing information sent.
+If third parameter is not defined, no tracing information will be sent, regardless of sampling probability.
+
 ### Modifying deployment strategy
 
 Default deployment strategy for Transaction streaming application is `RollingUpdate`, but it can be overridden, along with other deployment parameters using following attributes (default values are shown):
@@ -1542,4 +1556,20 @@ transaction:
     archive:
       mode:
         enabled: false # default value, if set to true, archived data will be processed and stored in the output topic
+```
+
+
+### Metrics configuration
+
+Application can expose metrics to Prometheus monitoring system.
+By default, this is enabled and default metrics are exposed.
+With `metrics` configuration additional metrics can be exposed.
+
+```yaml
+prometheus:
+  exposed: true
+metrics:
+  jvm: true            # JVM metrics
+  kafkaStream: true   # Kafka Streams metrics
+  kafkaProducer: true # Kafka Producer metrics
 ```
