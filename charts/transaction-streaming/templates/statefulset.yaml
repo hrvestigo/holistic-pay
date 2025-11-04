@@ -353,8 +353,8 @@ spec:
             - name: MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED
               value: "true"
             {{- end }}
-            {{- if (include "transaction-streaming.metrics.config" .) - }}
-            {{- include "transaction-streaming.metrics.config" . | indent 12 - }}
+            {{- if (include "transaction-streaming.metrics.config" .) -}}
+            {{- include "transaction-streaming.metrics.config" . | indent 12 -}}
             {{- end }}
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
               value: {{ include "transaction-streaming.exposed.endpoints" $ }}
