@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.52.0
+    tag: 1.53.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -67,6 +67,7 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
+      concurrency: 1
     swiftoutgoingmessage:
       name: hr.vestigo.hp.swiftoutgoingmessage
       enabled: true
@@ -94,6 +95,7 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
+      concurrency: 1
     swiftpaymentchargesrequest:
       name: hr.vestigo.hp.swiftpaymentchargesrequest
       consumerGroup: hr.vestigo.hp.swiftpaymentchargesrequest
@@ -102,6 +104,7 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
+      concurrency: 1
     swiftcustomerpaymentstatusreport:
       name: hr.vestigo.hp.swiftcustomerpaymentstatusreport
       consumerGroup: hr.vestigo.hp.swiftcustomerpaymentstatusreport
@@ -110,6 +113,14 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
+      concurrency: 1
+  consumer:
+    brBackOff: 3;0.1s
+    properties:
+      sessionTimeoutMs: 45000
+      heartbeatIntervalMs: 3000
+      maxPollRecords: 500
+      maxPollIntervalMs: 300000
 oauth2:
   enabled: false
   resourceUri: ''
@@ -148,6 +159,7 @@ logger:
     spec:
       emptyDir: {}
   microserviceTag: ''
+  maskSensitive: true
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
 podAnnotations: {}
@@ -279,6 +291,10 @@ customMounts: []
 customEnv: []
 prometheus:
   exposed: true
+metrics:
+  jvm: true
+  executor: true
+  jdbcConnections: true
 tracing:
   enabled: false
   samplingProbability: 0.0

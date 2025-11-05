@@ -405,3 +405,23 @@ Create a comma separated list of endpoints that need to be exposed
 {{- end }}
 {{- join "," $endpoints }}
 {{- end }}
+
+{{/*
+Swift mx metrics configuration
+*/}}
+{{- define "swift-mx.metrics.config" -}}
+{{- range $key, $value := .Values.metrics }}
+- name: MANAGEMENT_METRICS_ENABLE_{{ $key | snakecase | upper }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- end }}
+
+{{/*
+Swift mx Kafka consumer properties configuration
+*/}}
+{{- define "swift-mx.kafka.consumer.properties.config" -}}
+{{- range $key, $value := .Values.kafka.consumer.properties }}
+- name: SPRING_KAFKA_CONSUMER_PROPERTIES_{{ $key | snakecase | upper }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- end }}

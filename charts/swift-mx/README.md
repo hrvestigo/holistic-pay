@@ -216,7 +216,24 @@ kafka:
       <config1>: <value1>
     <topic-reference-name-3>:
       <config1>: <value1>
+  consumer:
+    brBackOff: 3;0.1s                                             # default retry backoff policy, 3 times, every 100ms
+    properties:                                                   # see https://kafka.apache.org/documentation/#consumerconfigs
+      sessionTimeoutMs: 45000
+      heartbeatIntervalMs: 3000
+      maxPollRecords: 500
+      maxPollIntervalMs: 300000
 ```
+
+With `consumer.brBackOff` we configure blocking retry back off policy to retry
+processing of Kafka message. This is global consumers configuration for all
+topics. Default is 3 retries in fixed 100ms intervals. Note that milliseconds
+are represented in W3C format (as fraction of seconds).
+
+This is preferred retry mechanism for processing triggered by Kafka message
+in order to honor Kafka's max poll intervals. For example, if processing of
+Kafka message calls CSM and CSM fails, we retry whole flow via Kafka mechanism
+not just CSM call.
 
 #### Kafka consumer retry logic
 
@@ -994,6 +1011,14 @@ Examples of how log entries would look like for each value:
   ```log
   {"timestamp":"2023-03-17T10:33:14.218078900Z","severity":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","logging.googleapis.com/sourceLocation":{"function":"org.springframework.boot.availability.ApplicationAvailabilityBean.onApplicationEvent"},"logging.googleapis.com/insertId":"1051","_exception":{"stackTrace":""},"_thread":"main","_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
+  
+If it is required to mask sensitive data whilst logging, it can be configured by parameter:
+  ```yaml
+  logger:
+   maskSensitive: true # boolean value, default is true
+  ```
+
+What is treated as sensitive is implementation specific and is defined inside the code.
 
 ### Observing distributed tracing
 
@@ -1636,4 +1661,18 @@ applicationFileVolumes:
     nfs:
       server: "server"
       path: "path"
+```
+### Metrics configuration
+
+Application can expose metrics to Prometheus monitoring system.
+By default, this is enabled and default metrics are exposed.
+With `metrics` configuration additional metrics can be exposed.
+
+```yaml
+prometheus:
+  exposed: true
+metrics:
+  jvm: true                 # JVM metrics
+  executor: true            # Async task executors using thread pools metrics
+  jdbcConnections: true     # JDBC using DB pools metrics
 ```

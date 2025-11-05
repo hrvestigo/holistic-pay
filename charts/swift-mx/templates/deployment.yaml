@@ -164,6 +164,12 @@ spec:
             - name: MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED
               value: "true"
             {{- end }}
+            {{- if (include "swift-mx.metrics.config" .) -}}
+            {{- include "swift-mx.metrics.config" . | indent 12 -}}
+            {{- end }}
+            {{- if (include "swift-mx.kafka.consumer.properties.config" .) -}}
+            {{- include "swift-mx.kafka.consumer.properties.config" . | indent 12 -}}
+            {{- end }}
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
               value: {{ include "swift-mx.exposed.endpoints" $ }}
             - name: MANAGEMENT_ENDPOINTS_WEB_BASEPATH
