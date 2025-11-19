@@ -101,6 +101,8 @@ spec:
               value: C.UTF-8
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
+            - name: SPRING_CLOUD_GATEWAY_HTTPCLIENT_DNSRESOLVER
+              value: {{ .Values.dnsResolver.name }}
             {{- if (include "api-gateway.trustStoreEnv" .) }}
             {{- include "api-gateway.trustStoreEnv" . | nindent 12 }}
             {{- end }}
@@ -139,3 +141,10 @@ spec:
       {{- end }}
       volumes:
         {{- include "api-gateway.volumes" . | nindent 8 }}
+      {{- with .Values.dnsConfig }}
+      dnsConfig:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}

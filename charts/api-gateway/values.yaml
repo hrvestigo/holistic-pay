@@ -251,3 +251,11 @@ customVolumes: []
 customMounts: []
 
 customEnv: []
+
+dnsResolver:
+  name: java # allowed values are [netty, java] -
+
+dnsConfig:
+  options:
+    - name: ndots
+      value: "1"

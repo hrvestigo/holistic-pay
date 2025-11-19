@@ -928,6 +928,42 @@ deployment:
     other.annotation: other-value
 ```
 
+### DNS configuration
+
+By default, api-gateway application comes with Netty implementation of DNS resolver. This implementation can, in some 
+cases, be problematic. For this reason, api-gateway is configured to use JDK implementation of DNS resolver, which is 
+defined with following structure:
+
+```yaml
+dnsResolver:
+  name: java # allowed values are [netty, java]
+```
+
+Along with DNS resolver implementation, it is also possible to override DNS configuration for Kubernetes. In order to do
+so, the following structure can be defined:
+
+```yaml
+dnsConfig:
+  options:
+    - name: ndots
+      value: "1"
+```
+
+The latter configuration is active by default, but anything from standard Kubernetes `dnsConfig` structure can be 
+defined:
+
+```yaml
+nameservers:
+  - 192.0.2.1 # this is an example
+searches:
+  - ns1.svc.cluster-domain.example
+  - my.dns.search.suffix
+options:
+  - name: ndots
+    value: "2"
+  - name: edns0
+```
+
 ### Additional custom configuration
 
 There are some other customizable attributes predefined in API Gateway application.
