@@ -690,15 +690,23 @@ If only `autoscaling.enabled` attribute is set to `true`, without setting other 
 
 ### Customizing probes
 
-API Gateway application has predefined health check probes (readiness and liveness).
+API Gateway application has predefined health check probes (startup, readiness and liveness).
 Following are the default values:
 
 ```yaml
 deployment:
-  readinessProbe:
+  startupProbe:
     initialDelaySeconds: 10
+    periodSeconds: 5
+    timeoutSeconds: 1
+    failureThreshold: 50
+    httpGet:
+      path: /health/liveness
+      port: http
+      scheme: HTTPS
+  readinessProbe:
     periodSeconds: 60
-    timeoutSeconds: 181
+    timeoutSeconds: 10
     successThreshold: 1
     failureThreshold: 2
     httpGet:
@@ -706,7 +714,6 @@ deployment:
       port: http
       scheme: HTTPS
   livenessProbe:
-    initialDelaySeconds: 60
     periodSeconds: 60
     timeoutSeconds: 10
     failureThreshold: 3
@@ -716,7 +723,7 @@ deployment:
       scheme: HTTPS
 ```
 
-Probes can be modified with different custom attributes simply by setting a different `deployment.readinessProbe` or `deployment.livenessProbe` value structure.
+Probes can be modified with different custom attributes simply by setting a different `deployment.startupProbe`, `deployment.readinessProbe` or `deployment.livenessProbe` value structure.
 
 For example, this setup would increase `periodSeconds`, add `httpHeaders` attributes and apply query parameters to `path` of `livenessProbe`:
 
@@ -735,7 +742,7 @@ deployment:
           value: localhost
 ```
 
-Note that API Gateway has health checks available within the `/health` endpoint (`/health/readiness` for readiness and `/health/liveness` for liveness), and this base paths should not modified, only query parameters are subject to change.
+Note that API Gateway has health checks available within the `/health` endpoint (`/health/readiness` for readiness and `/health/liveness` for liveness and startup), and this base paths should not modified, only query parameters are subject to change.
 `scheme` attribute should also be set to `HTTPS` at all times, as well as `http` value for `port` attribute.
 
 ### Customizing security context

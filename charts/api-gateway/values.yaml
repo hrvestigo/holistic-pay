@@ -191,11 +191,19 @@ deployment:
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 0
-  minReadySeconds: 60
+  minReadySeconds: 10
   terminationGracePeriodSeconds: 60
   restartPolicy: Always
+  startupProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    timeoutSeconds: 1
+    failureThreshold: 50
+    httpGet:
+      path: /health/liveness
+      port: http
+      scheme: HTTPS
   readinessProbe:
-    initialDelaySeconds: 30
     periodSeconds: 60
     timeoutSeconds: 10
     successThreshold: 1
@@ -205,7 +213,6 @@ deployment:
       port: http
       scheme: HTTPS
   livenessProbe:
-    initialDelaySeconds: 30
     periodSeconds: 60
     timeoutSeconds: 10
     failureThreshold: 3

@@ -44,6 +44,13 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       terminationGracePeriodSeconds: {{ .Values.deployment.terminationGracePeriodSeconds }}
       restartPolicy: {{ .Values.deployment.restartPolicy }}
+      lifecycle:
+        preStop:
+          exec:
+            command:
+            - bash
+            - -c
+            - kill -SIGTERM $(ps aux | grep 'java' | grep -v grep | awk '{print $2}')
       {{- if .Values.initContainers }}
       initContainers:
         {{- with .Values.initContainers }}
@@ -119,6 +126,10 @@ spec:
             - name: http
               containerPort: 8443
               protocol: TCP
+          {{- if .Values.deployment.startupProbe }}
+          startupProbe:
+            {{- toYaml .Values.deployment.startupProbe | nindent 12 }}
+          {{- end }}
           livenessProbe:
             {{- toYaml .Values.deployment.livenessProbe | nindent 12 }}
           readinessProbe:
