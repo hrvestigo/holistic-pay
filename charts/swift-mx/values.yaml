@@ -114,6 +114,8 @@ kafka:
       nbrName: ''
       dltName: ''
       concurrency: 1
+    alertTopic:
+      name: hr.vestigo.hp.alert
   consumer:
     brBackOff: 3;0.1s
     properties:
@@ -331,6 +333,9 @@ application:
       writeMode: pull
       writeFileEventEnabled: false
       writeFileMarkerEventEnabled: false
+  alert:
+    communication:
+      type: skip
 applicationFileVolumes:
   readVolumeParameters: {}
   writeVolumeParameters: {}
