@@ -368,7 +368,7 @@ where 'name' is configuration parameter and 'value' is configuration value
 {{- range $module, $configs := .Values.application }}
 {{- range $moduleKey, $config := $configs }}
 {{- range $name, $value := $config }}
-- name: HP_DASHBOARD_{{ $module | upper }}_{{ $moduleKey | upper }}_{{ $name | snakecase | upper }}
+- name: HP_DASHBOARD_{{ $module | upper }}_{{ $moduleKey | upper }}_{{ $name | upper }}
   value: {{ $value | quote }}
 {{- end }}
 {{- end }}
@@ -385,4 +385,38 @@ Create a comma separated list of endpoints that need to be exposed
 {{- $endpoints = append $endpoints (printf "%s" "prometheus") }}
 {{- end }}
 {{- join "," $endpoints }}
+{{- end }}
+
+{{/*
+HP dashboard metrics configuration
+*/}}
+{{- define "hp-dashboard.metrics.config" -}}
+{{- range $key, $value := .Values.metrics }}
+- name: MANAGEMENT_METRICS_ENABLE_{{ $key | snakecase | upper }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- end }}
+
+{{/*
+HP dashboard Kafka consumer properties configuration
+*/}}
+{{- define "hp-dashboard.kafka.consumer.properties.config" -}}
+{{- range $key, $value := .Values.kafka.consumer.properties }}
+- name: SPRING_KAFKA_CONSUMER_PROPERTIES_{{ $key | snakecase | upper }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- end }}
+
+{{/*
+Hp dashboard spring mail configuration.
+*/}}
+{{- define "hp-dashboard.spring.mail.config" }}
+{{- range $key, $value := .Values.mail.server }}
+- name: SPRING_MAIL_{{ $key | snakecase | upper }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- range $key, $value := .Values.mail.properties }}
+- name: SPRING_MAIL_PROPERTIES_{{ $key | snakecase | upper }}
+  value: {{ $value | quote }}
+{{- end }}
 {{- end }}

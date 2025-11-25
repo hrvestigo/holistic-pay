@@ -1,8 +1,8 @@
-# hp-dashboard application
+# HP Dashboard application
 
 ## Purpose
 
-This Helm chart installs hp-dashboard application into your Kubernetes cluster.
+This Helm chart installs HP Dashboard application into your Kubernetes cluster.
 
 Helm release name set during installation will be used for naming all resources created by this Helm chart.
 For example, if Chart is installed with name "my-chart", deployment name will have "my-chart" prefix, as well as all
@@ -12,7 +12,7 @@ values file.
 If this attribute is set, it's value will be used to name all the resources, and release name will be ignored.
 
 It is not possible to install application using default values only, there is a list of required attributes which should
-be applied when installing hp-dashboard.
+be applied when installing HP Dashboard.
 
 ## Required setup
 
@@ -73,13 +73,13 @@ and `prod`. This value instructs liquibase to apply correct database parametriza
 Other environment attribute is `env.label` which should hold short environment label, for instance `t1` for first test
 environment, or `d2` for second development environment. This attribute is used to generate database schema name.
 
-hp-dashboard application relies on Kafka and PostgreSQL backends.
+HP Dashboard application relies on Kafka and PostgreSQL backends.
 In order to assure connectivity to those backends, it's required to set basic info into values file.
 
 Additionally, liquibase is enabled by default, which requires some information in order to run successfully. Either this
 information has to be provided, or liquibase has to be disabled with `liquibase.enabled` attribute set to `false`.
 
-hp-dashboard (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one
+HP Dashboard (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one
 application member has to be defined in `members` structure for complete setup. Please refer
 to [Multi-member setup](#multi-member-setup) for details.
 
@@ -150,8 +150,8 @@ Setup from this example would result with string "&ssl=true&sslmode=enable" appe
 
 ### Kafka setup
 
-hp-dashboard uses Kafka as event stream backend.
-Other than Kafka cluster itself, hp-dashboard e application also uses Kafka Schema Registry, which setup also has to be
+HP Dashboard uses Kafka as event stream backend.
+Other than Kafka cluster itself, HP Dashboard application also uses Kafka Schema Registry, which setup also has to be
 provided in order to establish required connection.
 
 To connect to Kafka cluster, several attributes have to be defined in values file.
@@ -163,9 +163,12 @@ kafka:
   servers: "kafka-server1:port,kafka-server2:port" # a comma separated list of Kafka bootstrap servers
   saslMechanism: "PLAIN" #SASL mechanism, supported values PLAIN, SCRAM-SHA-256 and SCRAM-SHA-512
   schemaRegistry:
+    credSource: USER_INFO # default value
     user: "kafka-schema-registry-user" # user used to connect to Kafka Schema Registry
     url: "https://kafka.schema.registry.url" # URL for Kafka Schema Registry
 ```
+The `kafka.schemaRegistry.credSource` specifies how to pick the credentials for Basic authentication header.
+The currently supported value is USER_INFO.
 
 Passwords for Kafka cluster and Kafka Schema Registry are also AES encrypted.
 Passwords should be defined with `secret.kafkaPassword` and `secret.kafkaSchemaRegistryPassword` attributes, for
@@ -181,7 +184,7 @@ secret:
 Note that same `secret` attribute is used for both datasource and Kafka, so the same encryption/decryption key is used
 for encrypting passwords for both backends.
 
-Default Kafka cluster and Kafka Schema registry connection type used by hp-dashboard is Basic auth (username and password).
+Default Kafka cluster and Kafka Schema registry connection type used by HP Dashboard is Basic auth (username and password).
 If different connection type should be used, it's possible to override default setup by changing following attributes:
 
 ```yaml
@@ -198,63 +201,62 @@ kafka:
   sslEndpointIdentAlg: HTTPS # default value is HTTPS, set other ssl endpoint identification algorithm if required
 ```
 
-#### Topics, consumer groups and non-blocking retry setup
+#### Topics and consumer groups setup
 
-Kafka topics and consumer group names used by Swift mx have default names defined in
+Kafka topics and consumer group names used by HP Dashboard have default names defined in
 `values.yaml` file, but can be overridden with following setup:
 
 ```yaml
 kafka:
   topics:
-    swiftincomingmessage:
-      name: hr.vestigo.hp.swiftincomingmessage              # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.swiftincomingmessage     # default value, set custom consumer group if required
-      enabled: true                                         # default value, consumer is enabled
-      nbrEnabled: true                                      # default value, non-blocking retry is enabled
-      nbrBackOff: 50000;5s                                  # default value, non-blocking retry fixed back-off
-      nbrName: ''                                           # default value, non-blocking retry topic name
-      dltName: ''                                           # default value, non-blocking DTL topic name
+    paymentFlow:
+      name: hr.vestigo.hp.paymentflow # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.paymentflow # default value, set custom name if required
+      concurrency: 1 # default value, used for vertical scaling
+      enabled: true
+    paymentMessage:
+      name: hr.vestigo.hp.paymentmessage # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.paymentmessage # default value, set custom name if required
+      concurrency: 1 # default value, used for vertical scaling
+      enabled: true
+    externalCheck:
+      name: hr.vestigo.hp.externalcheck # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.externalcheck # default value, set custom name if required
+      concurrency: 1 # default value, used for vertical scaling
+      enabled: false # default value, set to true if you want to enable external checks consumer
+    externalCheckResult:
+      name: hr.vestigo.hp.externalcheckresult # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.externalcheckresult # default value, set custom name if required
+      concurrency: 1 # default value, used for vertical scaling
+      enabled: false # default value, set to true if you want to enable external checks result consumer
+    ecsCommunicationLog:
+      name: hr.vestigo.hp.ecscommunicationlog # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.ecscommunicationlog # default value, set custom name if required
+      concurrency: 1 # default value, used for vertical scaling
+      enabled: false # default value, set to true if you want to enable ecs communication log consumer
+    alertTopic:
+      name: hr.vestigo.hp.alertTopic # default value, set custom name if required
+      consumerGroup: hr.vestigo.hp.alertTopic # default value, set custom name if required
+      concurrency: 1 # default value, used for vertical scaling
+      enabled: false # default value, set to true if you want to enable alerts consumer
+  consumer:
+    properties: # see https://kafka.apache.org/documentation/#consumerconfigs for details
+      sessionTimeoutMs: 45000
+      heartbeatIntervalMs: 3000
+      maxPollRecords: 500
+      maxPollIntervalMs: 300000
 ```
-
-#### Kafka consumer retry logic
-
-By default, if error occurs when consuming from Kafka topic, non-blocking retry logic is triggered.
-Using retry back-off (`nbrBackOff`), consumed messages is retried on single retry topic (
-`50000 times, every 5 seconds`), until exhausted. If consumed
-message still fails, message is published to dead-letter topic.
-Naming of single retry topic and dead letter topic follows original topic name with suffix appended. Examples:
-
-```sh
-# topic name without version
-original topic name = hr.vestigo.hp.swiftincomingmessage
-retry topic name = hr.vestigo.hp.swiftincomingmessageretry
-dead letter topic name = hr.vestigo.hp.swiftincomingmessagedlt
-
-# topic name with version
-original topic name = hr.vestigo.hp.swiftincomingmessage.01
-retry topic name = hr.vestigo.hp.swiftincomingmessageretry.01
-dead letter topic name = hr.vestigo.hp.swiftincomingmessagedlt.01
-```
-
-Single retry topic name and dead letter topic name
-can be set via `nbrName` and `dltName`.
-
-If non-blocking retry is disabled via `nbrEnabled = false`,
-consumed error message goes to blocking retry on original
-Kafka topic using back-off `10;0s` until exhausted. If consumed
-message still fails, message is logged on ERROR and Kafka offset
-is committed.
 
 ### Configuring image source and pull secrets
 
-By default, hp-dashboard image is pulled directly from Vestigo's repository hosted by Docker Hub.
+By default, HP Dashboard image is pulled directly from Vestigo's repository hosted by Docker Hub.
 If mirror registry is used for example, image source can be modified using following attributes:
 
 ```yaml
 image:
   registry: custom.image.registry # will be used as default for both images, docker.io is default (image repository and image name will be automatically appended)
   app:
-    registry: custom.app.image.registry # will override image.registry for sepa-inst app (image repository and image name will be automatically appended)
+    registry: custom.app.image.registry # will override image.registry for HP Dashboard app (image repository and image name will be automatically appended)
     imageLocation: custom.app.image.registry/custom-location/custom-name # will override image registry, repository and name (only image tag will be automatically appended)
   liquibase:
     registry: custom.liquibase.image.registry # will override image.registry for Liquibase (image repository and image name will be automatically appended)
@@ -268,12 +270,12 @@ Default pull policy is set to `IfNotPresent` but can also be modified for one or
 image:
   pullPolicy: Always # will be used as default for both images, default is IfNotPresent
   app:
-    pullPolicy: Never # will override image.pullPolicy for hp-dashboard image
+    pullPolicy: Never # will override image.pullPolicy for HP Dashboard image
   liquibase:
     pullPolicy: IfNotPresent # will override image.pullPolicy for Liquibase image
 ```
 
-hp-dashboard image tag is normally read from Chart definition, but if required, it can be overridden with attribute
+HP Dashboard image tag is normally read from Chart definition, but if required, it can be overridden with attribute
 `image.app.tag`, for example:
 
 ```yaml
@@ -282,9 +284,9 @@ image:
     tag: custom-tag
 ```
 
-hp-dashboard image is located on Vestigo's private Docker Hub registry, and if image registry is set to docker.io, pull
+HP Dashboard image is located on Vestigo's private Docker Hub registry, and if image registry is set to docker.io, pull
 secret has to be defined.
-Pull secret is not set by default, and it should be created prior to hp-dashboard installation in target namespace.
+Pull secret is not set by default, and it should be created prior to HP Dashboard installation in target namespace.
 Secret should contain credentials provided by Vestigo.
 
 Once secret is created, it should be set with `imagePullSecrets.name` attribute, for example:
@@ -296,7 +298,7 @@ imagePullSecrets:
 
 ### TLS setup
 
-hp-dashboard application is prepared to use TLS, but requires provided server certificate.
+HP Dashboard application is prepared to use TLS, but requires provided server certificate.
 Server certificate is not provided by default (expected to be provided manually) and there are no predefined trust or
 key stores for TLS/mTLS.
 However, there are several different possibilities for customizing TLS setup.
@@ -329,7 +331,7 @@ When using initContainer for server certificate, volume will be stored in memory
 #### Provide server certificate from predefined secret
 
 Server certificate can be provided using predefined secret.
-**Note that this secret has to be created in target namespace prior to installation of hp-dashboard application.**
+**Note that this secret has to be created in target namespace prior to installation of HP Dashboard application.**
 Additionally, both certificate and key files should be in one single secret.
 
 When using secret for server certificate, following values have to be provided:
@@ -375,20 +377,20 @@ Defined `volumeMounts.name` from `initContainer` should also be used to define c
 
 ```yaml
 customVolumes:
-  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in hp-dashboard container
+  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in HP Dashboard container
     emptyDir: # any other volume type is OK
       medium: "Memory"
 ```
 
-hp-dashboard container should also mount this volume, so a custom `volumeMount` is required, for example:
+HP Dashboard container should also mount this volume, so a custom `volumeMount` is required, for example:
 
 ```yaml
 customMounts:
-  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in hp-dashboard container
+  - name: trust-store-volume-name # has to match name in initContainer and volumeMount in HP Dashboard container
     mountPath: /some/mount/path # this path should be used for custom environment variables
 ```
 
-Note that `mountPath` variable is used to specify a location of trust store in hp-dashboard container.
+Note that `mountPath` variable is used to specify a location of trust store in HP Dashboard container.
 Suggested location is: `/mnt/k8s/trust-store`.
 
 To make trust store available to underlying application server, its location (absolute path - `mountPath` and file name)
@@ -417,7 +419,7 @@ secret:
 #### Provide trust store from predefined secret
 
 Trust store can also be provided by using predefined secret.
-**Note that this secret has to be created in target namespace prior to installation of hp-dashboard application.**
+**Note that this secret has to be created in target namespace prior to installation of HP Dashboard application.**
 Additionally, both certificate and key files should be in one single secret.
 
 When adding trust store as secret, following values have to be provided:
@@ -468,7 +470,7 @@ Note that either `mountTrustStoreFromSecret` or `mountCaFromSecret` can be used,
 
 #### Provide mTLS key store from `initContainer`
 
-mTLS support can be added to hp-dashboard application in two different ways.
+mTLS support can be added to HP Dashboard application in two different ways.
 
 As for trust store, key store could also be provided via custom `initContainer`, with similar requirements.
 
@@ -491,20 +493,20 @@ Defined `volumeMounts.name` from `initContainer` should also be used to define c
 
 ```yaml
 customVolumes:
-  - name: key-store-volume-name # has to match name in initContainer and volumeMount in hp-dashboard container
+  - name: key-store-volume-name # has to match name in initContainer and volumeMount in HP Dashboard container
     emptyDir: # any other volume type is OK
       medium: "Memory"
 ```
 
-hp-dashboard container should also mount this volume, so a custom `volumeMount` is required, for example:
+HP Dashboard container should also mount this volume, so a custom `volumeMount` is required, for example:
 
 ```yaml
 customMounts:
-  - name: key-store-volume-name # has to match name in initContainer and volumeMount in hp-dashboard container
+  - name: key-store-volume-name # has to match name in initContainer and volumeMount in HP Dashboard container
     mountPath: /some/mount/path # this path should be used for custom environment variables
 ```
 
-Note that `mountPath` variable is used to specify a location of key store in hp-dashboard container.
+Note that `mountPath` variable is used to specify a location of key store in HP Dashboard container.
 Suggested location is: `/mnt/k8s/trust-store`.
 
 To make key store available to underlying application server, its location (absolute path - `mountPath` and file name)
@@ -531,7 +533,7 @@ Password should be encoded using key defined in `secret.decryptionKey`.
 #### Provide mTLS key store from predefined secret
 
 Key store required for mTLS can also be provided via predefined secret.
-**Note that this secret has to be created in target namespace prior to installation of hp-dashboard application.**
+**Note that this secret has to be created in target namespace prior to installation of HP Dashboard application.**
 
 When adding key store from secret, following values have to be provided:
 
@@ -601,11 +603,11 @@ aes.liquibase.password=(aes encrypted liquibase password)
 
 ## Customizing installation
 
-Besides required attributes, installation of hp-dashboard can be customized in different ways.
+Besides required attributes, installation of HP Dashboard can be customized in different ways.
 
 ### Multi-member setup
 
-hp-dashboard application (along with all other HolisticPay applications) supports multi-member setup. In order to complete
+HP Dashboard application (along with all other HolisticPay applications) supports multi-member setup. In order to complete
 application setup, at least a mandatory set of attributes has to be defined:
 
 ```yaml
@@ -655,7 +657,7 @@ Same logic is applied for all attributes.
 
 #### Database setup for multi-member
 
-Person structure provides option to setup database in several different flavors:
+HP Dashboard provides option to setup database in several different flavors:
 
 - all members in one database and one schema
 - all members in one database with multiple member-specific schemas
@@ -734,7 +736,7 @@ members:
 
 ### oAuth2
 
-hp-dashboard application can use oAuth2 service for authorization. By default, this option is disabled, but can easily be
+HP Dashboard application can use oAuth2 service for authorization. By default, this option is disabled, but can easily be
 enabled by specifying following attributes in values:
 
 ```yaml
@@ -746,14 +748,21 @@ oAuth2:
 
 To configure oAuth2, it first has to be enabled with `oAuth2.enabled` parameter.
 When enabled, `oAuth2.resourceUri` should also be defined.
-This URI should point to oAuth2 server with defined converter type and name, for example
-`https://oauth2.server/realm/Holistic-Pay`. If scope/role has variable prefix, which should not be considered as full
-role/scope name, this variable prefix should be defined. Every part of this variable part should be defined (e.g. if
-scopes are defined as MY_PREFIX:scope1 MY_PREFIX:scope2 etc, then variable prefix is 'MY_PREFIX:')
+This URI should point to oAuth2 server with defined converter type and name, for example `https://oauth2.server/realm/Holistic-Pay`. If scope/role has variable prefix, which should not be considered as full role/scope name, this variable prefix should be defined. Every part of this variable part should be defined (e.g. if scopes are defined as MY_PREFIX:scope1 MY_PREFIX:scope2 etc, then variable prefix is 'MY_PREFIX:')
+
+### Request header size limitations
+
+We can limit the size of HTTP request header using the following configuration:
+
+```yaml
+request:
+  maxHttpRequestHeaderSize: 64KB  # default value is 64KB
+```
+
 
 ### Request body sanitization and response body encoding
 
-hp-dashboard application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are
+HP Dashboard application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are
 Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any
 of these needs to be changed, this can be configured via next parameters:
 
@@ -769,7 +778,7 @@ response:
 
 ### Adding custom environment variables
 
-Custom environment variables can be added to hp-dashboard container by applying `customEnv` value, for example:
+Custom environment variables can be added to HP Dashboard container by applying `customEnv` value, for example:
 
 ```yaml
 customEnv:
@@ -781,24 +790,24 @@ customEnv:
 
 ### Adding custom mounts
 
-Values file can be used to specify additional custom `volume` and `volumeMounts` to be added to hp-dashboard container.
+Values file can be used to specify additional custom `volume` and `volumeMounts` to be added to HP Dashboard container.
 
 For example, custom volume mount could be added by defining this setup:
 
 ```yaml
 customVolumes:
-  - name: my-custom-volume # has to match name in initContainer and volumeMount in hp-dashboard container
+  - name: my-custom-volume # has to match name in initContainer and volumeMount in HP Dashboard container
     emptyDir: # any other volume type is OK
       medium: "Memory"
 
 customMounts:
-  - name: my-custom-volume # has to match name in initContainer and volumeMount in hp-dashboard container
+  - name: my-custom-volume # has to match name in initContainer and volumeMount in HP Dashboard container
     mountPath: /some/mount/path # this path should be used for custom environment variables
 ```
 
 ### Customizing container logs
 
-hp-dashboard application is predefined to redirect all logs to `stdout` expect for Web Server logs (`access.log`) and health
+HP Dashboard application is predefined to redirect all logs to `stdout` expect for Web Server logs (`access.log`) and health
 check logs, which are not logged by default.
 However, using custom configuration, logs can be redirected to log files also (in addition to `stdout`).
 
@@ -815,14 +824,30 @@ When enabling logging to file, container will divide logs into four different fi
 To enable logging to file, following attribute should be set in values file:
 
 ```yaml
-level:
-  kafka: INFO              # default value, user for logging general kafka logic
-  kafkaCore: INFO           # default value, used for logging org.apache.kafka.*
-  rest: INFO               # default value, used for logging REST operations
-  database: INFO           # default value, used for logging all DB related operations (root DB logger)
-  businessLogic: INFO      # default value, used for logging service business logic
-  health: INFO             # default value, used for logging health checks
-  general: INFO            # default value, used for logging other components
+  level:
+    kafka: DEBUG              # default value, user for logging general kafka logic
+    kafkaCore: INFO           # default value, used for logging org.apache.kafka.*
+    rest: DEBUG               # default value, used for logging REST operations
+    database: ERROR           # default value, used for logging all DB related operations (root DB logger)
+    databaseSql: DEBUG        # default value, used for logging DB SQL operations (CRUD)
+    databaseBind: TRACE       # default value, used for logging DB bind parameters (root DB logger)
+    databaseExtract: TRACE    # default value, used for logging DB extracted values
+    databaseSlowQuery: INFO   # default value, used for logging slow queries for configured threshold 'databaseSlowQueryThreshold'
+    businessLogic: DEBUG      # default value, used for logging service business logic
+    health: DEBUG             # default value, used for logging health checks
+    general: DEBUG            # default value, used for logging other components
+```
+
+NOTE: *Logging DB operations and business logic can be expensive.
+If application performance is degraded, consider lowering log levels to `ERROR`.*
+
+Logging slow DB queries can be done using `databaseSlowQueryThreshold` parameter,
+which defines threshold in milliseconds above which queries are logged. If set
+to value more than a zero, slow queries are logged using `databaseSlowQuery` logger.
+
+```yaml
+logger:
+  databaseSlowQueryThreshold: 0 # default value, slow query logging disabled
 ```
 
 To enable logging to file, following attribute should be set in values file:
@@ -992,15 +1017,39 @@ Examples of how log entries would look like for each value:
   ```log
   {"timestamp":"2023-03-17T10:33:14.218078900Z","severity":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","logging.googleapis.com/sourceLocation":{"function":"org.springframework.boot.availability.ApplicationAvailabilityBean.onApplicationEvent"},"logging.googleapis.com/insertId":"1051","_exception":{"stackTrace":""},"_thread":"main","_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
+  
+If it is required to mask sensitive data whilst logging, it can be configured by parameter:
+  ```yaml
+  logger:
+  maskSensitive: false # boolean value, default is false
+  ```
+
+What is treated as sensitive is implementation specific and is defined inside the code.
+
+### Observing distributed tracing
+
+In order to start exporting tracing information to Tempo (or any tool that knows how to interpret OpenTelemetry 
+formatted data), HP Dashboard microservice should define next attributes:
+
+  ```yaml
+  tracing:
+    enabled: false # boolean value, default is false
+    samplingProbability: 0.0 # decimal value, default is 0.0
+    otlpEndpoint: '' # string value, default is empty
+  ```
+First parameter enables or disables tracing. If set to `true`, tracing will be enabled.
+Second parameter dictates what percentage of requests should be exported to processing system. 0.0 means 0% of requests and 1.0 means 100%.
+Third parameter defines URL on which should be tracing information sent.
+If third parameter is not defined, no tracing information will be sent, regardless of sampling probability.
 
 ### Modifying deployment strategy
 
-Default deployment strategy for hp-dashboard application is `RollingUpdate`, but it can be overridden, along with other
+Default deployment strategy for HP Dashboard application is `RollingUpdate`, but it can be overridden, along with other
 deployment parameters using following attributes (default values are shown):
 
 ```yaml
 deployment:
-  annotations: { }
+  annotations: {}
   replicaCount: 1
   strategy:
     type: RollingUpdate
@@ -1012,13 +1061,13 @@ deployment:
   restartPolicy: Always
 ```
 
-By default, one replica of hp-dashboard is installed on Kubernetes cluster. Number of replicas can be statically modified
+By default, one replica of HP Dashboard is installed on Kubernetes cluster. Number of replicas can be statically modified
 with above configuration, or `HorizontalPodAutoscaler` option can be used to let Kubernetes automatically scale
 application when required.
 
 #### Customizing pod resource requests and limits
 
-Following are the default values for hp-dashboard requests and limits:
+Following are the default values for HP Dashboard requests and limits:
 
 ```yaml
 resources:
@@ -1076,7 +1125,7 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80 # not used by default
 ```
 
-CPU and/or memory utilization metrics can be used to autoscale hp-dashboard pod.
+CPU and/or memory utilization metrics can be used to autoscale HP Dashboard pod.
 It's possible to define one or both of those metrics.
 If only `autoscaling.enabled` attribute is set to `true`, without setting other attributes, only CPU utilization metric
 will be used with percentage set to 80.
@@ -1097,7 +1146,7 @@ info.
 
 ### Customizing probes
 
-hp-dashboard application has predefined health check probes (readiness and liveness).
+HP Dashboard application has predefined health check probes (readiness and liveness).
 Following are the default values:
 
 ```yaml
@@ -1144,13 +1193,13 @@ deployment:
           value: localhost
 ```
 
-Note that hp-dashboard has health checks available within the `/health` endpoint (`/health/readiness` for readiness and
+Note that HP Dashboard has health checks available within the `/health` endpoint (`/health/readiness` for readiness and
 `/health/liveness` for liveness), and this base paths should not modified, only query parameters are subject to change.
 `scheme` attribute should also be set to `HTTPS` at all times, as well as `http` value for `port` attribute.
 
 ### Customizing security context
 
-Security context for hp-dashboard can be set on pod and/or on container level.
+Security context for HP Dashboard can be set on pod and/or on container level.
 By default, pod security context is defined with following values:
 
 ```yaml
@@ -1170,14 +1219,14 @@ securityContext:
   runAsGroup: 0
 ```
 
-Note that container level security context will be applied to both containers in hp-dashboard pod (Liquibase init container
-and hp-dashboard container).
+Note that container level security context will be applied to both containers in HP Dashboard pod (Liquibase init container
+and HP Dashboard container).
 
 ### Customizing network setup
 
 #### Service setup
 
-When installing hp-dashboard using default setup, a `Service` object will be created of `ClusterIP` type exposed on port
+When installing HP Dashboard using default setup, a `Service` object will be created of `ClusterIP` type exposed on port
 8443.
 Those values can be modified by setting following attributes in custom values file, for example for `NodePort`:
 
@@ -1221,9 +1270,9 @@ service:
   nodePort: ""
   clusterIP: ""
   loadBalancerIP: ""
-  loadBalancerSourceRanges: [ ]
-  annotations: { }
-  labels: { }
+  loadBalancerSourceRanges: []
+  annotations: {}
+  labels: {}
 ```
 
 #### Ingress setup
@@ -1234,9 +1283,9 @@ Ingress is not created by default, but can be enabled and customized by specifyi
 ingress:
   enabled: true # default value is false, should be set to true to enable
   className: ""
-  annotations: { }
-  hosts: [ ]
-  tls: [ ]
+  annotations: {}
+  hosts: []
+  tls: []
 ```
 
 For example, a working setup could be defined like this:
@@ -1280,7 +1329,7 @@ Init container can have all standard Kubernetes attributes in its specification.
 
 ### Customizing affinity rules, node selector and tolerations
 
-hp-dashboard deployment has some predefined affinity rules, as listed below:
+HP Dashboard deployment has some predefined affinity rules, as listed below:
 
 ```yaml
 affinity:
@@ -1347,7 +1396,7 @@ deployment:
 
 ### Additional custom configuration
 
-There are some other customizable attributes predefined in hp-dashboard application.
+There are some other customizable attributes predefined in HP Dashboard application.
 
 One of them is related to HTTP return code which is returned by application if health check fails.
 Default value for this attribute is 418 but it can be customized if necessary, for example:
@@ -1362,7 +1411,7 @@ There's a possibility to define a custom timezone (there is no default one), by 
 timezone: Europe/London
 ```
 
-Finally, since hp-dashboard is an Java application, there's a possibility to set custom JVM parameters.
+Finally, since HP Dashboard is an Java application, there's a possibility to set custom JVM parameters.
 There is a predefined value which specifies `Xms` and `Xmx` JVM parameters:
 
 ```yaml
@@ -1375,186 +1424,54 @@ This value can be changed by modifying existing parameters or adding custom, for
 javaOpts: "-Xms256M -Xmx512M -Dcustom.jvm.param=true"
 ```
 
-Note that defining custom `javaOpts` attribute will override default one, so make sure to keep `Xms` and `Xmx`
+Note that defining custom `javaOpts` attribute will override default one, so make sure to keep `Xms` and `Xmx` 
 parameters.
 
-## Application configuration
+### Metrics configuration
 
-This section defines configuration which drives execution of the application
-logic. This configuration may enable/disable particular application feature or may execute part of application logic with different settings. For example,
-we may have configuration for logging REST request to database or to Kafka,
-where logging to database is default.
-
-This configuration has sensible defaults; meaning application works in
-default mode when no configuration is altered.
-
-The format of this configuration is using dictionary, as follows:
+Application can expose metrics to Prometheus monitoring system.
+By default, this is enabled and default metrics are exposed.
+With `metrics` configuration additional metrics can be exposed.
 
 ```yaml
-application:
-  <component>:
-    <configuration>:
-      <key>: <value>
+prometheus:
+  exposed: true
+metrics:
+  jvm: true # java virtual machine metrics
 ```
 
-where `<component>` is application component or module for which configuration
-exists. The `<configuration>` is named part to group related configuration
-for single component/module. The `<key>` and `<value>` are configuration key
-and value.
+### Alerting notification system
 
-The configuration and its keys are converted to snake case and upper case
-before usage. For example:
+HP Dashboard application supports alerting notification system. By default, this is disabled, but can be enabled by setting
+the following attributes:
 
 ```yaml
 application:
-  myComponent:
-    myConfig:
-      key: value
+  alert:
+    notificationSystem:
+      enabled: true # default is false, set to true to enable
+      cron: 0 */10 * * * * # default is every 10 minutes, this is used if no value is set in parameterization
+      mailSend: alert_notify_no_reply@vestigo.hr # e-mail address used to send notifications
+      mailReceive: # e-mail address to which can be replied when received alert notification
+      interval: PT10M # default is PT10M (10 minutes), this is used if no value is set in parameterization
+      threshold: 10 # default is 10, this is used if no value is set in parameterization
+      shedlockAtLeast: PT10S # minimum time scheduled job holds the lock, default is 10 seconds 
+      shedlockAtMost: PT15S # maximum time scheduled job holds the lock, default is 15 seconds
 ```
 
-will produce configuration `MY_COMPONENT_MY_CONFIG_KEY=value`.
+When enabled, application will send alert notifications using parameterized notification system.
+Notification system will check for alerts and send notifications to parameterized users.
 
-### Supported configuration
-
-Document supported configuration as part of yaml with default
-configuration behavior.
+Currently, only e-mail notification system type is supported, but more types can be added in the future.
+E-mail system used is Spring Mail with properties defined below:
 
 ```yaml
-## Application configuration.
-application:
-  ## Application components configuration.
-  ##
-  ## @param api         configuration for API component
-  ## @param data        configuration for data component
-  ## @param integration configuration for application integration component
-  api:
-    ## Configuration for API component.
-    ##
-    ## @param validation  API component validation configuration
-    ## @param formatting  API component formatting configuration
-    validation:
-      ## Validation mode for received Swift MX messages.
-      ##
-      ## Swift MX message can be received from SWIFT Alliance Access
-      ## with SAA header or can be received from other source
-      ## using envelope structure. Envelope structure contains just
-      ## business application header and business 'document' message.
-      ## SAA message and validation is restricted to target SAA revision.
-      ## To support both and to loose restriction to SAA revisions
-      ## we support mixed mode, which is default.
-      ##
-      ## Possible options:
-      ##    mix - validates Swift MX message using SAA XSD scheme (default)
-      ##    saa - validates Swift MX message using SAA XSD scheme
-      ##    env - validates Swift MX message using ENV XSD scheme
-      xsdModeIn: mix
-      ## Validation mode for send Swift MX messages.
-      ##
-      ## Swift MX message can be delivered to SWIFT Alliance Access
-      ## with SAA header or can be delivered to other targets
-      ## using envelope structure. Envelope structure contains business
-      ## application header and business 'document' message.
-      ## SAA message and validation is restricted to target SAA revision.
-      ## To support both and to loose restriction to SAA revisions
-      ## we support mixed mode, which is default.
-      ##
-      ## This also specifies if Swift MX message is created using
-      ## SAA header or using envelope.
-      ##
-      ## Possible options:
-      ##    mix - validates Swift MX message using SAA XSD scheme (default)
-      ##    saa - validates Swift MX message using SAA XSD scheme
-      ##    env - validates Swift MX message using ENV XSD scheme
-      xsdModeOut: mix
-    formatting:
-      ## Formatting timestamp values in send Swift MX messages
-      ##
-      ## Default format includes timestamp with milliseconds precision
-      ## and time zone offset. For example: 2024-10-25T11:15:21.950+02:00
-      timestampOut: yyyy-MM-dd'T'HH:mm.:ss.SSSxxx
-  data:
-    ## Configuration for data component.
-    ##
-    ## @param caching     data component caching configuration
-    ## @param eventsLog   data component events logging configuration
-    caching:
-      ## Data caching expiration.
-      ##
-      ## Default is 12 hours, meaning, data is evicted from cache
-      ## after 12 hours when it was written to the cache.
-      ## Can specify days, hours, minutes. For example: 1d, 12h, 10m
-      expire: 12h
-    eventsLog:
-      ## Data logging as persistence events.
-      ##
-      ## If enabled application specific actions are logged as
-      ## persistence events. By default this feature is not enabled
-      ## and should be usually used in non-production environments
-      enabled: false
-      ## Data logging as partitioned parsistence events.
-      ##
-      ## NOTE: currently not in use
-      ##
-      ## When enabled, events are logged in partitioned table.
-      ## Therefore, table should be prepared with partitions.
-      ## For PostgreSQL this means that pg_partman and pg_cron
-      ## must be enabled on instance to effectively manage partitions
-      partitionsEnabled: false
-  integration:
-    ## Configuration for application integration component.
-    ##
-    ## @param file     file integration component
-    file:
-      ## File reading configuration.
-      ##
-      ## When enabled, 'readPath' must point to volume mount
-      ## from which files are polled. When enabled, files are polled
-      ## and produced into 'swiftincomingmessage' Kafka topic
-      readEnabled: false
-      ## File reading volume mount from which files are polled.
-      ## Currently, nfs volumes are supported.
-      readPath: ''
-      ## File reading polling interval.
-      ## Default is 5 seconds, meaning, files are polled every 5 seconds.
-      readInterval: 5s
-      ## Maximum files read in reading interval
-      ## Default is 1, meaning, maximum of one file is read in reading interval
-      readIntervalMax: 1
-      ## File can have file prefix equal to any member sign from members installation.
-      ## When true (default), file prefix must be equal to any member sign from
-      ## members installation. This prefix then used as key to select correct member
-      ## datasource
-      ## When false, file prefix is not mandatory. In this case first member sign
-      ## from members installation list is used as key to select correct member
-      ## datasource
-      readFilePrefixEnabled: true
-      ## File writing configuration.
-      ##
-      ## When enabled, 'writePath' must point to volume mount
-      ## to which files are written to. When enabled,
-      ## Kafka topic 'swiftincomingmessage' is consumed from
-      ## and files are created.
-      writeEnabled: false
-      ## File writing volume mount to which files are written to.
-      ## Currently, nfs volumes are supported.
-      writePath: ''
-      ## File writing interval.
-      ## Only applicable for poll writing mode, in which source is pulled
-      ## and file is written with polled data
-      writeInterval: 5s
-      ## File writing mode in which source message is retrieved
-      writeMode: pull
-
-## Additional configuration providing details about volume needed for application file integration.
-applicationFileVolumes:
-  ## File reading volume parameters. For example, nfs volume parameters have to be set like:
-  readVolumeParameters:
-    nfs:
-      server: "server"
-      path: "path"
-  ## File writing volume parameters. For example, nfs volume parameters have to be set like:
-  writeVolumeParameters:
-    nfs:
-      server: "server"
-      path: "path"
+mail: # general mail configuration
+  server: # mail server configuration
+    host: # mail server host
+    port: # mail server port
+  properties: # general mail properties
+    mailSmtpConnectiontimeout: 10000 # default is 10000 ms
+    mailSmtpTimeout: 10000 # default is 10000 ms
+    mailSmtpWritetimeout: 10000 # default is 10000 ms
 ```

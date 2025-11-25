@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.56.0
+    tag: 1.59.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -62,32 +62,45 @@ kafka:
     paymentFlow:
       name: hr.vestigo.hp.paymentflow
       consumerGroup: hr.vestigo.hp.paymentflow
+      concurrency: 1
       enabled: true
     paymentMessage:
       name: hr.vestigo.hp.paymentmessage
       consumerGroup: hr.vestigo.hp.paymentmessage
+      concurrency: 1
       enabled: true
     externalCheck:
       name: hr.vestigo.hp.externalcheck
       consumerGroup: hr.vestigo.hp.externalcheck
+      concurrency: 1
       enabled: false
     externalCheckResult:
       name: hr.vestigo.hp.externalcheckresult
       consumerGroup: hr.vestigo.hp.externalcheckresult
+      concurrency: 1
       enabled: false
     ecsCommunicationLog:
-      name: hr.vestigo.hp.ecscommunicationlog.01
+      name: hr.vestigo.hp.ecscommunicationlog
       consumerGroup: hr.vestigo.hp.ecscommunicationlog
+      concurrency: 1
       enabled: false
     alertTopic:
-      name: hr.vestigo.hp.alertTopic.01
+      name: hr.vestigo.hp.alertTopic
       consumerGroup: hr.vestigo.hp.alertTopic
+      concurrency: 1
       enabled: false
+  consumer:
+    properties:
+      sessionTimeoutMs: 45000
+      heartbeatIntervalMs: 3000
+      maxPollRecords: 500
+      maxPollIntervalMs: 300000
 oauth2:
   enabled: false
   resourceUri: ''
   authorizationPrefix: ''
 request:
+  maxHttpRequestHeaderSize: 64KB
   sanitization:
     enabled: true
 response:
@@ -111,6 +124,10 @@ logger:
     kafkaCore: INFO
     rest: INFO
     database: INFO
+    databaseSql: DEBUG
+    databaseBind: TRACE
+    databaseExtract: TRACE
+    databaseSlowQuery: INFO
     businessLogic: INFO
     general: INFO
   logToFile: false
@@ -118,9 +135,13 @@ logger:
   logDir: /var/log/app
   logDirMount:
     enabled: false
-  microserviceTag: ''
+    spec:
+      emptyDir: {}
+  microserviceTag: HPDASH
+  maskSensitive: false
+  databaseSlowQueryThreshold: 0
 healthStatusDownReturnCode: '418'
-javaOpts: -Xms256M -Xmx256M
+javaOpts: -Xms256M -Xmx512M
 podAnnotations: {}
 deploymentAnnotations: {}
 serviceAnnotations: {}
@@ -147,11 +168,11 @@ ingress:
   tls: []
 resources:
   limits:
-    cpu: 500m
-    memory: 768Mi
+    cpu: 1
+    memory: 1Gi
   requests:
     cpu: 50m
-    memory: 768Mi
+    memory: 256Mi
 initContainers: []
 nodeSelector: {}
 tolerations: []
@@ -248,8 +269,33 @@ mountCaFromSecret:
 customVolumes: []
 customMounts: []
 customEnv: []
+tracing:
+  enabled: false
+  samplingProbability: 0.0
+  otlpEndpoint: ''
 prometheus:
   exposed: true
-tracing:
-  samplingProbability: 0.0
-  otlpEndpoint: http://tempo.monitor:4318/v1/traces
+metrics:
+  jvm: true
+application:
+  alert:
+    notificationSystem:
+      enabled: false
+      cron: 0 */10 * * * *
+      mailSend: alert_notify_no_reply@vestigo.hr
+      mailReceive: null
+      interval: PT10M
+      threshold: 10
+      shedlockAtLeast: PT10S
+      shedlockAtMost: PT15S
+  cache:
+    config:
+      expireAfterWrite: 43200
+mail:
+  server:
+    host: smtp.vestigo.hr
+    port: 25
+  properties:
+    mailSmtpConnectiontimeout: 10000
+    mailSmtpTimeout: 10000
+    mailSmtpWritetimeout: 10000
