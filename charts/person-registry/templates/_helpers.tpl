@@ -368,3 +368,14 @@ SSL datasource connection parameters for liquibase which need to be appended to 
 {{- "" }}
 {{- end }}
 {{- end }}
+
+{{/*
+Kafka login module
+*/}}
+{{- define "person-registry.kafka.loginModule" -}}
+{{- if contains "SCRAM" .Values.kafka.saslMechanism }}
+{{- "org.apache.kafka.common.security.scram.ScramLoginModule" }}
+{{- else }}
+{{- "org.apache.kafka.common.security.plain.PlainLoginModule" }}
+{{- end }}
+{{- end }}
