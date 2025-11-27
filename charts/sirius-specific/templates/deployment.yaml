@@ -107,6 +107,8 @@ spec:
               value: "{{ .Values.atomikos.connectionFactory.maxPoolSize | int }}"
             - name: SPRING_JTA_ATOMIKOS_CONNECTIONFACTORY_MINPOOLSIZE
               value: "{{ .Values.atomikos.connectionFactory.minPoolSize | int }}"
+            - name: SIRIUS_REST_INITIATE_TIMEOUT
+              value: "{{ .Values.sirius.rest.initiate.timeout | int }}"
             - name: SPRING_DATASOURCE_XA_PROPERTIES_USER
               value: {{ required "Please specify DB user in members.datasource.user" .Values.datasource.user | quote }}
             - name: SPRING_DATASOURCE_XA_PROPERTIES_SERVERNAME
