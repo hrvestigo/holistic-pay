@@ -925,11 +925,11 @@ logger:
 
 If you want to include in your logs, the name of the microservice which generates the logs, you can do so by setting the
 value of the name of the microservice in the attribute `logger.microserviceTag`.
-By default, this attribute is set to empty string.
+By default, this attribute is set to SWIFTX.
 
 ```yaml
 logger:
-  microserviceTag: ''
+  microserviceTag: SWIFTX # default value
 ```
 
 Log format for STDOUT logger can be modified by changing attribute:

@@ -160,7 +160,7 @@ logger:
     enabled: false
     spec:
       emptyDir: {}
-  microserviceTag: ''
+  microserviceTag: SWIFTX
   maskSensitive: true
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
