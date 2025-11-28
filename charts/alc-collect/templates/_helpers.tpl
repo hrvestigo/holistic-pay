@@ -349,7 +349,7 @@ Create a comma separated list of endpoints that need to be exposed
 {{/*
 Kafka login module
 */}}
-{{- define "cms-interface.kafka.loginModule" -}}
+{{- define "alc-collect.kafka.loginModule" -}}
 {{- if contains "SCRAM" .Values.kafka.saslMechanism }}
 {{- "org.apache.kafka.common.security.scram.ScramLoginModule" }}
 {{- else }}
