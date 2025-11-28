@@ -359,13 +359,12 @@ Create a comma separated list of endpoints that need to be exposed
 {{- end }}
 
 {{/*
-Create a comma separated list of endpoints that need to be exposed
+Kafka login module
 */}}
-{{- define "alc-collect.exposed.endpoints" -}}
-{{- $endpoints := list -}}
-{{- $endpoints = append $endpoints (printf "%s" "health") }}
-{{- if .Values.prometheus.exposed }}
-{{- $endpoints = append $endpoints (printf "%s" "prometheus") }}
+{{- define "auth-limit-control.kafka.loginModule" -}}
+{{- if contains "SCRAM" .Values.kafka.saslMechanism }}
+{{- "org.apache.kafka.common.security.scram.ScramLoginModule" }}
+{{- else }}
+{{- "org.apache.kafka.common.security.plain.PlainLoginModule" }}
 {{- end }}
-{{- join "," $endpoints }}
 {{- end }}
