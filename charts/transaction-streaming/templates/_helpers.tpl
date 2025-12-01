@@ -393,3 +393,14 @@ Defines health indicators appended to readiness health group
 - name: MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE
   value: {{ $include }}
 {{- end }}
+
+{{/*
+Kafka login module
+*/}}
+{{- define "transaction-streaming.kafka.loginModule" -}}
+{{- if contains "SCRAM" .Values.kafka.saslMechanism }}
+{{- "org.apache.kafka.common.security.scram.ScramLoginModule" }}
+{{- else }}
+{{- "org.apache.kafka.common.security.plain.PlainLoginModule" }}
+{{- end }}
+{{- end }}

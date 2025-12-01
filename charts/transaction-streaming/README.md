@@ -1135,13 +1135,13 @@ Please note that this feature requires VPA controller to be installed on Kuberne
 
 ### Customizing probes
 
-Transaction streaming application has predefined health check probes (readiness and liveness).
+Transaction streaming application has predefined health check probes (readiness,livenes and startupProbe).
 Following are the default values:
 
 ```yaml
 deployment:
   readinessProbe:
-    initialDelaySeconds: 10
+    initialDelaySeconds: 0
     periodSeconds: 60
     timeoutSeconds: 181
     successThreshold: 1
@@ -1151,10 +1151,19 @@ deployment:
       port: http
       scheme: HTTPS
   livenessProbe:
-    initialDelaySeconds: 60
+    initialDelaySeconds: 0
     periodSeconds: 60
     timeoutSeconds: 10
     failureThreshold: 3
+    httpGet:
+      path: /health/liveness
+      port: http
+      scheme: HTTPS
+  startupProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 5
+    timeoutSeconds: 1
+    failureThreshold: 60
     httpGet:
       path: /health/liveness
       port: http
