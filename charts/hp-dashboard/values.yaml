@@ -283,7 +283,7 @@ application:
       enabled: false
       cron: 0 */10 * * * *
       mailSend: alert_notify_no_reply@vestigo.hr
-      mailReceive: null
+      mailReceive: ''
       interval: PT10M
       threshold: 10
       shedlockAtLeast: PT10S
