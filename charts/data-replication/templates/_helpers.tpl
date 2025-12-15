@@ -26,7 +26,7 @@ data-replication-ms image repository
 {{- if .Values.image.app.imageLocation }}
 {{- .Values.image.app.imageLocation }}
 {{- else }}
-{{- $psRepo := "hrvestigo/data-replication-ms-ms" }}
+{{- $psRepo := "hrvestigo/data-replication-ms" }}
 {{- $reg := default .Values.image.registry .Values.image.app.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $psRepo }}
