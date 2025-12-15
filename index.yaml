@@ -7992,6 +7992,17 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/consumer-finance-web-1.0.0/consumer-finance-web-1.0.0.tgz
     version: 1.0.0
+  data-replication-ms:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-12-15T11:19:15.6457252Z"
+    description: Helm chart for data-replication-ms application
+    digest: 67ca69217840fdcbafdc4fdd08a5dc0e05eb8a497ed200114c85fbe6354fe202
+    name: data-replication-ms
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/data-replication-ms-1.0.0/data-replication-ms-1.0.0.tgz
+    version: 1.0.0
   ecs-interface:
   - apiVersion: v2
     appVersion: 1.30.0
@@ -33805,4 +33816,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2025-12-11T17:37:15.551410807Z"
+generated: "2025-12-15T11:19:15.669928592Z"
