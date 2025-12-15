@@ -1,0 +1,379 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "data-replication-ms.name" . }}
+  labels:
+    {{- include "data-replication-ms.labels" . | nindent 4 }}
+{{- with .Values.deployment.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.deployment.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "data-replication-ms.selectorLabels" . | nindent 6 }}
+  strategy:
+    {{- toYaml .Values.deployment.strategy | nindent 4 }}
+  minReadySeconds: {{ .Values.deployment.minReadySeconds }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "data-replication-ms.selectorLabels" . | nindent 8 }}
+    spec:
+      automountServiceAccountToken: false
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      terminationGracePeriodSeconds: {{ .Values.deployment.terminationGracePeriodSeconds }}
+      restartPolicy: {{ .Values.deployment.restartPolicy }}
+      {{- if or .Values.liquibase.enabled .Values.initContainers }}
+      initContainers:
+        {{- with .Values.initContainers }}
+        {{- toYaml . | trim | nindent 8 }}
+        {{- end }}
+        {{- if .Values.liquibase.enabled }}
+        {{- include "data-replication-ms.liquibase.initContainer" . | trim | nindent 8 }}
+        {{- end }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ include "data-replication-ms.app.repository" . }}:{{ .Values.image.app.tag | default .Chart.AppVersion }}
+          imagePullPolicy: {{ include "data-replication-ms.app.imagePullPolicy" . }}
+          env:
+            {{- if .Values.timezone }}
+            - name: TZ
+              value: {{ .Values.timezone }}
+            {{- end }}
+            - name: SERVER_PORT
+              value: "8443"
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://{{- required "Please specify DB host name in datasource.host" .Values.datasource.host -}}:
+              {{- required "Please specify DB port in datasource.port" .Values.datasource.port -}}/
+              {{- required "Please specify database name in datasource.dbName" .Values.datasource.dbName -}}?currentSchema=CONNECT
+              {{- include "data-replication-ms.db.connectionParams" $ -}}"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: {{ required "Please specify DB user in datasource.user" .Values.datasource.user | quote }}
+            {{- range $k, $v := .Values.members }}
+            - name: SPRING_DATASOURCE_URL_{{ .memberSign }}
+              {{- if .datasource }}
+                {{- if .datasource.globalSchema }}
+              value: "jdbc:postgresql://
+              {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
+              :
+              {{- default (required "Please specify DB port in datasource.port or override with member specific in members.datasource.port" $.Values.datasource.port) .datasource.port -}}
+              /
+              {{- default (required "Please specify database name in datasource.dbName or override with member specific in members.datasource.dbName" $.Values.datasource.dbName) .datasource.dbName -}}
+              ?currentSchema=
+              {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix -}}
+              {{- include "data-replication-ms.dbSchema" $ -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
+              {{- include "data-replication-ms.db.connectionParams" $ -}}"
+                {{- else }}
+              value: "jdbc:postgresql://
+              {{- default (required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host) .datasource.host -}}
+              :
+              {{- default (required "Please specify DB port in datasource.port or override with member specific in members.datasource.port" $.Values.datasource.port) .datasource.port -}}
+              /
+              {{- default (required "Please specify database name in datasource.dbName or override with member specific in members.datasource.dbName" $.Values.datasource.dbName) .datasource.dbName -}}
+              ?currentSchema=
+              {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
+              {{- include "data-replication-ms.dbSchema" $ -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
+              {{- include "data-replication-ms.db.connectionParams" $ -}}"
+                {{- end }}
+            - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
+              value: {{ default (required "Please specify DB user in datasource.user" $.Values.datasource.user | quote) .datasource.user }}
+              {{- else }}
+              value: "jdbc:postgresql://
+              {{- required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host -}}
+              :
+              {{- required "Please specify DB port in datasource.port or override with member specific in members.datasource.port" $.Values.datasource.port -}}
+              /
+              {{- required "Please specify database name in datasource.dbName or override with member specific in members.datasource.dbName" $.Values.datasource.dbName -}}
+              ?currentSchema=
+              {{- required "Please specify business unit for member in members.businessUnit" .businessUnit | lower -}}
+              {{- required "Please specify application member name in members.applicationMember" .applicationMember | lower -}}
+              {{- include "data-replication-ms.dbSchema" $ -}}
+              {{- required "Please specify environment label in env.label" $.Values.env.label | lower -}}
+              {{- include "data-replication-ms.db.connectionParams" $ -}}"
+            - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
+              value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
+              {{- end }}
+            {{- end }}
+            - name: MEMBERS
+              value: {{ include "data-replication-ms.members" . }}
+            - name: SPRING_KAFKA_PROPERTIES_SASL_MECHANISM
+              value: {{ .Values.kafka.saslMechanism | quote }}
+            - name: SPRING_KAFKA_PROPERTIES_SASL_JAAS_CONFIG
+              value: >-
+                org.apache.kafka.common.security.plain.PlainLoginModule required username=
+                {{- required "Please specify Kafka user in kafka.user" .Values.kafka.user | quote }} password="${kafka.password}";
+            - name: SPRING_KAFKA_PROPERTIES_BOOTSTRAP_SERVERS
+              value: {{ required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
+            - name: SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL
+              value: {{ .Values.kafka.securityProtocol | quote }}
+            - name: SPRING_KAFKA_PROPERTIES_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM
+              value: {{ .Values.kafka.sslEndpointIdentAlg | quote }}
+            - name: SPRING_KAFKA_PROPERTIES_BASIC_AUTH_CREDENTIALS_SOURCE
+              value: {{ .Values.kafka.schemaRegistry.credSource | quote }}
+            - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_BASIC_AUTH_USER_INFO
+              value: >-
+                {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
+            - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
+              value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
+            - name: KAFKA_LISTENER_ENABLED
+              value: {{ .Values.kafka.listener.enabled | quote }}
+            - name: KAFKA_LISTENER_MASSIVE_ENABLED
+              value: {{ .Values.kafka.listener.massive.enabled | quote }}
+            - name: DETECT_CHANGES_SKIP
+              value: {{ .Values.detect.changes.skip | quote }}
+            - name: KAFKA_TOPIC_CUSTOMER_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.customer.name" .Values.kafka.topics.customer.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSTOMER_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.customer.name" .Values.kafka.topics.customer.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CUSTOMERROLE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.customerrole.name" .Values.kafka.topics.customerrole.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSTOMERROLE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.customerrole.name" .Values.kafka.topics.customerrole.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CUSTOMERACCOUNT_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.customeraccount.name" .Values.kafka.topics.customeraccount.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSTOMERACCOUNT_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.customeraccount.name" .Values.kafka.topics.customeraccount.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_RWSACCOUNT_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.rwsaccount.name" .Values.kafka.topics.rwsaccount.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_RWSACCOUNT_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.rwsaccount.name" .Values.kafka.topics.rwsaccount.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_RWSPROGRAM_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.rwsprogram.name" .Values.kafka.topics.rwsprogram.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_RWSPROGRAM_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.rwsprogram.name" .Values.kafka.topics.rwsprogram.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_RWSACCRELATION_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.rwsaccrelation.name" .Values.kafka.topics.rwsaccrelation.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_RWSACCRELATION_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.rwsaccrelation.name" .Values.kafka.topics.rwsaccrelation.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CRDINTACC_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.crdintacc.name" .Values.kafka.topics.crdintacc.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CRDINTACC_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.crdintacc.name" .Values.kafka.topics.crdintacc.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CARD_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.card.name" .Values.kafka.topics.card.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CARD_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.card.name" .Values.kafka.topics.card.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CUSTCRDINTACC_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.custcrdintacc.name" .Values.kafka.topics.custcrdintacc.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSTCRDINTACC_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.custcrdintacc.name" .Values.kafka.topics.custcrdintacc.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CARDPLASTIC_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.cardplastic.name" .Values.kafka.topics.cardplastic.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CARDPLASTIC_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.cardplastic.name" .Values.kafka.topics.cardplastic.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_BANSUBSERVENTITYVARIABLEDATA_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.bansubserventityvariabledata.name" .Values.kafka.topics.bansubserventityvariabledata.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_BANSUBSERVENTITYVARIABLEDATA_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.bansubserventityvariabledata.name" .Values.kafka.topics.bansubserventityvariabledata.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_SERVICEPACKAGECONTRACT_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.servicepackagecontract.name" .Values.kafka.topics.servicepackagecontract.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SERVICEPACKAGECONTRACT_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.servicepackagecontract.name" .Values.kafka.topics.servicepackagecontract.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_SMSTATUSEFFECT_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.smstatuseffect.name" .Values.kafka.topics.smstatuseffect.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SMSTATUSEFFECT_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.smstatuseffect.name" .Values.kafka.topics.smstatuseffect.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_ISMISSENTITYSTATUS_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.ismissentitystatus.name" .Values.kafka.topics.ismissentitystatus.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_ISMISSENTITYSTATUS_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.ismissentitystatus.name" .Values.kafka.topics.ismissentitystatus.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CUSTOMER_MASSIVE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.customer.massive.name" .Values.kafka.topics.customer.massive.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSTOMER_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.customer.massive.name" .Values.kafka.topics.customer.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CUSTOMERROLE_MASSIVE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.customerrole.massive.name" .Values.kafka.topics.customerrole.massive.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSTOMERROLE_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.customerrole.massive.name" .Values.kafka.topics.customerrole.massive.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CUSTOMERACCOUNT_MASSIVE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.customeraccount.massive.name" .Values.kafka.topics.customeraccount.massive.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSTOMERACCOUNT_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.customeraccount.massive.name" .Values.kafka.topics.customeraccount.massive.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_RWSACCOUNT_MASSIVE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.rwsaccount.massive.name" .Values.kafka.topics.rwsaccount.massive.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_RWSACCOUNT_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.rwsaccount.massive.name" .Values.kafka.topics.rwsaccount.massive.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_RWSACCRELATION_MASSIVE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.rwsaccrelation.massive.name" .Values.kafka.topics.rwsaccrelation.massive.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_RWSACCRELATION_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.rwsaccrelation.massive.name" .Values.kafka.topics.rwsaccrelation.massive.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CRDINTACC_MASSIVE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.crdintacc.massive.name" .Values.kafka.topics.crdintacc.massive.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CRDINTACC_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.crdintacc.massive.name" .Values.kafka.topics.crdintacc.massive.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CARD_MASSIVE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.card.massive.name" .Values.kafka.topics.card.massive.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CARD_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.card.massive.name" .Values.kafka.topics.card.massive.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CUSTCRDINTACC_MASSIVE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.custcrdintacc.massive.name" .Values.kafka.topics.custcrdintacc.massive.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSTCRDINTACC_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.custcrdintacc.massive.name" .Values.kafka.topics.custcrdintacc.massive.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CARDPLASTIC_MASSIVE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.cardplastic.massive.name" .Values.kafka.topics.cardplastic.massive.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CARDPLASTIC_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.cardplastic.massive.name" .Values.kafka.topics.cardplastic.massive.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_BANSUBSERVENTITYVARIABLEDATA_MASSIVE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.bansubserventityvariabledata.massive.name" .Values.kafka.topics.bansubserventityvariabledata.massive.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_BANSUBSERVENTITYVARIABLEDATA_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.bansubserventityvariabledata.massive.name" .Values.kafka.topics.bansubserventityvariabledata.massive.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_SERVICEPACKAGECONTRACT_MASSIVE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.servicepackagecontract.massive.name" .Values.kafka.topics.servicepackagecontract.massive.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SERVICEPACKAGECONTRACT_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.servicepackagecontract.massive.name" .Values.kafka.topics.servicepackagecontract.massive.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_ISMISSENTITYSTATUS_MASSIVE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.ismissentitystatus.massive.name" .Values.kafka.topics.ismissentitystatus.massive.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_ISMISSENTITYSTATUS_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.ismissentitystatus.massive.name" .Values.kafka.topics.ismissentitystatus.massive.consumerGroup | quote }}
+            - name: SERVER_SSL_KEYSTORE
+              value: /tmp/tls.p12
+            - name: SERVER_SSL_KEYSTORETYPE
+              value: PKCS12
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: loggers,health,prometheus
+            - name: MANAGEMENT_ENDPOINTS_LOGGERS_ENABLED
+              value: "true"
+            - name: MANAGEMENT_ENDPOINTS_WEB_BASEPATH
+              value: /
+            - name: MANAGEMENT_HEALTH_PROBES_ENABLED
+              value: "true"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_SHOWDETAILS
+              value: always
+            - name: MANAGEMENT_ENDPOINT_HEALTH_STATUS_HTTPMAPPING_DOWN
+              value: {{ .Values.healthStatusDownReturnCode | quote }}
+            - name: MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE
+              value: readinessState, db, kafka
+            - name: SERVER_TOMCAT_ACCESSLOG_ENABLED
+              value: {{ .Values.logger.logToFile | quote }}
+            - name: SERVER_TOMCAT_ACCESSLOG_SUFFIX
+              value: ".log"
+            - name: SERVER_TOMCAT_ACCESSLOG_PREFIX
+              value: access
+            - name: SERVER_TOMCAT_BASEDIR
+              {{- $logdir := .Values.logger.logDir | splitList "/" }}
+              {{- if hasPrefix "/" .Values.logger.logDir }}
+              value: "/{{ index $logdir 1 }}"
+              {{- else }}
+              value: "/{{ index $logdir 0 }}"
+              {{- end }}
+            - name: SERVER_TOMCAT_ACCESSLOG_FILEDATEFORMAT
+              value: ""
+            - name: SERVER_TOMCAT_ACCESSLOG_DIRECTORY
+              {{- $logdir := .Values.logger.logDir | splitList "/" }}
+              {{- if hasPrefix "/" .Values.logger.logDir }}
+              {{- $rest := slice $logdir 2 | join "/" }}
+              value: {{ $rest }}
+              {{- else }}
+              {{- $rest := slice $logdir 1 | join "/" }}
+              value: {{ $rest }}
+              {{- end }}
+            - name: SERVER_TOMCAT_ACCESSLOG_PATTERN
+              value: >-
+                [%{yyyy-MM-dd HH:mm:ss.SSS}t] %h %l %u "%r" %s
+            - name: SERVER_TOMCAT_ACCESSLOG_CONDITIONUNLESS
+              value: access
+            - name: LOGGING_CONFIG
+              value: /usr/app/config/log4j2.xml
+            - name: LOGGER_EXCLUDE_ENDPOINTS
+              value: /, /health, /health/liveness, /health/readiness, /prometheus
+            - name: SPRING_DATASOURCE_HIKARI_CONNECTIONTIMEOUT
+              value: {{ .Values.datasource.connTimeout | quote }}
+            - name: SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE
+              value: {{ .Values.datasource.maxPoolSize | quote }}
+            - name: SPRING_DATASOURCE_HIKARI_MINIMUMIDLE
+              value: {{ .Values.datasource.minIdle | quote }}
+            - name: SPRING_DATASOURCE_HIKARI_IDLETIMEOUT
+              value: {{ .Values.datasource.idleTimeout | quote }}
+            {{- if .Values.logger.databaseSlowQueryThreshold }}
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_SESSION_EVENTS_LOG_LOG_QUERIES_SLOWER_THAN_MS
+              value: {{ .Values.logger.databaseSlowQueryThreshold | quote }}
+            {{- end }}
+            - name: SECRET_PROPERTIES
+              value: /mnt/k8s/secrets/password.conf
+            - name: KAFKA_HEALTH_ENABLED
+              value: "true"
+            - name: JAVA_OPTS
+              value: {{ .Values.javaOpts | quote }}
+            {{- if (include "data-replication-ms.trustStoreEnv" .) -}}
+            {{- include "data-replication-ms.trustStoreEnv" . | nindent 12 -}}
+            {{- end }}
+            {{- if .Values.mountKeyStoreFromSecret.enabled }}
+            - name: SERVER_SSL_KEY_STORE_FILE
+              value: {{ required "Please specify key store location in mountKeyStoreFromSecret.location" .Values.mountKeyStoreFromSecret.location }}/{{ required "Please specify key store file name in mountKeyStoreFromSecret.keyStoreName" .Values.mountKeyStoreFromSecret.keyStoreName }}
+            - name: SSL_KEY_STORE_TYPE
+              value: {{ required "Please specify key store type in mountKeyStoreFromSecret.keyStoreType" .Values.mountKeyStoreFromSecret.keyStoreType }}
+            {{- end }}
+            {{- if .Values.oauth2.enabled }}
+            - name: SECURITY_AUTHENTICATION
+              value: oauth2
+            - name: SECURITY_AUTHENTICATION_JWT_CONVERTER
+              value: realm
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUERURI
+              value: {{ required "Please specify oAuth2 resource URI in oauth2.resourceUri" .Values.oauth2.resourceUri | quote }}
+            {{- else }}
+            - name: SECURITY_AUTHENTICATION
+              value: none
+            - name: SECURITY_AUTHENTICATION_JWT_CONVERTER
+              value: ""
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUERURI
+              value: ""
+            {{- end }}
+            - name: REQUEST_BODY_SANITIZATION_ENABLED
+              value: {{ .Values.request.sanitization.enabled | default "true" | quote }}
+            - name: RESPONSE_BODY_ENCODING_ENABLED
+              value: {{ .Values.response.encoding.enabled | default "false" | quote }}
+            {{- if .Values.oauth2.authorizationPrefix }}
+            - name: SECURITY_AUTHENTICATION_CLAIM_PREFIX
+              value: {{ .Values.oauth2.authorizationPrefix | quote }}
+            {{- end }}
+            {{- with .Values.customEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: 8443
+              protocol: TCP
+          livenessProbe:
+            {{- toYaml .Values.deployment.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.deployment.readinessProbe | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            {{- include "data-replication-ms.mounts" . | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        {{- include "data-replication-ms.volumes" . | nindent 8 }}

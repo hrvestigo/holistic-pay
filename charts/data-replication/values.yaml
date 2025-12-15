@@ -1,0 +1,305 @@
+nameOverride: ''
+image:
+  registry: docker.io
+  pullPolicy: IfNotPresent
+  app:
+    registry: null
+    imageLocation: null
+    tag: ''
+    pullPolicy: null
+  liquibase:
+    registry: null
+    imageLocation: null
+    tag: 1.0.0
+    pullPolicy: null
+imagePullSecrets: []
+env:
+  type: ''
+  label: ''
+datasource:
+  host: ''
+  port: ''
+  dbName: ''
+  user: ''
+  globalSchemaPrefix: wo
+  connTimeout: 60000
+  maxPoolSize: 2
+  minIdle: 0
+  idleTimeout: 120000
+  connectionParams: {}
+liquibase:
+  enabled: true
+  syncOnly: false
+  user: ''
+  role: ''
+  replicationRole: ''
+  resources: {}
+members:
+- businessUnit: ''
+  applicationMember: ''
+  memberSign: ''
+  liquibase:
+    role: ''
+    replicationRole: ''
+  datasource:
+    globalSchema: false
+    host: ''
+    port: ''
+    dbName: ''
+    user: ''
+    password: ''
+kafka:
+  user: ''
+  servers: ''
+  saslMechanism: PLAIN
+  securityProtocol: SASL_SSL
+  sslEndpointIdentAlg: HTTPS
+  schemaRegistry:
+    credSource: USER_INFO
+    user: ''
+    url: ''
+  listener:
+    enabled: true
+    massive:
+      enabled: false
+  topics:
+    customer:
+      name: hr.vestigo.hp.customer
+      consumerGroup: hr.vestigo.hp.customer
+      massive:
+        name: hr.vestigo.hp.massive.customer
+        consumerGroup: hr.vestigo.hp.massive.customer
+    customerrole:
+      name: hr.vestigo.hp.customerrole
+      consumerGroup: hr.vestigo.hp.customerrole
+      massive:
+        name: hr.vestigo.hp.massive.customerrole
+        consumerGroup: hr.vestigo.hp.massive.customerrole
+    customeraccount:
+      name: hr.vestigo.hp.customeraccount
+      consumerGroup: hr.vestigo.hp.customeraccount
+      massive:
+        name: hr.vestigo.hp.massive.customeraccount
+        consumerGroup: hr.vestigo.hp.massive.customeraccount
+    rwsaccount:
+      name: hr.vestigo.hp.rwsaccount
+      consumerGroup: hr.vestigo.hp.rwsaccount
+      massive:
+        name: hr.vestigo.hp.massive.rwsaccount
+        consumerGroup: hr.vestigo.hp.massive.rwsaccount
+    rwsprogram:
+      name: hr.vestigo.hp.rwsprogram
+      consumerGroup: hr.vestigo.hp.rwsprogram
+    rwsaccrelation:
+      name: hr.vestigo.hp.rwsaccrelation
+      consumerGroup: hr.vestigo.hp.rwsaccrelation
+      massive:
+        name: hr.vestigo.hp.massive.rwsaccrelation
+        consumerGroup: hr.vestigo.hp.massive.rwsaccrelation
+    crdintacc:
+      name: hr.vestigo.hp.crdintacc
+      consumerGroup: hr.vestigo.hp.crdintacc
+      massive:
+        name: hr.vestigo.hp.massive.crdintacc
+        consumerGroup: hr.vestigo.hp.massive.crdintacc
+    card:
+      name: hr.vestigo.hp.card
+      consumerGroup: hr.vestigo.hp.card
+      massive:
+        name: hr.vestigo.hp.massive.card
+        consumerGroup: hr.vestigo.hp.massive.card
+    custcrdintacc:
+      name: hr.vestigo.hp.custcrdintacc
+      consumerGroup: hr.vestigo.hp.custcrdintacc
+      massive:
+        name: hr.vestigo.hp.massive.custcrdintacc
+        consumerGroup: hr.vestigo.hp.massive.custcrdintacc
+    cardplastic:
+      name: hr.vestigo.hp.cardplastic
+      consumerGroup: hr.vestigo.hp.cardplastic
+      massive:
+        name: hr.vestigo.hp.massive.cardplastic
+        consumerGroup: hr.vestigo.hp.massive.cardplastic
+    bansubserventityvariabledata:
+      name: hr.vestigo.hp.bansubserventityvariabledata
+      consumerGroup: hr.vestigo.hp.bansubserventityvariabledata
+      massive:
+        name: hr.vestigo.hp.massive.bansubserventityvariabledata
+        consumerGroup: hr.vestigo.hp.massive.bansubserventityvariabledata
+    servicepackagecontract:
+      name: hr.vestigo.hp.servicepackagecontract
+      consumerGroup: hr.vestigo.hp.servicepackagecontract
+      massive:
+        name: hr.vestigo.hp.massive.servicepackagecontract
+        consumerGroup: hr.vestigo.hp.massive.servicepackagecontract
+    smstatuseffect:
+      name: hr.vestigo.hp.smstatuseffect
+      consumerGroup: hr.vestigo.hp.smstatuseffect
+    ismissentitystatus:
+      name: hr.vestigo.hp.ismissentitystatus
+      consumerGroup: hr.vestigo.hp.ismissentitystatus
+      massive:
+        name: hr.vestigo.hp.massive.ismissentitystatus
+        consumerGroup: hr.vestigo.hp.massive.ismissentitystatus
+detect:
+  changes:
+    skip: false
+oauth2:
+  enabled: false
+  resourceUri: ''
+  authorizationPrefix: ''
+request:
+  sanitization:
+    enabled: true
+response:
+  encoding:
+    enabled: false
+timezone: ''
+secret:
+  decryptionKey: ''
+  datasourcePassword: ''
+  kafkaPassword: ''
+  kafkaSchemaRegistryPassword: ''
+  liquibasePassword: ''
+  trustStorePassword: ''
+  keyStorePassword: ''
+logger:
+  format: STRING
+  level:
+    health: DEBUG
+    kafka: DEBUG
+    kafkaCore: INFO
+    rest: DEBUG
+    database: ERROR
+    databaseSql: DEBUG
+    databaseBind: TRACE
+    databaseExtract: TRACE
+    databaseSlowQuery: INFO
+    businessLogic: DEBUG
+    general: DEBUG
+  logToFile: false
+  rollingFileAppender: false
+  logDir: /var/log/app
+  logDirMount:
+    enabled: false
+  microserviceTag: ''
+  databaseSlowQueryThreshold: 0
+healthStatusDownReturnCode: '418'
+javaOpts: -Xms256M -Xmx256M
+podAnnotations: {}
+deploymentAnnotations: {}
+serviceAnnotations: {}
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+securityContext: {}
+service:
+  enabled: true
+  type: ClusterIP
+  port: 8443
+  nodePort: ''
+  clusterIP: ''
+  loadBalancerIP: ''
+  loadBalancerSourceRanges: []
+  annotations: {}
+  labels: {}
+ingress:
+  enabled: false
+  className: ''
+  annotations: {}
+  hosts: []
+  tls: []
+resources:
+  limits:
+    cpu: 500m
+    memory: 768Mi
+  requests:
+    cpu: 50m
+    memory: 768Mi
+initContainers: []
+nodeSelector: {}
+tolerations: []
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/arch
+          operator: In
+          values:
+          - amd64
+        - key: kubernetes.io/os
+          operator: In
+          values:
+          - linux
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - data-replication-ms
+        topologyKey: kubernetes.io/hostname
+deployment:
+  replicaCount: 1
+  annotations: {}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  minReadySeconds: 60
+  terminationGracePeriodSeconds: 60
+  restartPolicy: Always
+  readinessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 60
+    timeoutSeconds: 10
+    successThreshold: 1
+    failureThreshold: 2
+    httpGet:
+      path: /health/readiness
+      port: http
+      scheme: HTTPS
+  livenessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 60
+    timeoutSeconds: 10
+    failureThreshold: 3
+    httpGet:
+      path: /health/liveness
+      port: http
+      scheme: HTTPS
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+vpa:
+  enabled: false
+  updateMode: "Off"
+mountServerCertFromSecret:
+  enabled: false
+  secretName: ''
+  certPath: ''
+  keyPath: ''
+mountKeyStoreFromSecret:
+  enabled: false
+  secretName: ''
+  keyStoreName: ''
+  keyStoreType: JKS
+mountTrustStoreFromSecret:
+  enabled: false
+  secretName: ''
+  trustStoreName: ''
+  trustStoreType: JKS
+mountCaFromSecret:
+  enabled: false
+  secretName: ''
+customVolumes: []
+customMounts: []
+customEnv: []
