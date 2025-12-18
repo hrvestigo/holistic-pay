@@ -1515,12 +1515,23 @@ application:
       ##    saa - validates Swift MX message using SAA XSD scheme
       ##    env - validates Swift MX message using ENV XSD scheme
       xsdModeOut: mix
-    formatting:
+    format:
       ## Formatting timestamp values in send Swift MX messages
       ##
       ## Default format includes timestamp with milliseconds precision
       ## and time zone offset. For example: 2024-10-25T11:15:21.950+02:00
       timestampOut: yyyy-MM-dd'T'HH:mm.:ss.SSSxxx
+      ## Controls how outgoing XML messages are generated.
+      ## Possible options:
+      ##    saa – Generates XML with an SAA header included.
+      ##    env – Generates XML without the SAA header; the message is wrapped only in an envelope.
+      xmlModeOut: saa
+      ## XML formatting mode for Swift MX messages.
+      ## Possible options:
+      ##    compact  - produces compact XML without unnecessary spaces and line breaks (default)
+      ##    readable - uses hr.vestigo.blef.xml.format.XMLFormatter to produce human readable XML
+      ##    raw      - produces raw XML as is without any formatting
+      xmlFormat: compact
     event:
       ## Producing XML event for received Swift MX messages.
       ##

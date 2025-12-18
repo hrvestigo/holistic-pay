@@ -309,6 +309,7 @@ application:
     format:
       timestampOut: yyyy-MM-dd'T'HH:mm:ss.SSSxxx
       xmlModeOut: saa
+      xmlFormat: compact
     event:
       xmlIn: true
       xmlOut: true
