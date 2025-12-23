@@ -26,16 +26,23 @@ env:
   
 secret:
   decryptionKey: "my-encryption-key" # string value
-  datasourcePassword: "AES-encoded-datasource-password" # string value
+  datasourcePasswordSource: "AES-encoded-datasource-password" # string value
+  datasourcePasswordTarget: "AES-encoded-datasource-password" # string value
   kafkaPassword: "AES-encoded-kafka-password" # string value
   kafkaSchemaRegistryPassword: "AES-encoded-kafka-schema-registry-password" # string value
   liquibasePassword: "AES-encoded-liquibase-password" # string value
 
 datasource:
-  host: "datasource-host" # string value
-  port: 9999 # int value
-  dbName: "database-name" # string value
-  user: "database-user" # string value
+  source:
+    host: "datasource-host" # string value
+    port: 9999 # int value
+    dbName: "database-name" # string value
+    user: "database-user" # string value
+  target:
+    host: "datasource-host" # string value
+    port: 9999 # int value
+    dbName: "database-name" # string value
+    user: "database-user" # string value
 
 liquibase:
   user: "liquibase-user"  # string value
@@ -80,25 +87,38 @@ Required datasource attributes:
 
 ```yaml
 datasource:
-  host: "db-hostname" # only PostgreSQL hostname has to be defined (for instance "localhost")
-  port: 5432 # PostgreSQL port number 
-  dbName: "database-name" # Name of PostgreSQL database
-  user: "database-user" # User which application will use to connect to PostgreSQL
+  source:
+    host: "datasource-host" # only PostgreSQL hostname has to be defined (for instance "localhost")
+    port: 5432 # PostgreSQL port number 
+    dbName: "database-name"  Name of PostgreSQL database
+    user: "database-user" # User which application will use to connect to PostgreSQL
+    schema:
+  target:
+    host: "datasource-host" # only PostgreSQL hostname has to be defined (for instance "localhost")
+    port: 5432 # PostgreSQL port number 
+    dbName: "database-name"  Name of PostgreSQL database
+    user: "database-user" # User which application will use to connect to PostgreSQL
+    schema: 
 ```
 
 Datasource schema name is auto-generated. For this information, as well as advanced datasource options, please refer to [Multi-member setup](#multi-member-setup) for details.
 
+Source datasource is CCMS table used for additional attribute fetch and Target datasource is HP table where we store data.
+
+Attributes `datasource.source.schema` and `datasource.target.schema` should be populated only in case `members.datasource.globalSchema` is set to `true` with full schema, so we have only one source and target schema for all members.
+
 In addition to datasource attributes, it's required to provide an AES encrypted password for database user specified in `datasource.user`, as well as for Liquibase user defined in `liquibase.user`.
 
 Encryption key used to encrypt and decrypt datasource and liquibase passwords (as well as Kafka passwords) is defined in `secret.decryptionKey` attribute.
-Use this key to encrypt datasource and liquibase password and define them in `secret.datasourcePassword` and `secret.liquibasePassword` attributes.
+Use this key to encrypt datasource and liquibase password and define them in `secret.datasourcePasswordSource` for source CCMS datasource, `secret.datasourcePasswordTarget` for target HP datasource and `secret.liquibasePassword` attributes.
 
 Datasource secret configuration:
 
 ```yaml
 secret:
   decryptionKey: "my-encryption-key" # some custom encryption key
-  datasourcePassword: "{AES}S0m3H4sh" # datasource password for user defined in datasource.user encrypted with custom encryption key
+  datasourcePasswordSource: "{AES}S0m3H4sh" # datasource password for user defined in datasource.user encrypted with custom encryption key
+  datasourcePasswordTarget: "{AES}S0m3H4sh" # datasource password for user defined in datasource.user encrypted with custom encryption key
   liquibasePassword: "{AES}S0m3H4sh" # AES encrypted password for Liquibase user defined in liquibase.user attribute
 ```
 
@@ -131,6 +151,29 @@ datasource:
 
 Setup from this example would result with string "&ssl=true&sslmode=enable" appended to database connection URL.
 
+### Data replication variable setup
+
+Defining parameters that are used while processing kafka messages:
+
+```yaml
+kafka:
+  listener:
+    enabled: false false # default value
+    massive:
+      enabled: true false # default value
+
+detect:
+  changes:
+    skip: false # default value
+```
+
+Attribute `kafka.listener.enabled` is used for enabling all regular kafka listeners
+
+Attribute `kafka.listener.massive.enabled` is used for enabling all massive regular kafka listeners (used for initial data load and other massive specific data load)
+
+Attribute `detect.changes.skip` is used for enabling skip changes in code. Should be set to true only in case Qlik stops working so records must be processed unconditionally, not depending on changes. Example, if this attribute is set to false, then if only change is in attribute we don't store in HP database, message will be skipped
+
+### Kafka setup
 
 data-replication-ms  uses Kafka as event stream backend.
 Other than Kafka cluster itself,  data-replication-ms e application also uses Kafka Schema Registry, which setup also has to be provided in order to establish required connection.
@@ -182,13 +225,87 @@ Kafka topics and consumer group names used by data-replication-ms have default n
 ```yaml
 kafka:
   topics:
-    example
-      name: hr.vestigo.hp.example # default value, set custom name if required
-      consumerGroup: hr.vestigo.hp.example # default value, set custom name if required
-
+    customer:
+      name: gw.{env}.x.ccms.cdc.customer.01
+      consumerGroup: gw.{env}.ccms.datrep.customer
+      massive:
+        name: gw.{env}.x.ccms.cdc.loadcustomer.01
+        consumerGroup: gw.{env}.ccms.datrep.loadcustomer
+    customerrole:
+      name: gw.{env}.x.ccms.cdc.customerrole.01
+      consumerGroup: gw.{env}.ccms.datrep.customerrole
+      massive:
+        name: gw.{env}.x.ccms.cdc.loadcustomerrole.01
+        consumerGroup: gw.{env}.ccms.datrep.loadcustomerrole
+    customeraccount:
+      name: gw.{env}.x.ccms.cdc.customeraccount.01
+      consumerGroup: gw.{env}.ccms.datrep.customeraccount
+      massive:
+        name: gw.{env}.x.ccms.cdc.loadcustomeraccount.01
+        consumerGroup: gw.{env}.ccms.datrep.loadcustomeraccount
+    rwsaccount:
+      name: gw.{env}.x.ccms.cdc.rwsaccount.01
+      consumerGroup: gw.{env}.ccms.datrep.rwsaccount
+      massive:
+        name: gw.{env}.x.ccms.cdc.loadrwsaccount.01
+        consumerGroup: gw.{env}.ccms.datrep.loadrwsaccount
+    rwsprogram:
+      name: gw.{env}.x.ccms.cdc.rwsprogram.01
+      consumerGroup: gw.{env}.ccms.datrep.rwsprogram
+    rwsaccrelation:
+      name: gw.{env}.x.ccms.cdc.rwsaccrelation.01
+      consumerGroup: gw.{env}.ccms.datrep.rwsaccrelation
+      massive:
+        name: gw.{env}.x.ccms.cdc.loadrwsaccrelation.01
+        consumerGroup: gw.{env}.ccms.datrep.loadrwsaccrelation
+    crdintacc:
+      name: gw.{env}.x.ccms.cdc.crdintacc.01
+      consumerGroup: gw.{env}.ccms.datrep.crdintacc
+      massive:
+        name: gw.{env}.x.ccms.cdc.loadcrdintacc.01
+        consumerGroup: gw.{env}.ccms.datrep.loadcrdintacc
+    card:
+      name: gw.{env}.x.ccms.cdc.card.01
+      consumerGroup: gw.{env}.ccms.datrep.card
+      massive:
+        name: gw.{env}.x.ccms.cdc.loadcard.01
+        consumerGroup: gw.{env}.ccms.datrep.loadcard
+    custcrdintacc:
+      name: gw.{env}.x.ccms.cdc.custcrdintacc.02
+      consumerGroup: gw.{env}.ccms.datrep.custcrdintacc
+      massive:
+        name: gw.{env}.x.ccms.cdc.loadcustcrdintacc.01
+        consumerGroup: gw.{env}.ccms.datrep.loadcustcrdintacc
+    cardplastic:
+      name: gw.{env}.x.ccms.cdc.cardplastic.01
+      consumerGroup: gw.{env}.ccms.datrep.cardplastic
+      massive:
+        name: gw.{env}.x.ccms.cdc.loadcardplastic.01
+        consumerGroup: gw.{env}.ccms.datrep.loadcardplastic
+    bansubserventityvariabledata:
+      name: gw.{env}.x.ccms.cdc.bansubserventityvariabledata.01
+      consumerGroup: gw.{env}.ccms.datrep.bansubserventityvariabledata
+      massive:
+        name: gw.{env}.x.ccms.cdc.loadbansubserventityvariabledata.01
+        consumerGroup: gw.{env}.ccms.datrep.loadbansubserventityvariabledata
+    servicepackagecontract:
+      name: gw.{env}.x.ccms.cdc.servicepackagecontract.01
+      consumerGroup: gw.{env}.ccms.datrep.servicepackagecontract
+      massive:
+        name: gw.{env}.x.ccms.cdc.loadservicepackagecontract.01
+        consumerGroup: gw.{env}.ccms.datrep.loadservicepackagecontract
+    smstatuseffect:
+      name: gw.{env}.x.ccms.cdc.smstatuseffect.01
+      consumerGroup: gw.{env}.ccms.datrep.smstatuseffect
+    ismissentitystatus:
+      name: gw.{env}.x.ccms.cdc.ismissentitystatus.02
+      consumerGroup: gw.{env}.ccms.datrep.ismissentitystatus
+      massive:
+        name: gw.{env}.x.ccms.cdc.loadismissentitystatus.01
+        consumerGroup: gw.{env}.ccms.datrep.loadismissentitystatus
 ```
 
-
+### Configuring image source and pull secrets
 
 By default,  data-replication-ms  image is pulled directly from Vestigo's repository hosted by Docker Hub.
 If mirror registry is used for example, image source can be modified using following attributes:
@@ -496,7 +613,7 @@ members:
 ```
 
 This setup is required and will define one member in application with default setup. By default, with one specified member, two database schemas will be defined - "connect" schema, which is a default schema for non-member-specific requests and one member-specific datasource schema in the same database.
-Schema name for application member is auto-generated and will be in format `{members.businessUnit}{members.applicationMember}perstr{env.label}`.
+Schema name for application member is auto-generated and will be in format `{members.businessUnit}{members.applicationMember}datrep{env.label}`.
 
 `members` attribute enables customization on database level. It is possible to override specific datasource and liquibase parameters for each member separately.
 
@@ -519,6 +636,7 @@ members:
       dbName: ""
       user: ""
       password: ""
+      schema:
 ```
 
 Each attribute within `members.datasource` and `members.liquibase` can be defined to override same values defined in `datasource` and `liquibase` blocks.
@@ -536,6 +654,8 @@ Person structure provides option to setup database in several different flavors:
 For first option (all-in-one), it's necessary to set `members.datasource.globalSchema` attribute to `true` (default is `false`).
 When this option is enabled, generated schema name will no longer include `members.applicationMember`, but will instead hold value defined in `datasource.globalSchemaPrefix` attribute, which is set to "wo" by default.
 Note that `members.businessUnit` will still be a part of schema name, as it's not possible to have a single schema in combination with multiple business units.
+
+In case `members.datasource.globalSchema` attribute is set to `true`, then `members.datasource.schema` must be set for all members
 
 For instance, with setup like this one:
 
@@ -916,17 +1036,16 @@ CPU and/or memory utilization metrics can be used to autoscale data-replication-
 It's possible to define one or both of those metrics.
 If only `autoscaling.enabled` attribute is set to `true`, without setting other attributes, only CPU utilization metric will be used with percentage set to 80.
 
-
+#### Using `VerticalPodAutoscaler`
 By default, VPA is disabled in configuration, but it can enabled with following setup:
-
 ```yaml
 vpa:
-  enabled: true # default is false, has to be set to true to enable VPA
-  updateMode: Off # default mode if Off, other possible values are "Initial", "Recreate" and "Auto"
+enabled: true # default is false, has to be set to true to enable VPA
+updateMode: Off # default mode if Off, other possible values are "Initial", "Recreate" and "Auto"
 ```
-
 Please note that this feature requires VPA controller to be installed on Kubernetes cluster. Please refer to [VPA documentation](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) for additional info.
 
+### Customizing probes
 
 data-replication-ms application has predefined health check probes (readiness and liveness).
 Following are the default values:

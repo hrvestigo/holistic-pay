@@ -66,7 +66,14 @@ Liquibase init container definition
 */}}
 {{- define "data-replication-ms.liquibase.initContainer" }}
 {{- range $k, $member := .Values.members }}
-- name: liquibase-{{ .memberSign | lower }}
+  {{- $isTarget := false }}
+  {{- range $.Values.membersTarget }}
+    {{- if eq $member.memberSign . }}
+      {{- $isTarget = true }}
+    {{- end }}
+  {{- end }}
+  {{- if $isTarget }}
+- name: liquibase-{{ $member.memberSign | lower }}
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
   {{- if $.Values.image.liquibase.imageLocation }}
@@ -124,7 +131,7 @@ Liquibase init container definition
     - {{ printf "%s%s" $params " update" }}
     {{- end }}
   {{- end }}
-{{- end }}
+  {{- end }}
 {{- end }}
 
 {{/*

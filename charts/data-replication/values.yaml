@@ -17,16 +17,30 @@ env:
   type: ''
   label: ''
 datasource:
-  host: ''
-  port: ''
-  dbName: ''
-  user: ''
-  globalSchemaPrefix: wo
-  connTimeout: 60000
-  maxPoolSize: 2
-  minIdle: 0
-  idleTimeout: 120000
-  connectionParams: {}
+  source:
+    host: ''
+    port: ''
+    dbName: ''
+    user: ''
+    globalSchemaPrefix: wo
+    connTimeout: 60000
+    maxPoolSize: 2
+    minIdle: 0
+    idleTimeout: 120000
+    connectionParams: {}
+    schema: ''
+  target:
+    host: ''
+    port: ''
+    dbName: ''
+    user: ''
+    globalSchemaPrefix: wo
+    connTimeout: 60000
+    maxPoolSize: 2
+    minIdle: 0
+    idleTimeout: 120000
+    connectionParams: {}
+    schema: ''
 liquibase:
   enabled: true
   syncOnly: false
@@ -48,6 +62,8 @@ members:
     dbName: ''
     user: ''
     password: ''
+membersSource: []
+membersTarget: []
 kafka:
   user: ''
   servers: ''
@@ -59,9 +75,9 @@ kafka:
     user: ''
     url: ''
   listener:
-    enabled: true
+    enabled: false
     massive:
-      enabled: false
+      enabled: true
   topics:
     customer:
       name: hr.vestigo.hp.customer
@@ -157,7 +173,8 @@ response:
 timezone: ''
 secret:
   decryptionKey: ''
-  datasourcePassword: ''
+  datasourcePasswordSource: ''
+  datasourcePasswordTarget: ''
   kafkaPassword: ''
   kafkaSchemaRegistryPassword: ''
   liquibasePassword: ''
