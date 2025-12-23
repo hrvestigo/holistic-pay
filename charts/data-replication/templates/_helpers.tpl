@@ -72,14 +72,13 @@ Liquibase init container definition
       {{- $isTarget = true }}
     {{- end }}
   {{- end }}
-  {{- if $isTarget }}
 - name: liquibase-{{ $member.memberSign | lower }}
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
   {{- if $.Values.image.liquibase.imageLocation }}
   image: {{ include "data-replication-ms.liquibase.image" $ }}
   {{- else }}
-  image: {{ printf "%s%s%s%s%s" (include "data-replication-ms.liquibase.image" $) "-" ($member.businessUnit | lower ) ":" $.Values.image.liquibase.tag }}
+  image: {{ printf "%s-%s:%s" (include "data-replication-ms.liquibase.image" $) ($member.businessUnit | lower) $.Values.image.liquibase.tag }}
   {{- end }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   resources:
@@ -89,32 +88,32 @@ Liquibase init container definition
       name: {{ include "data-replication-ms.name" $ }}-secret
   env:
     - name: SCHEMA_NAME
-  {{- if $member.datasource }}
-    {{- if $member.datasource.globalSchema }}
+      {{- if $member.datasource }}
+        {{- if $member.datasource.globalSchema }}
       value: {{ $member.businessUnit | lower }}{{ required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix }}{{ include "data-replication-ms.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
-    {{- else }}
+        {{- else }}
       value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "data-replication-ms.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
-    {{- end }}
-  {{- else }}
+        {{- end }}
+      {{- else }}
       value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "data-replication-ms.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
-  {{- end }}
-  {{- if $member.liquibase }}
+      {{- end }}
+    {{- if $member.liquibase }}
     - name: ROLE
       value: {{ default (required "Please specify database role in liquibase.role or override with member-specific members.liquibase.role" $.Values.liquibase.role) $member.liquibase.role }}
     - name: REPLICATION_ROLE
       value: {{ default (required "Please specify database replication role in liquibase.replicationRole or override with member-specific members.liquibase.replicationRole" $.Values.liquibase.replicationRole) $member.liquibase.replicationRole }}
-  {{- else }}
+    {{- else }}
     - name: ROLE
       value: {{ required "Please specify database role in liquibase.role or override with member-specific members.liquibase.role" $.Values.liquibase.role }}
     - name: REPLICATION_ROLE
       value: {{ required "Please specify database replication role in liquibase.replicationRole or override with member-specific members.liquibase.replicationRole" $.Values.liquibase.replicationRole }}
-  {{- end }}
+    {{- end }}
   command:
     - bash
     - -c
   {{- if $member.datasource }}
-    {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" (default $.Values.datasource.host $member.datasource.host) ":" (default ($.Values.datasource.port | int) ( $member.datasource.port | int)) "/" (default $.Values.datasource.dbName  $member.datasource.dbName) }}
-    {{- $context := printf "%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" }}
+    {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" (default $.Values.datasource.host $member.datasource.host) ":" (default ($.Values.datasource.port | int) ($member.datasource.port | int)) "/" (default $.Values.datasource.dbName $member.datasource.dbName) }}
+    {{- $context := printf "%s%s%s" (required "Please specify business unit in members.businessUnit" $member.businessUnit | upper) (required "Please specify application member in members.applicationMember" $member.applicationMember | upper) ",test" }}
     {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -jar /tmp/aesdecryptor.jar -d -l && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
     {{- if $.Values.liquibase.syncOnly }}
     - {{ printf "%s%s" $params " changelog-sync" }}
@@ -123,7 +122,7 @@ Liquibase init container definition
     {{- end }}
   {{- else }}
     {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" $.Values.datasource.host ":" ($.Values.datasource.port | int) "/" $.Values.datasource.dbName }}
-    {{- $context := printf "%s%s%s" ( required "Please specify business unit in members.businessUnit" $member.businessUnit | upper ) ( required "Please specify application member in members.applicationMember" $member.applicationMember | upper ) ",test" }}
+    {{- $context := printf "%s%s%s" (required "Please specify business unit in members.businessUnit" $member.businessUnit | upper) (required "Please specify application member in members.applicationMember" $member.applicationMember | upper) ",test" }}
     {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -jar /tmp/aesdecryptor.jar -d -l && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
     {{- if $.Values.liquibase.syncOnly }}
     - {{ printf "%s%s" $params " changelog-sync" }}
@@ -131,7 +130,7 @@ Liquibase init container definition
     - {{ printf "%s%s" $params " update" }}
     {{- end }}
   {{- end }}
-  {{- end }}
+{{- end }}
 {{- end }}
 
 {{/*
