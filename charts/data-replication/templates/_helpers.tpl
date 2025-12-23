@@ -90,7 +90,7 @@ Liquibase init container definition
     - name: SCHEMA_NAME
       {{- if $member.datasource }}
         {{- if $member.datasource.globalSchema }}
-      value: {{ $member.businessUnit | lower }}{{ required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.globalSchemaPrefix }}{{ include "data-replication-ms.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
+      value: {{ $member.businessUnit | lower }}{{ required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.target.globalSchemaPrefix }}{{ include "data-replication-ms.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
         {{- else }}
       value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "data-replication-ms.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
         {{- end }}
@@ -112,7 +112,7 @@ Liquibase init container definition
     - bash
     - -c
   {{- if $member.datasource }}
-    {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" (default $.Values.datasource.host $member.datasource.host) ":" (default ($.Values.datasource.port | int) ($member.datasource.port | int)) "/" (default $.Values.datasource.dbName $member.datasource.dbName) }}
+    {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" (default $.Values.datasource.target.host $member.datasource.host) ":" (default ($.Values.datasource.target.port | int) ($member.datasource.port | int)) "/" (default $.Values.datasource.target.dbName $member.datasource.dbName) }}
     {{- $context := printf "%s%s%s" (required "Please specify business unit in members.businessUnit" $member.businessUnit | upper) (required "Please specify application member in members.applicationMember" $member.applicationMember | upper) ",test" }}
     {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -jar /tmp/aesdecryptor.jar -d -l && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
     {{- if $.Values.liquibase.syncOnly }}
@@ -121,7 +121,7 @@ Liquibase init container definition
     - {{ printf "%s%s" $params " update" }}
     {{- end }}
   {{- else }}
-    {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" $.Values.datasource.host ":" ($.Values.datasource.port | int) "/" $.Values.datasource.dbName }}
+    {{- $url := printf "%s%s%s%d%s%s" "jdbc:postgresql://" $.Values.datasource.target.host ":" ($.Values.datasource.target.port | int) "/" $.Values.datasource.target.dbName }}
     {{- $context := printf "%s%s%s" (required "Please specify business unit in members.businessUnit" $member.businessUnit | upper) (required "Please specify application member in members.applicationMember" $member.applicationMember | upper) ",test" }}
     {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -jar /tmp/aesdecryptor.jar -d -l && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
     {{- if $.Values.liquibase.syncOnly }}
