@@ -7994,6 +7994,16 @@ entries:
     version: 1.0.0
   data-replication:
   - apiVersion: v2
+    appVersion: 1.21.0
+    created: "2025-12-23T13:55:35.28326676Z"
+    description: Helm chart for data-replication-ms application
+    digest: ab1c97c681f3435441a527fdc0c18702e1754c69a8e2682997435cdb6ef25955
+    name: data-replication
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/data-replication-1.21.0/data-replication-1.21.0.tgz
+    version: 1.21.0
+  - apiVersion: v2
     appVersion: 1.20.0
     created: "2025-12-22T08:36:23.242692382Z"
     description: Helm chart for data-replication-ms application
@@ -34077,4 +34087,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2025-12-22T08:36:23.266331496Z"
+generated: "2025-12-23T13:55:35.306986827Z"
