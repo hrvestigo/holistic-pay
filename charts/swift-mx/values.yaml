@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.63.0
+    tag: 1.65.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -108,6 +108,33 @@ kafka:
     swiftcustomerpaymentstatusreport:
       name: hr.vestigo.hp.swiftcustomerpaymentstatusreport
       consumerGroup: hr.vestigo.hp.swiftcustomerpaymentstatusreport
+      enabled: true
+      nbrEnabled: true
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
+      concurrency: 1
+    swiftpaymentstatusreport:
+      name: hr.vestigo.hp.swiftpaymentstatusreport
+      consumerGroup: hr.vestigo.hp.swiftpaymentstatusreport
+      enabled: true
+      nbrEnabled: true
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
+      concurrency: 1
+    swiftpaymentcancellationrequest:
+      name: hr.vestigo.hp.swiftpaymentcancellationrequest
+      consumerGroup: hr.vestigo.hp.swiftpaymentcancellationrequest
+      enabled: true
+      nbrEnabled: true
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
+      concurrency: 1
+    swiftresolutionofinvestigation:
+      name: hr.vestigo.hp.swiftresolutionofinvestigation
+      consumerGroup: hr.vestigo.hp.swiftresolutionofinvestigation
       enabled: true
       nbrEnabled: true
       nbrBackOff: 50000;5s
