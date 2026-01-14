@@ -51,7 +51,7 @@ Liquibase image
 {{- if .Values.image.liquibase.imageLocation }}
 {{- printf "%s:%s" .Values.image.liquibase.imageLocation .Values.image.liquibase.tag }}
 {{- else }}
-{{- $liquiRepo := "hrvestigo/data-replication-ms-lb" }}
+{{- $liquiRepo := "hrvestigo/data-replication-lb" }}
 {{- $reg := default $.Values.image.registry $.Values.image.liquibase.registry }}
 {{- if $reg }}
 {{- printf "%s/%s" $reg $liquiRepo }}
