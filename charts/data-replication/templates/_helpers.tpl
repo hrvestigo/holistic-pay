@@ -72,6 +72,9 @@ Liquibase init container definition
       {{- $isTarget = true }}
     {{- end }}
   {{- end }}
+
+  {{- if $isTarget }}
+
 - name: liquibase-{{ $member.memberSign | lower }}
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
@@ -132,6 +135,7 @@ Liquibase init container definition
     {{- else }}
     - {{ printf "%s%s" $params " update" }}
     {{- end }}
+  {{- end }}
   {{- end }}
 {{- end }}
 {{- end }}
