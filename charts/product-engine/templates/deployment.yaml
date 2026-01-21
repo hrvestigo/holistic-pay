@@ -206,8 +206,6 @@ spec:
               value: {{ .Values.scheduleTask.closePackageOnEffectiveDate.enabled | quote }}
             - name: STATUS_AUDIT_LOG_ENABLED
               value: {{ .Values.status.auditLog.enabled | quote }}
-            - name: MS_SEQUENCE_NAME
-              value: {{ .Values.ms.sequence.name | quote }}
             - name: GET_ALL_REPLICATED_PERSON_DATA_INTERFACE_BASE_URL
               value: {{ required "Please specify personRegistry.replicatedPersonData.baseUrl" .Values.personRegistry.replicatedPersonData.baseUrl | quote }}
             - name: GET_ALL_REPLICATED_PERSON_DATA_INTERFACE_URL

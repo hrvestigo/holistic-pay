@@ -74,9 +74,6 @@ pricingEngine:
 status:
   auditLog:
     enabled: false
-ms:
-  sequence:
-    name: ''
 kafka:
   readinessProbeEnabled: true
   user: ''

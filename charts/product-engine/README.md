@@ -159,17 +159,12 @@ personRegistry:
 ```
 
 ### Audit log setup
-Saving to audit log can be enabled or disabled.
-Sequence to use are set in sequence attribute.
+Saving to audit log can be enabled or disabled. By default, saving to audit log is disabled.
 
 ```yaml
 status:
   auditLog:
     enabled: false # Example for disabled saving to audit log
-
-ms:
-  sequence:
-    name: "my_sequence_name" # Example for sequence
 ```
 ### Kafka setup
 
