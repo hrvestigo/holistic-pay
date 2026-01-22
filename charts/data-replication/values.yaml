@@ -24,8 +24,8 @@ datasource:
     user: ''
     globalSchemaPrefix: wo
     connTimeout: 60000
-    maxPoolSize: 2
-    minIdle: 0
+    maxPoolSize: 20
+    minIdle: 5
     idleTimeout: 120000
     connectionParams: {}
     schema: ''
@@ -36,8 +36,8 @@ datasource:
     user: ''
     globalSchemaPrefix: wo
     connTimeout: 60000
-    maxPoolSize: 2
-    minIdle: 0
+    maxPoolSize: 20
+    minIdle: 5
     idleTimeout: 120000
     connectionParams: {}
     schema: ''
@@ -57,11 +57,12 @@ members:
     replicationRole: ''
   datasource:
     globalSchema: false
+    schema: ''
+    dbName: ''
     host: ''
     port: ''
-    dbName: ''
     user: ''
-    password: ''
+    datasourcePasswordSource: ''
 membersSource: []
 membersTarget: []
 kafka:
@@ -77,7 +78,7 @@ kafka:
   listener:
     enabled: false
     massive:
-      enabled: true
+      enabled: false
   topics:
     customer:
       name: hr.vestigo.hp.customer
@@ -173,7 +174,6 @@ response:
 timezone: ''
 secret:
   decryptionKey: ''
-  datasourcePasswordSource: ''
   datasourcePasswordTarget: ''
   kafkaPassword: ''
   kafkaSchemaRegistryPassword: ''

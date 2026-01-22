@@ -26,7 +26,6 @@ env:
   
 secret:
   decryptionKey: "my-encryption-key" # string value
-  datasourcePasswordSource: "AES-encoded-datasource-password" # string value
   datasourcePasswordTarget: "AES-encoded-datasource-password" # string value
   kafkaPassword: "AES-encoded-kafka-password" # string value
   kafkaSchemaRegistryPassword: "AES-encoded-kafka-schema-registry-password" # string value
@@ -110,14 +109,12 @@ Attributes `datasource.source.schema` and `datasource.target.schema` should be p
 In addition to datasource attributes, it's required to provide an AES encrypted password for database user specified in `datasource.user`, as well as for Liquibase user defined in `liquibase.user`.
 
 Encryption key used to encrypt and decrypt datasource and liquibase passwords (as well as Kafka passwords) is defined in `secret.decryptionKey` attribute.
-Use this key to encrypt datasource and liquibase password and define them in `secret.datasourcePasswordSource` for source CCMS datasource, `secret.datasourcePasswordTarget` for target HP datasource and `secret.liquibasePassword` attributes.
 
 Datasource secret configuration:
 
 ```yaml
 secret:
   decryptionKey: "my-encryption-key" # some custom encryption key
-  datasourcePasswordSource: "{AES}S0m3H4sh" # datasource password for user defined in datasource.user encrypted with custom encryption key
   datasourcePasswordTarget: "{AES}S0m3H4sh" # datasource password for user defined in datasource.user encrypted with custom encryption key
   liquibasePassword: "{AES}S0m3H4sh" # AES encrypted password for Liquibase user defined in liquibase.user attribute
 ```
@@ -635,15 +632,15 @@ members:
       port: ""
       dbName: ""
       user: ""
-      password: ""
       schema:
+      datasourcePasswordSource: "AES-encoded-datasource-password" # string value
 ```
 
 Each attribute within `members.datasource` and `members.liquibase` can be defined to override same values defined in `datasource` and `liquibase` blocks.
 
 For instance, if value of `member.datasource.dbName` attribute is modified, this value will be used instead of `datasource.dbName` for this member's datasource definition.
 Same logic is applied for all attributes.
-
+Use key from secret to encrypt datasource and liquibase password and define them in `secret.datasourcePasswordSource` for source CCMS datasource, `secret.datasourcePasswordTarget` for target HP datasource and `secret.liquibasePassword` attributes.
 
 Person structure provides option to setup database in several different flavors:
 
