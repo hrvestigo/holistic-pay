@@ -91,6 +91,8 @@ imagePullSecrets:
   - name: "image-pull-secret-name" # string value, no default value
 ```
 
+Note: if a route is not specified or is pointing to a non-existent endpoint, response with status 404 Not Found will be returned. In case endpoint is not reachable or missconfigured (DNS resolve issue), response status 500 will be returned. In that case, application logs will contain specific information about the failing endpoint.
+
 ### Configuring image source and pull secrets
 
 By default, API Gateway image is pulled directly from Vestigo's repository hosted by Docker Hub.

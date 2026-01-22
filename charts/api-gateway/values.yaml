@@ -41,6 +41,7 @@ logger:
           # basename: ""
 
 routes:
+  allowSensitiveDataEndpoints: true
   alcCollect:
     serviceName: alc-collect
     servicePortNumber: "8443"
@@ -97,6 +98,9 @@ routes:
     servicePortNumber: "8443"
   extDisputeInterface:
     serviceName: external-dispute-interface
+    servicePortNumber: "8443"
+  ccmsApi:
+    serviceName: ccms-api
     servicePortNumber: "8443"
 
 oauth2:

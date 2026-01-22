@@ -142,10 +142,17 @@ spring:
         - id: pan-manager-ms_route
           predicates:
             - Path=/api/*/generateNewPan, /api/*/generateNewPanList
+        {{- if .Values.routes.allowSensitiveDataEndpoints }}
           uri: https://{{ required "Pan manager application service name has to be defined in routes.panManager.serviceName" .Values.routes.panManager.serviceName }}:{{ required "Pan manager application port number has to be defined in routes.panManager.servicePortNumber" .Values.routes.panManager.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
+        {{- else }}
+          uri: no://op
+          filters:
+            - SetStatus=403
+            - SetResponseHeader=X-Blocked-Message, "Access Denied"
+        {{- end }}
         - id: gsf-core-ms_route
           predicates:
             - Path=/api/*/gsf/code-validation
@@ -188,9 +195,23 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
+        - id: external-dispute-interface-ms-pan_route
+          predicates:
+            - Path=/card/*/pan, /card/cardId
+        {{- if .Values.routes.allowSensitiveDataEndpoints }}
+          uri: https://{{ required "External Dispute Interface application service name has to be defined in routes.extDisputeInterface.serviceName" .Values.routes.extDisputeInterface.serviceName }}:{{ required "External Dispute Interface application port number has to be defined in routes.extDisputeInterface.servicePortNumber" .Values.routes.extDisputeInterface.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        {{- else }}
+          uri: no://op
+          filters:
+            - SetStatus=403
+            - SetResponseHeader=X-Blocked-Message, "Access Denied"
+        {{- end }}
         - id: external-dispute-interface-ms_route
           predicates:
-            - Path=/card/*/pan, /card/*/cardholderId, /card/cardId, /event/v2
+            - Path=/card/*/cardholderId, /event/v2
           uri: https://{{ required "External Dispute Interface application service name has to be defined in routes.extDisputeInterface.serviceName" .Values.routes.extDisputeInterface.serviceName }}:{{ required "External Dispute Interface application port number has to be defined in routes.extDisputeInterface.servicePortNumber" .Values.routes.extDisputeInterface.servicePortNumber }}
           filters:
             - TokenRelay
@@ -207,6 +228,22 @@ spring:
           predicates:
             - Path=/api/*/swift/*
           uri: https://{{ required "Swift mx application service name has to be defined in routes.swiftMx.serviceName" .Values.routes.swiftMx.serviceName }}:{{ required "Swift mx application port number has to be defined in routes.swiftMx.servicePortNumber" .Values.routes.swiftMx.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        {{- if not .Values.routes.allowSensitiveDataEndpoints }}
+        - id: ccms-api-blocked_route
+          predicates:
+            - Path=/rest/service/WS2I12, /rest/service/WS2I05
+          filters:
+            - SetStatus=403
+            - SetResponseHeader=X-Blocked-Message, "Access Denied"
+          uri: no://op
+        {{- end }}
+        - id: ccms-api_route
+          predicates:
+            - Path=/rest/service/**
+          uri: https://{{ required "CCMS API application service name has to be defined in routes.ccmsApi.serviceName" .Values.routes.ccmsApi.serviceName }}:{{ required "CCMS API application port number has to be defined in routes.ccmsApi.servicePortNumber" .Values.routes.ccmsApi.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
