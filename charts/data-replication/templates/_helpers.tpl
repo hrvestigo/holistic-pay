@@ -86,9 +86,11 @@ Liquibase init container definition
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   resources:
     {{- include "data-replication-ms.liquibase.initContainer.resources" $ | nindent 4 }}
+  {{- if not (eq "NONE" ($.Values.secret.encryptionAlgorithm)) -}}
   volumeMounts:
     - mountPath: /liquibase/secret/
       name: {{ include "data-replication-ms.name" $ }}-secret
+  {{- end }}
   env:
     - name: SCHEMA_NAME
       {{- if $member.datasource }}
@@ -110,6 +112,13 @@ Liquibase init container definition
       value: {{ required "Please specify database role in liquibase.role or override with member-specific members.liquibase.role" $.Values.liquibase.role }}
     - name: REPLICATION_ROLE
       value: {{ required "Please specify database replication role in liquibase.replicationRole or override with member-specific members.liquibase.replicationRole" $.Values.liquibase.replicationRole }}
+    {{- if and $.Values.secret.existingSecret (eq "NONE" $.Values.secret.encryptionAlgorithm) }}
+    - name: LB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: {{ $.Values.secret.existingSecret }}
+          key: liquibase.password
+    {{- end }}
     {{- end }}
   command:
     - bash
@@ -120,7 +129,12 @@ Liquibase init container definition
     {{- $db := default $.Values.datasource.target.dbName (and $member.datasource $member.datasource.dbName) }}
     {{- $url := printf "jdbc:postgresql://%s:%d/%s" $host $port $db }}
     {{- $context := printf "%s%s%s" (required "Please specify business unit in members.businessUnit" $member.businessUnit | upper) (required "Please specify application member in members.applicationMember" $member.applicationMember | upper) ",test" }}
-    {{- $params := printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -jar /tmp/aesdecryptor.jar -d -l && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
+    {{- $params := "" }} # define once at outer scope
+    {{- if and $.Values.secret.existingSecret (eq "NONE" $.Values.secret.encryptionAlgorithm) }}
+    {{- $params = printf "cp /liquibase/changelog/liquibase.properties /tmp && sed -i \"s|__LIQUIBASE_PASSWORD__|$LB_PASSWORD|g\" /tmp/liquibase.properties && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=%s --contexts=%s --username=%s" $url $context $.Values.liquibase.user }}
+    {{- else }}
+    {{- $params = printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -jar /tmp/aesdecryptor.jar -d -l && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
+    {{- end }}
     {{- if $.Values.liquibase.syncOnly }}
     - {{ printf "%s%s" $params " changelog-sync" }}
     {{- else }}
@@ -208,12 +222,14 @@ Volumes
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
+{{- if not (eq "NONE" .Values.secret.encryptionAlgorithm) -}}
 - name: {{ include "data-replication-ms.name" . }}-secret
   secret:
     secretName: {{ include "data-replication-ms.name" . }}-secret
     items:
       - path: password.conf
         key: password.conf
+{{- end }}
 - name: {{ include "data-replication-ms.name" . }}-configmap
   configMap:
     name: {{ include "data-replication-ms.name" . }}-configmap
@@ -270,8 +286,10 @@ Mounts for data-replication-ms application
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
+{{- if not (eq "NONE" .Values.secret.encryptionAlgorithm) -}}
 - mountPath: /mnt/k8s/secrets/
   name: {{ include "data-replication-ms.name" . }}-secret
+{{- end -}}
 - mountPath: /usr/app/config
   name: {{ include "data-replication-ms.name" . }}-configmap
 {{- if .Values.mountServerCertFromSecret.enabled }}

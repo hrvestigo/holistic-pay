@@ -180,6 +180,8 @@ secret:
   liquibasePassword: ''
   trustStorePassword: ''
   keyStorePassword: ''
+  existingSecret: ''
+  encryptionAlgorithm: AES_CBC
 logger:
   format: STRING
   level:
