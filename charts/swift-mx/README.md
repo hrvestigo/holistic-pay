@@ -1526,23 +1526,42 @@ application:
       ##    saa – Generates XML with an SAA header included.
       ##    env – Generates XML without the SAA header; the message is wrapped only in an envelope.
       xmlModeOut: saa
-      ## XML formatting mode for Swift MX messages.
+      ## XML formatting mode for Swift MX message.
       ## Possible options:
       ##    compact  - produces compact XML without unnecessary spaces and line breaks (default)
-      ##    readable - uses hr.vestigo.blef.xml.format.XMLFormatter to produce human readable XML
+      ##    readable - uses formatter to produce human readable XML
       ##    raw      - produces raw XML as is without any formatting
       xmlFormat: compact
     event:
       ## Producing XML event for received Swift MX messages.
       ##
       ## By default, received Swift MX message is produced to Kafka topic 'paymentxmlmessage'
-      xmlIn: true
-      ## Producing XML event for generated Swift MX messages.
+      xmlIn:
+        enabled: true
+        ## Producing XML event for generated Swift MX messages.
       ##
       ## By default, generated Swift MX message is produced to Kafka topic 'paymentxmlmessage'.
       ## Note that if outgoing file integration is enabled and parameter 'writeFileEventEnabled'
       ## is set to true, duplicate event is produced. In this case this parameter can be disabled.
-      xmlOut: true
+      xmlOut:
+        enabled: true
+      ## Producing financial event for received Swift MX messages.
+      ##
+      ## By default, received Swift MX message financial event is produced to Kafka topic 'paymentfinmessage'.
+      finIn:
+        enabled: true
+        ## Defined overrides for specific message types - list of conditions that override default behaviour.
+        overrides:
+          pacs.004: NORES,COVE
+      ## Producing non-financial event for received Swift MX messages.
+      ##
+      ## By default, received Swift MX message non-financial event is produced to Kafka topic 'paymentnonfinmessage'.
+      nonFinIn:
+        enabled: true
+        ## Defined overrides for specific message types - list of conditions that override default behaviour.
+        overrides:
+          pacs.002: NORES,!RJCT
+          camt.029: NORES,PDCR
   data:
     ## Configuration for data component.
     ##
@@ -1659,6 +1678,13 @@ application:
       ## If enabled, marker event is produced to Kafka topic 'paymentxmlmessage'.
       ## This property is used only when 'writeFileEventEnabled' is true.
       writeFileMarkerEventEnabled: false
+      ## XML formatting mode for Swift MX message written to file.
+      ## This overrides 'xmlFormat' configuration.
+      ##
+      ## Possible options:
+      ##    compact  - produces compact XML without unnecessary spaces and line breaks
+      ##    readable - uses formatter to produce human readable XML (default)
+      writeFileXmlFormat: readable
 
 ## Additional configuration providing details about volume needed for application file integration.
 applicationFileVolumes:

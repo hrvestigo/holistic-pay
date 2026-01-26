@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.65.0
+    tag: 1.70.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -338,8 +338,19 @@ application:
       xmlModeOut: saa
       xmlFormat: compact
     event:
-      xmlIn: true
-      xmlOut: true
+      xmlIn:
+        enabled: true
+      xmlOut:
+        enabled: true
+      finIn:
+        enabled: true
+        overrides:
+          pacs.004: NORES,COVE
+      nonFinIn:
+        enabled: true
+        overrides:
+          pacs.002: NORES,!RJCT
+          camt.029: NORES,PDCR
   data:
     caching:
       expire: 12h
@@ -361,6 +372,7 @@ application:
       writeMode: pull
       writeFileEventEnabled: false
       writeFileMarkerEventEnabled: false
+      writeFileXmlFormat: readable
   alert:
     communication:
       type: skip

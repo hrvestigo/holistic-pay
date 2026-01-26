@@ -377,21 +377,38 @@ Swift mx Kafka topics configuration
 {{- end }}
 
 {{/*
+Recursively walk a map and emit env vars for scalar values only.
+*/}}
+{{- define "swift-mx.envRecursive" -}}
+{{- $root := .root -}}
+{{- $path := .path | default "SWIFT_MX" -}}
+
+{{- range $key, $value := $root }}
+  {{- $cleanKey := $key | replace "." "_" | snakecase | upper }}
+  {{- $currentPath := printf "%s_%s" $path $cleanKey }}
+
+  {{- if kindIs "map" $value }}
+    {{- include "swift-mx.envRecursive" (dict "root" $value "path" $currentPath) }}
+  {{- else }}
+- name: {{ $currentPath | upper }}
+  value: {{ $value | quote }}
+  {{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
 Swift mx application configuration.
 Iterates over configuration per application module/components.
 Each module/component has configuration per named key.
-Final configuration name is SWIFT_MX_<module>_<moduleKey>_<name>=<value>,
-where 'name' is configuration parameter and 'value' is configuration value
+Final configuration name is SWIFT_MX_<module>_<moduleKey>_..._<name>=<value>,
+where 'name' is configuration parameter and 'value' is configuration value.
+It makes use of envRecursive helper to achieve this since the depth of configuration is not always the same.
 */}}
-{{- define "swift-mx.application.config" }}
-{{- range $module, $configs := .Values.application }}
-{{- range $moduleKey, $config := $configs }}
-{{- range $name, $value := $config }}
-- name: SWIFT_MX_{{ $module | upper }}_{{ $moduleKey | upper }}_{{ $name | snakecase | upper }}
-  value: {{ $value | quote }}
-{{- end }}
-{{- end }}
-{{- end }}
+{{- define "swift-mx.application.config" -}}
+{{- include "swift-mx.envRecursive" (dict
+    "root" .Values.application
+    "path" "SWIFT_MX"
+) -}}
 {{- end }}
 
 {{/*
