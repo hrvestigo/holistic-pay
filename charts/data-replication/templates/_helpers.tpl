@@ -86,11 +86,11 @@ Liquibase init container definition
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   resources:
     {{- include "data-replication-ms.liquibase.initContainer.resources" $ | nindent 4 }}
-  {{- if not (eq "NONE" ($.Values.secret.encryptionAlgorithm)) -}}
+  {{ if not (eq "NONE" ($.Values.secret.encryptionAlgorithm)) }}
   volumeMounts:
     - mountPath: /liquibase/secret/
       name: {{ include "data-replication-ms.name" $ }}-secret
-  {{- end }}
+  {{ end }}
   env:
     - name: SCHEMA_NAME
       {{- if $member.datasource }}
@@ -112,13 +112,13 @@ Liquibase init container definition
       value: {{ required "Please specify database role in liquibase.role or override with member-specific members.liquibase.role" $.Values.liquibase.role }}
     - name: REPLICATION_ROLE
       value: {{ required "Please specify database replication role in liquibase.replicationRole or override with member-specific members.liquibase.replicationRole" $.Values.liquibase.replicationRole }}
-    {{- if and $.Values.secret.existingSecret (eq "NONE" $.Values.secret.encryptionAlgorithm) }}
+    {{ if and $.Values.secret.existingSecret (eq "NONE" $.Values.secret.encryptionAlgorithm) }}
     - name: LB_PASSWORD
       valueFrom:
         secretKeyRef:
           name: {{ $.Values.secret.existingSecret }}
           key: liquibase.password
-    {{- end }}
+    {{ end }}
     {{- end }}
   command:
     - bash
@@ -222,14 +222,14 @@ Volumes
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
-{{- if not (eq "NONE" .Values.secret.encryptionAlgorithm) -}}
+{{ if not (eq "NONE" .Values.secret.encryptionAlgorithm) }}
 - name: {{ include "data-replication-ms.name" . }}-secret
   secret:
     secretName: {{ include "data-replication-ms.name" . }}-secret
     items:
       - path: password.conf
         key: password.conf
-{{- end }}
+{{ end }}
 - name: {{ include "data-replication-ms.name" . }}-configmap
   configMap:
     name: {{ include "data-replication-ms.name" . }}-configmap
@@ -286,10 +286,10 @@ Mounts for data-replication-ms application
 {{- toYaml . | default "" }}
 {{ "" }}
 {{- end -}}
-{{- if not (eq "NONE" .Values.secret.encryptionAlgorithm) -}}
+{{ if not (eq "NONE" .Values.secret.encryptionAlgorithm) }}
 - mountPath: /mnt/k8s/secrets/
   name: {{ include "data-replication-ms.name" . }}-secret
-{{- end -}}
+{{ end }}
 - mountPath: /usr/app/config
   name: {{ include "data-replication-ms.name" . }}-configmap
 {{- if .Values.mountServerCertFromSecret.enabled }}
