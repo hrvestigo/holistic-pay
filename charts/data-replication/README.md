@@ -962,6 +962,7 @@ Default deployment strategy for data-replication-ms application is `RollingUpdat
 ```yaml
 deployment:
   annotations: {}
+  labels: {}
   replicaCount: 1
   strategy:
     type: RollingUpdate
@@ -1162,8 +1163,11 @@ service:
   labels: {}
 ```
 
+#### Ingress setup
 
 Ingress is not created by default, but can be enabled and customized by specifying following values:
+
+Custom annotations and labels can be added to `Ingress` by specifying them in `ingress.annotations` and `ingress.labels` attributes, for example:
 
 ```yaml
 ingress:
@@ -1172,6 +1176,7 @@ ingress:
   annotations: {}
   hosts: []
   tls: []
+  labels: {}
 ```
 
 For example, a working setup could be defined like this:
@@ -1257,6 +1262,7 @@ tolerations:
     tolerationSeconds: 3600
 ```
 
+### Adding custom annotations and labels
 
 Custom annotations can be added to pod by listing them under `podAnnotations` attribute structure, for example:
 
@@ -1274,6 +1280,16 @@ deployment:
     custom.annotation: custom-value
     other.annotation: other-value
 ```
+
+Custom labels can be added to pod by listing them under `podLabels` attribute, for example:
+
+```yaml
+podLabels:
+  custom.labels: custom-value
+  other.labels: other-value
+```
+
+### Additional custom configuration
 
 
 There are some other customizable attributes predefined in  data-replication-ms  application.

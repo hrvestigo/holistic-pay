@@ -206,7 +206,7 @@ logger:
 healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
 podAnnotations: {}
-deploymentAnnotations: {}
+podLabels: {}
 serviceAnnotations: {}
 podSecurityContext:
   runAsNonRoot: true
@@ -229,6 +229,7 @@ ingress:
   annotations: {}
   hosts: []
   tls: []
+  labels: {}
 resources:
   limits:
     cpu: 500m
@@ -266,6 +267,7 @@ affinity:
 deployment:
   replicaCount: 1
   annotations: {}
+  labels: {}
   strategy:
     type: RollingUpdate
     rollingUpdate:
