@@ -304,6 +304,16 @@ spec:
               value: {{ .Values.kafka.topics.paymentinitmessageinbox.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PAYMENTINITMESSAGEINBOX_NAME
               value: {{ .Values.kafka.topics.paymentinitmessageinbox.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_PAYMENTNONFINMESSAGE_NAME
+              value: {{ .Values.kafka.topics.paymentnonfinmessage.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PAYMENTNONFINMESSAGE_NAME
+              value: {{ .Values.kafka.topics.paymentnonfinmessage.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_PAYMENTNONFINMESSAGE_ENABLED
+              value: {{ .Values.kafka.topics.paymentnonfinmessage.enabled | quote }}
+            - name: KAFKA_TOPIC_PAYMENTNONFINMESSAGEINBOX_NAME
+              value: {{ .Values.kafka.topics.paymentnonfinmessageinbox.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PAYMENTNONFINMESSAGEINBOX_NAME
+              value: {{ .Values.kafka.topics.paymentnonfinmessageinbox.consumerGroup | quote }}
             - name: KAFKA_TOPIC_ECSCOMMUNICATIONLOG_NAME
               value: {{ .Values.kafka.topics.ecsCommunicationLog.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTSWIFTORIGINALMESSAGE_NAME

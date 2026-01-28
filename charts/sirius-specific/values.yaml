@@ -212,6 +212,14 @@ kafka:
     paymentinitmessageinbox:
       name: hr.vestigo.hp.paymentinitmessageinbox.01
       consumerGroup: gw.ipt1.hp.evt.paymentinitmessageinbox
+    paymentnonfinmessage:
+      name: hr.vestigo.hp.paymentnonfinmessage.01
+      consumerGroup: gw.ipt1.hp.evt.paymentnonfinmessage
+      enabled: false
+      concurrency: 1
+    paymentnonfinmessageinbox:
+      name: hr.vestigo.hp.paymentnonfinmessageinbox.01
+      consumerGroup: gw.ipt1.hp.evt.paymentnonfinmessageinbox
   consumer:
     properties:
       sessionTimeoutMs: 45000
