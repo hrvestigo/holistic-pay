@@ -360,6 +360,8 @@ spec:
               value: {{ .Values.kafka.topics.paymentinitmessage.concurrency | quote }}
             - name: KAFKA_CONSUMER_CONCURRENCY_TRANSACTIONSCREENINGAMLCFT
               value: {{ .Values.kafka.topics.transactionScreeningamlcft.concurrency | quote }}
+            - name: KAFKA_CONSUMER_CONCURRENCY_PAYMENTNONFINMESSAGE
+              value: { { .Values.kafka.topics.paymentnonfinmessage.concurrency | quote } }
             {{- if (include "sirius-specific.kafka.consumer.properties.config" .) -}}
             {{- include "sirius-specific.kafka.consumer.properties.config" . | indent 12 -}}
             {{- end }}
