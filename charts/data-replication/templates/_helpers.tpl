@@ -97,7 +97,7 @@ Liquibase init container definition
         {{- if $member.datasource.globalSchema }}
       value: {{ $member.businessUnit | lower }}{{ required "Please specify global schema prefix in datasource.globalSchemaPrefix" $.Values.datasource.target.globalSchemaPrefix }}{{ include "data-replication-ms.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
         {{- else }}
-      value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "data-replication-ms.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
+      value: {{ default (printf "%s%s%s%s" ($member.businessUnit | lower) ($member.applicationMember | lower) (include "data-replication-ms.dbSchema" $) (required "Please specify environment label in env.label" $.Values.env.label | lower)) ($member.datasource.schema | default "" | lower) }}
         {{- end }}
       {{- else }}
       value: {{ $member.businessUnit | lower }}{{ $member.applicationMember | lower }}{{ include "data-replication-ms.dbSchema" $ }}{{ required "Please specify environment label in env.label" $.Values.env.label | lower }}
