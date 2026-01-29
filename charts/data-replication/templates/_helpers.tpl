@@ -127,7 +127,8 @@ Liquibase init container definition
     {{- $host := default $.Values.datasource.target.host (and $member.datasource $member.datasource.host) }}
     {{- $port := default ($.Values.datasource.target.port | int) (and $member.datasource ($member.datasource.port | int)) }}
     {{- $db := default $.Values.datasource.target.dbName (and $member.datasource $member.datasource.dbName) }}
-    {{- $url := printf "jdbc:postgresql://%s:%d/%s" $host $port $db }}
+    {{- $schema := default $.Values.datasource.target.schema (and $member.datasource $member.datasource.schema) }}
+    {{- $url := printf "jdbc:postgresql://%s:%d/%s?currentSchema=%s" $host $port $db $schema }}
     {{- $context := printf "%s%s%s" (required "Please specify business unit in members.businessUnit" $member.businessUnit | upper) (required "Please specify application member in members.applicationMember" $member.applicationMember | upper) ",test" }}
     {{- $params := "" }} # define once at outer scope
     {{- if and $.Values.secret.existingSecret (eq "NONE" $.Values.secret.encryptionAlgorithm) }}
