@@ -141,7 +141,7 @@ spring:
             - SaveSession
         - id: pan-manager-ms_route
           predicates:
-            - Path=/api/*/generateNewPan, /api/*/generateNewPanList
+            - Path=/api/*/generateNewPan, /api/*/generateNewPanList, /api/*/secure-data-value/**
         {{- if .Values.routes.allowSensitiveDataEndpoints }}
           uri: https://{{ required "Pan manager application service name has to be defined in routes.panManager.serviceName" .Values.routes.panManager.serviceName }}:{{ required "Pan manager application port number has to be defined in routes.panManager.servicePortNumber" .Values.routes.panManager.servicePortNumber }}
           filters:
