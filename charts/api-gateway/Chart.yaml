@@ -2,7 +2,7 @@ apiVersion: v2
 name: api-gateway
 description: Helm chart for API gateway application
 type: application
-version: 2.30.0
+version: 2.30.1
 appVersion: 2.30.0
 annotations:
   helm.sh/images: |

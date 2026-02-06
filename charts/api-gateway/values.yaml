@@ -41,7 +41,8 @@ logger:
           # basename: ""
 
 routes:
-  allowSensitiveDataEndpoints: true
+  allowSensitiveDataEndpoints: false
+  allowCmsRoutes: false
   alcCollect:
     serviceName: alc-collect
     servicePortNumber: "8443"
