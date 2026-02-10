@@ -158,6 +158,11 @@ kafka:
     enabled: false false # default value
     massive:
       enabled: true false # default value
+  consumer:
+    max:
+      pool:
+        interval: 300000 # default value
+        records: 500 # default value
 
 detect:
   changes:
@@ -169,6 +174,10 @@ Attribute `kafka.listener.enabled` is used for enabling all regular kafka listen
 Attribute `kafka.listener.massive.enabled` is used for enabling all massive regular kafka listeners (used for initial data load and other massive specific data load)
 
 Attribute `detect.changes.skip` is used for enabling skip changes in code. Should be set to true only in case Qlik stops working so records must be processed unconditionally, not depending on changes. Example, if this attribute is set to false, then if only change is in attribute we don't store in HP database, message will be skipped
+
+Attribute `kafka.consumer.max.pool.interval` is used to define the maximum time interval (in milliseconds) for the Kafka consumer poll loop.
+
+Attribute `kafka.consumer.max.pool.records` is used to define the maximum number of Kafka records to fetch in a single poll.
 
 ### Kafka setup
 

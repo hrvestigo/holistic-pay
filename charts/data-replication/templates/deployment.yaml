@@ -269,6 +269,10 @@ spec:
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.ismissentitystatus.massive.name" .Values.kafka.topics.ismissentitystatus.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_ISMISSENTITYSTATUS_MASSIVE_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.ismissentitystatus.massive.name" .Values.kafka.topics.ismissentitystatus.massive.consumerGroup | quote }}
+            - name: SPRING_KAFKA_CONSUMER_MAX_POLL_INTERVAL_MS
+              value: {{ .Values.kafka.consumer.max.pool.interval | quote }}
+            - name: SPRING_KAFKA_CONSUMER_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.consumer.max.pool.records | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

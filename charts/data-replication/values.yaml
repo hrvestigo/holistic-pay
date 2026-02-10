@@ -79,6 +79,11 @@ kafka:
     enabled: false
     massive:
       enabled: false
+  consumer:
+    max:
+      pool:
+        interval: 300000
+        records: 500
   topics:
     customer:
       name: hr.vestigo.hp.customer
