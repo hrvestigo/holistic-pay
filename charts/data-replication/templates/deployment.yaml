@@ -224,7 +224,7 @@ spec:
             - name: KAFKA_TOPIC_CUSTOMER_MASSIVE_NAME
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.customer.massive.name" .Values.kafka.topics.customer.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CUSTOMER_MASSIVE_NAME
-              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.customer.massive.name" .Values.kafka.topics.customer.consumerGroup | quote }}
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.customer.massive.name" .Values.kafka.topics.customer.massive.consumerGroup | quote }}
             - name: KAFKA_TOPIC_CUSTOMERROLE_MASSIVE_NAME
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.customerrole.massive.name" .Values.kafka.topics.customerrole.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CUSTOMERROLE_MASSIVE_NAME
@@ -273,6 +273,10 @@ spec:
               value: {{ .Values.kafka.consumer.max.pool.interval | quote }}
             - name: SPRING_KAFKA_CONSUMER_MAX_POLL_RECORDS
               value: {{ .Values.kafka.consumer.max.pool.records | quote }}
+            - name: SPRING_KAFKA_CONSUMER_CONCURRENCY
+              value: {{ .Values.kafka.consumer.concurrency | quote }}
+            - name: SPRING_KAFKA_LISTENER_CONCURRENCY
+              value: {{ .Values.kafka.listener.concurrency | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE

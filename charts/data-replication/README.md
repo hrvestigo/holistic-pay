@@ -155,10 +155,12 @@ Defining parameters that are used while processing kafka messages:
 ```yaml
 kafka:
   listener:
+    concurrency: 1
     enabled: false false # default value
     massive:
       enabled: true false # default value
   consumer:
+    concurrency: 1
     max:
       pool:
         interval: 300000 # default value
@@ -173,7 +175,11 @@ Attribute `kafka.listener.enabled` is used for enabling all regular kafka listen
 
 Attribute `kafka.listener.massive.enabled` is used for enabling all massive regular kafka listeners (used for initial data load and other massive specific data load)
 
+Attribute `kafka.listener.concurrency` number of threads per Kafka listener container. Controls parallel processing of messages for regular listeners.
+
 Attribute `detect.changes.skip` is used for enabling skip changes in code. Should be set to true only in case Qlik stops working so records must be processed unconditionally, not depending on changes. Example, if this attribute is set to false, then if only change is in attribute we don't store in HP database, message will be skipped
+
+Attribute `kafka.consumer.concurrency` number of concurrent Kafka consumer threads per listener container. Determines parallelism when consuming messages
 
 Attribute `kafka.consumer.max.pool.interval` is used to define the maximum time interval (in milliseconds) for the Kafka consumer poll loop.
 

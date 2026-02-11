@@ -76,10 +76,12 @@ kafka:
     user: ''
     url: ''
   listener:
+    concurrency: 1
     enabled: false
     massive:
       enabled: false
   consumer:
+    concurrency: 1
     max:
       pool:
         interval: 300000
