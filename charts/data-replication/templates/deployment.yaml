@@ -225,6 +225,8 @@ spec:
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.customer.massive.name" .Values.kafka.topics.customer.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CUSTOMER_MASSIVE_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.customer.massive.name" .Values.kafka.topics.customer.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_CUSTOMER_MASSIVE_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.customer.massive.maxPollRecords | quote }}
             - name: KAFKA_TOPIC_CUSTOMERROLE_MASSIVE_NAME
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.customerrole.massive.name" .Values.kafka.topics.customerrole.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CUSTOMERROLE_MASSIVE_NAME
@@ -249,6 +251,8 @@ spec:
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.card.massive.name" .Values.kafka.topics.card.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CARD_MASSIVE_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.card.massive.name" .Values.kafka.topics.card.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_CARD_MASSIVE_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.card.massive.maxPollRecords | quote }}
             - name: KAFKA_TOPIC_CUSTCRDINTACC_MASSIVE_NAME
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.custcrdintacc.massive.name" .Values.kafka.topics.custcrdintacc.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CUSTCRDINTACC_MASSIVE_NAME

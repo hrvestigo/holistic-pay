@@ -93,6 +93,7 @@ kafka:
       massive:
         name: hr.vestigo.hp.massive.customer
         consumerGroup: hr.vestigo.hp.massive.customer
+        maxPollRecords: 500
     customerrole:
       name: hr.vestigo.hp.customerrole
       consumerGroup: hr.vestigo.hp.customerrole
@@ -132,6 +133,7 @@ kafka:
       massive:
         name: hr.vestigo.hp.massive.card
         consumerGroup: hr.vestigo.hp.massive.card
+        maxPollRecords: 500
     custcrdintacc:
       name: hr.vestigo.hp.custcrdintacc
       consumerGroup: hr.vestigo.hp.custcrdintacc
