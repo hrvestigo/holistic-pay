@@ -179,32 +179,8 @@ spec:
             {{- if (include "sepa-inst.kafka.consumer.properties.config" .) -}}
             {{- include "sepa-inst.kafka.consumer.properties.config" . | indent 12 -}}
             {{- end }}
-            - name: SEPA_INST_CSM_ID
-              value: {{ required "Please specify clearing system id in csm.id" .Values.csm.id | quote }}
-            - name: SEPA_INST_CSM_BIC
-              value: {{ required "Please specify clearing system id in csm.bic" .Values.csm.bic | quote }}
-            - name: SEPA_INST_CSM_URL
-              value: {{ required "Please specify Clearing System base URL in cms.url" .Values.csm.url | quote }}
-            - name: SEPA_INST_CSM_MSG_PATH
-              value: {{ required "Please specify Clearing System message path in cms.msgPath" .Values.csm.msgPath | quote }}
-            - name: SEPA_INST_CSM_INFO
-              value: {{ .Values.csm.info | quote }}
-            - name: SEPA_INST_CSM_XSD_CHECK
-              value: {{ .Values.csm.xsdCheck | quote }}
-            - name: SEPA_INST_CSM_MSG_SIGNATURE
-              value: {{ .Values.csm.msgSignature | quote }}
-            - name: SEPA_INST_CSM_MSG_SIGNATURE_ALGORITHM
-              value: {{ .Values.csm.msgSignatureAlgorithm | quote }}
-            - name: SEPA_INST_CSM_TO_MANY_REQUESTS_RETRY
-              value: {{ required "Please specify to many requests retry backoff id in csm.toManyRequestsRetry" .Values.csm.toManyRequestsRetry | quote }}
-            {{- if (include "sepa-inst.endpoint.config" .) -}}
-            {{- include "sepa-inst.endpoint.config" . | indent 12 -}}
-            {{- end }}
-            {{- if (include "sepa-inst.csm.stats.config" .) -}}
-            {{- include "sepa-inst.csm.stats.config" . | indent 12 -}}
-            {{- end }}
-            {{- if (include "sepa-inst.csm.queue.config" .) -}}
-            {{- include "sepa-inst.csm.queue.config" . | indent 12 -}}
+            {{- if (include "sepa-inst.csm.config" .) -}}
+            {{- include "sepa-inst.csm.config" . | indent 12 -}}
             {{- end }}
             {{- if (include "sepa-inst.metrics.config" .) -}}
             {{- include "sepa-inst.metrics.config" . | indent 12 -}}

@@ -425,3 +425,40 @@ SEPA Inst CSM queue configuration
   value: {{ $value | quote }}
 {{- end }}
 {{- end }}
+
+{{/*
+Recursively walk a map and emit env vars for scalar values only.
+*/}}
+{{- define "sepa-inst.envRecursive" -}}
+{{- $root := .root -}}
+{{- $currentRoot := .currentRoot -}}
+{{- $path := .path | default "SEPA_INST_CSM" -}}
+
+{{- range $key, $value := $currentRoot }}
+  {{- $cleanKey := $key | replace "." "_" | snakecase | upper }}
+  {{- $currentPath := printf "%s_%s" $path $cleanKey }}
+
+  {{- if kindIs "map" $value }}
+    {{- include "sepa-inst.envRecursive" (dict "root" $root "currentRoot" $value "path" $currentPath) }}
+  {{- else }}
+    {{- $exists := false }}
+    {{- range $root.Values.customEnv }}
+      {{- if eq .name ($currentPath | upper) }}
+        {{- $exists = true }}
+      {{- end }}
+    {{- end }}
+    {{- if not $exists }}
+- name: {{ $currentPath | upper }}
+  value: {{ $value | quote }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- end }}
+
+{{- define "sepa-inst.csm.config" -}}
+{{- include "sepa-inst.envRecursive" (dict
+    "root" $
+    "currentRoot" .Values.csm
+    "path" "SEPA_INST_CSM"
+) -}}
+{{- end }}
