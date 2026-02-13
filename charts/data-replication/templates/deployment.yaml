@@ -231,22 +231,32 @@ spec:
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.customerrole.massive.name" .Values.kafka.topics.customerrole.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CUSTOMERROLE_MASSIVE_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.customerrole.massive.name" .Values.kafka.topics.customerrole.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_CUSTOMERROLE_MASSIVE_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.customerrole.massive.maxPollRecords | quote }}
             - name: KAFKA_TOPIC_CUSTOMERACCOUNT_MASSIVE_NAME
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.customeraccount.massive.name" .Values.kafka.topics.customeraccount.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CUSTOMERACCOUNT_MASSIVE_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.customeraccount.massive.name" .Values.kafka.topics.customeraccount.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_CUSTOMERACCOUNT_MASSIVE_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.customeraccount.massive.maxPollRecords | quote }}
             - name: KAFKA_TOPIC_RWSACCOUNT_MASSIVE_NAME
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.rwsaccount.massive.name" .Values.kafka.topics.rwsaccount.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_RWSACCOUNT_MASSIVE_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.rwsaccount.massive.name" .Values.kafka.topics.rwsaccount.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_RWSACCOUNT_MASSIVE_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.rwsaccount.massive.maxPollRecords | quote }}
             - name: KAFKA_TOPIC_RWSACCRELATION_MASSIVE_NAME
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.rwsaccrelation.massive.name" .Values.kafka.topics.rwsaccrelation.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_RWSACCRELATION_MASSIVE_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.rwsaccrelation.massive.name" .Values.kafka.topics.rwsaccrelation.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_RWSACCRELATION_MASSIVE_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.rwsaccrelation.massive.maxPollRecords | quote }}
             - name: KAFKA_TOPIC_CRDINTACC_MASSIVE_NAME
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.crdintacc.massive.name" .Values.kafka.topics.crdintacc.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CRDINTACC_MASSIVE_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.crdintacc.massive.name" .Values.kafka.topics.crdintacc.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_CRDINTACC_MASSIVE_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.crdintacc.massive.maxPollRecords | quote }}
             - name: KAFKA_TOPIC_CARD_MASSIVE_NAME
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.card.massive.name" .Values.kafka.topics.card.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CARD_MASSIVE_NAME
@@ -257,22 +267,32 @@ spec:
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.custcrdintacc.massive.name" .Values.kafka.topics.custcrdintacc.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CUSTCRDINTACC_MASSIVE_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.custcrdintacc.massive.name" .Values.kafka.topics.custcrdintacc.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_CUSTCRDINTACC_MASSIVE_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.custcrdintacc.massive.maxPollRecords | quote }}
             - name: KAFKA_TOPIC_CARDPLASTIC_MASSIVE_NAME
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.cardplastic.massive.name" .Values.kafka.topics.cardplastic.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CARDPLASTIC_MASSIVE_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.cardplastic.massive.name" .Values.kafka.topics.cardplastic.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_CARDPLASTIC_MASSIVE_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.cardplastic.massive.maxPollRecords | quote }}
             - name: KAFKA_TOPIC_BANSUBSERVENTITYVARIABLEDATA_MASSIVE_NAME
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.bansubserventityvariabledata.massive.name" .Values.kafka.topics.bansubserventityvariabledata.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_BANSUBSERVENTITYVARIABLEDATA_MASSIVE_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.bansubserventityvariabledata.massive.name" .Values.kafka.topics.bansubserventityvariabledata.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_BANSUBSERVENTITYVARIABLEDATA_MASSIVE_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.bansubserventityvariabledata.massive.maxPollRecords | quote }}
             - name: KAFKA_TOPIC_SERVICEPACKAGECONTRACT_MASSIVE_NAME
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.servicepackagecontract.massive.name" .Values.kafka.topics.servicepackagecontract.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_SERVICEPACKAGECONTRACT_MASSIVE_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.servicepackagecontract.massive.name" .Values.kafka.topics.servicepackagecontract.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_SERVICEPACKAGECONTRACT_MASSIVE_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.servicepackagecontract.massive.maxPollRecords | quote }}
             - name: KAFKA_TOPIC_ISMISSENTITYSTATUS_MASSIVE_NAME
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.ismissentitystatus.massive.name" .Values.kafka.topics.ismissentitystatus.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_ISMISSENTITYSTATUS_MASSIVE_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.ismissentitystatus.massive.name" .Values.kafka.topics.ismissentitystatus.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_ISMISSENTITYSTATUS_MASSIVE_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.ismissentitystatus.massive.maxPollRecords | quote }}
             - name: SPRING_KAFKA_CONSUMER_MAX_POLL_INTERVAL_MS
               value: {{ .Values.kafka.consumer.max.pool.interval | quote }}
             - name: SPRING_KAFKA_CONSUMER_MAX_POLL_RECORDS
