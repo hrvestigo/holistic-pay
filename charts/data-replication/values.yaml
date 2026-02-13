@@ -159,14 +159,14 @@ kafka:
       massive:
         name: hr.vestigo.hp.massive.bansubserventityvariabledata
         consumerGroup: hr.vestigo.hp.massive.bansubserventityvariabledata
-        maxPollRecords: 200
+        maxPollRecords: 500
     servicepackagecontract:
       name: hr.vestigo.hp.servicepackagecontract
       consumerGroup: hr.vestigo.hp.servicepackagecontract
       massive:
         name: hr.vestigo.hp.massive.servicepackagecontract
         consumerGroup: hr.vestigo.hp.massive.servicepackagecontract
-        maxPollRecords: 200
+        maxPollRecords: 500
     smstatuseffect:
       name: hr.vestigo.hp.smstatuseffect
       consumerGroup: hr.vestigo.hp.smstatuseffect
@@ -176,7 +176,7 @@ kafka:
       massive:
         name: hr.vestigo.hp.massive.ismissentitystatus
         consumerGroup: hr.vestigo.hp.massive.ismissentitystatus
-        maxPollRecords: 200
+        maxPollRecords: 500
 detect:
   changes:
     skip: false

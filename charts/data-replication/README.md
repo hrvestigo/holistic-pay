@@ -232,7 +232,9 @@ kafka:
 
 #### Topics and consumer groups setup
 
-Kafka topics and consumer group names used by data-replication-ms have default names defined in `values.yaml` file, but can be overridden with following setup:
+Kafka topics and consumer group names used by data-replication-ms have default names defined in `values.yaml` file, but can be overridden with following setup.
+Each massive topic block also supports optional maxPollRecords to tune batch size per massive listener.:
+
 
 ```yaml
 kafka:
@@ -243,6 +245,7 @@ kafka:
       massive:
         name: gw.{env}.x.ccms.cdc.loadcustomer.01
         consumerGroup: gw.{env}.ccms.datrep.loadcustomer
+        maxPollRecords: 500
     customerrole:
       name: gw.{env}.x.ccms.cdc.customerrole.01
       consumerGroup: gw.{env}.ccms.datrep.customerrole
