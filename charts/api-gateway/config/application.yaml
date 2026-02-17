@@ -141,6 +141,7 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
+        {{- if .Values.routes.allowCmsRoutes }}
         - id: pan-manager-ms_route
           predicates:
             - Path=/api/*/secure-data-value/actions/**
@@ -148,7 +149,6 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
-        {{- if .Values.routes.allowCmsRoutes }}
         - id: pan-manager-ms-pcidss_route
           predicates:
             - Path=/api/*/generateNewPan, /api/*/generateNewPanList, /api/*/secure-data-value/**
