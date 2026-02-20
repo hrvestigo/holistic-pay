@@ -255,8 +255,19 @@ retry topic name = hr.vestigo.hp.swiftincomingmessageretry.01
 dead letter topic name = hr.vestigo.hp.swiftincomingmessagedlt.01
 ```
 
+The same is true for consumer group naming, by appending suffix to original consumer group:
+```sh
+# consumer group name
+original topic name = hr.vestigo.swiftx.swiftincomingmessage
+retry topic name = hr.vestigo.swiftx.swiftincomingmessageretry
+dead letter topic name = hr.vestigo.swiftx.swiftincomingmessagedlt
+```
+
 Single retry topic name and dead letter topic name
-can be set via `nbrName` and `dltName`.
+can be explicitly set via `nbrName` and `dltName`.
+
+Consumer group name for retry and/or dead letter topic
+can be explicitly set via `nbrConsumerGroup` and/or `dltConsumerGroup`.
 
 If non-blocking retry is disabled via `nbrEnabled = false`,
 consumed error message goes to blocking retry on original
@@ -1594,6 +1605,7 @@ application:
     ## Configuration for application integration component.
     ##
     ## @param file     file integration component
+    ## @param leader   leader election configuration for file integration
     file:
       ## File reading configuration.
       ##
@@ -1685,6 +1697,19 @@ application:
       ##    compact  - produces compact XML without unnecessary spaces and line breaks
       ##    readable - uses formatter to produce human readable XML (default)
       writeFileXmlFormat: readable
+    leader:
+      ## Leader election configuration.
+      ##
+      ## When enabled, during application startup leader is elected among application instances. 
+      ## Only leader instance executes file integration logic, while other instances are on standby. 
+      ## If leader instance fails, new leader is elected and takes over file integration execution.
+      electionEnabled: false
+      ## Leader initiator name.
+      initiatorName: swift-integration-leader
+      ## Leader initiator task configuration. Defines leader election task executor polling parameters.
+      task:
+        pollSize: 1
+        pollMaxSize: 4
 
 ## Additional configuration providing details about volume needed for application file integration.
 applicationFileVolumes:

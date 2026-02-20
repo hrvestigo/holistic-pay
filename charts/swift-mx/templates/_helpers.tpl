@@ -442,3 +442,13 @@ Swift mx Kafka consumer properties configuration
   value: {{ $value | quote }}
 {{- end }}
 {{- end }}
+
+
+{{/*
+Validate leader election setting when scaling to multiple replicas.
+*/}}
+{{- define "swift-mx.leader.election.replicas" -}}
+{{- if and (.Values.application.integration.file.readEnabled) (and (or (and (not .Values.autoscaling.enabled) (gt (int .Values.deployment.replicaCount) 1)) (.Values.autoscaling.enabled)) (not .Values.application.integration.leader.electionEnabled)) -}}
+{{- fail "deployment.replicaCount > 1 requires application.integration.leader.electionEnabled to be true. Enable leader election when running multiple replicas." -}}
+{{- end -}}
+{{- end -}}

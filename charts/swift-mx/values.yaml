@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.73.0
+    tag: 1.74.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -67,6 +67,8 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
+      nbrConsumerGroup: ''
+      dltConsumerGroup: ''
       concurrency: 1
     swiftoutgoingmessage:
       name: hr.vestigo.hp.swiftoutgoingmessage
@@ -95,6 +97,8 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
+      nbrConsumerGroup: ''
+      dltConsumerGroup: ''
       concurrency: 1
     swiftpaymentchargesrequest:
       name: hr.vestigo.hp.swiftpaymentchargesrequest
@@ -104,6 +108,8 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
+      nbrConsumerGroup: ''
+      dltConsumerGroup: ''
       concurrency: 1
     swiftcustomerpaymentstatusreport:
       name: hr.vestigo.hp.swiftcustomerpaymentstatusreport
@@ -113,6 +119,8 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
+      nbrConsumerGroup: ''
+      dltConsumerGroup: ''
       concurrency: 1
     swiftpaymentstatusreport:
       name: hr.vestigo.hp.swiftpaymentstatusreport
@@ -122,6 +130,8 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
+      nbrConsumerGroup: ''
+      dltConsumerGroup: ''
       concurrency: 1
     swiftpaymentcancellationrequest:
       name: hr.vestigo.hp.swiftpaymentcancellationrequest
@@ -131,6 +141,8 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
+      nbrConsumerGroup: ''
+      dltConsumerGroup: ''
       concurrency: 1
     swiftresolutionofinvestigation:
       name: hr.vestigo.hp.swiftresolutionofinvestigation
@@ -140,6 +152,8 @@ kafka:
       nbrBackOff: 50000;5s
       nbrName: ''
       dltName: ''
+      nbrConsumerGroup: ''
+      dltConsumerGroup: ''
       concurrency: 1
     alertTopic:
       name: hr.vestigo.hp.alert
@@ -373,6 +387,12 @@ application:
       writeFileEventEnabled: false
       writeFileMarkerEventEnabled: false
       writeFileXmlFormat: readable
+    leader:
+      electionEnabled: false
+      initiatorName: swift-integration-leader
+      task:
+        pollSize: 1
+        pollMaxSize: 4
   alert:
     communication:
       type: skip
