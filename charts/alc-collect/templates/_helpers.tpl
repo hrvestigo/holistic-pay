@@ -72,7 +72,7 @@ Liquibase init container definition
   {{- if $.Values.image.liquibase.imageLocation }}
   image: {{ include "alc-collect.liquibase.image" $ }}
   {{- else }}
-  image: {{ printf "%s%s%s%s%s" (include "alc-collect.liquibase.image" $) "-" ($member.businessUnit | lower ) ":" $.Values.image.liquibase.tag }}
+  image: {{ printf "%s%s%s%s%s" (include "alc-collect.liquibase.image" $) "-" ($member.memberSign | lower ) ":" $.Values.image.liquibase.tag }}
   {{- end }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   resources:
