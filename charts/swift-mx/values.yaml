@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.74.0
+    tag: 1.75.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -390,6 +390,7 @@ application:
     leader:
       electionEnabled: false
       initiatorName: swift-integration-leader
+      idleBetweenTries: 60s
       task:
         pollSize: 1
         pollMaxSize: 4

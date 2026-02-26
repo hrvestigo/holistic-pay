@@ -1706,6 +1706,8 @@ application:
       electionEnabled: false
       ## Leader initiator name.
       initiatorName: swift-integration-leader
+      ## Leader initiator mechanism duration between consecutive locking tries.
+      idleBetweenTries: 60s
       ## Leader initiator task configuration. Defines leader election task executor polling parameters.
       task:
         pollSize: 1
