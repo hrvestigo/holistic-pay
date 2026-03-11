@@ -88,9 +88,6 @@ routes:
   pricingEngine:
     serviceName: pricing-engine
     servicePortNumber: "8443"
-  swiftMx:
-    serviceName: swift-mx
-    servicePortNumber: "8443"
   gsfCore:
     serviceName: gsf-core
     servicePortNumber: "8443"
