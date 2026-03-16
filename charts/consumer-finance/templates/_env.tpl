@@ -115,11 +115,11 @@
 - name: SCHEDULED_TASK_CONFIN_INSTALMENTSENDING_ENABLED
   value: {{ .Values.scheduleTask.instalmentSending.enabled | quote }}
 - name: SCHEDULED_TASK_CONFIN_INSTALMENTSENDING_CRON
-  value: {{- if .Values.scheduleTask.instalmentSending.enabled }}{{ required "Please specify scheduleTask.instalmentSending.cron" .Values.scheduleTask.instalmentSending.cron | quote }}{{- else }}"-"{{- end }}
+  value: {{ if .Values.scheduleTask.instalmentSending.enabled }}{{ required "Please specify scheduleTask.instalmentSending.cron" .Values.scheduleTask.instalmentSending.cron | quote }}{{ else }}"-"{{ end }}
 - name: SCHEDULED_TASK_CONFIN_INSTALMENTNOTIFICATION_ENABLED
   value: {{ .Values.scheduleTask.instalmentNotification.enabled | default "false" | quote }}
 - name: SCHEDULED_TASK_CONFIN_INSTALMENTNOTIFICATION_CRON
-  value: {{- if .Values.scheduleTask.instalmentNotification.enabled }}{{ required "Please specify scheduleTask.instalmentNotification.cron" .Values.scheduleTask.instalmentNotification.cron | quote }}{{- else }}"-"{{- end }}
+  value: {{ if .Values.scheduleTask.instalmentNotification.enabled }}{{ required "Please specify scheduleTask.instalmentNotification.cron" .Values.scheduleTask.instalmentNotification.cron | quote }}{{ else }}"-"{{ end }}
 {{- end }}
 
 {{/*
