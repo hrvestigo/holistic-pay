@@ -57,6 +57,13 @@ spec:
           image: {{ include "consumer-finance.app.repository" . }}:{{ .Values.image.app.tag | default .Chart.AppVersion }}
           imagePullPolicy: {{ include "consumer-finance.app.imagePullPolicy" . }}
           env:
+            {{ - include "consumer-finance.env.grpc" . | nindent 12 }}
+            {{ - include "consumer-finance.env.rest" . | nindent 12 }}
+            {{ - include "consumer-finance.env.kafka-topics" . | nindent 12 }}
+            {{ - include "consumer-finance.env.scheduled-task" . | nindent 12 }}
+            {{ - include "consumer-finance.env.general" . | nindent 12 }}
+            {{ - include "consumer-finance.env.inbound-oauth2" . | nindent 12 }}
+            {{ - include "consumer-finance.env.outbound-oauth2" . | nindent 12 }}
             {{- if .Values.timezone }}
             - name: TZ
               value: {{ .Values.timezone }}
@@ -146,74 +153,6 @@ spec:
             - name: SPRING_KAFKA_STREAMS_APPLICATIONID
               value: {{ .Values.kafka.streams.application.id | default "consumer-finance" | quote }}
             {{- end }}
-            - name: GRPC_CLIENT_GETPERSONDATA_ADDRESS
-              value: {{ required "Please specify address for person structure gRPC server in grpc.getPersonData.address" .Values.grpc.getPersonData.address | quote }}
-            - name: GRPC_CLIENT_GETLIMITBUCKETS_ADDRESS
-              value: {{ required "Please specify address for limit buckets gRPC server in grpc.getLimitBuckets.address" .Values.grpc.getLimitBuckets.address | quote }}
-            - name: GRPC_CLIENT_GETPRICINGENGINE_ADDRESS
-              value: {{ required "Please specify address for pricing engine gRPC server in grpc.getPricingEngine.address" .Values.grpc.getPricingEngine.address | quote }}
-            - name: GRPC_CLIENT_UPDATELIMITBUCKETS_ADDRESS
-              value: {{ required "Please specify address for limit buckets gRPC server in grpc.updateLimitBuckets.address" .Values.grpc.updateLimitBuckets.address | quote }}
-            - name: GRPC_CLIENT_GETPERSONDATA_NEGOTIATIONTYPE
-              value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
-            - name: GRPC_CLIENT_GETLIMITBUCKETS_NEGOTIATIONTYPE
-              value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
-            - name: GRPC_CLIENT_GETPRICINGENGINE_NEGOTIATIONTYPE
-              value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
-            - name: GRPC_CLIENT_UPDATELIMITBUCKETS_NEGOTIATIONTYPE
-              value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
-            - name: GRPC_GETPERSONDATA_TIMEOUT
-              value: {{ .Values.grpc.getPersonData.timeout | default "10000" | quote }}
-            - name: GRPC_GETLIMITBUCKETS_TIMEOUT
-              value: {{ .Values.grpc.getLimitBuckets.timeout | default "10000" | quote }}
-            - name: GRPC_GETPRICINGENGINE_TIMEOUT
-              value: {{ .Values.grpc.getPricingEngine.timeout | default "10000" | quote }}
-            - name: GRPC_UPDATELIMITBUCKETS_TIMEOUT
-              value: {{ .Values.grpc.updateLimitBuckets.timeout | default "10000" | quote }}
-            - name: KAFKA_TOPIC_LIMITBUCKETCOMPENSATION_NAME
-              value: {{ .Values.kafka.topics.limitbucketcompensation.name | quote }}
-            - name: KAFKA_TOPIC_DUEINSTALMENT_NAME
-              value: {{ .Values.kafka.topics.dueinstalment.name | quote }}
-            - name: KAFKA_TOPIC_AUTHTRANSACTION_NAME
-              value: {{ .Values.kafka.topics.authtransaction.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_AUTHTRANSACTION_NAME
-              value: {{ .Values.kafka.topics.authtransaction.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_AUTHTRANSACTION_RETRY_MAXATTEMPTS
-              value: {{ .Values.kafka.topics.authtransaction.retry.maxAttempts | quote }}
-            - name: KAFKA_TOPIC_AUTHTRANSACTION_RETRY_DELAY
-              value: {{ .Values.kafka.topics.authtransaction.retry.delay | quote }}
-            - name: KAFKA_TOPIC_CRDAUTHTRXMATCH_NAME
-              value: {{ .Values.kafka.topics.crdauthtrxmatch.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_DUEINSTALMENT_NAME
-              value: {{ .Values.kafka.topics.dueinstalment.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CRDAUTHTRXMATCH_NAME
-              value: {{ .Values.kafka.topics.crdauthtrxmatch.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_CRDAUTHTRXMATCH_RETRY_MAXATTEMPTS
-              value: {{ .Values.kafka.topics.crdauthtrxmatch.retry.maxAttempts | quote }}
-            - name: KAFKA_TOPIC_INSTALMENTOFFER_NAME
-              value: {{ .Values.kafka.topics.instalmentoffer.name | quote }}
-            - name: KAFKA_TOPIC_SYSINSTALMENTOFFER_NAME
-              value: {{ .Values.kafka.topics.sysInstalmentOffer.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_INSTALMENTOFFER_NAME
-              value: {{ .Values.kafka.topics.instalmentoffer.consumerGroup | quote }}
-            - name: KAFKA_TOPIC_INSTALMENTOFFERRESPONSE_NAME
-              value: {{ .Values.kafka.topics.instalmentofferresponse.name | quote }}
-            - name: KAFKA_TOPIC_SYSINSTALMENTOFFERRESPONSE_NAME
-              value: {{ .Values.kafka.topics.sysinstalmentofferresponse.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_INSTALMENTOFFERRESPONSE_NAME
-              value: {{ .Values.kafka.topics.instalmentofferresponse.consumerGroup | quote }}
-            - name: SCHEDULED_TASK_CONFIN_INSTALMENTSENDING_ENABLED
-              value: {{ .Values.scheduleTask.instalmentSending.enabled | quote }}
-            - name: SCHEDULED_TASK_CONFIN_INSTALMENTSENDING_CRON
-            {{- if .Values.scheduleTask.instalmentSending.enabled }}
-              value: {{ required "Please specify scheduleTask.instalmentSending.cron" .Values.scheduleTask.instalmentSending.cron | quote }}
-            {{- else }}
-              value: "-"
-            {{- end }}
-            - name: TRX_MAX_NUMBER
-              value: {{ .Values.trx.max.number | default "10" | quote }}
-            - name: CONSUMER_FINANCE_CACHE_EXPIREAFTERWRITE
-              value: {{ .Values.cache.refresh.rate | default "1440" | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
@@ -292,25 +231,18 @@ spec:
             - name: SSL_KEY_STORE_TYPE
             value: {{ required "Please specify key store type in mountKeyStoreFromSecret.keyStoreType" .Values.mountKeyStoreFromSecret.keyStoreType }}
             {{- end }}
-            {{- if .Values.oauth2.enabled }}
-            - name: SECURITY_AUTHENTICATION
-              value: oauth2
-            - name: SECURITY_AUTHENTICATION_JWT_CONVERTER
-              value: realm
-            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUERURI
-              value: {{ required "Please specify oAuth2 resource URI in oauth2.resourceUri" .Values.oauth2.resourceUri | quote }}
-            {{- else }}
-            - name: SECURITY_AUTHENTICATION
-              value: none
-            - name: SECURITY_AUTHENTICATION_JWT_CONVERTER
-              value: ""
-            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUERURI
-              value: ""
-            {{- end }}
             - name: REQUEST_BODY_SANITIZATION_ENABLED
               value: {{ .Values.request.sanitization.enabled | default "true" | quote }}
             - name: RESPONSE_BODY_ENCODING_ENABLED
               value: {{ .Values.response.encoding.enabled | default "false" | quote }}
+            - name: LISTENER_PARAMETERIZATION_ENABLED
+              value: {{ .Values.listener.parameterization.enabled | default "false" | quote }}
+            - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CURRENCY_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.currency.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_COUNTRY_PARAMETERIZATION_NAME
+              value: {{ .Values.kafka.topics.parameterization.country.consumerGroup | quote }}
             {{- if .Values.oauth2.authorizationPrefix }}
             - name: SECURITY_AUTHENTICATION_CLAIM_PREFIX
               value: {{ .Values.oauth2.authorizationPrefix | quote }}

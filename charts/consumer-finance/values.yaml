@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.63.0
+    tag: 1.66.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -52,6 +52,11 @@ scheduleTask:
   instalmentSending:
     enabled: true
     cron: ''
+consumerFinance:
+  header:
+    deliveryChannel: ''
+    moduleName: ''
+    userId: ''
 kafka:
   user: ''
   servers: ''
@@ -75,6 +80,12 @@ kafka:
       consumerGroup: null
       retry:
         maxAttempts: null
+    parameterization:
+      name: hr.vestigo.hp.parameterization
+      currency:
+        consumerGroup: hr.vestigo.hp.currency.parameterization.cfm
+      country:
+        consumerGroup: hr.vestigo.hp.country.parameterization.cfm
 grpc:
   negotiation: TLS
   getPersonData:
@@ -84,11 +95,19 @@ grpc:
     address: ''
     timeout: 10000
   getPricingEngine:
+    enabled: null
     address: ''
     timeout: 10000
   updateLimitBuckets:
     address: ''
     timeout: 10000
+rest:
+  api:
+    feePricingEngine:
+      enabled: null
+      host: ''
+      endpoint: null
+      timeout: null
 trx:
   max:
     number: 10
@@ -99,11 +118,19 @@ oauth2:
   enabled: false
   resourceUri: ''
   authorizationPrefix: ''
+  outbound:
+    enabled: false
+  serverUrl: ''
+  realm: ''
+  resource: ''
 request:
   sanitization:
     enabled: true
 response:
   encoding:
+    enabled: false
+listener:
+  parameterization:
     enabled: false
 timezone: ''
 secret:

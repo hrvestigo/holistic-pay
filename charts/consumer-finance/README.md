@@ -1291,3 +1291,16 @@ scheduleTask:
     enabled: true # default value, enabling instalment sending calculation functionality
     cron: 0 0 4 * * * # Mandatory in case task is enabled. Scheduling instalment sending functionality (e.g. each day at 4 AM)	
 ```
+
+### Consumer Finance header configuration
+
+Consumer finance sends notifications to customers with header information. Default values are configurable:
+
+```yaml
+consumerFinance:
+  header:
+    deliveryChannel: 'HP' # default value, delivery channel identifier in notification headers
+    moduleName: 'CONFIN' # default value, module name identifier in notification headers
+    userId: 'HPTECH001' # default value, system user identifier in notification headers
+```
+
