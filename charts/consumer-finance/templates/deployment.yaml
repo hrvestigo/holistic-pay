@@ -229,7 +229,7 @@ spec:
             - name: SERVER_SSL_KEY_STORE_FILE
               value: {{ required "Please specify key store location in mountKeyStoreFromSecret.location" .Values.mountKeyStoreFromSecret.location }}/{{ required "Please specify key store file name in mountKeyStoreFromSecret.keyStoreName" .Values.mountKeyStoreFromSecret.keyStoreName }}
             - name: SSL_KEY_STORE_TYPE
-            value: {{ required "Please specify key store type in mountKeyStoreFromSecret.keyStoreType" .Values.mountKeyStoreFromSecret.keyStoreType }}
+              value: {{ required "Please specify key store type in mountKeyStoreFromSecret.keyStoreType" .Values.mountKeyStoreFromSecret.keyStoreType }}
             {{- end }}
             - name: REQUEST_BODY_SANITIZATION_ENABLED
               value: {{ .Values.request.sanitization.enabled | default "true" | quote }}
@@ -237,12 +237,6 @@ spec:
               value: {{ .Values.response.encoding.enabled | default "false" | quote }}
             - name: LISTENER_PARAMETERIZATION_ENABLED
               value: {{ .Values.listener.parameterization.enabled | default "false" | quote }}
-            - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.name | quote }}
-            - name: KAFKA_CONSUMER_GROUP_CURRENCY_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.currency.consumerGroup | quote }}
-            - name: KAFKA_CONSUMER_GROUP_COUNTRY_PARAMETERIZATION_NAME
-              value: {{ .Values.kafka.topics.parameterization.country.consumerGroup | quote }}
             {{- if .Values.oauth2.authorizationPrefix }}
             - name: SECURITY_AUTHENTICATION_CLAIM_PREFIX
               value: {{ .Values.oauth2.authorizationPrefix | quote }}
