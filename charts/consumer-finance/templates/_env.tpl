@@ -173,7 +173,7 @@
 {{/*
 OAuth2 configuration properties
 */}}
-{{- define "ext-dis-interface.env.outbound-oauth2" -}}
+{{- define "consumer-finance.env.outbound-oauth2" -}}
 - name: SECURITY_OUTBOUND_OAUTH2_TOKEN
   value: {{ .Values.oauth2.outbound.enabled | quote}}
 {{- if .Values.oauth2.outbound.enabled }}
