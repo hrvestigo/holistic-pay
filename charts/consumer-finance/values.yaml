@@ -103,8 +103,9 @@ grpc:
   getPersonData:
     address: ''
     timeout: 10000
-  getPersonStructure:
+  personStructureData:
     address: ''
+    negotiationType: ''
     timeout: 10000
   getLimitBuckets:
     address: ''

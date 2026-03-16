@@ -8,12 +8,14 @@
   value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
 - name: GRPC_GETPERSONDATA_TIMEOUT
   value: {{ .Values.grpc.getPersonData.timeout | default "10000" | quote }}
-- name: GRPC_CLIENT_GETPERSONSTRUCTURE_ADDRESS
-  value: {{ required "Please specify address for person structure gRPC server in grpc.getPersonStructure.address" .Values.grpc.getPersonStructure.address | quote }}
-- name: GRPC_CLIENT_GETPERSONSTRUCTURE_NEGOTIATIONTYPE
-  value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
-- name: GRPC_GETPERSONSTRUCTURE_TIMEOUT
-  value: {{ .Values.grpc.getPersonStructure.timeout | default "10000" | quote }}
+{{- if eq (.Values.personStructure.client | default "mockpersonstructure") "hppersonstructure" }}
+- name: GRPC_CLIENT_PERSONSTRUCTUREDATA_ADDRESS
+  value: {{ required "Please specify address for HP person structure gRPC server in grpc.personStructureData.address" .Values.grpc.personStructureData.address | quote }}
+- name: GRPC_CLIENT_PERSONSTRUCTUREDATA_NEGOTIATIONTYPE
+  value: {{ .Values.grpc.personStructureData.negotiationType | default (.Values.grpc.negotiation | default "TLS") | quote }}
+- name: GRPC_PERSONSTRUCTUREDATA_TIMEOUT
+  value: {{ .Values.grpc.personStructureData.timeout | default "10000" | quote }}
+{{- end }}
 - name: GRPC_CLIENT_GETLIMITBUCKETS_ADDRESS
   value: {{ required "Please specify address for limit buckets gRPC server in grpc.getLimitBuckets.address" .Values.grpc.getLimitBuckets.address | quote }}
 - name: GRPC_CLIENT_UPDATELIMITBUCKETS_ADDRESS
