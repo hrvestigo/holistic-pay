@@ -57,13 +57,13 @@ spec:
           image: {{ include "consumer-finance.app.repository" . }}:{{ .Values.image.app.tag | default .Chart.AppVersion }}
           imagePullPolicy: {{ include "consumer-finance.app.imagePullPolicy" . }}
           env:
-            {{ - include "consumer-finance.env.grpc" . | nindent 12 }}
-            {{ - include "consumer-finance.env.rest" . | nindent 12 }}
-            {{ - include "consumer-finance.env.kafka-topics" . | nindent 12 }}
-            {{ - include "consumer-finance.env.scheduled-task" . | nindent 12 }}
-            {{ - include "consumer-finance.env.general" . | nindent 12 }}
-            {{ - include "consumer-finance.env.inbound-oauth2" . | nindent 12 }}
-            {{ - include "consumer-finance.env.outbound-oauth2" . | nindent 12 }}
+            {{- include "consumer-finance.env.grpc" . | nindent 12 }}
+            {{- include "consumer-finance.env.rest" . | nindent 12 }}
+            {{- include "consumer-finance.env.kafka-topics" . | nindent 12 }}
+            {{- include "consumer-finance.env.scheduled-task" . | nindent 12 }}
+            {{- include "consumer-finance.env.general" . | nindent 12 }}
+            {{- include "consumer-finance.env.inbound-oauth2" . | nindent 12 }}
+            {{- include "ext-dis-interface.env.outbound-oauth2" . | nindent 12 }}
             {{- if .Values.timezone }}
             - name: TZ
               value: {{ .Values.timezone }}

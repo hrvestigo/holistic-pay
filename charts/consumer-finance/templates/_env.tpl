@@ -98,6 +98,12 @@
   value: {{ .Values.kafka.topics.extsysresponse.retry.delay | quote }}
 - name: KAFKA_TOPIC_CONSUMERFINANCELOANEVENT_NAME
   value: {{ .Values.kafka.topics.consumerfinanceloanevent.name | quote }}
+- name: KAFKA_TOPIC_PARAMETERIZATION_NAME
+  value: {{ .Values.kafka.topics.parameterization.name | quote }}
+- name: KAFKA_CONSUMER_GROUP_CURRENCY_PARAMETERIZATION_NAME
+  value: {{ .Values.kafka.topics.parameterization.currency.consumerGroup | quote }}
+- name: KAFKA_CONSUMER_GROUP_COUNTRY_PARAMETERIZATION_NAME
+  value: {{ .Values.kafka.topics.parameterization.country.consumerGroup | quote }}
 {{- end }}
 
 {{/*
@@ -136,7 +142,10 @@
   value: {{ .Values.idempotency.filter.enabled | default "true" | quote }}
 - name: TRANSACTION_TIMEOUT_IN_SECONDS
   value: {{ .Values.transaction.timeout.inSeconds | default "200" | quote }}
+- name: HR_VESTIGO_HP_OUTBOX_DELETEENTITY
+  value: {{ .Values.hr.vestigo.hp.outbox.deleteEntity | default false | quote }}
 {{- end }}
+
 
 {{/*
   Inbound authentication environment variables
