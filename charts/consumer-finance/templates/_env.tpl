@@ -2,26 +2,18 @@
   gRPC environment variables
 */}}
 {{- define "consumer-finance.env.grpc" }}
-{{- if .Values.grpc.client.getPersonData.enabled }}
-- name: GRPC_GETPERSONDATA_ENABLED
-  value: "true"
 - name: GRPC_CLIENT_GETPERSONDATA_ADDRESS
   value: {{ required "Please specify address for person structure gRPC server (mocks-ms) in grpc.getPersonData.address" .Values.grpc.getPersonData.address | quote }}
 - name: GRPC_CLIENT_GETPERSONDATA_NEGOTIATIONTYPE
   value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
 - name: GRPC_GETPERSONDATA_TIMEOUT
   value: {{ .Values.grpc.getPersonData.timeout | default "10000" | quote }}
-{{- end }}
-{{- if .Values.grpc.client.getPersonStructure.enabled }}
-- name: GRPC_GETPERSONSTRUCTURE_ENABLED
-  value: "true"
 - name: GRPC_CLIENT_GETPERSONSTRUCTURE_ADDRESS
   value: {{ required "Please specify address for person structure gRPC server in grpc.getPersonStructure.address" .Values.grpc.getPersonStructure.address | quote }}
 - name: GRPC_CLIENT_GETPERSONSTRUCTURE_NEGOTIATIONTYPE
   value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
 - name: GRPC_GETPERSONSTRUCTURE_TIMEOUT
   value: {{ .Values.grpc.getPersonStructure.timeout | default "10000" | quote }}
-{{- end }}
 - name: GRPC_CLIENT_GETLIMITBUCKETS_ADDRESS
   value: {{ required "Please specify address for limit buckets gRPC server in grpc.getLimitBuckets.address" .Values.grpc.getLimitBuckets.address | quote }}
 - name: GRPC_CLIENT_UPDATELIMITBUCKETS_ADDRESS
@@ -34,30 +26,26 @@
   value: {{ .Values.grpc.getLimitBuckets.timeout | default "10000" | quote }}
 - name: GRPC_UPDATELIMITBUCKETS_TIMEOUT
   value: {{ .Values.grpc.updateLimitBuckets.timeout | default "10000" | quote }}
-{{- if .Values.grpc.client.getPricingEngine.enabled }}
-- name: GRPC_GETPRICINGENGINE_ENABLED
-  value: "true"
 - name: GRPC_CLIENT_GETPRICINGENGINE_ADDRESS
   value: {{ required "Please specify address for pricing engine gRPC server in grpc.getPricingEngine.address" .Values.grpc.getPricingEngine.address | quote }}
 - name: GRPC_CLIENT_GETPRICINGENGINE_NEGOTIATIONTYPE
   value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
 - name: GRPC_GETPRICINGENGINE_TIMEOUT
   value: {{ .Values.grpc.getPricingEngine.timeout | default "10000" | quote }}
-{{- end }}
+- name: GRPC_WARMUP_REPEAT
+  value: {{ .Values.grpc.warmup.repeat | default "10" | quote }}
 {{- end }}
 
 {{/*
   REST API environment variables
 */}}
 {{- define "consumer-finance.env.rest" }}
-{{- if .Values.rest.api.feePricingEngine.enabled }}
 - name: REST_API_FEEPRICINGENGINE_HOST
   value: {{ required "Please specify rest.api.feePricingEngine.host" .Values.rest.api.feePricingEngine.host | quote }}
 - name: REST_API_FEEPRICINGENGINE_ENDPOINT
   value: {{ required "Please specify rest.api.feePricingEngine.endpoint" .Values.rest.api.feePricingEngine.endpoint | quote }}
 - name: REST_API_FEEPRICINGENGINE_TIMEOUT
   value: {{ .Values.rest.api.feePricingEngine.timeout | default "10000" | quote }}
-{{- end }}
 {{- end }}
 
 {{/*
@@ -68,6 +56,8 @@
   value: {{ .Values.kafka.topics.limitbucketcompensation.name | quote }}
 - name: KAFKA_TOPIC_DUEINSTALMENT_NAME
   value: {{ .Values.kafka.topics.dueinstalment.name | quote }}
+- name: KAFKA_TOPIC_NOTIFICATION_NAME
+  value: {{ .Values.kafka.topics.notification.name | quote }}
 - name: KAFKA_TOPIC_AUTHTRANSACTION_NAME
   value: {{ .Values.kafka.topics.authtransaction.name | quote }}
 - name: KAFKA_CONSUMER_GROUP_AUTHTRANSACTION_NAME
@@ -80,6 +70,8 @@
   value: {{ .Values.kafka.topics.crdauthtrxmatch.name | quote }}
 - name: KAFKA_CONSUMER_GROUP_DUEINSTALMENT_NAME
   value: {{ .Values.kafka.topics.dueinstalment.consumerGroup | quote }}
+- name: KAFKA_CONSUMER_GROUP_NOTIFICATION_NAME
+  value: {{ .Values.kafka.topics.notification.consumerGroup | quote }}
 - name: KAFKA_CONSUMER_GROUP_CRDAUTHTRXMATCH_NAME
   value: {{ .Values.kafka.topics.crdauthtrxmatch.consumerGroup | quote }}
 - name: KAFKA_TOPIC_CRDAUTHTRXMATCH_RETRY_MAXATTEMPTS
@@ -104,6 +96,8 @@
   value: {{ .Values.kafka.topics.extsysresponse.retry.maxAttempts | quote }}
 - name: KAFKA_TOPIC_EXTSYSRESPONSE_RETRY_DELAY
   value: {{ .Values.kafka.topics.extsysresponse.retry.delay | quote }}
+- name: KAFKA_TOPIC_CONSUMERFINANCELOANEVENT_NAME
+  value: {{ .Values.kafka.topics.consumerfinanceloanevent.name | quote }}
 {{- end }}
 
 {{/*
@@ -114,6 +108,10 @@
   value: {{ .Values.scheduleTask.instalmentSending.enabled | quote }}
 - name: SCHEDULED_TASK_CONFIN_INSTALMENTSENDING_CRON
   value: {{- if .Values.scheduleTask.instalmentSending.enabled }}{{ required "Please specify scheduleTask.instalmentSending.cron" .Values.scheduleTask.instalmentSending.cron | quote }}{{- else }}"-"{{- end }}
+- name: SCHEDULED_TASK_CONFIN_INSTALMENTNOTIFICATION_ENABLED
+  value: {{ .Values.scheduleTask.instalmentNotification.enabled | default "false" | quote }}
+- name: SCHEDULED_TASK_CONFIN_INSTALMENTNOTIFICATION_CRON
+  value: {{- if .Values.scheduleTask.instalmentNotification.enabled }}{{ required "Please specify scheduleTask.instalmentNotification.cron" .Values.scheduleTask.instalmentNotification.cron | quote }}{{- else }}"-"{{- end }}
 {{- end }}
 
 {{/*
@@ -130,6 +128,14 @@
   value: {{ .Values.consumerFinance.header.moduleName | default "CONFIN" | quote }}
 - name: CONSUMERFINANCE_HEADER_USERID
   value: {{ .Values.consumerFinance.header.userId | default "HPTECH001" | quote }}
+- name: PERSON_STRUCTURE_CLIENT
+  value: {{ .Values.personStructure.client | default "mockpersonstructure" | quote }}
+- name: FEE_ENGINE_CLIENT
+  value: {{ .Values.feeEngine.client | default "hppricingengine" | quote }}
+- name: IDEMPOTENCY_FILTER_ENABLED
+  value: {{ .Values.idempotency.filter.enabled | default "true" | quote }}
+- name: TRANSACTION_TIMEOUT_IN_SECONDS
+  value: {{ .Values.transaction.timeout.inSeconds | default "200" | quote }}
 {{- end }}
 
 {{/*

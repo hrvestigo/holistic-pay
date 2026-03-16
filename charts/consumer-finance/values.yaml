@@ -52,6 +52,9 @@ scheduleTask:
   instalmentSending:
     enabled: true
     cron: ''
+  instalmentNotification:
+    enabled: false
+    cron: ''
 consumerFinance:
   header:
     deliveryChannel: ''
@@ -73,8 +76,15 @@ kafka:
     dueinstalment:
       name: hr.vestigo.hp.dueinstalment
       consumerGroup: hr.vestigo.hp.dueinstalment
+    notification:
+      name: ''
+      consumerGroup: ''
     authtransaction:
       name: hr.vestigo.hp.authtransaction
+      consumerGroup: ''
+      retry:
+        maxAttempts: ''
+        delay: ''
     crdauthtrxmatch:
       name: null
       consumerGroup: null
@@ -86,9 +96,14 @@ kafka:
         consumerGroup: hr.vestigo.hp.currency.parameterization.cfm
       country:
         consumerGroup: hr.vestigo.hp.country.parameterization.cfm
+    consumerfinanceloanevent:
+      name: ''
 grpc:
   negotiation: TLS
   getPersonData:
+    address: ''
+    timeout: 10000
+  getPersonStructure:
     address: ''
     timeout: 10000
   getLimitBuckets:
@@ -101,6 +116,8 @@ grpc:
   updateLimitBuckets:
     address: ''
     timeout: 10000
+  warmup:
+    repeat: 10
 rest:
   api:
     feePricingEngine:
@@ -111,6 +128,21 @@ rest:
 trx:
   max:
     number: 10
+
+personStructure:
+  client: ''
+
+feeEngine:
+  client: ''
+
+idempotency:
+  filter:
+    enabled: true
+
+transaction:
+  timeout:
+    inSeconds: 200
+
 cache:
   refresh:
     rate: 1440
