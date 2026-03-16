@@ -190,11 +190,11 @@ OAuth2 configuration properties
 - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_SCOPE
   value: openid
 {{- end }}
-{{- if and .Values.global.secret.existingSecret (eq "NONE" .Values.global.secret.encryptionAlgorithm) }}
+{{- if and .Values.secret.existingSecret (eq "NONE" .Values.secret.encryptionAlgorithm) }}
 - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENTSECRET
   valueFrom:
     secretKeyRef:
-      name: {{ .Values.global.secret.existingSecret }}
+      name: {{ .Values.secret.existingSecret }}
       key: oauth2.password
 {{- end }}
 {{- end -}}
