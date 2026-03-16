@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.43.0
+    tag: 1.48.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -41,6 +41,8 @@ pricing:
     technical:
       userId: ''
     processPeriod: 800
+    individualfee:
+      validationMode: FULL
 schedule:
   cron:
     parkedFee: ''
@@ -231,6 +233,9 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
+vpa:
+  enabled: false
+  updateMode: 'Off'
 mountServerCertFromSecret:
   enabled: false
   secretName: ''

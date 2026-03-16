@@ -168,6 +168,8 @@ spec:
               value: {{ required "Please specify pricing.engine.technical.userId" .Values.pricing.engine.technical.userId | quote }}
             - name: PRICING_ENGINE_PROCESSPERIOD
               value: {{ .Values.pricing.engine.processPeriod | quote }}
+            - name: PRICING_ENGINE_INDIVIDUALFEE_VALIDATIONMODE
+              value: {{ .Values.pricing.engine.individualfee.validationMode | quote }}
             - name: SCHEDULE_CRON_PARKEDFEE
               value: {{ required "Please specify schedule.cron.parkedFee" .Values.schedule.cron.parkedFee | quote }}
             - name: SERVER_SSL_KEYSTORE
