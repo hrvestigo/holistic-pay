@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.66.0
+    tag: 1.75.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -129,21 +129,16 @@ rest:
 trx:
   max:
     number: 10
-
 personStructure:
   client: ''
-
 feeEngine:
   client: ''
-
 idempotency:
   filter:
     enabled: true
-
 transaction:
   timeout:
     inSeconds: 200
-
 cache:
   refresh:
     rate: 1440
