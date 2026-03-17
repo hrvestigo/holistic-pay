@@ -75,10 +75,12 @@ Additionally, liquibase is enabled by default, which requires some information i
 Person structure (as well as all other HolisticPay applications) is a multi-member application. For this reason, at least one application member has to be defined in `members` structure for complete setup. Please refer to [Multi-member setup](#multi-member-setup) for details.
 
 ### ALC url setting regarding synchronously limit transfer
+
 ```yaml
 url:
   riskLimitAlcUrl: https://auth-limit-control:8443 # default value, should point to auth-limit-control Service name and port number
 ```
+
 Starting from chart version 4.27.2, interface for setting risk and customer limits in person-structure also requires mandatory URL of ALC application to be defined with attribute `riskLimitAlcUrl`.
 This is needed to ensure that limits are synchronously updated in ALC when they are updated in person structure.
 
@@ -93,22 +95,24 @@ cms:
   moduleName: BOS # default value
   deliveryChannel: DCC # default value
   userId: HPTECH001 # default value
- ```
-  `moduleName` and `deliveryChannel` attributes are related to CMS application itself and have to be set in correspondence with it.
-  Attribute `userId` should point to technical user for HolisticPay.
+```
 
+`moduleName` and `deliveryChannel` attributes are related to CMS application itself and have to be set in correspondence with it.
+Attribute `userId` should point to technical user for HolisticPay.
 
 ### Define microservice specifics
+
 ```yaml
 ms:
   sequence: perstr_seq #default value
   appModuleName: PERSTR  #default value
- ```
+```
+
 `sequence` value defines this microservice database sequence name which has default value 'perstr_seq'.
 `appModuleName` value defines application module name of microservice which has default value 'PERSTR'.
 
-
 #### Enabling risk limit functionalities
+
 ```yaml
 riskLimits:
   enabled: true #default value, enable all risk limit functionalities
@@ -123,6 +127,7 @@ riskLimits:
 `riskLimits.acclifecyclecheck.enabled` Enables/disables enable risk limit account lifecycle check in the microservice.
 
 #### Enabling status functionalities
+
 ```yaml
 status:
   management:
@@ -130,6 +135,7 @@ status:
   auditLog:
     enabled: false  #default value, disables audit log functionality
 ```
+
 `management` value enables/disables status management functionalities.
 Additionally, consumer group for personstructure topic should be specified.
 `auditLog` enables/disables audit log functionality in the microservice.
@@ -137,31 +143,37 @@ This functionality is used for tracking changes on "status_applied" and "status_
 by saving old and new values of different attributes in audit_log table.
 
 #### Enabling person structure checks functionalities
+
 ```yaml
 personStructureChecks:
   enabled: false  #default value, disables all person structure checks functionalities
 ```
+
 Enables/disables person structure checks functionalities.
-Additionally, topic name and consumer group for personstructurechecks topic and topic name for personstructurechecksresult 
+Additionally, topic name and consumer group for personstructurechecks topic and topic name for personstructurechecksresult
 topic should be specified.
 
 #### Enabling persons structure semaphore functionalities
+
 ```yaml
 personStructure:
   semaphore:
     enabled: false  #default value, disables all person structure semaphores
 ```
+
 Enables/disables person structure semaphore.
 Semaphore is used for locking person structure table unique information when performing insert or update operations on it.
-Semaphore is provided through parameterization for some member signs only. So far, only iban uniqueness semaphore 
+Semaphore is provided through parameterization for some member signs only. So far, only iban uniqueness semaphore
 for one member is provided but it is also disabled by default.
 
 #### Enabling persons structure currency staging functionalities
+
 ```yaml
 personStructure:
   currencyStaging:
     enabled: false  #default value, disables person structure currency staging logic
 ```
+
 Enables/disables person structure currency staging logic.
 Currency staging is used for storing account currency values in staging table before they are applied to person structure table.
 It temporarily stores currency data if there is no data found for account ID in person_structure table.
@@ -170,7 +182,7 @@ or CUSTOMER, CURRENCY, ACCOUNT.
 
 #### Caching custom configuration for person structure checks functionality
 
-When using Person structure checks functionalities, parametrization that is often used is cached or temporarily stored 
+When using Person structure checks functionalities, parametrization that is often used is cached or temporarily stored
 in the memory for the performance purposes. By default, application refreshes all cached data after a period of one day.
 That behaviour is modifiable by this attribute in seconds:
 
@@ -180,6 +192,7 @@ personStructureChecks:
     refresh:
       rate: 86400 #default value, refreshes cache after 24 hours
 ```
+
 Person structure checks functionalities must be enabled for this configuration to work.
 
 #### Person structure checks functionalities using gRPC
@@ -200,10 +213,11 @@ grpc:
 
 `grpc.server.enabled` should be set to true if you want gRPC server to start and external checks to be executed through it.
 `grpc.server.security.enabled` should be set to true if you want this connection to use TLS protocol.
-If security enabled, `grpc.server.security.certificate` and `grpc.server.security.key` should also be provided and represent 
+If security enabled, `grpc.server.security.certificate` and `grpc.server.security.key` should also be provided and represent
 TLS certificate and key files location.
 
-### Enabling annexing of limits 
+### Enabling annexing of limits
+
 ```yaml
 grpc:
   negotiation: TLS # default value for the connection to the gRPC servers
@@ -212,50 +226,70 @@ grpc:
       address: '' # dns address on which the gRPC server runs
       timeout: 15000 # default value of timeout for the connection to the gRPC server
 ```
+
 For calling annexLimits gRPC service, address of the server has to be provided in `grpc.client.annexLimits.address`.
 `grpc.negotiation` defines type of connection to gRPC servers. Possible values are: PLAINTEXT, TLS, etc.
 `grpc.client.annexLimits.timeout` defines timeout for the connection to annexLimits gRPC server in milliseconds.
 
 ### Enabling warm up for parametrization caching
+
 ```yaml
 paramWarmup:
   enabled: false  #default value, disables warm up parametrization
 ```
+
 If this value is set to true then warm up service will be triggered when starting application.
 This service is used for fetching and caching all data from parametrization tables.
 
 ### Enable/Disable producing/publishing to personStructureEffect topic
+
 ```yaml
 personStructureEffect:
   produce: true  #default value, produces data on personstructureeffect topic
 ```
+
 If this value is set to true then every person structure effect is produced/published to personstructureeffect topic.
 In case you want to stop publishing on personstructureeffect topic then you need change the default value and set it to false.
 
 ###Enable/Disable producing/publishing to personstructure topic
+
 ```yaml
 personStructure:
   produce: true  #default value, produces data on personstructure topic
 ```
+
 If this value is set to true then every complete person structure is produced/published to personstructure topic.
 In case you want to stop publishing on personstructure topic then you need change the default value and set it to false.
 
+### Enabling person structure data grpc service
+
+```yaml
+grpc:
+  personStructureData:
+    enabled: false
+```
+
+Enables/disables person structure data grpc functionality. Default value is false.
+
 ### Define conditions for completed person structure
+
 ```yaml
 personStructure:
   completenessFlagAlgorithm: CARD_LEVEL  #default value, checks value of account and card attributes in person_structure table
 ```
+
 `completenessFlagAlgorithm` value defines conditions by which person structure is to be declared completed.
 Default value of this attribute is 'CARD_LEVEL' which checks basic account and card data values (account id, account code, etc.).
 Possible values of completeness flag algorithm are: ACCOUNT_LEVEL, CARD_LEVEL or NONE and their values can be seen
 in CompletenessFlagAlgorithm enum class. Value 'NONE' means no attributes are checked before declaring person structure completed.
 
-
 ### Define search algorithm for account related data in person service
+
 ```yaml
 personStructureInitial:
   searchAlgorithm: account  #default value, searches person_structure only by account id and member sign 
 ```
+
 This value is used in the logic of person structure service when inserting/updating new account related data into person_structure table.
 Default value `account` means that person_structure will only be searched for account id and member sign
 to see if data related to given account already exists in the table.
@@ -265,11 +299,13 @@ If you want to service to also check if there is data for given customer id afte
 change the `searchAlgorithm` to `customeraccount` value.
 
 ### Enabling person structure initial listener
+
 ```yaml
 personStructureInitial:
   listener: 
      enabled: true #default value, enables person structure initial listener
 ```
+
 Enables/disables person structure initial listener.
 Default value is set to true, meaning that person structure initial listener is enabled.
 
@@ -280,16 +316,18 @@ personStructure:
   paramListener:
     enabled: true #default value, enables person structure parameterization listener
 ```
+
 Enables/disables person structure parameterization listener.
 Default value is set to true, meaning that person structure parameterization listener is enabled.
 
-
 ### Enabling initial account lifecycle status check
+
 ```yaml
 initial:
   account:
     lifecycleCheck: false  #default value, disables initial account lifecycle check
 ```
+
 Enables/disables initial account lifecycle status check.
 If the value is set to true, then when replicating account related data to person_structure table, initial value of account
 lifecycle is checked.
@@ -376,6 +414,7 @@ kafka:
     user: "kafka-schema-registry-user" # user used to connect to Kafka Schema Registry
     url: "https://kafka.schema.registry.url" # URL for Kafka Schema Registry
 ```
+
 The `kafka.schemaRegistry.credSource` specifies how to pick the credentials for Basic authentication header.
 The currently supported value is USER_INFO.
 
@@ -420,11 +459,14 @@ The auto offset reset consumer configuration defines how a consumer should behav
 kafka:
   autoOffsetReset: earliest # default value, can be changes to latest or none
 ```
+
 The ssl endpoint identification is set to default ([More info](https://docs.confluent.io/platform/current/kafka/authentication_ssl.html#id1)):
+
 ```yaml
 kafka:
   sslEndpointIdentAlg: HTTPS # default value is HTTPS , set other ssl endpoint identification algorithm if required
 ```
+
 #### Topics and consumer groups setup
 
 Kafka topics and consumer group names used by Person structure have default names defined in `values.yaml` file, but can be overridden with following setup:
@@ -805,7 +847,6 @@ aes.ssl.trust.store.password=(aes encrypted trust store password)
 aes.liquibase.password=(aes encrypted liquibase password)
 ```
 
-
 ## Customizing installation
 
 Besides required attributes, installation of Person structure can be customized in different ways.
@@ -948,11 +989,12 @@ This URI should point to oAuth2 server with defined converter type and name, for
 ### Request body sanitization and response body encoding
 
 Person structure application provides security mechanism in order to prevent injection attacks. Mechanisms to achieve this are Input data sanitization and Output data encoding. By default, sanitization is enabled and encoding is disabled. If any of these needs to be changed, this can be configured via next parameters:
+
 ```yaml
 request:
   sanitization:
     enabled: true
-    
+  
 response:
   encoding:
     enabled: false
@@ -995,11 +1037,8 @@ However, using custom configuration, logs can be redirected to log files also (i
 When enabling logging to file, container will divide logs into four different files:
 
 - `application.log` - contains all application-related (business logic) logs
-  
 - `messages.log` - contains application server's logs
-
 - `health.log` - contains all incoming requests to health check endpoint (filtered out from `access.log`)
-
 - `access.log` - contains typical Web Server logs, except for health check endpoint
 
 To change logging level for different components, following attribute should be set in values file:
@@ -1030,7 +1069,6 @@ to value more than a zero, slow queries are logged using `databaseSlowQuery` log
 logger:
   databaseSlowQueryThreshold: 0 # default value, slow query logging disabled
 ```
-
 
 To enable logging to file, following attribute should be set in values file:
 
@@ -1086,23 +1124,27 @@ Note that any type of mount specification can be used by following standard Kube
 
 If you want to include in your logs, the name of the microservice which generates the logs, you can do so by setting the value of the name of the microservice in the attribute `logger.microserviceTag`.
 By default, this attribute is set to empty string.
+
 ```yaml
 logger:
   microserviceTag: ''
 ```
 
 Log format for STDOUT logger can be modified by changing attribute:
+
 ```yaml
 logger:
   format: "STRING" # default value
- ```
+```
 
 Supported values for this parameter are: `STRING`,`ECS`,`LOGSTASH`,`GELF`,`GCP`.
 
 Examples of how log entries would look like for each value:
 
 * `STRING`
+
   * with stacktrace
+
   ```log
   2023-03-27 16:00:20,140 [6af3546625fd473bbd95482b18f2caec,620676f56f76c5b6] ERROR h.v.s.a.e.SomeClass Error
   jakarta.validation.ConstraintViolationException: must not be null
@@ -1110,55 +1152,73 @@ Examples of how log entries would look like for each value:
   at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.0.6.jar:6.0.6]
   at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750) ~[spring-aop-6.0.6.jar:6.0.6]
   ```
+
   * without stacktrace
+
   ```log
   2023-03-27 16:03:48,368 [7baee9c3042043cd3116a2bcf51b872e,ed1297a561d6ab6d] DEBUG o.s.o.j.JpaTransactionManager Exposing JPA transaction as JDBC [org.springframework.orm.jpa.vendor.HibernateJpaDialect$HibernateConnectionHandle@1d8f102d]
   ```
 * `ECS`
+
   * with stacktrace
+
   ```log
   {"@timestamp":"2023-03-17T10:05:47.074367100Z","ecs.version":"1.2.0","log.level":"ERROR","message":"[379b4af3-1]  500 Server Error for HTTP GET","process.thread.name":"reactor-http-nio-5","log.logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler","spanId":"0000000000000000","traceId":"00000000000000000000000000000000","error.type":"io.netty.channel.AbstractChannel.AnnotatedConnectException","error.message":"Connection refused: no further information: /127.0.0.1:3000","error.stack_trace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\n"}
   ```
+
   * without stacktrace
+
   ```log
   {"mdc":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"@timestamp":"2023-03-17T07:37:27.535267800Z","ecs.version":"1.2.0","log.level":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","process.thread.name":"main","log.logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
 * `LOGSTASH`
+
   * with stacktrace
+
   ```log
   {"mdc":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"exception":{"exception_class":"io.netty.channel.AbstractChannel.AnnotatedConnectException","exception_message":"Connection refused: no further information: /127.0.0.1:3000","stacktrace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t"},"@version":1,"source_host":"HOST","message":"[70e82a4a-1]  500 Server Error for HTTP GET","thread_name":"reactor-http-nio-5","@timestamp":"2023-03-17T11:26:22.416121900Z","level":"ERROR","logger_name":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler"}
   ```
+
   * without stacktrace
+
   ```log
   {"@version":1,"source_host":"HOST","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","thread_name":"main","@timestamp":"2023-03-17T11:24:17.730772400Z","level":"DEBUG","logger_name":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
 * `GELF`
+
   * with stacktrace
+
   ```log
   {"version":"1.1","host":"HOST","short_message":"[3440fdd5-1]  500 Server Error for HTTP GET","full_message":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: \r\n","timestamp":1679049090.535760400,"level":3,"_logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler","_thread":"reactor-http-nio-5","_spanId":"0000000000000000","_traceId":"00000000000000000000000000000000"}
   ```
+
   * without stacktrace
+
   ```log
   {"version":"1.1","host":"HOST","short_message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","timestamp":1679049030.468963200,"level":7,"_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean","_thread":"main"}
   ```
 * `GCP`
+
   * with stacktrace
+
   ```log
   {"timestamp":"2023-03-17T10:33:42.531673100Z","severity":"ERROR","message":"[3e916f02-1]  500 Server Error for HTTP GET  io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t","logging.googleapis.com/labels":{"spanId":"0000000000000000","traceId":"00000000000000000000000000000000"},"logging.googleapis.com/sourceLocation":{"function":"org.springframework.core.log.CompositeLog.error"},"logging.googleapis.com/insertId":"1106","_exception":{"class":"io.netty.channel.AbstractChannel.AnnotatedConnectException","message":"Connection refused: no further information: /127.0.0.1:3000","stackTrace":"io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:3000\r\n\tSuppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: \r\nError has been observed at the following site(s):\r\n\t*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]\r\n\t"},"_thread":"reactor-http-nio-5","_logger":"org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler"}
   ```
+
   * without stacktrace
+
   ```log
   {"timestamp":"2023-03-17T10:33:14.218078900Z","severity":"DEBUG","message":"Application availability state ReadinessState changed to ACCEPTING_TRAFFIC","logging.googleapis.com/sourceLocation":{"function":"org.springframework.boot.availability.ApplicationAvailabilityBean.onApplicationEvent"},"logging.googleapis.com/insertId":"1051","_exception":{"stackTrace":""},"_thread":"main","_logger":"org.springframework.boot.availability.ApplicationAvailabilityBean"}
   ```
 
 If it is required to mask sensitive data whilst logging, it can be configured by parameter:
+
 ```yaml
 logger:
   maskSensitive: false # boolean value, default is false
 ```
 
 What is treated as sensitive is implementation specific and is defined inside the code.
-
 
 ### Observing distributed tracing
 
@@ -1179,7 +1239,6 @@ that should be exported to processing system.
 `0.0` means 0% of requests and `1.0` means 100%.
 
 With parameter `otlpEndpoint` you define URL to which tracing information is sent.
-
 
 ### Modifying deployment strategy
 

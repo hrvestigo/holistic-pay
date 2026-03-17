@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 5.39.0
+    tag: 5.40.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -163,6 +163,8 @@ grpc:
     annexLimits:
       address: ''
       timeout: 15000
+  personStructureData:
+    enabled: false
 oauth2:
   enabled: false
   resourceUri: ''
