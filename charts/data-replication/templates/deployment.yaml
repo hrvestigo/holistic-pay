@@ -370,6 +370,8 @@ spec:
             {{- end }}
             - name: KAFKA_HEALTH_ENABLED
               value: "true"
+            - name: MAPPING_CARDISHIDDEN_VALUES
+              value: {{ .Values.mapping.cardishidden.values | quote }}
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
             {{- if (include "data-replication-ms.trustStoreEnv" .) -}}
@@ -451,3 +453,4 @@ spec:
       {{- end }}
       volumes:
         {{- include "data-replication-ms.volumes" . | nindent 8 }}
+

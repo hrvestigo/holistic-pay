@@ -185,6 +185,19 @@ Attribute `kafka.consumer.max.pool.interval` is used to define the maximum time 
 
 Attribute `kafka.consumer.max.pool.records` is used to define the maximum number of Kafka records to fetch in a single poll.
 
+### Mapping configuration
+#### Card is hidden flag values
+
+Defines which source values in `ban_subserv_entity_variable_data` are treated as "card is hidden".
+Any `var_data_value` that does **not** appear in this list will result in `card_is_hidden` being set to `false` in `replicatedData`.
+This is default configuration, but it can be overridden with custom values if necessary.
+```yaml
+mapping:
+  cardishidden:
+    values: "N,n"
+```
+
+
 ### Kafka setup
 
 data-replication-ms  uses Kafka as event stream backend.

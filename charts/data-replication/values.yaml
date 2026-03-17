@@ -352,3 +352,6 @@ mountCaFromSecret:
 customVolumes: []
 customMounts: []
 customEnv: []
+mapping:
+  cardishidden:
+    values: "N,n"
