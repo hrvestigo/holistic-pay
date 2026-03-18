@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.81.0
+    tag: 1.83.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -145,6 +145,17 @@ kafka:
       dltConsumerGroup: ''
       concurrency: 1
     swiftresolutionofinvestigation:
+      name: hr.vestigo.hp.swiftresolutionofinvestigation
+      consumerGroup: hr.vestigo.hp.swiftresolutionofinvestigation
+      enabled: true
+      nbrEnabled: true
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
+      nbrConsumerGroup: ''
+      dltConsumerGroup: ''
+      concurrency: 1
+    swiftnotificationtoreceive:
       name: hr.vestigo.hp.swiftresolutionofinvestigation
       consumerGroup: hr.vestigo.hp.swiftresolutionofinvestigation
       enabled: true
