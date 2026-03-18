@@ -255,7 +255,7 @@ spec:
               value: {{ .Values.status.auditLog.enabled | quote }}
             - name: PERSON_STRUCTURE_CHECKS_ENABLED
               value: {{ .Values.personStructureChecks.enabled | quote }}
-            - name: GRPC_PERSON_STRUCTURE_DATA_ENABLED
+            - name: GRPC_PERSONSTRUCTUREDATA_ENABLED
               value: {{ .Values.grpc.personStructureData.enabled | quote }}
             - name: PARAM_WARMUP_ENABLED
               value: {{ .Values.paramWarmup.enabled | quote }}
