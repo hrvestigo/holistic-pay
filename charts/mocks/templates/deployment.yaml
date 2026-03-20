@@ -297,6 +297,8 @@ spec:
             - name: SECURITY_AUTHENTICATION_CLAIM_PREFIX
               value: {{ .Values.oauth2.authorizationPrefix | quote }}
             {{- end }}
+            - name: FSECURE_BASIC_AUTH_ENABLED
+              value: {{ .Values.fsecure.basicAuth.enabled | quote }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

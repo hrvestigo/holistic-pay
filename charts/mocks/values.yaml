@@ -279,6 +279,9 @@ external:
       member:
         sign:
           default: RB
+fsecure:
+  basicAuth:
+    enabled: false
 grpc:
   server:
     enabled: false
