@@ -7409,6 +7409,16 @@ entries:
     version: 1.0.0
   consumer-finance:
   - apiVersion: v2
+    appVersion: 1.82.0
+    created: "2026-03-20T13:57:10.095037696Z"
+    description: Helm chart for consumer-finance-ms application
+    digest: 25cfea090829d9353a7e4d75099970e3edc391bc427be6e24ac278b8d2355feb
+    name: consumer-finance
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/consumer-finance-1.82.0/consumer-finance-1.82.0.tgz
+    version: 1.82.0
+  - apiVersion: v2
     appVersion: 1.81.0
     created: "2026-03-19T15:20:25.355732439Z"
     description: Helm chart for consumer-finance-ms application
@@ -35725,4 +35735,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2026-03-20T09:57:13.749612594Z"
+generated: "2026-03-20T13:57:10.121477259Z"
