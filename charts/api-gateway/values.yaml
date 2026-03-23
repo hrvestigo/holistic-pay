@@ -23,6 +23,8 @@ secret:
   keyStorePassword: ""
   existingSecret: ""
   encryptionAlgorithm: "AES_CBC"
+  fsecure:
+    password: ""
 
 logger:
   globalLogLevel: DEBUG
@@ -39,10 +41,20 @@ logger:
         # options:
           # basepath: ""
           # basename: ""
+proxy:
+  host: ""
+  port: 8080
 
 routes:
+  # When outbound is true, this gateway instance serves ONLY outbound routes.
+  # All inbound routes (alc, auth-limit-control, payment-order, etc.) are disabled.
+  outbound: false
   allowSensitiveDataEndpoints: false
   allowCmsRoutes: false
+  fsecure:
+    serviceName: ""
+    servicePortNumber: ""
+    username: ""
   alcCollect:
     serviceName: alc-collect
     servicePortNumber: "8443"

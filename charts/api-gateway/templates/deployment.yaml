@@ -93,9 +93,11 @@ spec:
               value: /opt/app/application.yaml
             - name: LOGGING_CONFIG
               value: /opt/app/log4j2.xml
-            {{- if and (ne "NONE" .Values.secret.encryptionAlgorithm) (or .Values.mountKeyStoreFromSecret.enabled .Values.mountTrustStoreFromSecret.enabled) }}
+            {{- if and (not .Values.secret.existingSecret) (ne "NONE" .Values.secret.encryptionAlgorithm) }}
             - name: SECRET_PROPERTIES
               value: /mnt/k8s/secrets/password.conf
+            - name: AES_ALGORITHM_USECBC
+              value: {{ if eq .Values.secret.encryptionAlgorithm "AES_CBC" }}"true"{{ else }}"false"{{ end }}
             {{- end }}
             - name: LANG
               value: C.UTF-8

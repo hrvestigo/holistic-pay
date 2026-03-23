@@ -18,6 +18,29 @@ spring:
   cloud:
     gateway:
       routes:
+        {{- if .Values.routes.outbound }}
+        {{- if and (.Values.routes.fsecure).serviceName (.Values.routes.fsecure).servicePortNumber }}
+        - id: fsecure_outbound_route
+          predicates:
+            - Path=/fsecure/**
+          uri: https://{{ .Values.routes.fsecure.serviceName }}:{{ .Values.routes.fsecure.servicePortNumber }}
+          filters:
+            - StripPrefix=1
+            {{- if and (.Values.proxy).host (.Values.proxy).port }}
+            - name: Proxy
+              args:
+                host: {{ .Values.proxy.host }}
+                port: {{ .Values.proxy.port }}
+            {{- end }}
+            {{- if ((.Values.routes).fsecure).username }}
+            - name: BasicAuth
+              args:
+                username: {{ .Values.routes.fsecure.username }}
+                password: ${fsecure.basic.auth.password}
+                overwriteExisting: true
+            {{- end }}
+        {{- end }}
+        {{- else }}
         - id: alc_route
           predicates:
             - Path=/api/*/riskLimitHistoryOfChanges/**
@@ -275,4 +298,5 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
+        {{- end }}
         {{- end }}
