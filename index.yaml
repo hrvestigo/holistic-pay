@@ -1135,6 +1135,20 @@ entries:
   - annotations:
       helm.sh/images: |
         - name: api-gateway-ms
+          image: docker.io/hrvestigo/api-gateway-ms:2.35.0
+    apiVersion: v2
+    appVersion: 2.35.0
+    created: "2026-03-23T10:22:49.99733293Z"
+    description: Helm chart for API gateway application
+    digest: 3dc67812d2eceec2bcc6328ed5f8344e17fd736a2642dae6bc31cddc161dd8a6
+    name: api-gateway
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/api-gateway-2.35.0/api-gateway-2.35.0.tgz
+    version: 2.35.0
+  - annotations:
+      helm.sh/images: |
+        - name: api-gateway-ms
           image: docker.io/hrvestigo/api-gateway-ms:2.34.0
     apiVersion: v2
     appVersion: 2.34.0
@@ -35745,4 +35759,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2026-03-23T08:44:41.378640553Z"
+generated: "2026-03-23T10:22:50.023678804Z"
