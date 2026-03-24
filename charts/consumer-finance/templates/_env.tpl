@@ -8,7 +8,7 @@
   value: {{ .Values.grpc.negotiation | default "TLS" | quote }}
 - name: GRPC_GETPERSONDATA_TIMEOUT
   value: {{ .Values.grpc.getPersonData.timeout | default "10000" | quote }}
-{{- if or (eq (.Values.personStructure.client.default  default "mockpersonstructure") "hppersonstructure") (eq (.Values.personStructure.client.cf  default "") "hppersonstructure") (eq (.Values.personStructure.client.cc  default "") "hppersonstructure") }}
+{{- if or (eq (.Values.personStructure.client.default | default "mockpersonstructure") "hppersonstructure") (eq (.Values.personStructure.client.cf | default "") "hppersonstructure") (eq (.Values.personStructure.client.cc | default "") "hppersonstructure") }}
 - name: GRPC_CLIENT_PERSONSTRUCTUREDATA_ADDRESS
   value: {{ required "Please specify address for HP person structure gRPC server in grpc.personStructureData.address" .Values.grpc.personStructureData.address | quote }}
 - name: GRPC_CLIENT_PERSONSTRUCTUREDATA_NEGOTIATIONTYPE
@@ -137,14 +137,14 @@
 - name: CONSUMERFINANCE_HEADER_USERID
   value: {{ .Values.consumerFinance.header.userId | default "HPTECH001" | quote }}
 - name: PERSON_STRUCTURE_CLIENT_DEFAULT
-  value: {{ .Values.personStructure.client.default  default "mockpersonstructure"  quote }}
+  value: {{ .Values.personStructure.client.default | default "mockpersonstructure" | quote }}
 {{- if .Values.personStructure.client.cf }}
 - name: PERSON_STRUCTURE_CLIENT_CF
-  value: {{ .Values.personStructure.client.cf  quote }}
+  value: {{ .Values.personStructure.client.cf | quote }}
 {{- end }}
 {{- if .Values.personStructure.client.cc }}
 - name: PERSON_STRUCTURE_CLIENT_CC
-  value: {{ .Values.personStructure.client.cc  quote }}
+  value: {{ .Values.personStructure.client.cc | quote }}
 {{- end }}
 - name: FEE_ENGINE_CLIENT
   value: {{ .Values.feeEngine.client | default "hppricingengine" | quote }}
