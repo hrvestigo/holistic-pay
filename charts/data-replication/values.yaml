@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.55.0
+    tag: 1.60.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -354,4 +354,4 @@ customMounts: []
 customEnv: []
 mapping:
   cardishidden:
-    values: "N,n"
+    values: N,n
