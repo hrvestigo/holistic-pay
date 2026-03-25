@@ -1563,7 +1563,7 @@ application:
         enabled: true
         ## Defined overrides for specific message types - list of conditions that override default behaviour.
         overrides:
-          pacs.004: NORES,COVE
+          pacs.004: NORES,COVE,ORIGSERIAL
       ## Producing non-financial event for received Swift MX messages.
       ##
       ## By default, received Swift MX message non-financial event is produced to Kafka topic 'paymentnonfinmessage'.
@@ -1571,8 +1571,9 @@ application:
         enabled: true
         ## Defined overrides for specific message types - list of conditions that override default behaviour.
         overrides:
-          pacs.002: NORES,!RJCT
+          pacs.002: NORES,!RJCT,ORIGSERIAL
           camt.029: NORES,PDCR
+          camt.056: ORIGSERIAL
   data:
     ## Configuration for data component.
     ##

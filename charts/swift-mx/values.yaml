@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.84.0
+    tag: 1.85.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -370,12 +370,13 @@ application:
       finIn:
         enabled: true
         overrides:
-          pacs.004: NORES,COVE
+          pacs.004: NORES,COVE,ORIGSERIAL
       nonFinIn:
         enabled: true
         overrides:
-          pacs.002: NORES,!RJCT
+          pacs.002: NORES,!RJCT,ORIGSERIAL
           camt.029: NORES,PDCR
+          camt.056: ORIGSERIAL
   data:
     caching:
       expire: 12h
