@@ -210,7 +210,7 @@ spring:
             - SaveSession
         - id: pricing-engine-ms_route
           predicates:
-            - Path=/api/*/pricingEngine, /api/*/updateFeeBillingAccount, /api/*/feeIndividualTerms/get, /api/*/pricingEngine/fee-individual-terms/search, /api/*/feeIndividualTerms/set, /api/*/pricingEngine/fee-individual-terms, /api/*/pricingEngine/fee-calculations, /api/*/pricingEngine/fee-billing-account-updates
+            - Path=/api/*/pricingEngine, /api/*/updateFeeBillingAccount, /api/*/feeIndividualTerms/get, /api/*/pricing-engine/fee-individual-terms/search, /api/*/feeIndividualTerms/set, /api/*/pricing-engine/fee-individual-terms, /api/*/pricing-engine/fee-calculations, /api/*/pricing-engine/fee-billing-account-updates
           uri: https://{{ required "Pricing engine application service name has to be defined in routes.pricingEngine.serviceName" .Values.routes.pricingEngine.serviceName }}:{{ required "Pricing engine application port number has to be defined in routes.pricingEngine.servicePortNumber" .Values.routes.pricingEngine.servicePortNumber }}
           filters:
             - TokenRelay
