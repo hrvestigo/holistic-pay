@@ -23,8 +23,7 @@ secret:
   keyStorePassword: ""
   existingSecret: ""
   encryptionAlgorithm: "AES_CBC"
-  fsecure:
-    password: ""
+  fsecureBasicAuthPassword: ""
 
 logger:
   globalLogLevel: DEBUG
