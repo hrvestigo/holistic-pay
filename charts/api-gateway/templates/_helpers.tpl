@@ -52,8 +52,17 @@ Key store env variables
   value: {{ $keyStorePath }}
 - name: JAVAX_NET_SSL_KEY_STORE_TYPE
   value: {{ .Values.mountKeyStoreFromSecret.keyStoreType }}
+- name: SPRING_CLOUD_GATEWAY_HTTPCLIENT_SSL_KEYSTORE
+  value: {{ $keyStorePath }}
+- name: SPRING_CLOUD_GATEWAY_HTTPCLIENT_SSL_KEYSTORETYPE
+  value: {{ .Values.mountKeyStoreFromSecret.keyStoreType }}
 {{- if and .Values.secret.existingSecret (eq "NONE" .Values.secret.encryptionAlgorithm) }}
 - name: JAVAX_NET_SSL_KEY_STORE_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.secret.existingSecret }}
+      key: keystore.password
+- name: SPRING_CLOUD_GATEWAY_HTTPCLIENT_SSL_KEYSTOREPASSWORD
   valueFrom:
     secretKeyRef:
       name: {{ .Values.secret.existingSecret }}
@@ -278,4 +287,16 @@ Create a comma separated list of endpoints that need to be exposed
 {{- $endpoints = append $endpoints (printf "%s" "prometheus") }}
 {{- end }}
 {{- join "," $endpoints }}
+{{- end }}
+
+{{/*
+Check if decryption should be performed
+*/}}
+{{ define "api-gateway.decryption.enabled" }}
+{{- $hasAes := false }}
+{{- range $k, $v := .Values.secret }}
+{{- if and $v (ne "decryptionKey" $k) (ne "encryptionAlgorithm" $k) (ne "existingSecret" $k) }}
+true
+{{- end }}
+{{- end }}
 {{- end }}

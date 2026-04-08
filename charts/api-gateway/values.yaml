@@ -23,7 +23,6 @@ secret:
   keyStorePassword: ""
   existingSecret: ""
   encryptionAlgorithm: "AES_CBC"
-  fsecureBasicAuthPassword: ""
 
 logger:
   globalLogLevel: DEBUG
@@ -43,73 +42,75 @@ logger:
 proxy:
   host: ""
   port: 8080
+  nonProxyHosts: ""
 
 routes:
-  # When outbound is true, this gateway instance serves ONLY outbound routes.
-  # All inbound routes (alc, auth-limit-control, payment-order, etc.) are disabled.
-  outbound: false
   allowSensitiveDataEndpoints: false
-  allowCmsRoutes: false
-  fsecure:
+  addressParser:
     serviceName: ""
-    servicePortNumber: ""
-    username: ""
+    servicePortNumber: "8443"
   alcCollect:
-    serviceName: alc-collect
+    serviceName: ""
     servicePortNumber: "8443"
   authLimitControl:
-    serviceName: auth-limit-control
-    servicePortNumber: "8443"
-  personStructure:
-    serviceName: person-structure
-    servicePortNumber: "8443"
-  personRegistry:
-    serviceName: person-registry
-    servicePortNumber: "8443"
-  paymentOrder:
-    serviceName: payment-order
-    servicePortNumber: "8443"
-  sepaInst:
-    serviceName: sepa-inst
-    servicePortNumber: "8443"
-  crdPayInstIss:
-    serviceName: crd-pay-inst-iss
+    serviceName: ""
     servicePortNumber: "8443"
   balanceCheck:
-    serviceName: balance-check
+    serviceName: ""
     servicePortNumber: "8443"
   balanceLog:
-    serviceName: balance-log
-    servicePortNumber: "8443"
-  panManager:
-    serviceName: pan-manager
-    servicePortNumber: "8443"
-  vetoManager:
-    serviceName: veto-manager
+    serviceName: ""
     servicePortNumber: "8443"
   balanceReconciliation:
-    serviceName: balance-reconciliation
-    servicePortNumber: "8443"
-  siriusQuery:
-    serviceName: sirius-query
-    servicePortNumber: "8443"
-  productEngine:
-    serviceName: product-engine
-    servicePortNumber: "8443"
-  pricingEngine:
-    serviceName: pricing-engine
-    servicePortNumber: "8443"
-  gsfCore:
-    serviceName: gsf-core
-    servicePortNumber: "8443"
-  consumerFinance:
-    serviceName: consumer-finance
-    servicePortNumber: "8443"
-  extDisputeInterface:
-    serviceName: external-dispute-interface
+    serviceName: ""
     servicePortNumber: "8443"
   ccmsApi:
-    serviceName: ccms-api
+    serviceName: ""
+    servicePortNumber: "8443"
+  consumerFinance:
+    serviceName: ""
+    servicePortNumber: "8443"
+  coreGateway:
+    serviceName: ""
+    servicePortNumber: "443"
+  crdPayInstIss:
+    serviceName: ""
+    servicePortNumber: "8443"
+  extDisputeInterface:
+    serviceName: ""
+    servicePortNumber: "8443"
+  fsecure:
+    serviceName: ""
+    servicePortNumber: "8443"
+  gsfCore:
+    serviceName: ""
+    servicePortNumber: "8443"
+  panManager:
+    serviceName: ""
+    servicePortNumber: "8443"
+  paymentOrder:
+    serviceName: ""
+    servicePortNumber: "8443"
+  personRegistry:
+    serviceName: ""
+    servicePortNumber: "8443"
+  personStructure:
+    serviceName: ""
+    servicePortNumber: "8443"
+  pricingEngine:
+    serviceName: ""
+    servicePortNumber: "8443"
+  productEngine:
+    serviceName: ""
+    servicePortNumber: "8443"
+  sepaInst:
+    serviceName: ""
+    servicePortNumber: "8443"
+  siriusQuery:
+    serviceName: ""
+    servicePortNumber: "8443"
+  vetoManager:
+    serviceName: ""
     servicePortNumber: "8443"
 
 oauth2:

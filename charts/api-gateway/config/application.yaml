@@ -17,158 +17,157 @@ spring:
   {{- end }}
   cloud:
     gateway:
+      httpclient:
+      {{- if and (.Values.proxy).host (.Values.proxy).port }}
+        proxy:
+          host: {{ .Values.proxy.host }}
+          port: {{ .Values.proxy.port }}
+          {{- if .Values.proxy.nonProxyHosts }}
+          non-proxy-hosts-pattern: {{ .Values.proxy.nonProxyHosts }}
+          {{- end }}
+      {{- end }}
       routes:
-        {{- if .Values.routes.outbound }}
         {{- if and (.Values.routes.fsecure).serviceName (.Values.routes.fsecure).servicePortNumber }}
-        - id: fsecure_outbound_route
+        - id: fsecure_route
           predicates:
-            - Path=/fsecure/**
+            - Path=/api/ACCOUNT/v3.0/**
           uri: https://{{ .Values.routes.fsecure.serviceName }}:{{ .Values.routes.fsecure.servicePortNumber }}
           filters:
-            - StripPrefix=1
-            {{- if and (.Values.proxy).host (.Values.proxy).port }}
-            - name: Proxy
-              args:
-                host: {{ .Values.proxy.host }}
-                port: {{ .Values.proxy.port }}
-            {{- end }}
-            {{- if ((.Values.routes).fsecure).username }}
-            - name: BasicAuth
-              args:
-                username: {{ .Values.routes.fsecure.username }}
-                password: ${fsecure.basic.auth.password}
-                overwriteExisting: true
-            {{- end }}
+            - TokenRelay
+            - SaveSession
         {{- end }}
-        {{- else }}
+        {{- if (.Values.routes.alcCollect).serviceName }}
         - id: alc_route
           predicates:
             - Path=/api/*/riskLimitHistoryOfChanges/**
             - Method=GET
-          uri: https://{{ required "ALC collect application service name has to be defined in routes.alcCollect.serviceName" .Values.routes.alcCollect.serviceName }}:{{ required "ALC collect application port number has to be defined in routes.alcCollect.servicePortNumber" .Values.routes.alcCollect.servicePortNumber }}
+          uri: https://{{ .Values.routes.alcCollect.serviceName }}:{{ .Values.routes.alcCollect.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
         - id: alc_route_old
           predicates:
             - Path=/alc-collect/**
-          uri: https://{{ required "ALC collect application service name has to be defined in routes.alcCollect.serviceName" .Values.routes.alcCollect.serviceName }}:{{ required "ALC collect application port number has to be defined in routes.alcCollect.servicePortNumber" .Values.routes.alcCollect.servicePortNumber }}
+          uri: https://{{ .Values.routes.alcCollect.serviceName }}:{{ .Values.routes.alcCollect.servicePortNumber }}
           filters:
             - StripPrefix=1
             - TokenRelay
             - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.authLimitControl).serviceName }}
         - id: auth-limit-control_route
           predicates:
-            - Path=/api/*/authLimitControl/**, /api/*/authorization-request
-          uri: https://{{ required "Auth limit control application service name has to be defined in routes.authLimitControl.serviceName" .Values.routes.authLimitControl.serviceName }}:{{ required "Auth limit control application port number has to be defined in routes.authLimitControl.servicePortNumber" .Values.routes.authLimitControl.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        - id: auth-limit-control_route_new
-          predicates:
-            - Path=/api/*/riskLimits/**
-            - Method=GET
-          uri: https://{{ required "Auth limit control application service name has to be defined in routes.authLimitControl.serviceName" .Values.routes.authLimitControl.serviceName }}:{{ required "Auth limit control application port number has to be defined in routes.authLimitControl.servicePortNumber" .Values.routes.authLimitControl.servicePortNumber }}
+            - Path=/api/*/authLimitControl/**, /api/*/authorization-request, /api/*/riskLimits/**
+          uri: https://{{ .Values.routes.authLimitControl.serviceName }}:{{ .Values.routes.authLimitControl.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
         - id: auth-limit-control_route_old
           predicates:
             - Path=/auth-limit-control/**
-          uri: https://{{ required "Auth limit control application service name has to be defined in routes.authLimitControl.serviceName" .Values.routes.authLimitControl.serviceName }}:{{ required "Auth limit control application port number has to be defined in routes.authLimitControl.servicePortNumber" .Values.routes.authLimitControl.servicePortNumber }}
+          uri: https://{{ .Values.routes.authLimitControl.serviceName }}:{{ .Values.routes.authLimitControl.servicePortNumber }}
           filters:
             - StripPrefix=1
             - TokenRelay
             - SaveSession
-        - id: auth-limit-control_route_accounts
-          predicates:
-            - Path=/api/*/riskLimits/accounts
-            - Method=POST
-          uri: https://{{ required "Auth limit control application service name has to be defined in routes.authLimitControl.serviceName" .Values.routes.authLimitControl.serviceName }}:{{ required "Auth limit control application port number has to be defined in routes.authLimitControl.servicePortNumber" .Values.routes.authLimitControl.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.personStructure).serviceName }}
         - id: person-structure-ms_route
           predicates:
             - Path=/api/*/riskLimits/**, /api/*/customerControlsLimits/**
             - Method=POST
-          uri: https://{{ required "Person structure application service name has to be defined in routes.personStructure.serviceName" .Values.routes.personStructure.serviceName }}:{{ required "Person structure application port number has to be defined in routes.personStructure.servicePortNumber" .Values.routes.personStructure.servicePortNumber }}
+          uri: https://{{ .Values.routes.personStructure.serviceName }}:{{ .Values.routes.personStructure.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
         - id: person-structure-ms_route_old
           predicates:
             - Path=/person-structure/**
-          uri: https://{{ required "Person structure application service name has to be defined in routes.personStructure.serviceName" .Values.routes.personStructure.serviceName }}:{{ required "Person structure application port number has to be defined in routes.personStructure.servicePortNumber" .Values.routes.personStructure.servicePortNumber }}
+          uri: https://{{ .Values.routes.personStructure.serviceName }}:{{ .Values.routes.personStructure.servicePortNumber }}
           filters:
             - StripPrefix=1
             - TokenRelay
             - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.personRegistry).serviceName }}
         - id: person-registry-ms_route
           predicates:
             - Path=/api/*/personRegistry/**
-          uri: https://{{ required "Person registry application service name has to be defined in routes.personRegistry.serviceName" .Values.routes.personRegistry.serviceName }}:{{ required "Person structure application port number has to be defined in routes.personRegistry.servicePortNumber" .Values.routes.personRegistry.servicePortNumber }}
+          uri: https://{{ .Values.routes.personRegistry.serviceName }}:{{ .Values.routes.personRegistry.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.paymentOrder).serviceName }}
         - id: payment-order-ms_route
           predicates:
             - Path=/api/*/paymentOrder/**, /api/job/start/**, /api/*/liquidity/**
-          uri: https://{{ required "Payment order application service name has to be defined in routes.paymentOrder.serviceName" .Values.routes.paymentOrder.serviceName }}:{{ required "Payment order application port number has to be defined in routes.paymentOrder.servicePortNumber" .Values.routes.paymentOrder.servicePortNumber }}
+          uri: https://{{ .Values.routes.paymentOrder.serviceName }}:{{ .Values.routes.paymentOrder.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.sepaInst).serviceName }}
         - id: nks-inst-ms_route
           predicates:
             - Path=/nksInst/api/msg/*, /nksInst/api/info, /api/msg/*, /api/info
-          uri: https://{{ required "Sepa Inst application service name has to be defined in routes.sepaInst.serviceName" .Values.routes.sepaInst.serviceName }}:{{ required "Sepa Inst application port number has to be defined in routes.sepaInst.servicePortNumber" .Values.routes.sepaInst.servicePortNumber }}
+          uri: https://{{ .Values.routes.sepaInst.serviceName }}:{{ .Values.routes.sepaInst.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
             - RewritePath=/?.*/api/(?<segment>.*),/api/$\{segment}
             - PrefixPath=/sepaInst
-        {{- if .Values.routes.allowCmsRoutes }}
+        {{- end }}
+        {{- if (.Values.routes.crdPayInstIss).serviceName }}
         - id: crd-pay-inst-iss-ms_route
           predicates:
             - Path=/api/*/trxPans
-          uri: https://{{ required "Card payment instrument issuance application service name has to be defined in routes.crdPayInstIss.serviceName" .Values.routes.crdPayInstIss.serviceName }}:{{ required "Card payment instrument issuance application port number has to be defined in routes.crdPayInstIss.servicePortNumber" .Values.routes.crdPayInstIss.servicePortNumber }}
+          uri: https://{{ .Values.routes.crdPayInstIss.serviceName }}:{{ .Values.routes.crdPayInstIss.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
         {{- end }}
+        {{- if (.Values.routes.balanceCheck).serviceName }}
         - id: balance-check-ms_route
           predicates:
             - Path=/api/*/balanceChangeRequest, /api/*/balance/check/*, /api/*/balance/account/*, /api/*/balance/check/compensation/*
-          uri: https://{{ required "Balance check application service name has to be defined in routes.balanceCheck.serviceName" .Values.routes.balanceCheck.serviceName }}:{{ required "Balance check application port number has to be defined in routes.balanceCheck.servicePortNumber" .Values.routes.balanceCheck.servicePortNumber }}
+          uri: https://{{ .Values.routes.balanceCheck.serviceName }}:{{ .Values.routes.balanceCheck.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.balanceLog).serviceName }}
         - id: balance-log-ms_route
           predicates:
             - Path=/api/*/balance/log/transactions,/api/*/balance/log/state/**
-          uri: https://{{ required "Balance log application service name has to be defined in routes.balanceLog.serviceName" .Values.routes.balanceLog.serviceName }}:{{ required "Balance log application port number has to be defined in routes.balanceLog.servicePortNumber" .Values.routes.balanceLog.servicePortNumber }}
+          uri: https://{{ .Values.routes.balanceLog.serviceName }}:{{ .Values.routes.balanceLog.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.balanceReconciliation).serviceName }}
         - id: balance-reconciliation-ms_route
           predicates:
             - Path=/api/*/balance/reconciliation/generate_file
-          uri: https://{{ required "Balance reconciliation application service name has to be defined in routes.balanceReconciliation.serviceName" .Values.routes.balanceReconciliation.serviceName }}:{{ required "Balance reconciliation application port number has to be defined in routes.balanceReconciliation.servicePortNumber" .Values.routes.balanceReconciliation.servicePortNumber }}
+          uri: https://{{ .Values.routes.balanceReconciliation.serviceName }}:{{ .Values.routes.balanceReconciliation.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.siriusQuery).serviceName }}
         - id: sirius-query-ms_route
           predicates:
             - Path=/api/*/sirius/query/overdraft/*/summary, /api/*/sirius/query/transaction/*/summary, /api/*/sirius/query/transaction/analytic/individual
-          uri: https://{{ required "Sirius query application service name has to be defined in routes.siriusQuery.serviceName" .Values.routes.siriusQuery.serviceName }}:{{ required "Sirius query application port number has to be defined in routes.siriusQuery.servicePortNumber" .Values.routes.siriusQuery.servicePortNumber }}
+          uri: https://{{ .Values.routes.siriusQuery.serviceName }}:{{ .Values.routes.siriusQuery.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
-        {{- if .Values.routes.allowCmsRoutes }}
+        {{- end }}
+        {{- if (.Values.routes.panManager).serviceName }}
         - id: pan-manager-ms_route
           predicates:
             - Path=/api/*/secure-data-value/actions/**
-          uri: https://{{ required "Pan manager application service name has to be defined in routes.panManager.serviceName" .Values.routes.panManager.serviceName }}:{{ required "Pan manager application port number has to be defined in routes.panManager.servicePortNumber" .Values.routes.panManager.servicePortNumber }}
+          uri: https://{{ .Values.routes.panManager.serviceName }}:{{ .Values.routes.panManager.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
@@ -176,7 +175,7 @@ spring:
           predicates:
             - Path=/api/*/generateNewPan, /api/*/generateNewPanList, /api/*/secure-data-value/**
           {{- if .Values.routes.allowSensitiveDataEndpoints }}
-          uri: https://{{ required "Pan manager application service name has to be defined in routes.panManager.serviceName" .Values.routes.panManager.serviceName }}:{{ required "Pan manager application port number has to be defined in routes.panManager.servicePortNumber" .Values.routes.panManager.servicePortNumber }}
+          uri: https://{{ .Values.routes.panManager.serviceName }}:{{ .Values.routes.panManager.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
@@ -186,48 +185,67 @@ spring:
             - SetStatus=403
             - SetResponseHeader=X-Blocked-Message, "Access Denied"
           {{- end }}
+        {{- end }}
+        {{- if (.Values.routes.gsfCore).serviceName }}
         - id: gsf-core-ms_route
           predicates:
             - Path=/api/*/gsf/code-validation
-          uri: https://{{ required "GSF core application service name has to be defined in routes.gsfCore.serviceName" .Values.routes.gsfCore.serviceName }}:{{ required "Pan manager application port number has to be defined in routes.gsfCore.servicePortNumber" .Values.routes.gsfCore.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        - id: veto-manager-ms_route
-          predicates:
-            - Path=/api/*/vetos
-          uri: https://{{ required "Veto manager application service name has to be defined in routes.vetoManager.serviceName" .Values.routes.vetoManager.serviceName }}:{{ required "Veto manager application port number has to be defined in routes.vetoManager.servicePortNumber" .Values.routes.vetoManager.servicePortNumber }}
+          uri: https://{{ .Values.routes.gsfCore.serviceName }}:{{ .Values.routes.gsfCore.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
         {{- end }}
+        {{- if (.Values.routes.vetoManager).serviceName }}
+        - id: veto-manager-ms_route
+          predicates:
+            - Path=/api/*/vetos
+          uri: https://{{ .Values.routes.vetoManager.serviceName }}:{{ .Values.routes.vetoManager.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.productEngine).serviceName }}
         - id: product-engine-ms_route
           predicates:
             - Path=/api/*/package-request/**, /api/*/products-overview/**, /api/*/package-contract/**, /api/*/status-management/**
-          uri: https://{{ required "Product engine application service name has to be defined in routes.productEngine.serviceName" .Values.routes.productEngine.serviceName }}:{{ required "Product engine application port number has to be defined in routes.productEngine.servicePortNumber" .Values.routes.productEngine.servicePortNumber }}
+          uri: https://{{ .Values.routes.productEngine.serviceName }}:{{ .Values.routes.productEngine.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.pricingEngine).serviceName }}
         - id: pricing-engine-ms_route
           predicates:
             - Path=/api/*/pricingEngine, /api/*/updateFeeBillingAccount, /api/*/feeIndividualTerms/get, /api/*/pricing-engine/fee-individual-terms/search, /api/*/feeIndividualTerms/set, /api/*/pricing-engine/fee-individual-terms, /api/*/pricing-engine/fee-calculations, /api/*/pricing-engine/fee-billing-account-updates
-          uri: https://{{ required "Pricing engine application service name has to be defined in routes.pricingEngine.serviceName" .Values.routes.pricingEngine.serviceName }}:{{ required "Pricing engine application port number has to be defined in routes.pricingEngine.servicePortNumber" .Values.routes.pricingEngine.servicePortNumber }}
+          uri: https://{{ .Values.routes.pricingEngine.serviceName }}:{{ .Values.routes.pricingEngine.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.consumerFinance).serviceName }}
         - id: consumer-finance-ms_route
           predicates:
             - Path=/api/*/consumer-finance/**
-          uri: https://{{ required "Consumer finance application service name has to be defined in routes.consumerFinance.serviceName" .Values.routes.consumerFinance.serviceName }}:{{ required "Consumer finance application port number has to be defined in routes.consumerFinance.servicePortNumber" .Values.routes.consumerFinance.servicePortNumber }}
+          uri: https://{{ .Values.routes.consumerFinance.serviceName }}:{{ .Values.routes.consumerFinance.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
-        {{- if .Values.routes.allowCmsRoutes }}
+        {{- end }}
+        {{- if (.Values.routes.addressParser).serviceName }}
+        - id: address-parser-ms_route
+        predicates:
+        - Path=/api/*/address-parser/**
+        uri: https://{{ .Values.routes.addressParser.serviceName }}:{{ .Values.routes.addressParser.servicePortNumber }}
+        filters:
+        - TokenRelay
+        - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.extDisputeInterface).serviceName }}
         - id: external-dispute-interface-ms-pan_route
           predicates:
             - Path=/card/*/pan, /card/cardId
           {{- if .Values.routes.allowSensitiveDataEndpoints }}
-          uri: https://{{ required "External Dispute Interface application service name has to be defined in routes.extDisputeInterface.serviceName" .Values.routes.extDisputeInterface.serviceName }}:{{ required "External Dispute Interface application port number has to be defined in routes.extDisputeInterface.servicePortNumber" .Values.routes.extDisputeInterface.servicePortNumber }}
+          uri: https://{{ .Values.routes.extDisputeInterface.serviceName }}:{{ .Values.routes.extDisputeInterface.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
@@ -240,20 +258,20 @@ spring:
         - id: external-dispute-interface-ms_route
           predicates:
             - Path=/card/*/cardholderId, /event/v2
-          uri: https://{{ required "External Dispute Interface application service name has to be defined in routes.extDisputeInterface.serviceName" .Values.routes.extDisputeInterface.serviceName }}:{{ required "External Dispute Interface application port number has to be defined in routes.extDisputeInterface.servicePortNumber" .Values.routes.extDisputeInterface.servicePortNumber }}
+          uri: https://{{ .Values.routes.extDisputeInterface.serviceName }}:{{ .Values.routes.extDisputeInterface.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
         - id: external-dispute-interface-health-ms_route
           predicates:
             - Path=/external-dispute-interface/health
-          uri: https://{{ required "External Dispute Interface application service name has to be defined in routes.extDisputeInterface.serviceName" .Values.routes.extDisputeInterface.serviceName }}:{{ required "External Dispute Interface application port number has to be defined in routes.extDisputeInterface.servicePortNumber" .Values.routes.extDisputeInterface.servicePortNumber }}
+          uri: https://{{ .Values.routes.extDisputeInterface.serviceName }}:{{ .Values.routes.extDisputeInterface.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
             - StripPrefix=1
         {{- end }}
-        {{- if .Values.routes.allowCmsRoutes }}
+        {{- if (.Values.routes.ccmsApi).serviceName }}
           {{- if not .Values.routes.allowSensitiveDataEndpoints }}
         - id: ccms-api-blocked_route
           predicates:
@@ -264,14 +282,14 @@ spring:
           uri: no://op
           {{- end }}
         - id: ccms-api_route
-          predicates:
+          predicates
             - Path=/rest/service/**
-          uri: https://{{ required "CCMS API application service name has to be defined in routes.ccmsApi.serviceName" .Values.routes.ccmsApi.serviceName }}:{{ required "CCMS API application port number has to be defined in routes.ccmsApi.servicePortNumber" .Values.routes.ccmsApi.servicePortNumber }}
+          uri: https://{{ .Values.routes.ccmsApi.serviceName }}:{{ .Values.routes.ccmsApi.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
         {{- end }}
-        {{- if and (.Values.routes.ipcBackend).serviceName (.Values.routes.ipcBackend).servicePortNumber }}
+        {{- if (.Values.routes.ipcBackend).serviceName }}
         - id: ipc-backend_route
           predicates:
             - Path=/services/**
@@ -281,7 +299,7 @@ spring:
             - SaveSession
             - StripPrefix=1
         {{- end }}
-        {{- if and (.Values.routes.ipcWeb).serviceName (.Values.routes.ipcWeb).servicePortNumber }}
+        {{- if (.Values.routes.ipcWeb).serviceName }}
         - id: ipc-web_route
           predicates:
             - Path=/**
@@ -290,7 +308,7 @@ spring:
             - TokenRelay
             - SaveSession
         {{- end }}
-        {{- if and (.Values.routes.personRegistryWeb).serviceName (.Values.routes.personRegistryWeb).servicePortNumber }}
+        {{- if (.Values.routes.personRegistryWeb).serviceName }}
         - id: person-registry-web_route
           predicates:
             - Path=/**
@@ -299,4 +317,12 @@ spring:
             - TokenRelay
             - SaveSession
         {{- end }}
+        {{- if (.Values.routes.coreGateway).serviceName }}
+        - id: forward-all_route
+          predicates:
+            - Path=/**
+          uri: https://{{ .Values.routes.coreGateway.serviceName }}:{{ .Values.routes.coreGateway.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
         {{- end }}

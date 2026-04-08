@@ -83,6 +83,9 @@ routes:
   extDisputeInterface:
     serviceName: external-dispute-interface # name of external-dispute-interface service, default is external-dispute-interface
     servicePortNumber: "8443" # port number on which external-dispute-interface service is exposed, default is 8443 
+  addressParser:
+    serviceName: address-parser # name of address-parser service, default is address-parser
+    servicePortNumber: "8443" # port number on which address-parser service is exposed, default is 8443
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value, no default value
