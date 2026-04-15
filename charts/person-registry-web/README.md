@@ -179,6 +179,7 @@ Default deployment strategy for Person registry web application is `RollingUpdat
 ```yaml
 deployment:
   annotations: {}
+  labels: {}
   replicaCount: 1
   strategy:
     type: RollingUpdate
@@ -224,6 +225,18 @@ autoscaling:
 CPU and/or memory utilization metrics can be used to autoscale Person registry web pod.
 It's possible to define one or both of those metrics.
 If only `autoscaling.enabled` attribute is set to `true`, without setting other attributes, only CPU utilization metric will be used with percentage set to 80.
+
+#### Using `VerticalPodAutoscaler`
+
+By default, VPA is disabled in configuration, but it can enabled with following setup:
+
+```yaml
+vpa:
+  enabled: true # default is false, has to be set to true to enable VPA
+  updateMode: Off # default mode if Off, other possible values are "Initial", "Recreate" and "Auto"
+```
+
+Please note that this feature requires VPA controller to be installed on Kubernetes cluster. Please refer to [VPA documentation](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) for additional info.
 
 ### Customizing probes
 
@@ -357,6 +370,7 @@ ingress:
   annotations: {}
   hosts: []
   tls: []
+  labels: {}
 ```
 
 For example, a working setup could be defined like this:
@@ -444,7 +458,7 @@ tolerations:
     tolerationSeconds: 3600
 ```
 
-### Adding custom annotations
+### Adding custom annotations and labels
 
 Custom annotations can be added to pod by listing them under `podAnnotations` attribute structure, for example:
 
@@ -461,6 +475,14 @@ deployment:
   annotations:
     custom.annotation: custom-value
     other.annotation: other-value
+```
+
+Custom labels can be added to pod by listing them under `podLabels` attribute, for example:
+
+```yaml
+podLabels:
+  custom.labels: custom-value
+  other.labels: other-value
 ```
 
 ### Additional custom configuration
