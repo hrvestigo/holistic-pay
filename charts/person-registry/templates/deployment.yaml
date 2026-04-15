@@ -31,6 +31,9 @@ spec:
         {{- end }}
       labels:
         {{- include "person-registry.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       automountServiceAccountToken: false
       {{- with .Values.imagePullSecrets }}
@@ -71,6 +74,13 @@ spec:
               {{- include "person-registry.db.ssl.connectionParams" $ -}}"
             - name: SPRING_DATASOURCE_USERNAME
               value: {{ required "Please specify DB user in datasource.user" .Values.datasource.user | quote }}
+            {{- if and .Values.secret.existingSecret (eq "NONE" .Values.secret.encryptionAlgorithm) }}
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.existingSecret }}
+                  key: datasource.password
+            {{- end }}
             {{- range $k, $v := .Values.members }}
             - name: SPRING_DATASOURCE_URL_{{ .memberSign }}
               {{- if .datasource }}
@@ -105,6 +115,13 @@ spec:
                 {{- end }}
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ default (required "Please specify DB user in datasource.user" $.Values.datasource.user | quote) .datasource.user }}
+              {{- if and $.Values.secret.existingSecret (eq "NONE" $.Values.secret.encryptionAlgorithm) }}
+            - name: SPRING_DATASOURCE_PASSWORD_{{ upper .memberSign }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.secret.existingSecret }}
+                  key: datasource.password.{{ lower .memberSign }}
+            {{- end }}
               {{- else }}
               value: "jdbc:postgresql://
               {{- required "Please specify DB host name in datasource.host or override with member specific in members.datasource.host" $.Values.datasource.host -}}
@@ -121,6 +138,13 @@ spec:
               {{- include "person-registry.db.ssl.connectionParams" $ -}}"
             - name: SPRING_DATASOURCE_USERNAME_{{ .memberSign }}
               value: {{ required "Please specify DB user in datasource.user" $.Values.datasource.user | quote }}
+            {{- if and $.Values.secret.existingSecret (eq "NONE" $.Values.secret.encryptionAlgorithm) }}
+            - name: SPRING_DATASOURCE_PASSWORD_{{ upper .memberSign }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.secret.existingSecret }}
+                  key: datasource.password.{{ lower .memberSign }}
+            {{- end }}
               {{- end }}
             {{- end }}
             - name: MEMBERS
@@ -131,6 +155,13 @@ spec:
               value: >-
                 {{ include "person-registry.kafka.loginModule" . }} required username=
                 {{- required "Please specify Kafka user in kafka.user" .Values.kafka.user | quote }} password="${kafka.password}";
+            {{- if and .Values.secret.existingSecret (eq "NONE" .Values.secret.encryptionAlgorithm) }}
+            - name: KAFKA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.existingSecret }}
+                  key: kafka.password
+            {{- end }}
             - name: SPRING_KAFKA_BOOTSTRAPSERVERS
               value: {{ required "Please specify Kafka bootstrap servers in kafka.servers" .Values.kafka.servers | quote }}
             - name: SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL
@@ -142,6 +173,13 @@ spec:
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_BASIC_AUTH_USER_INFO
               value: >-
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
+            {{- if and .Values.secret.existingSecret (eq "NONE" .Values.secret.encryptionAlgorithm) }}
+            - name: KAFKA_SCHEMAREGISTRY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.existingSecret }}
+                  key: kafka.schemaregistry.password
+            {{- end }}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
             - name: SPRING_KAFKA_CONSUMER_INITIALIZATION_PAUSE
@@ -204,6 +242,13 @@ spec:
               value: {{ .Values.searchengine.scheme | quote }}
             - name: SEARCHENGINE_USERNAME
               value: {{ .Values.searchengine.username | quote }}
+            {{- if and .Values.secret.existingSecret (eq "NONE" .Values.secret.encryptionAlgorithm) }}
+            - name: SEARCHENGINE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.existingSecret }}
+                  key: searchengine.password
+            {{- end }}
             {{- range $k, $v := .Values.searchengine.index.perreg }}
             - name: SEARCHENGINE_INDEX_PERREG_NAME_{{ .memberSign }}
               value: "{{- required "Please specify index prefix name in searchengine.index.perreg.prefixName" .prefixName | lower -}}
@@ -286,8 +331,10 @@ spec:
               value: {{ .Values.datasource.minIdle | quote }}
             - name: SPRING_DATASOURCE_HIKARI_IDLETIMEOUT
               value: {{ .Values.datasource.idleTimeout | quote }}
+            {{- if and (not .Values.secret.existingSecret) (not (eq "NONE" .Values.secret.encryptionAlgorithm)) }}
             - name: SECRET_PROPERTIES
               value: /mnt/k8s/secrets/password.conf
+            {{- end }}
             - name: KAFKA_HEALTH_ENABLED
               value: "true"
             - name: JAVA_OPTS
@@ -300,6 +347,13 @@ spec:
               value: {{ required "Please specify key store location in mountKeyStoreFromSecret.location" .Values.mountKeyStoreFromSecret.location }}/{{ required "Please specify key store file name in mountKeyStoreFromSecret.keyStoreName" .Values.mountKeyStoreFromSecret.keyStoreName }}
             - name: SSL_KEY_STORE_TYPE
               value: {{ required "Please specify key store type in mountKeyStoreFromSecret.keyStoreType" .Values.mountKeyStoreFromSecret.keyStoreType }}
+            {{- if and .Values.secret.existingSecret (eq "NONE" .Values.secret.encryptionAlgorithm) }}
+            - name: SSL_KEY_STORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.existingSecret }}
+                  key: keystore.password
+            {{- end }}
             {{- end }}
             - name: SPRING_PROFILES_ACTIVE
               value: {{ required "Please specify Spring profile in springActiveProfile. Possible values: 'dev', 'prod'." .Values.springActiveProfile | quote }}
