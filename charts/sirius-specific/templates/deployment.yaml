@@ -399,6 +399,8 @@ spec:
               value: {{ .Values.sirius.nonretry.codes | quote }}
             - name: SIRIUS_NONDUPLICATION_CODES
               value: {{ .Values.sirius.nonduplication.codes | quote }}
+            - name: SIRIUS_REST_RESPONSE_LOGGING_ALL
+              value: {{ .Values.sirius.rest.response.logging.all | quote }}
             - name: INBOX_SCHEDULER
               value: {{ .Values.inbox.scheduler.start | quote }}
             - name: INBOX_SCHEDULER_LEVEL1_FIXEDRATE
@@ -482,6 +484,7 @@ spec:
               {{- $rest := slice $logdir 1 | join "/" }}
               value: {{ $rest }}
               {{- end }}
+            - name: SERVER_TOMCAT_ACCESSLOG_PATTERN
             - name: SERVER_TOMCAT_ACCESSLOG_PATTERN
               value: >-
                 [%{yyyy-MM-dd HH:mm:ss.SSS}t] %h %l %u "%r" %s
