@@ -2,5 +2,5 @@ apiVersion: v2
 name: person-structure
 description: Helm chart for person structure application
 type: application
-version: 5.39.7
-appVersion: 5.39.5
+version: 5.39.8
+appVersion: 5.39.6
