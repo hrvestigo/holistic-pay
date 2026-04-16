@@ -115,7 +115,7 @@ Liquibase init container definition
     {{- if and $.Values.secret.existingSecret (eq "NONE" $.Values.secret.encryptionAlgorithm) }}
     {{- $params = printf "cp /liquibase/changelog/liquibase.properties /tmp && sed -i \"s|__LIQUIBASE_PASSWORD__|$LB_PASSWORD|g\" /tmp/liquibase.properties && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=%s --contexts=%s --username=%s" $url $context $.Values.liquibase.user }}
     {{- else }}
-    {{- $params = printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -jar /tmp/aesdecryptor.jar -d -l && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
+    {{- $params = printf "%s%s%s%s%s%s" "cp /liquibase/changelog/liquibase.properties /tmp && java -cp /tmp/aesdecryptor.jar AesDecrypt && /liquibase/docker-entrypoint.sh --defaultsFile=/tmp/liquibase.properties --url=" $url " --contexts=" $context " --username=" $.Values.liquibase.user }}
     {{- end }}
     {{- if $.Values.liquibase.syncOnly }}
     - {{ printf "%s%s" $params " changelog-sync" }}
