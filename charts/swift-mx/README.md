@@ -846,13 +846,14 @@ To enable logging to file, following attribute should be set in values file:
 
 ```yaml
 level:
-  kafka: INFO              # default value, user for logging general kafka logic
-  kafkaCore: INFO           # default value, used for logging org.apache.kafka.*
-  rest: INFO               # default value, used for logging REST operations
-  database: INFO           # default value, used for logging all DB related operations (root DB logger)
-  businessLogic: INFO      # default value, used for logging service business logic
-  health: INFO             # default value, used for logging health checks
-  general: INFO            # default value, used for logging other components
+  kafka: INFO             # default value, user for logging general kafka logic
+  kafkaCore: INFO         # default value, used for logging org.apache.kafka.*
+  rest: INFO              # default value, used for logging REST operations
+  database: INFO          # default value, used for logging all DB related operations (root DB logger)
+  businessLogic: INFO     # default value, used for logging service business logic
+  health: INFO            # default value, used for logging health checks
+  general: INFO           # default value, used for logging other components
+  fileIntegration: INFO   # default values, used fro logging file integration components
 ```
 
 To enable logging to file, following attribute should be set in values file:
@@ -1619,6 +1620,12 @@ application:
       ## Currently, nfs volumes are supported. By default, mounted
       ## automatically via Helm.
       readPath: '/swiftx/in'
+      ## File reading subpath in volume mount from which files are polled.
+      ## Uses readPath as base path to which this path is added.
+      ##
+      ## By default, no subpaths are used. If defined, paths found in this subpath are excluded from polling.
+      ## Example of definition: readExcludePaths: processed,error - in this case, files found in '/swiftx/in/processed' and '/swiftx/in/error' are excluded from polling.
+      readExcludePaths: []
       ## File reading polling interval.
       ##
       ## Default is 5 seconds, meaning, files are polled every 5 seconds.
@@ -1676,7 +1683,11 @@ application:
       ## Only applicable for poll writing mode, in which source is pulled
       ## and file is written with polled data.
       writeInterval: 5s
-      ## File writing mode in which source message is retrieved.
+      ## File writing mode by which source message is retrieved.
+      ## Message source is Kafka topic 'swiftoutgoingmessage'.
+      ## 
+      ## Possible options:
+      ##    pull - Kafka consumer which poll's source with non-blocking retry (default)
       writeMode: pull
       ## Producing event after file is written.
       ##

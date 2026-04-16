@@ -201,6 +201,13 @@
       </Filters>
     </Logger>
 
+    <Logger name="org.springframework.integration" level={{ .level.fileIntegration | upper | quote }} additivity="false">
+      {{- if .logToFile }}
+      <AppenderRef ref="${applicationAppender}"/>
+      {{- end }}
+      <AppenderRef ref="${consoleAppender}"/>
+    </Logger>
+
     <Logger name="com.zaxxer.hikari.pool.HikariPool" level={{ .level.database | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>

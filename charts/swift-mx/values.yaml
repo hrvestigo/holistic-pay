@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.86.0
+    tag: 1.87.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -73,6 +73,13 @@ kafka:
     swiftoutgoingmessage:
       name: hr.vestigo.hp.swiftoutgoingmessage
       enabled: true
+      nbrEnabled: true
+      nbrBackOff: 50000;5s
+      nbrName: ''
+      dltName: ''
+      nbrConsumerGroup: ''
+      dltConsumerGroup: ''
+      concurrency: 1
     paymentfinmessage:
       name: hr.vestigo.hp.paymentfinmessage
       consumerGroup: hr.vestigo.hp.paymentfinmessage
@@ -205,6 +212,7 @@ logger:
     database: INFO
     businessLogic: INFO
     general: INFO
+    fileIntegration: INFO
   logToFile: false
   rollingFileAppender: false
   logDir: /var/log/app
@@ -387,6 +395,7 @@ application:
     file:
       readEnabled: false
       readPath: /swiftx/in
+      readExcludePaths: []
       readInterval: 5s
       readIntervalMax: 1
       readFilePrefixEnabled: true
