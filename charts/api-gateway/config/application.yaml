@@ -27,6 +27,15 @@ spring:
           {{- end }}
       {{- end }}
       routes:
+        {{- if not .Values.routes.allowSensitiveDataEndpoints }}
+        - id: pci-dss-blocked_route
+          predicates:
+            - Path=/api/*/generateNewPan, /api/*/generateNewPanList, /api/*/secure-data-value, /card/*/pan, /card/cardId, /rest/service/WS2I12, /rest/service/WS2I05
+          uri: no://op
+          filters:
+            - SetStatus=403
+            - SetResponseHeader=X-Blocked-Message, "Access Denied"
+        {{- end }}
         {{- if and (.Values.routes.fsecure).serviceName (.Values.routes.fsecure).servicePortNumber }}
         - id: fsecure_route
           predicates:
@@ -171,19 +180,14 @@ spring:
           filters:
             - TokenRelay
             - SaveSession
+          {{- if .Values.routes.allowSensitiveDataEndpoints }}
         - id: pan-manager-ms-pcidss_route
           predicates:
-            - Path=/api/*/generateNewPan, /api/*/generateNewPanList, /api/*/secure-data-value/**
-          {{- if .Values.routes.allowSensitiveDataEndpoints }}
+            - Path=/api/*/generateNewPan, /api/*/generateNewPanList, /api/*/secure-data-value
           uri: https://{{ .Values.routes.panManager.serviceName }}:{{ .Values.routes.panManager.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
-          {{- else }}
-          uri: no://op
-          filters:
-            - SetStatus=403
-            - SetResponseHeader=X-Blocked-Message, "Access Denied"
           {{- end }}
         {{- end }}
         {{- if (.Values.routes.gsfCore).serviceName }}
@@ -241,19 +245,14 @@ spring:
         - SaveSession
         {{- end }}
         {{- if (.Values.routes.extDisputeInterface).serviceName }}
-        - id: external-dispute-interface-ms-pan_route
+          {{- if .Values.routes.allowSensitiveDataEndpoints }}
+        - id: external-dispute-interface-ms-pcidss_route
           predicates:
             - Path=/card/*/pan, /card/cardId
-          {{- if .Values.routes.allowSensitiveDataEndpoints }}
           uri: https://{{ .Values.routes.extDisputeInterface.serviceName }}:{{ .Values.routes.extDisputeInterface.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
-          {{- else }}
-          uri: no://op
-          filters:
-            - SetStatus=403
-            - SetResponseHeader=X-Blocked-Message, "Access Denied"
           {{- end }}
         - id: external-dispute-interface-ms_route
           predicates:
@@ -272,15 +271,6 @@ spring:
             - StripPrefix=1
         {{- end }}
         {{- if (.Values.routes.ccmsApi).serviceName }}
-          {{- if not .Values.routes.allowSensitiveDataEndpoints }}
-        - id: ccms-api-blocked_route
-          predicates:
-            - Path=/rest/service/WS2I12, /rest/service/WS2I05
-          filters:
-            - SetStatus=403
-            - SetResponseHeader=X-Blocked-Message, "Access Denied"
-          uri: no://op
-          {{- end }}
         - id: ccms-api_route
           predicates:
             - Path=/rest/service/**

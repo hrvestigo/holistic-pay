@@ -85,6 +85,12 @@ routes:
   gsfCore:
     serviceName: ""
     servicePortNumber: "8443"
+  ipcBackend:
+    serviceName: ""
+    servicePortNumber: "8443"
+  ipcWeb:
+    serviceName: ""
+    servicePortNumber: "8443"
   panManager:
     serviceName: ""
     servicePortNumber: "8443"
@@ -92,6 +98,9 @@ routes:
     serviceName: ""
     servicePortNumber: "8443"
   personRegistry:
+    serviceName: ""
+    servicePortNumber: "8443"
+  personRegistryWeb:
     serviceName: ""
     servicePortNumber: "8443"
   personStructure:

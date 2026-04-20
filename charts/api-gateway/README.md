@@ -23,69 +23,83 @@ Required values are (in `yaml` format):
 
 ```yaml
 routes:
+  allowSensitiveDataEndpoints: false # should api-gateway allow sensitive data endpoints, default is false
+
+  addressParser:
+    serviceName: "" # name of address-parser service
+    servicePortNumber: "8443" # port number on which address-parser service is exposed, default is 8443
   alcCollect:
-    serviceName: alc-collect # name of alc-collect service, default is alc-collect
+    serviceName: "" # name of alc-collect service
     portNumber: "8443" # port number on which alc-collect service is exposed, default is 8443
   authLimitControl:
-    serviceName: auth-limit-control # name of auth-limit-control service, default is auth-limit-control
+    serviceName: "" # name of auth-limit-control service
     portNumber: "8443" # port number on which auth-limit-control service is exposed, default is 8443
-  personStructure:
-    serviceName: person-structure # name of person-structure service, default is person-structure
-    portNumber: "8443" # port number on which person-structure service is exposed, default is 8443
-  personRegistry:
-    serviceName: person-registry # name of person-registry service, default is person-registry
-    portNumber: "8443" # port number on which person-registry service is exposed, default is 8443
-  paymentOrder:
-    serviceName: payment-order # name of payment-order service, default is payment-order
-    portNumber: "8443" # port number on which payment-order service is exposed, default is 8443
-  sepaInst:
-    serviceName: sepa-inst # name of sepa-inst service, default is sepa-inst
-    portNumber: "8443" # port number on which sepa-inst service is exposed, default is 8443
-  crdPayInstIss:
-    serviceName: crd-pay-inst-iss # name of crd-pay-inst-iss service, default is crd-pay-inst-iss
-    servicePortNumber: "8443"  # port number on which crd-pay-inst-iss service is exposed, default is 8443
-  personRegistryWeb:
-    serviceName: person-structure-web # name of person-registry-web service, default is person-registry-web
-    portNumber: "8443" # port number on which person-registry-web service is exposed, default is 8443
   balanceCheck:
-    serviceName: balance-check # name of balance-check service, default is balance-check
+    serviceName: "" # name of balance-check service
     portNumber: "8443" # port number on which balance-check service is exposed, default is 8443
   balanceLog:
-    serviceName: balance-log # name of balance-log service, default is balance-log
+    serviceName: "" # name of balance-log service
     portNumber: "8443" # port number on which balance-log service is exposed, default is 8443
-  panManager:
-    serviceName: pan-manager # name of pan-manager service, default is pan-manager
-    servicePortNumber: "8443"  # port number on which pan-manager service is exposed, default is 8443
-  vetoManager:
-    serviceName: veto-manager # name of veto-manager service, default is veto-manager
-    servicePortNumber: "8443"  # port number on which veto-manager service is exposed, default is 8443
   balanceReconciliation:
-    serviceName: balance-reconciliation # name of balance-reconciliation service, default is balance-reconciliation
+    serviceName: "" # name of balance-reconciliation service
     servicePortNumber: "8443" # port number on which balance-reconciliation service is exposed, default is 8443
-  siriusQuery:
-    serviceName: sirius-query # name of sirius-query service, default is sirius-query
-    servicePortNumber: "8443" # port number on which sirius-query service is exposed, default is 8443
-  productEngine:
-    serviceName: product-engine # name of product-engine service, default is product-engine
-    servicePortNumber: "8443" # port number on which product-engine service is exposed, default is 8443
-  pricingEngine:
-    serviceName: pricing-engine # name of pricing-engine service, default is pricing-engine
-    servicePortNumber: "8443" # port number on which pricing-engine service is exposed, default is 8443
-  gsfCore:
-    serviceName: gsf-core # name of gsf-core service, default is gsf-core
-    servicePortNumber: "8443" # port number on which gsf-core service is exposed, default is 8443 
-  hpDash:
-    serviceName: hp-dashboard # name of hp-dashboard service, default is hp-dashboard
-    portNumber: "8443" # port number on which hp-dashboard service is exposed, default is 8443 
+  ccmsApi:
+    serviceName: "" # name of the ccms-api service
+    servicePortNumber: "8443" # port number on which ccms-api service is exposed, default is 8443
   consumerFinance:
-    serviceName: consumer-finance # name of consumer-finance service, default is consumer-finance
+    serviceName: "" # name of consumer-finance service
     servicePortNumber: "8443" # port number on which consumer-finance service is exposed, default is 8443 
+  coreGateway:
+    serviceName: "" # name of core-gateway service
+    servicePortNumber: "443" # port number on which core-gateway service is exposed, default is 443
+  crdPayInstIss:
+    serviceName: "" # name of crd-pay-inst-iss service
+    servicePortNumber: "8443"  # port number on which crd-pay-inst-iss service is exposed, default is 8443
   extDisputeInterface:
-    serviceName: external-dispute-interface # name of external-dispute-interface service, default is external-dispute-interface
+    serviceName: "" # name of external-dispute-interface service
     servicePortNumber: "8443" # port number on which external-dispute-interface service is exposed, default is 8443 
-  addressParser:
-    serviceName: address-parser # name of address-parser service, default is address-parser
-    servicePortNumber: "8443" # port number on which address-parser service is exposed, default is 8443
+  fsecure:
+    serviceName: "" # name of fsecure service
+    servicePortNumber: "8443" # port number on which fsecure service is exposed, default is 8443
+  gsfCore:
+    serviceName: "" # name of gsf-core service
+    servicePortNumber: "8443" # port number on which gsf-core service is exposed, default is 8443 
+  ipcBackend:
+    serviceName: "" # name of ipc-backend service
+    servicePortNumber: "8443" # port number on which ipc-backend service is exposed, default is 8443
+  ipcWeb:
+    serviceName: "" # name of ipc-web service
+    servicePortNumber: "8443" # port number on which ipc-web service is exposed, default is 8443
+  panManager:
+    serviceName: "" # name of pan-manager service
+    servicePortNumber: "8443"  # port number on which pan-manager service is exposed, default is 8443
+  paymentOrder:
+    serviceName: "" # name of payment-order service
+    portNumber: "8443" # port number on which payment-order service is exposed, default is 8443
+  personRegistry:
+    serviceName: "" # name of person-registry service
+    portNumber: "8443" # port number on which person-registry service is exposed, default is 8443
+  personRegistryWeb:
+    serviceName: "" # name of person-registry-web service
+    portNumber: "8443" # port number on which person-registry-web service is exposed, default is 8443
+  personStructure:
+    serviceName: "" # name of person-structure service
+    portNumber: "8443" # port number on which person-structure service is exposed, default is 8443
+  pricingEngine:
+    serviceName: "" # name of pricing-engine service
+    servicePortNumber: "8443" # port number on which pricing-engine service is exposed, default is 8443
+  productEngine:
+    serviceName: "" # name of product-engine service
+    servicePortNumber: "8443" # port number on which product-engine service is exposed, default is 8443
+  sepaInst:
+    serviceName: "" # name of sepa-inst service
+    portNumber: "8443" # port number on which sepa-inst service is exposed, default is 8443
+  siriusQuery:
+    serviceName: "" # name of sirius-query service
+    servicePortNumber: "8443" # port number on which sirius-query service is exposed, default is 8443
+  vetoManager:
+    serviceName: "" # name of veto-manager service
+    servicePortNumber: "8443"  # port number on which veto-manager service is exposed, default is 8443
 
 imagePullSecrets:
   - name: "image-pull-secret-name" # string value, no default value
@@ -134,6 +148,23 @@ Once secret is created, it should be set with `imagePullSecrets.name` attribute,
 imagePullSecrets:
   - name: vestigo-dockerhub-secret
 ```
+
+### Proxy server configuration
+`Proxy` server is configured via the following set of configuration parameters:
+
+```yaml
+proxy:
+  host: ''
+  port: ''
+  nonProxyHosts: ''
+```
+
+When user defines both proxy host and port, then api-gateway will use this proxy server to communicate with destination for all routes.
+Optionally, user can define non-proxy hosts that should not be proxied.
+Non-proxy hosts parameter contains a regular expression (Java) for a configured list of hosts that should be reached directly, bypassing the proxy.
+For example, if we want to avoid proxying for all hosts in `vestigo.hr` domain, the value of this parameter should be `.*\.vestigo\.hr`.
+It is also possible to specify multiple domains by delimiting them with `|`, for example `.*\.vestigo\.hr|.*\.otherdomain\.com` to avoid proxying
+for both `vestigo.hr` and `otherdomain.com` domains.
 
 ### TLS setup
 
