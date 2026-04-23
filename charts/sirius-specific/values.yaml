@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 2.49.0
+    tag: 2.50.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -486,3 +486,5 @@ alert:
   communication:
     type: skip
 activePartyCheckFlag: DISABLE_WITH_AC01
+shedlock:
+  table: shedlock

@@ -20,6 +20,20 @@ Defies fixed part of sirius-specific datasource schema name
 {{- end }}
 
 {{/*
+Returns the full schema name for the first member.
+Mirrors the same logic used by Liquibase SCHEMA_NAME construction.
+TODO: multi-member support to be implemented in next patch
+*/}}
+{{- define "sirius-specific.firstMemberSchema" -}}
+{{- $member := index .Values.members 0 -}}
+{{- if and $member.datasource $member.datasource.globalSchema -}}
+{{- $member.businessUnit | lower }}{{- .Values.datasource.globalSchemaPrefix }}{{- include "sirius-specific.dbSchema" . }}{{- .Values.env.label | lower -}}
+{{- else -}}
+{{- $member.businessUnit | lower }}{{- $member.applicationMember | lower }}{{- include "sirius-specific.dbSchema" . }}{{- .Values.env.label | lower -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 sirius-specific image repository
 */}}
 {{- define "sirius-specific.app.repository" -}}

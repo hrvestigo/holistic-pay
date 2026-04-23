@@ -421,6 +421,8 @@ spec:
               value: {{ .Values.ecs.communication.type | quote }}
             - name: ACTIVE_PARTY_CHECK_FLAG
               value: {{ .Values.activePartyCheckFlag | quote }}
+            - name: INBOX_SCHEDULER_SHEDLOCK_TABLE
+              value: {{ include "sirius-specific.firstMemberSchema" . }}.{{ .Values.shedlock.table | default "shedlock" }}
             {{- if .Values.grpc.server.enabled }}
             - name: GRPC_SERVER_PORT
               value: {{ .Values.grpc.server.port | default "9090" | quote }}
