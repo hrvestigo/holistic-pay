@@ -65,7 +65,7 @@ atomikos:
   maxLifetime: 3600000
   maxPoolSize: 30
   minPoolSize: 5
-  jtaTimeout: 60000
+  jtaTimeout: 120000
   connectionFactory:
     maxIdleTime: 1800000
     maxLifeTime: 3600000
@@ -88,6 +88,10 @@ kafka:
       id: sirius-specific
     auto:
       startup: 'false'
+    card:
+      autoStartup: 'false'
+      applicationId: sirius-specific-card-cdc
+      replicationFactor: '3'
   topics:
     paymentOriginalMessage:
       name: gcp.ipt1.hp.evt.paymentoriginalmessage
@@ -220,6 +224,10 @@ kafka:
     paymentnonfinmessageinbox:
       name: hr.vestigo.hp.paymentnonfinmessageinbox.01
       consumerGroup: gw.ipt1.hp.evt.paymentnonfinmessageinbox
+    card:
+      name: hr.vestigo.hp.cardcdc.01
+      consumerGroup: hr.vestigo.hp.cardcdc
+
   consumer:
     properties:
       sessionTimeoutMs: 45000
@@ -240,7 +248,7 @@ sirius:
       logging:
         all: false
     initiate:
-      timeout: 130000
+      timeout: 60000
     uri:
       payOrderForward: WS9030
       payOrderNotification: notUsed
@@ -467,6 +475,8 @@ kafkaConsumer:
   balannounce:
     enabled: false
   transactionscreening:
+    enabled: false
+  card:
     enabled: false
 inbox:
   scheduler:

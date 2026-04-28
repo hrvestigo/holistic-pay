@@ -314,6 +314,22 @@ spec:
               value: {{ .Values.kafka.topics.paymentnonfinmessageinbox.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_PAYMENTNONFINMESSAGEINBOX_NAME
               value: {{ .Values.kafka.topics.paymentnonfinmessageinbox.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_CARD_ENABLED
+              value: {{ .Values.kafkaConsumer.card.enabled | default "false" | quote }}
+            {{- if .Values.kafkaConsumer.card.enabled }}
+            - name: KAFKA_TOPIC_CARD_NAME
+              value: {{ .Values.kafka.topics.card.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CARD_NAME
+              value: {{ .Values.kafka.topics.card.consumerGroup | quote }}
+            {{- end }}
+            - name: SPRING_KAFKA_STREAMS_CARD_AUTO_STARTUP
+              value: {{ .Values.kafka.streams.card.autoStartup | quote }}
+            {{- if .Values.kafka.streams.card.autoStartup }}
+            - name: SPRING_KAFKA_STREAMS_CARD_APPLICATION_ID
+              value: {{ .Values.kafka.streams.card.applicationId | quote }}
+            - name: SPRING_KAFKA_STREAMS_CARD_REPLICATION_FACTOR
+              value: {{ .Values.kafka.streams.card.replicationFactor | quote }}
+            {{- end }}
             - name: KAFKA_TOPIC_ECSCOMMUNICATIONLOG_NAME
               value: {{ .Values.kafka.topics.ecsCommunicationLog.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTSWIFTORIGINALMESSAGE_NAME

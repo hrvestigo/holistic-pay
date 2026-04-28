@@ -242,6 +242,25 @@ kafka:
       startup: true
 ```
 
+#### Card CDC Stream
+
+Card CDC Kafka Streams topology can be enabled by setting `kafka.streams.card.autoStartup` to `true`.
+When enabled, it reads card CDC messages from the card topic, maps them to person-structure-initial format,
+and writes to the output topic — bypassing the legacy CDC consumer framework.
+
+```yaml
+kafka:
+  streams:
+    card:
+      autoStartup: 'true'
+      applicationId: sirius-specific-card-cdc # custom application id for card stream
+      replicationFactor: '3'
+  topics:
+    card:
+      name: gcp.ipt1.sirius.cdc.card.01
+      consumerGroup: gcp.ipt1.sirspec.card
+```
+
 ### Configuring image source and pull secrets
 
 By default,  sirius-specific  image is pulled directly from Vestigo's repository hosted by Docker Hub.
