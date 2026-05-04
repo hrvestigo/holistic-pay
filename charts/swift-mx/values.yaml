@@ -177,6 +177,7 @@ kafka:
       name: hr.vestigo.hp.alert
   consumer:
     brBackOff: 3;0.1s
+    authErrorRetryInterval: 10s
     properties:
       sessionTimeoutMs: 45000
       heartbeatIntervalMs: 3000
@@ -411,7 +412,9 @@ application:
     leader:
       electionEnabled: false
       initiatorName: swift-integration-leader
-      idleBetweenTries: 60s
+      idleBetweenTries: 10s
+      ttl: 60s
+      clientIdKey: POD_IP
       task:
         pollSize: 1
         pollMaxSize: 4

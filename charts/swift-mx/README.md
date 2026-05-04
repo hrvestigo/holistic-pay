@@ -217,8 +217,9 @@ kafka:
     <topic-reference-name-3>:
       <config1>: <value1>
   consumer:
-    brBackOff: 3;0.1s                                             # default retry backoff policy, 3 times, every 100ms
-    properties:                                                   # see https://kafka.apache.org/documentation/#consumerconfigs
+    brBackOff: 3;0.1s                   # default retry backoff policy, 3 times, every 100ms
+    authErrorRetryInterval: 10s         # time between retries after Kafka topic authentication exceptions on consumer
+    properties:                         # see https://kafka.apache.org/documentation/#consumerconfigs
       sessionTimeoutMs: 45000
       heartbeatIntervalMs: 3000
       maxPollRecords: 500
@@ -234,6 +235,12 @@ This is preferred retry mechanism for processing triggered by Kafka message
 in order to honor Kafka's max poll intervals. For example, if processing of
 Kafka message calls CSM and CSM fails, we retry whole flow via Kafka mechanism
 not just CSM call.
+
+With `authErrorRetryInterval` interval is defined to retry consumer poll when
+Kafka authorization / authentication error occurs. Authentication and authorization errors
+are considered fatal, which causes the container to stop. With this configuration
+we allows the consumer to recover when proper permissions are granted.
+The `authErrorRetryInterval` must be less than `maxPollIntervalMs`.
 
 #### Kafka consumer retry logic
 
@@ -1718,8 +1725,18 @@ application:
       electionEnabled: false
       ## Leader initiator name.
       initiatorName: swift-integration-leader
-      ## Leader initiator mechanism duration between consecutive locking tries.
-      idleBetweenTries: 60s
+      ## Leader initiator mechanism heartbeat between consecutive locking tries
+      ## or lock extension (renewal).
+      idleBetweenTries: 10s
+      ## Leader initiator mechanism lease timeout after which leader is elected again
+      ## due to lock not being acquired (renewals stop).
+      ttl: 60s
+      ## Leader initiator client id key from which client id is fetched from environment.
+      ##
+      ## In Kubernetes, we can use 'POD_IP' or 'POD_NAME' as key.
+      ## Can be any key which resolves to value from environment no more than 36 characters long.
+      ## For example, key 'POD_NAME' can resolve to more than 36 characters.
+      clientIdKey: POD_IP
       ## Leader initiator task configuration. Defines leader election task executor polling parameters.
       task:
         pollSize: 1

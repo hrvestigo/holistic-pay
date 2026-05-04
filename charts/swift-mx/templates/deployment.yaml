@@ -63,11 +63,11 @@ spec:
             {{- end }}
             - name: SERVER_PORT
               value: "8443"
-            - name: MANAGEMENT_TRACING_ENABLED
+            - name: MANAGEMENT_TRACING_EXPORT_ENABLED
               value: {{ .Values.tracing.enabled | quote }}
             - name: MANAGEMENT_TRACING_SAMPLING_PROBABILITY
               value: "{{ .Values.tracing.samplingProbability }}"
-            - name: MANAGEMENT_OTLP_TRACING_ENDPOINT
+            - name: MANAGEMENT_OPENTELEMETRY_TRACING_EXPORT_OTLP_ENDPOINT
               value: "{{ .Values.tracing.otlpEndpoint }}"
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:postgresql://{{- required "Please specify DB host name in datasource.host" .Values.datasource.host -}}:
@@ -146,6 +146,11 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
+            - name: SPRING_KAFKA_LISTENER_AUTH_EXCEPTION_RETRY_INTERVAL
+              value: {{ .Values.kafka.consumer.authErrorRetryInterval | quote }}
+            {{- if (include "swift-mx.kafka.consumer.properties.config" .) -}}
+            {{- include "swift-mx.kafka.consumer.properties.config" . | indent 12 -}}
+            {{- end }}
             {{- if (include "swift-mx.kafka.topics" .) }}
             {{- include "swift-mx.kafka.topics" . | indent 12 }}
             {{- end }}
@@ -159,25 +164,22 @@ spec:
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
               value: PKCS12
-            - name: MANAGEMENT_ENDPOINTS_ENABLEDBYDEFAULT
-              value: "false"
-            - name: MANAGEMENT_ENDPOINT_HEALTH_ENABLED
-              value: "true"
-            {{- if .Values.prometheus.exposed }}
-            - name: MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED
-              value: "true"
+            - name: MANAGEMENT_ENDPOINTS_ACCESS_DEFAULT
+              value: "none"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_ACCESS
+              value: "read-only"
+            {{- if not .Values.prometheus.exposed }}
+            - name: MANAGEMENT_ENDPOINT_PROMETHEUS_ACCESS
+              value: "none"
             {{- end }}
             {{- if (include "swift-mx.metrics.config" .) -}}
             {{- include "swift-mx.metrics.config" . | indent 12 -}}
-            {{- end }}
-            {{- if (include "swift-mx.kafka.consumer.properties.config" .) -}}
-            {{- include "swift-mx.kafka.consumer.properties.config" . | indent 12 -}}
             {{- end }}
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
               value: {{ include "swift-mx.exposed.endpoints" $ }}
             - name: MANAGEMENT_ENDPOINTS_WEB_BASEPATH
               value: /
-            - name: MANAGEMENT_HEALTH_PROBES_ENABLED
+            - name: MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED
               value: "true"
             - name: MANAGEMENT_ENDPOINT_HEALTH_SHOWDETAILS
               value: always
@@ -267,6 +269,14 @@ spec:
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
           ports:
             - name: http
               containerPort: 8443
