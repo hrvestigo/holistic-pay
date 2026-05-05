@@ -168,8 +168,6 @@ spec:
               value: {{ required "Please specify pricing.engine.technical.userId" .Values.pricing.engine.technical.userId | quote }}
             - name: PRICING_ENGINE_PROCESSPERIOD
               value: {{ .Values.pricing.engine.processPeriod | quote }}
-            - name: PRICING_ENGINE_INDIVIDUALFEE_VALIDATIONMODE
-              value: {{ .Values.pricing.engine.individualfee.validationMode | quote }}
             - name: SCHEDULE_CRON_PARKEDFEE
               value: {{ required "Please specify schedule.cron.parkedFee" .Values.schedule.cron.parkedFee | quote }}
             - name: SERVER_SSL_KEYSTORE
@@ -269,6 +267,10 @@ spec:
               value: {{ .Values.request.sanitization.enabled | default "true" | quote }}
             - name: RESPONSE_BODY_ENCODING_ENABLED
               value: {{ .Values.response.encoding.enabled | default "false" | quote }}
+            - name: KAFKA_LISTENER_FEECALCULATIONREQUEST_ENABLED
+              value: {{ .Values.kafka.listener.feecalculationrequest.enabled | default "true" | quote }}
+            - name: KAFKA_LISTENER_BILLINGITEMRESPONSE_ENABLED
+              value: {{ .Values.kafka.listener.billingitemresponse.enabled | default "true" | quote }}
             {{- if .Values.oauth2.authorizationPrefix }}
             - name: SECURITY_AUTHENTICATION_CLAIM_PREFIX
               value: {{ .Values.oauth2.authorizationPrefix | quote }}

@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.55.0
+    tag: 1.56.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -41,8 +41,6 @@ pricing:
     technical:
       userId: ''
     processPeriod: 800
-    individualfee:
-      validationMode: FULL
 schedule:
   cron:
     parkedFee: ''
@@ -87,6 +85,11 @@ kafka:
         delay: ''
     calculatedfeeresponse:
       name: ''
+  listener:
+    feecalculationrequest:
+      enabled: true
+    billingitemresponse:
+      enabled: true
 oauth2:
   enabled: false
   resourceUri: ''

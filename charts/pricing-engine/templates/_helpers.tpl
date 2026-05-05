@@ -193,7 +193,7 @@ Volumes
 {{- end -}}
 - name: {{ include "pricing-engine.name" . }}-secret
   secret:
-    secretName: {{ include "pricing-engine.name" . }}-secret
+    secretName: {{ default (printf "%s-secret" (include "pricing-engine.name" .)) .Values.secret.existingSecret }}
     items:
       - path: password.conf
         key: password.conf
