@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.78.0
+    tag: 1.85.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -70,6 +70,8 @@ kafka:
     credSource: USER_INFO
     user: ''
     url: ''
+  streams:
+    replicationFactor: 3
   topics:
     limitbucketcompensation:
       name: hr.vestigo.hp.limitbucketcompensation
@@ -100,9 +102,6 @@ kafka:
       name: ''
 grpc:
   negotiation: TLS
-  getPersonData:
-    address: ''
-    timeout: 10000
   personStructureData:
     address: ''
     negotiationType: ''
@@ -133,6 +132,8 @@ personStructure:
   client: ''
 feeEngine:
   client: ''
+limitBuckets:
+  client: ''
 idempotency:
   filter:
     enabled: true
@@ -160,6 +161,41 @@ response:
 listener:
   parameterization:
     enabled: false
+  dueinstalment:
+    enabled: true
+  crdauthtrxmatch:
+    enabled: true
+  instalmentoffer:
+    enabled: true
+  instalmentofferresponse:
+    enabled: true
+  extsysresponse:
+    enabled: true
+  authtransaction:
+    enabled: true
+parameterization:
+  service:
+    enabled: true
+spring:
+  batch:
+    job:
+      enabled: false
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          fetch_size: 1000
+reconciliation:
+  report:
+    delimiter: ;
+    directory: ''
+    batchName: reconciliationReport
+    filenamePrefix: CFM_RR
+    enabled: false
+    cron: 0 0 1 ? * *
+batch:
+  logs:
+    location: ''
 timezone: ''
 secret:
   decryptionKey: ''
@@ -192,7 +228,7 @@ logger:
   microserviceTag: ''
   databaseSlowQueryThreshold: 0
 healthStatusDownReturnCode: '418'
-javaOpts: -Xms256M -Xmx256M
+javaOpts: -Xms512M -Xmx512M
 podAnnotations: {}
 deploymentAnnotations: {}
 serviceAnnotations: {}

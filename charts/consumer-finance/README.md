@@ -1238,8 +1238,9 @@ This configuration is used for setting up the connection to the gRPC server whic
 ```yaml
 grpc:
   negotiation: TLS # default value for the connection to the gRPC servers
-  getPersonData: # properties specific to get person data
+  personStructureData: # properties specific to get person structure data (used by both mock and real implementation)
     address: "dns:///person-structure-server:port" # dns address on which the person structure gRPC server runs
+    negotiationType: TLS # negotiation type for the connection (default: inherited from grpc.negotiation)
     timeout: 10000 # default value of timeout for the connection to the gRPC server
   getLimitBuckets: # properties specific to get limit buckets
     address: "dns:///limit-bucket-server:port" # dns address on which the limit bucket gRPC server runs

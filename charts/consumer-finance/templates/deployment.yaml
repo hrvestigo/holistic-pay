@@ -149,6 +149,8 @@ spec:
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
             - name: SPRING_KAFKA_STREAMS_AUTOSTARTUP
               value: {{ .Values.kafka.streams.auto.startup | default "true" | quote }}
+            - name: SPRING_KAFKA_STREAMS_REPLICATIONFACTOR
+              value: {{ .Values.kafka.streams.replicationFactor | default 3 | quote }}
             {{- if .Values.kafka.streams.auto.startup }}
             - name: SPRING_KAFKA_STREAMS_APPLICATIONID
               value: {{ .Values.kafka.streams.application.id | default "consumer-finance" | quote }}
@@ -235,8 +237,8 @@ spec:
               value: {{ .Values.request.sanitization.enabled | default "true" | quote }}
             - name: RESPONSE_BODY_ENCODING_ENABLED
               value: {{ .Values.response.encoding.enabled | default "false" | quote }}
-            - name: LISTENER_PARAMETERIZATION_ENABLED
-              value: {{ .Values.listener.parameterization.enabled | default "false" | quote }}
+            - name: PARAMETERIZATION_SERVICE_ENABLED
+              value: {{ .Values.parameterization.service.enabled | default "true" | quote }}
             {{- if .Values.oauth2.authorizationPrefix }}
             - name: SECURITY_AUTHENTICATION_CLAIM_PREFIX
               value: {{ .Values.oauth2.authorizationPrefix | quote }}

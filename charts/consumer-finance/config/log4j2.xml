@@ -229,7 +229,6 @@
       <AppenderRef ref="${consoleAppender}"/>
       <Filters>
         <ThresholdFilter level="DEBUG" onMatch="NEUTRAL" onMismatch="DENY"/>
-        <RegexFilter regex="^HikariPool.*" onMatch="DENY" onMismatch="ACCEPT"/>
       </Filters>
     </Logger>
 
