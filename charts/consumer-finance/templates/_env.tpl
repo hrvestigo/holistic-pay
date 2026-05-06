@@ -56,10 +56,17 @@
 {{- define "consumer-finance.env.kafka-topics" }}
 - name: KAFKA_TOPIC_LIMITBUCKETCOMPENSATION_NAME
   value: {{ .Values.kafka.topics.limitbucketcompensation.name | quote }}
+{{- if .Values.listener.dueinstalment.enabled }}
 - name: KAFKA_TOPIC_DUEINSTALMENT_NAME
   value: {{ .Values.kafka.topics.dueinstalment.name | quote }}
+- name: KAFKA_CONSUMER_GROUP_DUEINSTALMENT_NAME
+  value: {{ .Values.kafka.topics.dueinstalment.consumerGroup | quote }}
+{{- end }}
 - name: KAFKA_TOPIC_NOTIFICATION_NAME
   value: {{ .Values.kafka.topics.notification.name | quote }}
+- name: KAFKA_CONSUMER_GROUP_NOTIFICATION_NAME
+  value: {{ .Values.kafka.topics.notification.consumerGroup | quote }}
+{{- if .Values.listener.authtransaction.enabled }}
 - name: KAFKA_TOPIC_AUTHTRANSACTION_NAME
   value: {{ .Values.kafka.topics.authtransaction.name | quote }}
 - name: KAFKA_CONSUMER_GROUP_AUTHTRANSACTION_NAME
@@ -68,28 +75,32 @@
   value: {{ .Values.kafka.topics.authtransaction.retry.maxAttempts | quote }}
 - name: KAFKA_TOPIC_AUTHTRANSACTION_RETRY_DELAY
   value: {{ .Values.kafka.topics.authtransaction.retry.delay | quote }}
+{{- end }}
+{{- if .Values.listener.crdauthtrxmatch.enabled }}
 - name: KAFKA_TOPIC_CRDAUTHTRXMATCH_NAME
   value: {{ .Values.kafka.topics.crdauthtrxmatch.name | quote }}
-- name: KAFKA_CONSUMER_GROUP_DUEINSTALMENT_NAME
-  value: {{ .Values.kafka.topics.dueinstalment.consumerGroup | quote }}
-- name: KAFKA_CONSUMER_GROUP_NOTIFICATION_NAME
-  value: {{ .Values.kafka.topics.notification.consumerGroup | quote }}
 - name: KAFKA_CONSUMER_GROUP_CRDAUTHTRXMATCH_NAME
   value: {{ .Values.kafka.topics.crdauthtrxmatch.consumerGroup | quote }}
 - name: KAFKA_TOPIC_CRDAUTHTRXMATCH_RETRY_MAXATTEMPTS
   value: {{ .Values.kafka.topics.crdauthtrxmatch.retry.maxAttempts | quote }}
+{{- end }}
+{{- if .Values.listener.instalmentoffer.enabled }}
 - name: KAFKA_TOPIC_INSTALMENTOFFER_NAME
   value: {{ .Values.kafka.topics.instalmentoffer.name | quote }}
 - name: KAFKA_TOPIC_SYSINSTALMENTOFFER_NAME
   value: {{ .Values.kafka.topics.sysInstalmentOffer.name | quote }}
 - name: KAFKA_CONSUMER_GROUP_INSTALMENTOFFER_NAME
   value: {{ .Values.kafka.topics.instalmentoffer.consumerGroup | quote }}
+{{- end }}
+{{- if .Values.listener.instalmentofferresponse.enabled }}
 - name: KAFKA_TOPIC_INSTALMENTOFFERRESPONSE_NAME
   value: {{ .Values.kafka.topics.instalmentofferresponse.name | quote }}
 - name: KAFKA_TOPIC_SYSINSTALMENTOFFERRESPONSE_NAME
   value: {{ .Values.kafka.topics.sysinstalmentofferresponse.name | quote }}
 - name: KAFKA_CONSUMER_GROUP_INSTALMENTOFFERRESPONSE_NAME
   value: {{ .Values.kafka.topics.instalmentofferresponse.consumerGroup | quote }}
+{{- end }}
+{{- if .Values.listener.extsysresponse.enabled }}
 - name: KAFKA_TOPIC_EXTSYSRESPONSE_NAME
   value: {{ .Values.kafka.topics.extsysresponse.name | quote }}
 - name: KAFKA_CONSUMER_GROUP_EXTSYSRESPONSE_NAME
@@ -98,14 +109,17 @@
   value: {{ .Values.kafka.topics.extsysresponse.retry.maxAttempts | quote }}
 - name: KAFKA_TOPIC_EXTSYSRESPONSE_RETRY_DELAY
   value: {{ .Values.kafka.topics.extsysresponse.retry.delay | quote }}
+{{- end }}
 - name: KAFKA_TOPIC_CONSUMERFINANCELOANEVENT_NAME
   value: {{ .Values.kafka.topics.consumerfinanceloanevent.name | quote }}
+{{- if .Values.listener.parameterization.enabled }}
 - name: KAFKA_TOPIC_PARAMETERIZATION_NAME
   value: {{ .Values.kafka.topics.parameterization.name | quote }}
 - name: KAFKA_CONSUMER_GROUP_CURRENCY_PARAMETERIZATION_NAME
   value: {{ .Values.kafka.topics.parameterization.currency.consumerGroup | quote }}
 - name: KAFKA_CONSUMER_GROUP_COUNTRY_PARAMETERIZATION_NAME
   value: {{ .Values.kafka.topics.parameterization.country.consumerGroup | quote }}
+{{- end }}
 - name: LISTENER_PARAMETERIZATION_ENABLED
   value: {{ .Values.listener.parameterization.enabled | default true | quote }}
 - name: LISTENER_DUEINSTALMENT_ENABLED
