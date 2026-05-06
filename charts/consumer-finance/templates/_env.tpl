@@ -121,19 +121,19 @@
   value: {{ .Values.kafka.topics.parameterization.country.consumerGroup | quote }}
 {{- end }}
 - name: LISTENER_PARAMETERIZATION_ENABLED
-  value: {{ .Values.listener.parameterization.enabled | default true | quote }}
+  value: {{ required "Please specify listener.parameterization.enabled" .Values.listener.parameterization.enabled | toString | quote }}
 - name: LISTENER_DUEINSTALMENT_ENABLED
-  value: {{ .Values.listener.dueinstalment.enabled | default true | quote }}
+  value: {{ required "Please specify listener.dueinstalment.enabled" .Values.listener.dueinstalment.enabled | toString | quote }}
 - name: LISTENER_CRDAUTHTRXMATCH_ENABLED
-  value: {{ .Values.listener.crdauthtrxmatch.enabled | default true | quote }}
+  value: {{ required "Please specify listener.crdauthtrxmatch.enabled" .Values.listener.crdauthtrxmatch.enabled | toString | quote }}
 - name: LISTENER_INSTALMENTOFFER_ENABLED
-  value: {{ .Values.listener.instalmentoffer.enabled | default true | quote }}
+  value: {{ required "Please specify listener.instalmentoffer.enabled" .Values.listener.instalmentoffer.enabled | toString | quote }}
 - name: LISTENER_INSTALMENTOFFERRESPONSE_ENABLED
-  value: {{ .Values.listener.instalmentofferresponse.enabled | default true | quote }}
+  value: {{ required "Please specify listener.instalmentofferresponse.enabled" .Values.listener.instalmentofferresponse.enabled | toString | quote }}
 - name: LISTENER_EXTSYSRESPONSE_ENABLED
-  value: {{ .Values.listener.extsysresponse.enabled | default true | quote }}
+  value: {{ required "Please specify listener.extsysresponse.enabled" .Values.listener.extsysresponse.enabled | toString | quote }}
 - name: LISTENER_AUTHTRANSACTION_ENABLED
-  value: {{ .Values.listener.authtransaction.enabled | default true | quote }}
+  value: {{ required "Please specify listener.authtransaction.enabled" .Values.listener.authtransaction.enabled | toString | quote }}
 {{- end }}
 
 {{/*
