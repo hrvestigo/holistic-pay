@@ -17,8 +17,10 @@ spring:
   {{- end }}
   cloud:
     gateway:
-      httpclient:
+      x-forwarded:
+        proto-append: false
       {{- if and (.Values.proxy).host (.Values.proxy).port }}
+      httpclient:
         proxy:
           host: {{ .Values.proxy.host }}
           port: {{ .Values.proxy.port }}
