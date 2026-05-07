@@ -272,9 +272,9 @@ spec:
             - name: RESPONSE_BODY_ENCODING_ENABLED
               value: {{ .Values.response.encoding.enabled | default "false" | quote }}
             - name: KAFKA_LISTENER_FEECALCULATIONREQUEST_ENABLED
-              value: {{ .Values.kafka.listener.feecalculationrequest.enabled | default "true" | quote }}
+              value: {{ .Values.kafka.listener.feecalculationrequest.enabled | toString | quote }}
             - name: KAFKA_LISTENER_BILLINGITEMRESPONSE_ENABLED
-              value: {{ .Values.kafka.listener.billingitemresponse.enabled | default "true" | quote }}
+              value: {{ .Values.kafka.listener.billingitemresponse.enabled | toString | quote }}
             {{- if .Values.oauth2.authorizationPrefix }}
             - name: SECURITY_AUTHENTICATION_CLAIM_PREFIX
               value: {{ .Values.oauth2.authorizationPrefix | quote }}
