@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   address-parser:
   - apiVersion: v2
+    appVersion: 1.1.0
+    created: "2026-05-07T08:48:57.075426824Z"
+    description: Helm chart for address-parser application
+    digest: 22aa22b62a22a77c1783fcbb33fb051f10d6e5d4bd0110f0fe1c44888338614b
+    name: address-parser
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/address-parser-1.1.0/address-parser-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
     appVersion: 1.0.0
     created: "2026-05-07T08:14:19.632428296Z"
     description: Helm chart for address-parser application
@@ -36250,4 +36260,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2026-05-07T08:14:19.659440617Z"
+generated: "2026-05-07T08:48:57.100752378Z"
