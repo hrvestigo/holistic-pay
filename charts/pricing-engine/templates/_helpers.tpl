@@ -69,7 +69,11 @@ Liquibase init container definition
 - name: liquibase-{{ .memberSign | lower }}
   securityContext:
   {{- toYaml $.Values.securityContext | nindent 4 }}
-  image: {{ printf "%s%s%s%s%s" (include "pricing-engine.liquibase.image" $) "-" ($member.businessUnit | lower ) ":" $.Values.image.liquibase.tag }}
+  {{- if $.Values.image.liquibase.imageLocation }}
+  image: {{ include "pricing-engine.liquibase.image" $ }}
+  {{- else }}
+  image: {{ printf "%s%s%s%s%s" (include "pricing-engine.liquibase.image" $) "-" ($member.memberSign | lower) ":" $.Values.image.liquibase.tag }}
+  {{- end }}
   imagePullPolicy: {{ default "IfNotPresent" (default $.Values.image.pullPolicy $.Values.image.liquibase.pullPolicy) }}
   resources:
     {{- include "pricing-engine.liquibase.initContainer.resources" $ | nindent 4 }}
