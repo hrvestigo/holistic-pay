@@ -142,6 +142,7 @@ spec:
               value: {{ .Values.kafka.schemaRegistry.url | quote }}
             - name: KAFKA_TOPIC_BILLINGITEMREQUEST_NAME
               value: {{ .Values.kafka.topics.billingitemrequest.name | quote }}
+            {{- if .Values.kafka.listener.billingitemresponse.enabled }}
             - name: KAFKA_TOPIC_BILLINGITEMRESPONSE_NAME
               value: {{ .Values.kafka.topics.billingitemresponse.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_BILLINGITEMRESPONSE_NAME
@@ -150,6 +151,8 @@ spec:
               value: {{ .Values.kafka.topics.billingitemresponse.retry.maxAttempts | quote }}
             - name: KAFKA_TOPIC_BILLINGITEMRESPONSE_RETRY_DELAY
               value: {{ .Values.kafka.topics.billingitemresponse.retry.delay | quote }}
+            {{- end }}
+            {{- if .Values.kafka.listener.feecalculationrequest.enabled }}
             - name: KAFKA_TOPIC_FEECALCULATIONREQUEST_NAME
               value: {{ .Values.kafka.topics.feecalculationrequest.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_FEECALCULATIONREQUEST_NAME
@@ -158,6 +161,7 @@ spec:
               value: {{ .Values.kafka.topics.feecalculationrequest.retry.maxAttempts | quote }}
             - name: KAFKA_TOPIC_FEECALCULATIONREQUEST_RETRY_DELAY
               value: {{ .Values.kafka.topics.feecalculationrequest.retry.delay | quote }}
+            {{- end }}
             - name: KAFKA_TOPIC_CALCULATEDFEERESPONSE_NAME
               value: {{ .Values.kafka.topics.calculatedfeeresponse.name | quote }}
             - name: PRICING_ENGINE_APPMODULE
