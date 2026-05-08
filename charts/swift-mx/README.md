@@ -1628,10 +1628,25 @@ application:
       ## automatically via Helm.
       readPath: '/swiftx/in'
       ## File reading subpath in volume mount from which files are polled.
+      ##
+      ## Useful in multi-member setup where files are organized per member.
+      ##
+      ## Supported values: '{member}'.
+      ##
+      ## For example, if set and two members M1 and M2 are configured, member M1
+      ## files are polled from '/swiftx/in/m1' and member M2 files are
+      ## polled from '/swiftx/in/m2'
+      ##
+      ## It is also possible to support fixed subpath and mix supported values.
+      ## Examples: 'subin/{member}', will poll from '/swiftx/in/subin/m1'
+      ## First slash is not needed
+      readSubPath: ''
+      ## File reading subpath in volume mount from which files are polled.
       ## Uses readPath as base path to which this path is added.
       ##
       ## By default, no subpaths are used. If defined, paths found in this subpath are excluded from polling.
-      ## Example of definition: readExcludePaths: processed,error - in this case, files found in '/swiftx/in/processed' and '/swiftx/in/error' are excluded from polling.
+      ## Example of definition: readExcludePaths: processed,error - in this case,
+      ## files found in '/swiftx/in/processed' and '/swiftx/in/error' are excluded from polling.
       readExcludePaths: []
       ## File reading polling interval.
       ##
@@ -1672,12 +1687,13 @@ application:
       ##
       ## Uses writePath as base path to which this path is added.
       ##
-      ## Supported values: '{uetr}', '{msg}', '{date}', ''
+      ## Supported values: '{uetr}', '{msg}', '{date}', '{member}', ''
       ## With '{uetr}' file is written in UUID subpath, extracted from file.
       ## If '{uetr}' is not found, '{msg}' is used.
       ## With '{msg}' file is written in message type subpath, extracted from file.
       ## If '{msg}' is not found, '{date}' is used.
       ## With '{date}' file is written in date subpath, when message is created using yyyMMdd format.
+      ## With '{member}' file is written in member subpath, extracted from request.
       ## With '' no subpath is used.
       ## Default is '{date}'.
       ##
@@ -1722,6 +1738,7 @@ application:
       ## When enabled, during application startup leader is elected among application instances. 
       ## Only leader instance executes file integration logic, while other instances are on standby. 
       ## If leader instance fails, new leader is elected and takes over file integration execution.
+      ## Leader is member-aware, meaning, in multi-member setup this must be enabled.
       electionEnabled: false
       ## Leader initiator name.
       initiatorName: swift-integration-leader

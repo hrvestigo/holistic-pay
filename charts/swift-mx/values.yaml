@@ -396,6 +396,7 @@ application:
     file:
       readEnabled: false
       readPath: /swiftx/in
+      readSubPath: ''
       readExcludePaths: []
       readInterval: 5s
       readIntervalMax: 1

@@ -452,3 +452,12 @@ Validate leader election setting when scaling to multiple replicas.
 {{- fail "deployment.replicaCount > 1 requires application.integration.leader.electionEnabled to be true. Enable leader election when running multiple replicas." -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Validate leader election setting when running with multiple members.
+*/}}
+{{- define "swift-mx.leader.election.members" -}}
+{{- if and (.Values.application.integration.file.readEnabled) (and (gt (len (default (list) .Values.members)) 1) (not .Values.application.integration.leader.electionEnabled)) -}}
+{{- fail "members list size > 1 requires application.integration.leader.electionEnabled to be true. Enable leader election when running multiple members." -}}
+{{- end -}}
+{{- end -}}
