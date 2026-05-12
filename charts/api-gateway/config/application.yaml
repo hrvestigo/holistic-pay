@@ -41,7 +41,7 @@ spring:
         {{- if and (.Values.routes.fsecure).serviceName (.Values.routes.fsecure).servicePortNumber }}
         - id: fsecure_route
           predicates:
-            - Path=/api/ACCOUNT/v3.0/**
+            - Path=/api/allianz_europe/v3.0/**
           uri: https://{{ .Values.routes.fsecure.serviceName }}:{{ .Values.routes.fsecure.servicePortNumber }}
           filters:
             - TokenRelay
