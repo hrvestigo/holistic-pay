@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.63.0
+    tag: 1.64.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -288,6 +288,7 @@ application:
       threshold: 10
       shedlockAtLeast: PT10S
       shedlockAtMost: PT15S
+      environment: ''
   cache:
     config:
       expireAfterWrite: 43200
