@@ -1742,9 +1742,10 @@ application:
       electionEnabled: false
       ## Leader initiator name.
       initiatorName: swift-integration-leader
-      ## Leader initiator mechanism heartbeat between consecutive locking tries
-      ## or lock extension (renewal).
-      idleBetweenTries: 10s
+      ## Leader initiator mechanism heartbeat interval used for lock extension (renewal).
+      heartbeat: 10s
+      ## Lock retry interval between consecutive lock acquisition tries.
+      idleBetweenTries: 1s
       ## Leader initiator mechanism lease timeout after which leader is elected again
       ## due to lock not being acquired (renewals stop).
       ttl: 60s

@@ -413,7 +413,8 @@ application:
     leader:
       electionEnabled: false
       initiatorName: swift-integration-leader
-      idleBetweenTries: 10s
+      heartbeat: 10s
+      idleBetweenTries: 1s
       ttl: 60s
       clientIdKey: POD_IP
       task:
