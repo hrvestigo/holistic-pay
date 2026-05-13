@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 2.50.0
+    tag: 2.52.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -65,7 +65,7 @@ atomikos:
   maxLifetime: 3600000
   maxPoolSize: 30
   minPoolSize: 5
-  jtaTimeout: 120000
+  jtaTimeout: 45000
   connectionFactory:
     maxIdleTime: 1800000
     maxLifeTime: 3600000
@@ -81,6 +81,8 @@ kafka:
     credSource: USER_INFO
     user: ''
     url: ''
+  producer:
+    transactionTimeoutMs: 60000
   streams:
     replication:
       factor: '3'
@@ -227,7 +229,9 @@ kafka:
     card:
       name: hr.vestigo.hp.cardcdc.01
       consumerGroup: hr.vestigo.hp.cardcdc
-
+    customerPackage:
+      name: hr.vestigo.hp.customerpackagecdc.01
+      consumerGroup: hr.vestigo.hp.customerpackagecdc
   consumer:
     properties:
       sessionTimeoutMs: 45000
@@ -278,6 +282,8 @@ grpc:
       enabled: false
       certificate: null
       key: null
+  personStructureData:
+    address: dns:///person-structure:9090
 keycloak:
   enabled: false
   realm: Holistic-Pay
@@ -478,13 +484,15 @@ kafkaConsumer:
     enabled: false
   card:
     enabled: false
+  customerPackage:
+    enabled: false
 inbox:
   scheduler:
     start: true
     level1:
-      fixedRate: '60000'
+      fixedRate: '120000'
       retryCounter: '10'
-      retryDelay: '60'
+      retryDelay: '120'
     level2:
       fixedRate: '600000'
       retryCounter: '20'

@@ -330,6 +330,16 @@ spec:
             - name: SPRING_KAFKA_STREAMS_CARD_REPLICATION_FACTOR
               value: {{ .Values.kafka.streams.card.replicationFactor | quote }}
             {{- end }}
+            - name: SPRING_KAFKA_PRODUCER_PROPERTIES_TRANSACTION_TIMEOUT_MS
+              value: "{{ .Values.kafka.producer.transactionTimeoutMs | default 60000 | int }}"
+            - name: KAFKA_CONSUMER_CUSTOMERPACKAGE_ENABLED
+              value: {{ .Values.kafkaConsumer.customerPackage.enabled | default "false" | quote }}
+            {{- if .Values.kafkaConsumer.customerPackage.enabled }}
+            - name: KAFKA_TOPIC_CUSTOMERPACKAGE_NAME
+              value: {{ .Values.kafka.topics.customerPackage.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSTOMERPACKAGE_NAME
+              value: {{ .Values.kafka.topics.customerPackage.consumerGroup | quote }}
+            {{- end }}
             - name: KAFKA_TOPIC_ECSCOMMUNICATIONLOG_NAME
               value: {{ .Values.kafka.topics.ecsCommunicationLog.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTSWIFTORIGINALMESSAGE_NAME
@@ -450,6 +460,10 @@ spec:
             - name: GRPC_SERVER_SECURITY_PRIVATEKEY
               value: "file:{{ .Values.grpc.server.security.key }}"
               {{- end }}
+            {{- end }}
+            {{- if .Values.grpc.personStructureData }}
+            - name: GRPC_CLIENT_PERSONSTRUCTUREDATA_ADDRESS
+              value: {{ .Values.grpc.personStructureData.address | quote }}
             {{- end }}
             {{- if (include "sirius-specific.metrics.config" .) -}}
             {{- include "sirius-specific.metrics.config" . | indent 12 -}}
