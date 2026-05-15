@@ -82,6 +82,7 @@ routes:
   fsecure:
     serviceName: ""
     servicePortNumber: "8443"
+    path: "/api/allianz_europe/v3.0/**"
   gsfCore:
     serviceName: ""
     servicePortNumber: "8443"
