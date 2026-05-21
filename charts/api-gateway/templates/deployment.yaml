@@ -105,6 +105,10 @@ spec:
               value: {{ .Values.javaOpts | quote }}
             - name: SPRING_CLOUD_GATEWAY_HTTPCLIENT_DNSRESOLVER
               value: {{ .Values.dnsResolver.name }}
+            {{- if .Values.http.headerRequestSizeInBytes }}
+            - name: SERVER_MAXHTTPREQUESTHEADERSIZE
+              value: {{ .Values.http.headerRequestSizeInBytes | quote }}
+            {{- end }}
             {{- if (include "api-gateway.trustStoreEnv" .) }}
             {{- include "api-gateway.trustStoreEnv" . | nindent 12 }}
             {{- end }}

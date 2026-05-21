@@ -61,6 +61,7 @@ routes:
   fsecure:
     serviceName: "" # name of fsecure service
     servicePortNumber: "8443" # port number on which fsecure service is exposed, default is 8443
+    path: /api/allianz_europe/v3.0/** # list of paths that will match requests for FSecure, default is /api/allianz_europe/v3.0/**
   gsfCore:
     serviceName: "" # name of gsf-core service
     servicePortNumber: "8443" # port number on which gsf-core service is exposed, default is 8443 
@@ -165,6 +166,14 @@ Non-proxy hosts parameter contains a regular expression (Java) for a configured 
 For example, if we want to avoid proxying for all hosts in `vestigo.hr` domain, the value of this parameter should be `.*\.vestigo\.hr`.
 It is also possible to specify multiple domains by delimiting them with `|`, for example `.*\.vestigo\.hr|.*\.otherdomain\.com` to avoid proxying
 for both `vestigo.hr` and `otherdomain.com` domains.
+
+### FSecure route
+
+FSecure route is special route that is being handled by api-gateway - FSecure is the 3rd-party application, which can be deployed anywhere.
+The specificity of this application is that the expected URI paths change deployment-from-deployment, which must be replayed in api-gateway deployment also.
+Because of this, we added the ability to change the Path for which api-gateway should route requests to the FSecure app via configuration parameter `.Values.routes.fsecure.path`,
+where default value for it is `/api/allianz_europe/v3.0/**`.
+This way, user can have multiple deployments that track FSecure API Path change, without the change in application version.
 
 ### TLS setup
 
@@ -1002,6 +1011,14 @@ options:
   - name: ndots
     value: "2"
   - name: edns0
+```
+
+### HTTP Request Header customization
+By default, api-gateway allows request headers with size up to 8KB.
+This can be overridden by providing values in the following structure:
+```yaml
+httpHeaders:
+  maxRequestHeaderSizeInBytes: 16384 # allowed values are positive integers, default is empty which will force 8KB
 ```
 
 ### Additional custom configuration

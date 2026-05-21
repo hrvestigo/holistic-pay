@@ -79,10 +79,6 @@ routes:
   extDisputeInterface:
     serviceName: ""
     servicePortNumber: "8443"
-  fsecure:
-    serviceName: ""
-    servicePortNumber: "8443"
-    path: "/api/allianz_europe/v3.0/**"
   gsfCore:
     serviceName: ""
     servicePortNumber: "8443"
@@ -122,6 +118,39 @@ routes:
   vetoManager:
     serviceName: ""
     servicePortNumber: "8443"
+  # internal outbound routes:
+  cmod:
+    serviceName: ""
+    servicePortNumber: "443"
+  debitGateway:
+    serviceName: ""
+    servicePortNumber: "443"
+  drbGateway:
+    serviceName: ""
+    servicePortNumber: "443"
+  esb:
+    serviceName: ""
+    servicePortNumber: "443"
+  winwin:
+    serviceName: ""
+    servicePortNumber: "443"
+  superPersonGateway:
+    serviceName: ""
+    servicePortNumber: "443"
+  ucat:
+    serviceName: ""
+    servicePortNumber: "443"
+  uc4:
+    serviceName: ""
+    servicePortNumber: "443"
+  # external outbound routes:
+  fsecure:
+    serviceName: ""
+    servicePortNumber: "443"
+    path: "/api/allianz_europe/v3.0/**"
+  mastercard:
+    serviceName: ""
+    servicePortNumber: "443"
 
 oauth2:
   enabled: false
@@ -290,3 +319,6 @@ dnsConfig:
   options:
     - name: ndots
       value: "1"
+
+http:
+  headerRequestSizeInBytes: ''

@@ -38,15 +38,6 @@ spring:
             - SetStatus=403
             - SetResponseHeader=X-Blocked-Message, "Access Denied"
         {{- end }}
-        {{- if and (.Values.routes.fsecure).serviceName (.Values.routes.fsecure).servicePortNumber }}
-        - id: fsecure_route
-          predicates:
-            - Path={{ required "Please specify path patterns in fsecure.path" .Values.routes.fsecure.path }}
-          uri: https://{{ .Values.routes.fsecure.serviceName }}:{{ .Values.routes.fsecure.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
         {{- if (.Values.routes.alcCollect).serviceName }}
         - id: alc_route
           predicates:
@@ -277,6 +268,96 @@ spring:
           predicates:
             - Path=/rest/service/**
           uri: https://{{ .Values.routes.ccmsApi.serviceName }}:{{ .Values.routes.ccmsApi.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.cmod).serviceName }}
+        - id: cmod_route
+          predicates:
+            - Path=/acmod/**
+          uri: https://{{ .Values.routes.cmod.serviceName }}:{{ .Values.routes.cmod.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.debitGateway).serviceName }}
+        - id: debit-gateway_route
+          predicates:
+            - Path=/api/v1/riskLimits, /api/v1/riskLimitHistoryOfChanges
+          uri: https://{{ .Values.routes.debitGateway.serviceName }}:{{ .Values.routes.debitGateway.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.drbGateway).serviceName }}
+        - id: drb_gateway_route
+          predicates:
+            - Path=/api/v1/package-request/**
+          uri: https://{{ .Values.routes.drbGateway.serviceName }}:{{ .Values.routes.drbGateway.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.esb).serviceName }}
+        - id: esb_route
+          predicates:
+            - Path=/cxf/performfran/**, /cxf/banking/**, /cxf/mngmt/**
+          uri: https://{{ .Values.routes.esb.serviceName }}:{{ .Values.routes.esb.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.winwin).serviceName }}
+        - id: winwin_route
+          predicates:
+            - Path=/cxf/zoomtool-winwin-info-service/**
+          uri: https://{{ .Values.routes.winwin.serviceName }}:{{ .Values.routes.winwin.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.superPersonGateway).serviceName }}
+        - id: super-person-gateway_route
+          predicates:
+            - Path=/api/v1/personRegistry/**
+          uri: https://{{ .Values.routes.superPersonGateway.serviceName }}:{{ .Values.routes.superPersonGateway.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.ucat).serviceName }}
+        - id: ucat_route
+          predicates:
+            - Path=/api/v1/check-enrolment-exist
+          uri: https://{{ .Values.routes.ucat.serviceName }}:{{ .Values.routes.ucat.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.uc4).serviceName }}
+        - id: uc4_route
+          predicates:
+            - Path=/ae/api/v1/1/executions/**
+          uri: https://{{ .Values.routes.uc4.serviceName }}:{{ .Values.routes.uc4.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        {{- end }}
+        {{- if and (.Values.routes.fsecure).serviceName (.Values.routes.fsecure).servicePortNumber }}
+        - id: fsecure_route
+          predicates:
+            - Path={{ required "Please specify path patterns in fsecure.path" .Values.routes.fsecure.path }}
+          uri: https://{{ .Values.routes.fsecure.serviceName }}:{{ .Values.routes.fsecure.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.mastercard).serviceName }}
+        - id: mastercard_route
+          predicates:
+            - Path=/fld/**
+          uri: https://{{ .Values.routes.mastercard.serviceName }}:{{ .Values.routes.mastercard.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
