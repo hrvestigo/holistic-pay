@@ -60,17 +60,19 @@ ibmMq:
   norkomresponse:
     queueName: ''
 atomikos:
-  borrowConnectionTimeout: 60000
-  maxIdleTime: 1800000
-  maxLifetime: 3600000
-  maxPoolSize: 30
-  minPoolSize: 5
-  jtaTimeout: 45000
+  borrowConnectionTimeout: 30
+  maxIdleTime: 120
+  maxLifetime: 300
+  maxPoolSize: 15
+  minPoolSize: 3
+  jtaTimeout: 60000
+  testQuery: "SELECT 1"
+  reapTimeout: 70
   connectionFactory:
-    maxIdleTime: 1800000
-    maxLifeTime: 3600000
-    maxPoolSize: 30
-    minPoolSize: 5
+    maxIdleTime: 120
+    maxLifeTime: 300
+    maxPoolSize: 15
+    minPoolSize: 3
 kafka:
   user: ''
   servers: ''
@@ -237,7 +239,8 @@ kafka:
       sessionTimeoutMs: 45000
       heartbeatIntervalMs: 3000
       maxPollRecords: 500
-      maxPollIntervalMs: 300000
+      maxPollIntervalMs: 600000
+      requestTimeoutMs: 350000
 external:
   core:
     system:
@@ -490,9 +493,9 @@ inbox:
   scheduler:
     start: true
     level1:
-      fixedRate: '120000'
+      fixedRate: '60000'
       retryCounter: '10'
-      retryDelay: '120'
+      retryDelay: '60'
     level2:
       fixedRate: '600000'
       retryCounter: '20'

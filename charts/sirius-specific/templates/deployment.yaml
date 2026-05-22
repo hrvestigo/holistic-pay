@@ -99,6 +99,10 @@ spec:
               value: "{{ .Values.atomikos.minPoolSize | int }}"
             - name: SPRING_JTA_ATOMIKOS_PROPERTIES_DEFAULTJTATIMEOUT
               value: "{{ .Values.atomikos.jtaTimeout | int }}"
+            - name: SPRING_JTA_ATOMIKOS_DATASOURCE_TEST_QUERY
+              value: {{ .Values.atomikos.testQuery | quote }}
+            - name: SPRING_JTA_ATOMIKOS_DATASOURCE_REAP_TIMEOUT
+              value: "{{ .Values.atomikos.reapTimeout | int }}"
             - name: SPRING_JTA_ATOMIKOS_CONNECTIONFACTORY_MAXIDLETIME
               value: "{{ .Values.atomikos.connectionFactory.maxIdleTime | int }}"
             - name: SPRING_JTA_ATOMIKOS_CONNECTIONFACTORY_MAXLIFETIME
@@ -332,6 +336,8 @@ spec:
             {{- end }}
             - name: SPRING_KAFKA_PRODUCER_PROPERTIES_TRANSACTION_TIMEOUT_MS
               value: "{{ .Values.kafka.producer.transactionTimeoutMs | default 60000 | int }}"
+            - name: SPRING_KAFKA_CONSUMER_PROPERTIES_REQUEST_TIMEOUT_MS
+              value: "{{ .Values.kafka.consumer.requestTimeoutMs | default 350000 | int }}"
             - name: KAFKA_CONSUMER_CUSTOMERPACKAGE_ENABLED
               value: {{ .Values.kafkaConsumer.customerPackage.enabled | default "false" | quote }}
             {{- if .Values.kafkaConsumer.customerPackage.enabled }}
@@ -530,6 +536,8 @@ spec:
             - name: SPRING_JPA_PROPERTIES_HIBERNATE_SESSION_EVENTS_LOG_LOG_QUERIES_SLOWER_THAN_MS
               value: {{ .Values.logger.databaseSlowQueryThreshold | quote }}
             {{- end }}
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_CONNECTION_HANDLING_MODE
+              value: "DELAYED_ACQUISITION_AND_HOLD"
             - name: SECRET_PROPERTIES
               value: /mnt/k8s/secrets/password.conf
             - name: KAFKA_HEALTH_ENABLED
