@@ -336,8 +336,6 @@ spec:
             {{- end }}
             - name: SPRING_KAFKA_PRODUCER_PROPERTIES_TRANSACTION_TIMEOUT_MS
               value: "{{ .Values.kafka.producer.transactionTimeoutMs | default 60000 | int }}"
-            - name: SPRING_KAFKA_CONSUMER_PROPERTIES_REQUEST_TIMEOUT_MS
-              value: "{{ .Values.kafka.consumer.requestTimeoutMs | default 350000 | int }}"
             - name: KAFKA_CONSUMER_CUSTOMERPACKAGE_ENABLED
               value: {{ .Values.kafkaConsumer.customerPackage.enabled | default "false" | quote }}
             {{- if .Values.kafkaConsumer.customerPackage.enabled }}
@@ -522,7 +520,6 @@ spec:
               {{- $rest := slice $logdir 1 | join "/" }}
               value: {{ $rest }}
               {{- end }}
-            - name: SERVER_TOMCAT_ACCESSLOG_PATTERN
             - name: SERVER_TOMCAT_ACCESSLOG_PATTERN
               value: >-
                 [%{yyyy-MM-dd HH:mm:ss.SSS}t] %h %l %u "%r" %s
