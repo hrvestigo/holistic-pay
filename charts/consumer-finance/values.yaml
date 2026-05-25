@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.85.0
+    tag: 1.91.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -100,24 +100,9 @@ kafka:
         consumerGroup: hr.vestigo.hp.country.parameterization.cfm
     consumerfinanceloanevent:
       name: ''
-grpc:
-  negotiation: TLS
-  personStructureData:
-    address: ''
-    negotiationType: ''
-    timeout: 10000
-  getLimitBuckets:
-    address: ''
-    timeout: 10000
-  getPricingEngine:
-    enabled: null
-    address: ''
-    timeout: 10000
-  updateLimitBuckets:
-    address: ''
-    timeout: 10000
-  warmup:
-    repeat: 10
+  authException:
+    failProbeEnabled: false
+    retryInterval: ''
 rest:
   api:
     feePricingEngine:
@@ -176,6 +161,10 @@ listener:
 parameterization:
   service:
     enabled: true
+status:
+  audit:
+    log:
+      enabled: true
 spring:
   batch:
     job:
@@ -185,6 +174,32 @@ spring:
       hibernate:
         jdbc:
           fetch_size: 1000
+  grpc:
+    client:
+      enabled: true
+      negotiation: TLS
+      warmup:
+        repeat: 10
+      channels:
+        personStructureData:
+          address: ''
+          negotiationType: ''
+        getLimitBuckets:
+          address: ''
+        getPricingEngine:
+          enabled: null
+          address: ''
+        updateLimitBuckets:
+          address: ''
+grpc:
+  personStructureData:
+    timeout: 10000
+  getLimitBuckets:
+    timeout: 10000
+  getPricingEngine:
+    timeout: 10000
+  updateLimitBuckets:
+    timeout: 10000
 reconciliation:
   report:
     delimiter: ;
@@ -211,7 +226,7 @@ logger:
   level:
     health: DEBUG
     kafka: DEBUG
-    kafkaCore: INFO
+    kafkaCore: DEBUG
     rest: DEBUG
     database: ERROR
     databaseSql: DEBUG
