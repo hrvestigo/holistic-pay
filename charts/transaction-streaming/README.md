@@ -168,7 +168,8 @@ Scan frequency can be set through `kafka.streams.delete.scanFrequency` in hours.
 Default value is 12 hours, meaning old data is deleted every 12 hours. 
 Maximum age for these records can be set through `kafka.streams.delete.maximumAge` in days.
 Default value is 1 day for input topics (`turnover`, `turnCustomer`, `paymentOrder`, `fPayment`, `paymentListQ`, 
-`event`, `interfaceCollTbl`, `trxAnnounce`, `paymcover` and `customerAccountStatement`) and 30 days for output topic 
+`event`, `interfaceCollTbl`, `trxAnnounce`, `paymcover`, `paymentOrderAddress`, `paymentUnstructuredAddress`
+and `customerAccountStatement`) and 30 days for output topic 
 `futuristicForeignPayment`.
 With this setup, additionally it is required to set `kafka.topics.tombstone` topic names for these topics.
 These should be different from original topics as they may contain null values, a.k.a. tombstones.
@@ -218,6 +219,8 @@ kafka:
         interfaceCollTbl: 1 # in days, default value is 1
         trxAnnounce: 1 # in days, default value is 1
         paymCover: 1 # in days, default value is 1
+        paymentOrderAddress: 1 # in days, default value is 1
+        paymentUnstructuredAddress: 1 # in days, default value is 1
         customerAccountStatement: 2 # in days, default value is 2
         futuristicForeignPayment: 30 # in days, default value is 30
     join:
@@ -288,6 +291,10 @@ kafka:
       name: hr.vestigo.hp.turncustomer # default value, set custom name if required
     paymCover:
       name: hr.vestigo.hp.paymcover # default value, set custom name if required
+    paymentOrderAddress:
+      name: hr.vestigo.hp.paymentorderaddress # default value, set custom name if required
+    paymentUnstructuredAddress:
+      name: hr.vestigo.hp.paymentunstructuredaddress # default value, set custom name if required
     bank:
       name: hr.vestigo.hp.bank # default value, set custom name if required
     citizen:
@@ -319,6 +326,10 @@ kafka:
         name:  hr.vestigo.hp.trxannounce # default value, set custom name if required
       paymCover:
         name: hr.vestigo.hp.paymcover # default value, set custom name if required
+      paymentOrderAddress:
+        name: hr.vestigo.hp.paymentorderaddress # default value, set custom name if required
+      paymentUnstructuredAddress:
+        name: hr.vestigo.hp.paymentunstructuredaddress # default value, set custom name if required
     internal: # mandatory, used for global tables creation
       customer:
         name: hr.vestigo.hp.customer.internal # default value, set custom name if required

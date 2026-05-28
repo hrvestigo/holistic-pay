@@ -193,6 +193,10 @@ spec:
               value: {{ .Values.kafka.streams.delete.maximumAge.trxAnnounce | default "1" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_PAYMCOVER
               value: {{ .Values.kafka.streams.delete.maximumAge.paymCover | default "1" | quote }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_PAYMENTORDERADDRESS
+              value: {{ .Values.kafka.streams.delete.maximumAge.paymentOrderAddress | default "1" | quote }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_PAYMENTUNSTRUCTUREDADDRESS
+              value: {{ .Values.kafka.streams.delete.maximumAge.paymentUnstructuredAddress | default "1" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_CUSTOMERACCOUNTSTATEMENT
               value: {{ .Values.kafka.streams.delete.maximumAge.customerAccountStatement | default "2" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_FUTURISTICFOREIGNPAYMENT
@@ -219,6 +223,10 @@ spec:
               value: {{ .Values.kafka.topics.tombstone.trxAnnounce.name | quote }}
             - name: KAFKA_TOPIC_PAYMCOVER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.tombstone.paymCover.name | quote }}
+            - name: KAFKA_TOPIC_PAYMENTORDERADDRESS_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.tombstone.paymentOrderAddress.name | quote }}
+            - name: KAFKA_TOPIC_PAYMENTUNSTRUCTUREDADDRESS_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.tombstone.paymentUnstructuredAddress.name | quote }}
             {{- else }}
             - name: KAFKA_TOPIC_TURNOVER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.turnover.name | quote }}
@@ -242,6 +250,10 @@ spec:
               value: {{ .Values.kafka.topics.trxAnnounce.name | quote }}
             - name: KAFKA_TOPIC_PAYMCOVER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.paymCover.name | quote }}
+            - name: KAFKA_TOPIC_PAYMENTORDERADDRESS_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.paymentOrderAddress.name | quote }}
+            - name: KAFKA_TOPIC_PAYMENTUNSTRUCTUREDADDRESS_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.paymentUnstructuredAddress.name | quote }}
             {{- end }}
             - name: SPRING_KAFKA_STREAMS_JOIN_WINDOW
               value: {{ .Values.kafka.streams.join.window | default "60" | quote }}
@@ -319,6 +331,10 @@ spec:
               value: {{ .Values.kafka.topics.turnCustomer.name | quote }}
             - name: KAFKA_TOPIC_PAYMCOVER_NAME
               value: {{ .Values.kafka.topics.paymCover.name | quote }}
+            - name: KAFKA_TOPIC_PAYMENTORDERADDRESS_NAME
+              value: {{ .Values.kafka.topics.paymentOrderAddress.name | quote }}
+            - name: KAFKA_TOPIC_PAYMENTUNSTRUCTUREDADDRESS_NAME
+              value: {{ .Values.kafka.topics.paymentUnstructuredAddress.name | quote }}
             - name: KAFKA_TOPIC_CURRENCY_NAME
               value: {{ .Values.kafka.topics.currency.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CURRENCY_NAME
