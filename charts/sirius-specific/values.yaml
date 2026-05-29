@@ -509,3 +509,6 @@ alert:
 activePartyCheckFlag: DISABLE_WITH_AC01
 shedlock:
   table: shedlock
+payment:
+  structuredAddressOnly:
+    enabled: false

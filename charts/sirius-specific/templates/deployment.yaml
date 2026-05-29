@@ -451,6 +451,8 @@ spec:
               value: {{ .Values.ecs.communication.type | quote }}
             - name: ACTIVE_PARTY_CHECK_FLAG
               value: {{ .Values.activePartyCheckFlag | quote }}
+            - name: PAYMENT_STRUCTUREDADDRESSONLY_ENABLED
+              value: {{ .Values.payment.structuredAddressOnly.enabled | quote }}
             - name: INBOX_SCHEDULER_SHEDLOCK_TABLE
               value: {{ include "sirius-specific.firstMemberSchema" . }}.{{ .Values.shedlock.table | default "shedlock" }}
             {{- if .Values.grpc.server.enabled }}
