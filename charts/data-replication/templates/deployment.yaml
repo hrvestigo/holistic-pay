@@ -221,6 +221,54 @@ spec:
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.ismissentitystatus.name" .Values.kafka.topics.ismissentitystatus.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_ISMISSENTITYSTATUS_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.ismissentitystatus.name" .Values.kafka.topics.ismissentitystatus.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CITIZEN_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.citizen.name" .Values.kafka.topics.citizen.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CITIZEN_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.citizen.name" .Values.kafka.topics.citizen.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_LEGALENTITY_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.legalentity.name" .Values.kafka.topics.legalentity.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_LEGALENTITY_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.legalentity.name" .Values.kafka.topics.legalentity.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_SSI_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.ssi.name" .Values.kafka.topics.ssi.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SSI_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.ssi.name" .Values.kafka.topics.ssi.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_ISSCONTRACT_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.isscontract.name" .Values.kafka.topics.isscontract.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_ISSCONTRACT_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.isscontract.name" .Values.kafka.topics.isscontract.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CUSTCOMMUNICATION_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.custcommunication.name" .Values.kafka.topics.customercommunication.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSTCOMMUNICATION_SPC_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.custcommunication.spc.name" .Values.kafka.topics.customercommunication.spc.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_PROMOSOURCEPROMOCHANNEL_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.promosourcepromochannel.name" .Values.kafka.topics.promosourcepromochannel.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PROMOSOURCEPROMOCHANNEL_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.promosourcepromochannel.name" .Values.kafka.topics.promosourcepromochannel.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_SERVICEPACKAGEPROMOCHANNEL_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.servicepackagepromochannel.name" .Values.kafka.topics.servicepackagepromochannel.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SERVICEPACKAGEPROMOCHANNEL_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.servicepackagepromochannel.name" .Values.kafka.topics.servicepackagepromochannel.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_PROMOSOURCECODE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.promosourcecode.name" .Values.kafka.topics.promosourcecode.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_PROMOSOURCECODE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.promosourcecode.name" .Values.kafka.topics.promosourcecode.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_SERVICEPACKAGECARDPRODUCT_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.servicepackagecardproduct.name" .Values.kafka.topics.servicepackagecardproduct.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SERVICEPACKAGECARDPRODUCT_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.servicepackagecardproduct.name" .Values.kafka.topics.servicepackagecardproduct.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_SERVICEPACKAGECOVERAGETYPE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.servicepackagecoveragetype.name" .Values.kafka.topics.servicepackagecoveragetype.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SERVICEPACKAGECOVERAGETYPE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.servicepackagecoveragetype.name" .Values.kafka.topics.servicepackagecoveragetype.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_SERVICEPACKAGETERMCOND_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.servicepackagetermcond.name" .Values.kafka.topics.servicepackagetermcond.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SERVICEPACKAGETERMCOND_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.servicepackagetermcond.name" .Values.kafka.topics.servicepackagetermcond.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_BANSUBSERVENTITYVARIABLEDATA_SPC_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.bansubserventityvariabledata.spc.name" .Values.kafka.topics.bansubserventityvariabledata.spc.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SERVICEPACKAGECONTRACTENTITY_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.servicepackagecontractentity.name" .Values.kafka.topics.servicepackagecontract.entity.consumerGroup | quote }}
             - name: KAFKA_TOPIC_CUSTOMER_MASSIVE_NAME
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.customer.massive.name" .Values.kafka.topics.customer.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CUSTOMER_MASSIVE_NAME
@@ -279,12 +327,16 @@ spec:
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.bansubserventityvariabledata.massive.name" .Values.kafka.topics.bansubserventityvariabledata.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_BANSUBSERVENTITYVARIABLEDATA_MASSIVE_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.bansubserventityvariabledata.massive.name" .Values.kafka.topics.bansubserventityvariabledata.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_BANSUBSERVENTITYVARIABLEDATA_SPC_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.bansubserventityvariabledata.spc.massive.name" .Values.kafka.topics.bansubserventityvariabledata.massive.spc.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_BANSUBSERVENTITYVARIABLEDATA_MASSIVE_MAX_POLL_RECORDS
               value: {{ .Values.kafka.topics.bansubserventityvariabledata.massive.maxPollRecords | quote }}
             - name: KAFKA_TOPIC_SERVICEPACKAGECONTRACT_MASSIVE_NAME
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.servicepackagecontract.massive.name" .Values.kafka.topics.servicepackagecontract.massive.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_SERVICEPACKAGECONTRACT_MASSIVE_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.servicepackagecontract.massive.name" .Values.kafka.topics.servicepackagecontract.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SERVICEPACKAGECONTRACTENTITY_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.servicepackagecontractentity.massive.name" .Values.kafka.topics.servicepackagecontract.massive.entity.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_SERVICEPACKAGECONTRACT_MASSIVE_MAX_POLL_RECORDS
               value: {{ .Values.kafka.topics.servicepackagecontract.massive.maxPollRecords | quote }}
             - name: KAFKA_TOPIC_ISMISSENTITYSTATUS_MASSIVE_NAME
@@ -293,6 +345,30 @@ spec:
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.ismissentitystatus.massive.name" .Values.kafka.topics.ismissentitystatus.massive.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_ISMISSENTITYSTATUS_MASSIVE_MAX_POLL_RECORDS
               value: {{ .Values.kafka.topics.ismissentitystatus.massive.maxPollRecords | quote }}
+            - name: KAFKA_TOPIC_CITIZEN_MASSIVE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.citizen.massive.name" .Values.kafka.topics.citizen.massive.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CITIZEN_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.citizen.massive.name" .Values.kafka.topics.citizen.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_CITIZEN_MASSIVE_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.citizen.massive.maxPollRecords | quote }}
+            - name: KAFKA_TOPIC_LEGALENTITY_MASSIVE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.legalentity.massive.name" .Values.kafka.topics.legalentity.massive.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_LEGALENTITY_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.legalentity.massive.name" .Values.kafka.topics.legalentity.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_LEGALENTITY_MASSIVE_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.legalentity.massive.maxPollRecords | quote }}
+            - name: KAFKA_TOPIC_SSI_MASSIVE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.ssi.massive.name" .Values.kafka.topics.ssi.massive.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_SSI_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.ssi.massive.name" .Values.kafka.topics.ssi.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_SSI_MASSIVE_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.ssi.massive.maxPollRecords | quote }}
+            - name: KAFKA_TOPIC_ISSCONTRACT_MASSIVE_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.isscontract.massive.name" .Values.kafka.topics.isscontract.massive.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_ISSCONTRACT_MASSIVE_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.isscontract.massive.name" .Values.kafka.topics.isscontract.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_ISSCONTRACT_MASSIVE_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.isscontract.massive.maxPollRecords | quote }}
             - name: SPRING_KAFKA_CONSUMER_MAX_POLL_INTERVAL_MS
               value: {{ .Values.kafka.consumer.max.pool.interval | quote }}
             - name: SPRING_KAFKA_CONSUMER_MAX_POLL_RECORDS
@@ -370,6 +446,12 @@ spec:
             {{- end }}
             - name: KAFKA_HEALTH_ENABLED
               value: "true"
+            - name: KAFKA_AUTHEXCEPTION_FAILPROBEENABLED
+              value: {{ .Values.kafka.authException.failProbeEnabled | quote }}
+            {{- if .Values.kafka.authException.retryInterval }}
+            - name: KAFKA_AUTHEXCEPTION_RETRYINTERVAL
+              value: {{ .Values.kafka.authException.retryInterval | quote }}
+            {{- end }}
             - name: MAPPING_CARDISHIDDEN_VALUES
               value: {{ .Values.mapping.cardishidden.values | quote }}
             - name: JAVA_OPTS
