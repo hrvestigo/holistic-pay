@@ -80,6 +80,9 @@ routes:
   personRegistry:
     serviceName: "" # name of person-registry service
     portNumber: "8443" # port number on which person-registry service is exposed, default is 8443
+  pifCore:
+    serviceName: "" # name of pif-core service
+    servicePortNumber: "8443" # port number on which pif-core service is exposed, default is 8443
   personRegistryWeb:
     serviceName: "" # name of person-registry-web service
     portNumber: "8443" # port number on which person-registry-web service is exposed, default is 8443

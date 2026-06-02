@@ -32,7 +32,7 @@ spring:
         {{- if not .Values.routes.allowSensitiveDataEndpoints }}
         - id: pci-dss-blocked_route
           predicates:
-            - Path=/api/*/generateNewPan, /api/*/generateNewPanList, /api/*/secure-data-value, /card/*/pan, /card/cardId, /rest/service/WS2I12, /rest/service/WS2I05
+            - Path=/api/*/generateNewPan, /api/*/generateNewPanList, /card/*/pan, /card/cardId, /rest/service/WS2I12, /rest/service/WS2I05
           uri: no://op
           filters:
             - SetStatus=403
@@ -168,7 +168,7 @@ spring:
         {{- if (.Values.routes.panManager).serviceName }}
         - id: pan-manager-ms_route
           predicates:
-            - Path=/api/*/secure-data-value/actions/**
+            - Path=/api/*/secure-data-value/**
           uri: https://{{ .Values.routes.panManager.serviceName }}:{{ .Values.routes.panManager.servicePortNumber }}
           filters:
             - TokenRelay
@@ -176,7 +176,7 @@ spring:
           {{- if .Values.routes.allowSensitiveDataEndpoints }}
         - id: pan-manager-ms-pcidss_route
           predicates:
-            - Path=/api/*/generateNewPan, /api/*/generateNewPanList, /api/*/secure-data-value
+            - Path=/api/*/generateNewPan, /api/*/generateNewPanList,
           uri: https://{{ .Values.routes.panManager.serviceName }}:{{ .Values.routes.panManager.servicePortNumber }}
           filters:
             - TokenRelay
@@ -358,6 +358,15 @@ spring:
           predicates:
             - Path=/fld/**
           uri: https://{{ .Values.routes.mastercard.serviceName }}:{{ .Values.routes.mastercard.servicePortNumber }}
+          filters:
+            - TokenRelay
+            - SaveSession
+        {{- end }}
+        {{- if (.Values.routes.pifCore).serviceName }}
+        - id: pif-core-ms_route
+          predicates:
+            - Path=/api/*/pif-core/segregation-groups/**, /api/*/segregation-groups/**
+          uri: https://{{ .Values.routes.pifCore.serviceName }}:{{ .Values.routes.pifCore.servicePortNumber }}
           filters:
             - TokenRelay
             - SaveSession
