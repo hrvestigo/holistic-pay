@@ -1499,6 +1499,7 @@ application:
     ## @param validation  API component validation configuration
     ## @param formatting  API component formatting configuration
     ## @param event       API component events configuration
+    ## @param headers     API headers
     validation:
       ## Validation mode for received Swift MX messages.
       ##
@@ -1582,6 +1583,9 @@ application:
           pacs.002: NORES,!RJCT,ORIGSERIAL
           camt.029: NORES,PDCR
           camt.056: ORIGSERIAL
+    headers:
+      ## Key value pair for common headers
+      service: swift.finplus
   data:
     ## Configuration for data component.
     ##

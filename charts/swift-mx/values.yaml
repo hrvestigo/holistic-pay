@@ -386,6 +386,8 @@ application:
           pacs.002: NORES,!RJCT,ORIGSERIAL
           camt.029: NORES,PDCR
           camt.056: ORIGSERIAL
+    headers:
+      service: swift.finplus
   data:
     caching:
       expire: 12h
