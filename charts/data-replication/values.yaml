@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 2.0.0
+    tag: 2.1.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -249,6 +249,10 @@ kafka:
 detect:
   changes:
     skip: false
+scheduledTask:
+  paramReplication:
+    enabled: false
+    cron: 0 0 * * * *
 oauth2:
   enabled: false
   resourceUri: ''

@@ -165,6 +165,10 @@ spec:
               value: {{ .Values.kafka.listener.massive.enabled | quote }}
             - name: DETECT_CHANGES_SKIP
               value: {{ .Values.detect.changes.skip | quote }}
+            - name: SCHEDULED_TASK_PARAM_REPLICATION_ENABLED
+              value: {{ .Values.scheduledTask.paramReplication.enabled | quote }}
+            - name: SCHEDULED_TASK_PARAM_REPLICATION_CRON
+              value: {{ .Values.scheduledTask.paramReplication.cron | quote }}
             - name: KAFKA_TOPIC_CUSTOMER_NAME
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.customer.name" .Values.kafka.topics.customer.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CUSTOMER_NAME

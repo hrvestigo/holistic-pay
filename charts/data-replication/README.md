@@ -316,12 +316,22 @@ kafka:
       massive:
         name: gw.{env}.x.ccms.cdc.loadbansubserventityvariabledata.01
         consumerGroup: gw.{env}.ccms.datrep.loadbansubserventityvariabledata
+      spc:
+        consumerGroup: gw.<ENV>.ccms.datrep.bansubserventityvariabledataspc.<VER>
+      massive:
+        spc:
+          consumerGroup: gw.<ENV>.ccms.datrep.loadbansubserventityvariabledataspc.<VER>
     servicepackagecontract:
       name: gw.{env}.x.ccms.cdc.servicepackagecontract.01
       consumerGroup: gw.{env}.ccms.datrep.servicepackagecontract
       massive:
         name: gw.{env}.x.ccms.cdc.loadservicepackagecontract.01
         consumerGroup: gw.{env}.ccms.datrep.loadservicepackagecontract
+      entity:
+        consumerGroup: gw.<ENV>.ccms.datrep.servicepackagecontractentity.<VER>
+      massive:
+        entity:
+          consumerGroup: gw.<ENV>.ccms.datrep.loadservicepackagecontractentity.<VER>
     smstatuseffect:
       name: gw.{env}.x.ccms.cdc.smstatuseffect.01
       consumerGroup: gw.{env}.ccms.datrep.smstatuseffect
@@ -331,6 +341,64 @@ kafka:
       massive:
         name: gw.{env}.x.ccms.cdc.loadismissentitystatus.01
         consumerGroup: gw.{env}.ccms.datrep.loadismissentitystatus
+    citizen:
+      name: gw.<ENV>.x.ccms.cdc.citizen.<VER>
+      consumerGroup: gw.<ENV>.ccms.datrep.citizen
+      massive:
+        name: gw.<ENV>.x.ccms.cdc.loadcitizen.<VER>
+        consumerGroup: gw.<ENV>.ccms.datrep.loadcitizen
+    legalentity:
+      name: gw.<ENV>.x.ccms.cdc.legalentity.<VER>
+      consumerGroup: gw.<ENV>.ccms.datrep.legalentity
+      massive:
+        name: gw.<ENV>.x.ccms.cdc.loadlegalentity.<VER>
+        consumerGroup: gw.<ENV>.ccms.datrep.loadlegalentity
+    ssi:
+      name: gw.<ENV>.x.ccms.cdc.ssi.<VER>
+      consumerGroup: gw.<ENV>.ccms.datrep.ssi
+      massive:
+        name: gw.<ENV>.x.ccms.cdc.loadssi.<VER>
+        consumerGroup: gw.<ENV>.ccms.datrep.loadssi
+    isscontract:
+      name: gw.<ENV>.x.ccms.cdc.isscontract.<VER>
+      consumerGroup: gw.<ENV>.ccms.datrep.isscontract
+      massive:
+        name: gw.<ENV>.x.ccms.cdc.loadisscontract.<VER>
+        consumerGroup: gw.<ENV>.ccms.datrep.loadisscontract
+    customercommunication:
+      name: gw.<ENV>.x.ccms.cdc.custcommunication.<VER>
+      consumerGroup: gw.<ENV>.ccms.datrep.custcommunication
+      spc:
+        consumerGroup: gw.<ENV>.ccms.datrep.customercommunicationspc
+    servicepackagecardproduct:
+      name: gw.<ENV>.x.ccms.cdc.servicepackagecardproduct.<VER>
+      consumerGroup: gw.<ENV>.ccms.datrep.servicepackagecardproduct
+    servicepackagecoveragetype:
+      name: gw.<ENV>.x.ccms.cdc.servicepackagecoveragetype.<VER>
+      consumerGroup: gw.<ENV>.ccms.datrep.servicepackagecoveragetype
+    servicepackagetermcond:
+      name: gw.<ENV>.x.ccms.cdc.servicepackagetermcond.<VER>
+      consumerGroup: gw.<ENV>.ccms.datrep.servicepackagetermcond
+    promosourcepromochannel:
+      name: gw.<ENV>.x.ccms.cdc.promosourcepromochannel.<VER>
+      consumerGroup: gw.<ENV>.ccms.datrep.promosourcepromochannel
+    servicepackagepromochannel:
+      name: gw.<ENV>.x.ccms.cdc.servicepackagepromochannel.<VER>
+      consumerGroup: gw.<ENV>.ccms.datrep.servicepackagepromochannel
+    promosourcecode:
+      name: gw.<ENV>.x.ccms.cdc.promosourcecode.<VER>
+      consumerGroup: gw.<ENV>.ccms.datrep.promosourcecode
+```
+
+### Scheduled tasks setup
+
+data-replication-ms application has scheduled task for replication of parameterization data.
+This scheduled task is disabled by default, but can be enabled with following setup:
+
+```yaml
+  paramReplication:
+    enabled: true # default value is false, set to true to enable scheduled task for data replication
+    cron: "0 * * * * *" # cron expression for scheduling data replication task, default is "0 * * * * *" (spring cron expression with seconds field, which means task is ran each second 0 of each minute)
 ```
 
 ### Configuring image source and pull secrets
