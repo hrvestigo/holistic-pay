@@ -34,6 +34,9 @@ spec:
         {{- end }}
       labels:
         {{- include "api-gateway.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       automountServiceAccountToken: false
       {{- with .Values.imagePullSecrets }}

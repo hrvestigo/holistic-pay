@@ -282,7 +282,7 @@ spring:
           uri: no://op
           {{- end }}
         - id: ccms-api_route
-          predicates
+          predicates:
             - Path=/rest/service/**
           uri: https://{{ .Values.routes.ccmsApi.serviceName }}:{{ .Values.routes.ccmsApi.servicePortNumber }}
           filters:

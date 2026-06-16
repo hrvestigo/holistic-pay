@@ -123,9 +123,7 @@ javaOpts: "-Xms256M -Xmx256M"
 
 podAnnotations: {}
 
-deploymentAnnotations: {}
-
-serviceAnnotations: {}
+podLabels: {}
 
 podSecurityContext:
   runAsNonRoot: true
@@ -151,6 +149,7 @@ ingress:
   annotations: {}
   hosts: []
   tls: []
+  labels: {}
 
 tracing:
   enabled: false
