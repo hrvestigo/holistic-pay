@@ -85,32 +85,30 @@ spec:
               value: {{ .Values.ibmMq.norkomresponse.queueName | quote }}
             - name: IBM_MQ_SSLCIPHERSUITE
               value: {{ .Values.ibmMq.sslCiphersuite | quote }}
-            - name: ATOMIKOS_PROPERTIES_LOGBASEDIR
+            - name: NARAYANA_LOGDIR
               value: /var/log/app
-            - name: SPRING_JTA_ATOMIKOS_DATASOURCE_BORROWCONNECTIONTIMEOUT
-              value: "{{ .Values.atomikos.borrowConnectionTimeout | int }}"
-            - name: SPRING_JTA_ATOMIKOS_DATASOURCE_MAXIDLETIME
-              value: "{{ .Values.atomikos.maxIdleTime | int }}"
-            - name: SPRING_JTA_ATOMIKOS_DATASOURCE_MAXLIFETIME
-              value: "{{ .Values.atomikos.maxLifetime | int }}"
-            - name: SPRING_JTA_ATOMIKOS_DATASOURCE_MAXPOOLSIZE
-              value: "{{ .Values.atomikos.maxPoolSize | int }}"
-            - name: SPRING_JTA_ATOMIKOS_DATASOURCE_MINPOOLSIZE
-              value: "{{ .Values.atomikos.minPoolSize | int }}"
-            - name: SPRING_JTA_ATOMIKOS_PROPERTIES_DEFAULTJTATIMEOUT
-              value: "{{ .Values.atomikos.jtaTimeout | int }}"
-            - name: SPRING_JTA_ATOMIKOS_DATASOURCE_TEST_QUERY
-              value: {{ .Values.atomikos.testQuery | quote }}
-            - name: SPRING_JTA_ATOMIKOS_DATASOURCE_REAP_TIMEOUT
-              value: "{{ .Values.atomikos.reapTimeout | int }}"
-            - name: SPRING_JTA_ATOMIKOS_CONNECTIONFACTORY_MAXIDLETIME
-              value: "{{ .Values.atomikos.connectionFactory.maxIdleTime | int }}"
-            - name: SPRING_JTA_ATOMIKOS_CONNECTIONFACTORY_MAXLIFETIME
-              value: "{{ .Values.atomikos.connectionFactory.maxLifeTime | int }}"
-            - name: SPRING_JTA_ATOMIKOS_CONNECTIONFACTORY_MAXPOOLSIZE
-              value: "{{ .Values.atomikos.connectionFactory.maxPoolSize | int }}"
-            - name: SPRING_JTA_ATOMIKOS_CONNECTIONFACTORY_MINPOOLSIZE
-              value: "{{ .Values.atomikos.connectionFactory.minPoolSize | int }}"
+            - name: NARAYANA_TRANSACTIONTIMEOUT
+              value: {{ .Values.narayana.transactionTimeout | default 60 | quote }}
+            - name: NARAYANA_TRANSACTIONALDRIVER_DEFAULTISOLATIONLEVEL
+              value: TRANSACTION_READ_COMMITTED
+            - name: SPRING_JTA_AGROAL_DATASOURCE_MINPOOLSIZE
+              value: {{ (.Values.datasource.minPoolSize | default .Values.datasource.minIdle) | quote }}
+            - name: SPRING_JTA_AGROAL_DATASOURCE_MAXPOOLSIZE
+              value: {{ .Values.datasource.maxPoolSize | quote }}
+            - name: SPRING_JTA_AGROAL_DATASOURCE_BORROWCONNECTIONTIMEOUT
+              value: "{{ .Values.datasource.borrowConnectionTimeout | int }}"
+            - name: SPRING_JTA_AGROAL_DATASOURCE_MAXIDLETIMEOUT
+              value: "{{ .Values.datasource.maxIdleTimeout | int }}"
+            - name: SPRING_JTA_AGROAL_DATASOURCE_MAXLIFETIME
+              value: "{{ .Values.datasource.maxLifetime | int }}"
+            - name: NARAYANA_MESSAGINGHUB_ENABLED
+              value: "true"
+            - name: NARAYANA_MESSAGINGHUB_MAXCONNECTIONS
+              value: {{ .Values.ibmMq.maxPoolSize | quote }}
+            - name: NARAYANA_MESSAGINGHUB_CONNECTIONIDLETIMEOUT
+              value: {{ .Values.ibmMq.maxIdleTimeout | quote }}
+            - name: NARAYANA_MESSAGINGHUB_CONNECTIONCHECKINTERVAL
+              value: "60000"
             - name: SIRIUS_REST_INITIATE_TIMEOUT
               value: "{{ .Values.sirius.rest.initiate.timeout | int }}"
             - name: SPRING_DATASOURCE_XA_PROPERTIES_USER
@@ -456,19 +454,35 @@ spec:
             - name: INBOX_SCHEDULER_SHEDLOCK_TABLE
               value: {{ include "sirius-specific.firstMemberSchema" . }}.{{ .Values.shedlock.table | default "shedlock" }}
             {{- if .Values.grpc.server.enabled }}
-            - name: GRPC_SERVER_PORT
-              value: {{ .Values.grpc.server.port | default "9090" | quote }}
-            - name: GRPC_SERVER_SECURITY_ENABLED
+            - name: SPRING_GRPC_SERVER_ENABLED
+              value: "true"
+            - name: SPRING_GRPC_SERVER_PORT
+              value: {{ .Values.grpc.server.port | default "9091" | quote }}
+            - name: SPRING_GRPC_SERVER_SSL_ENABLED
               value: {{ .Values.grpc.server.security.enabled | default "false" | quote }}
               {{- if .Values.grpc.server.security.enabled }}
-            - name: GRPC_SERVER_SECURITY_CERTIFICATECHAIN
-              value: "file:{{ .Values.grpc.server.security.certificate }}"
-            - name: GRPC_SERVER_SECURITY_PRIVATEKEY
-              value: "file:{{ .Values.grpc.server.security.key }}"
+            - name: SPRING_GRPC_SERVER_SSL_BUNDLE
+              value: grpc
+            - name: SPRING_GRPC_SERVER_SSL_SECURE
+              value: {{ .Values.grpc.server.security.secure | default "false" | quote }}
+            - name: SPRING_GRPC_SERVER_SSL_CLIENT_AUTH
+              value: {{ .Values.grpc.server.security.clientAuth | default "none" | quote }}
+            - name: SPRING_SSL_BUNDLE_PEM_GRPC_KEYSTORE_CERTIFICATE
+              value: {{ required "Please specify gRPC server certificate in grpc.server.security.certificate" .Values.grpc.server.security.certificate | quote }}
+            - name: SPRING_SSL_BUNDLE_PEM_GRPC_KEYSTORE_PRIVATE_KEY
+              value: {{ required "Please specify gRPC server key in grpc.server.security.key" .Values.grpc.server.security.key | quote }}
+            - name: SPRING_SSL_BUNDLE_PEM_GRPC_TRUSTSTORE_CERTIFICATE
+              value: {{ required "Please specify gRPC truststore certificate in grpc.server.security.truststore.certificate" .Values.grpc.server.security.truststore.certificate | quote }}
+            - name: SPRING_SSL_BUNDLE_PEM_GRPC_TRUSTSTORE_PRIVATE_KEY
+              value: {{ required "Please specify gRPC truststore key in grpc.server.security.truststore.key" .Values.grpc.server.security.truststore.key | quote }}
               {{- end }}
             {{- end }}
+            - name: SPRING_GRPC_CLIENT_DEFAULT_CHANNEL_NEGOTIATION_TYPE
+              value: {{ .Values.grpc.client.defaultChannel.negotiationType | default "tls" | quote }}
+            - name: SPRING_GRPC_CLIENT_DEFAULT_CHANNEL_SSL_BUNDLE
+              value: {{ .Values.grpc.client.defaultChannel.sslBundle | default "grpc" | quote }}
             {{- if .Values.grpc.personStructureData }}
-            - name: GRPC_CLIENT_PERSONSTRUCTUREDATA_ADDRESS
+            - name: SPRING_GRPC_CLIENT_PERSONSTRUCTUREDATA_ADDRESS
               value: {{ .Values.grpc.personStructureData.address | quote }}
             {{- end }}
             {{- if (include "sirius-specific.metrics.config" .) -}}
@@ -478,14 +492,20 @@ spec:
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
               value: PKCS12
-            - name: MANAGEMENT_ENDPOINTS_ENABLEDBYDEFAULT
-              value: "false"
-            - name: MANAGEMENT_ENDPOINT_HEALTH_ENABLED
-              value: "true"
+            - name: MANAGEMENT_ENDPOINTS_ACCESS_DEFAULT
+              value: "none"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_ACCESS
+              value: "read-only"
+            - name: MANAGEMENT_ENDPOINT_LOGGERS_ACCESS
+              value: "read-only"
+            - name: MANAGEMENT_ENDPOINT_METRICS_ACCESS
+              value: "read-only"
             {{- if .Values.prometheus.exposed }}
-            - name: MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED
-              value: "true"
+            - name: MANAGEMENT_ENDPOINT_PROMETHEUS_ACCESS
+              value: "read-only"
             {{- end }}
+            - name: MANAGEMENT_OTLP_METRICS_EXPORT_ENABLED
+              value: "false"
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
               value: {{ include "sirius-specific.exposed.endpoints" $ }}
             - name: MANAGEMENT_ENDPOINTS_WEB_BASEPATH
@@ -535,12 +555,18 @@ spec:
             - name: SPRING_JPA_PROPERTIES_HIBERNATE_SESSION_EVENTS_LOG_LOG_QUERIES_SLOWER_THAN_MS
               value: {{ .Values.logger.databaseSlowQueryThreshold | quote }}
             {{- end }}
-            - name: SPRING_JPA_PROPERTIES_HIBERNATE_CONNECTION_HANDLING_MODE
-              value: "DELAYED_ACQUISITION_AND_HOLD"
             - name: SECRET_PROPERTIES
               value: /mnt/k8s/secrets/password.conf
             - name: KAFKA_HEALTH_ENABLED
               value: "true"
+            - name: KAFKA_HEALTH_FAILPROBEONAUTHFAILURE
+              value: {{ .Values.kafka.authException.failProbeEnabled | quote }}
+            {{- if (.Values.kafka.authException).retryInterval }}
+            - name: SPRING_KAFKA_LISTENER_AUTHEXCEPTIONRETRYINTERVAL
+              value: {{ printf "%ss" .Values.kafka.authException.retryInterval }}
+            {{- end }}
+            - name: REST_ERRORRESPONSE_HIDEERRORDETAILS
+              value: {{ .Values.response.hideErrorDetails | default "true" | quote }}
             - name: JAVA_OPTS
               value: "{{ .Values.javaOpts }} -Dcom.ibm.mq.cfg.useIBMCipherMappings=false"
             {{- if (include "sirius-specific.trustStoreEnv" .) -}}
@@ -582,7 +608,7 @@ spec:
               containerPort: 8443
               protocol: TCP
             - name: grpc
-              containerPort: 9090
+              containerPort: {{ .Values.grpc.server.port | default "9091" | int }}
               protocol: TCP
           livenessProbe:
             {{- toYaml .Values.deployment.livenessProbe | nindent 12 }}

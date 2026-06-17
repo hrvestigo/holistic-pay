@@ -24,10 +24,16 @@ datasource:
   currentSchema: CONNECT
   globalSchemaPrefix: wo
   connTimeout: 60000
-  maxPoolSize: 2
+  maxPoolSize: 15
   minIdle: 0
+  minPoolSize: 3
+  borrowConnectionTimeout: 30
+  maxIdleTimeout: 120
+  maxLifetime: 300
   idleTimeout: 120000
   connectionParams: {}
+narayana:
+  transactionTimeout: 60
 liquibase:
   enabled: true
   syncOnly: false
@@ -55,25 +61,16 @@ ibmMq:
   connName: ''
   user: ''
   sslCiphersuite: ''
+  maxPoolSize: 15
+  maxIdleTimeout: 180
   norkomcall:
     queueName: ''
   norkomresponse:
     queueName: ''
-atomikos:
-  borrowConnectionTimeout: 30
-  maxIdleTime: 120
-  maxLifetime: 300
-  maxPoolSize: 15
-  minPoolSize: 3
-  jtaTimeout: 60000
-  testQuery: "SELECT 1"
-  reapTimeout: 70
-  connectionFactory:
-    maxIdleTime: 120
-    maxLifeTime: 300
-    maxPoolSize: 15
-    minPoolSize: 3
 kafka:
+  authException:
+    failProbeEnabled: false
+    retryInterval: ''
   user: ''
   servers: ''
   saslMechanism: PLAIN
@@ -280,13 +277,22 @@ sirius:
 grpc:
   server:
     enabled: false
-    port: 9090
+    port: 9091
     security:
       enabled: false
+      secure: false
+      clientAuth: none
       certificate: null
       key: null
+      truststore:
+        certificate: null
+        key: null
+  client:
+    defaultChannel:
+      negotiationType: tls
+      sslBundle: grpc
   personStructureData:
-    address: dns:///person-structure:9090
+    address: dns:///person-structure:9091
 keycloak:
   enabled: false
   realm: Holistic-Pay
@@ -298,6 +304,7 @@ request:
 response:
   encoding:
     enabled: false
+  hideErrorDetails: true
 timezone: ''
 secret:
   decryptionKey: ''
