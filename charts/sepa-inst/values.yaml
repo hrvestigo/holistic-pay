@@ -81,6 +81,7 @@ kafka:
       name: hr.vestigo.hp.alert
   consumer:
     brBackOff: 3;0.1s
+    authErrorRetryInterval: 10s
     properties:
       sessionTimeoutMs: 45000
       heartbeatIntervalMs: 3000

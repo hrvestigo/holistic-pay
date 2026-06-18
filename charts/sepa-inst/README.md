@@ -222,6 +222,7 @@ kafka:
       name: hr.vestigo.hp.alert                                   # default, set custom name if required
   consumer:
     brBackOff: 3;0.1s                                             # default retry backoff policy, 3 times, every 100ms
+    authErrorRetryInterval: 10s                                   # time between retries after Kafka topic authentication exceptions on consumer
     properties:                                                   # see https://kafka.apache.org/documentation/#consumerconfigs
       sessionTimeoutMs: 45000
       heartbeatIntervalMs: 3000
@@ -238,6 +239,12 @@ This is preferred retry mechanism for processing triggered by Kafka message
 in order to honor Kafka's max poll intervals. For example, if processing of
 Kafka message calls CSM and CSM fails, we retry whole flow via Kafka mechanism
 not just CSM call.
+
+With `authErrorRetryInterval` interval is defined to retry consumer poll when
+Kafka authorization / authentication error occurs. Authentication and authorization errors
+are considered fatal, which causes the container to stop. With this configuration
+we allows the consumer to recover when proper permissions are granted.
+The `authErrorRetryInterval` must be less than `maxPollIntervalMs`.
 
 ### Configuring image source and pull secrets
 
