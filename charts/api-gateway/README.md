@@ -687,6 +687,7 @@ Default deployment strategy for API Gateway application is `RollingUpdate`, but 
 ```yaml
 deployment:
   annotations: {}
+  labels: {}
   replicaCount: 1
   strategy:
     type: RollingUpdate
@@ -874,6 +875,7 @@ ingress:
   annotations: {}
   hosts: []
   tls: []
+  labels: {}
 ```
 
 For example, a working setup could be defined like this:
@@ -961,7 +963,7 @@ tolerations:
     tolerationSeconds: 3600
 ```
 
-### Adding custom annotations
+### Adding custom annotations and labels
 
 Custom annotations can be added to pod by listing them under `podAnnotations` attribute structure, for example:
 
@@ -978,6 +980,14 @@ deployment:
   annotations:
     custom.annotation: custom-value
     other.annotation: other-value
+```
+
+Custom labels can be added to pod by listing them under `podLabels` attribute, for example:
+
+```yaml
+podLabels:
+  custom.labels: custom-value
+  other.labels: other-value
 ```
 
 ### DNS configuration

@@ -17,394 +17,406 @@ spring:
   {{- end }}
   cloud:
     gateway:
-      x-forwarded:
-        proto-append: false
-      {{- if and (.Values.proxy).host (.Values.proxy).port }}
-      httpclient:
-        proxy:
-          host: {{ .Values.proxy.host }}
-          port: {{ .Values.proxy.port }}
-          {{- if .Values.proxy.nonProxyHosts }}
-          non-proxy-hosts-pattern: {{ .Values.proxy.nonProxyHosts }}
+      server:
+        webflux:
+          trusted-proxies: ".*"
+          x-forwarded:
+            proto-append: false
+          {{- if and (.Values.proxy).host (.Values.proxy).port }}
+          httpclient:
+            proxy:
+              host: {{ .Values.proxy.host }}
+              port: {{ .Values.proxy.port }}
+              {{- if .Values.proxy.nonProxyHosts }}
+              non-proxy-hosts-pattern: {{ .Values.proxy.nonProxyHosts }}
+              {{- end }}
           {{- end }}
-      {{- end }}
-      routes:
-        {{- if not .Values.routes.allowSensitiveDataEndpoints }}
-        - id: pci-dss-blocked_route
-          predicates:
-            - Path=/api/*/generateNewPan, /api/*/generateNewPanList, /card/*/pan, /card/cardId, /rest/service/WS2I12, /rest/service/WS2I05
-          uri: no://op
-          filters:
-            - SetStatus=403
-            - SetResponseHeader=X-Blocked-Message, "Access Denied"
-        {{- end }}
-        {{- if (.Values.routes.alcCollect).serviceName }}
-        - id: alc_route
-          predicates:
-            - Path=/api/*/riskLimitHistoryOfChanges/**
-            - Method=GET
-          uri: https://{{ .Values.routes.alcCollect.serviceName }}:{{ .Values.routes.alcCollect.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        - id: alc_route_old
-          predicates:
-            - Path=/alc-collect/**
-          uri: https://{{ .Values.routes.alcCollect.serviceName }}:{{ .Values.routes.alcCollect.servicePortNumber }}
-          filters:
-            - StripPrefix=1
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.authLimitControl).serviceName }}
-        - id: auth-limit-control_route
-          predicates:
-            - Path=/api/*/authLimitControl/**, /api/*/authorization-request, /api/*/riskLimits/**
-          uri: https://{{ .Values.routes.authLimitControl.serviceName }}:{{ .Values.routes.authLimitControl.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        - id: auth-limit-control_route_old
-          predicates:
-            - Path=/auth-limit-control/**
-          uri: https://{{ .Values.routes.authLimitControl.serviceName }}:{{ .Values.routes.authLimitControl.servicePortNumber }}
-          filters:
-            - StripPrefix=1
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.personStructure).serviceName }}
-        - id: person-structure-ms_route
-          predicates:
-            - Path=/api/*/riskLimits/**, /api/*/customerControlsLimits/**
-            - Method=POST
-          uri: https://{{ .Values.routes.personStructure.serviceName }}:{{ .Values.routes.personStructure.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        - id: person-structure-ms_route_old
-          predicates:
-            - Path=/person-structure/**
-          uri: https://{{ .Values.routes.personStructure.serviceName }}:{{ .Values.routes.personStructure.servicePortNumber }}
-          filters:
-            - StripPrefix=1
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.personRegistry).serviceName }}
-        - id: person-registry-ms_route
-          predicates:
-            - Path=/api/*/personRegistry/**
-          uri: https://{{ .Values.routes.personRegistry.serviceName }}:{{ .Values.routes.personRegistry.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.paymentOrder).serviceName }}
-        - id: payment-order-ms_route
-          predicates:
-            - Path=/api/*/paymentOrder/**, /api/job/start/**, /api/*/liquidity/**
-          uri: https://{{ .Values.routes.paymentOrder.serviceName }}:{{ .Values.routes.paymentOrder.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.sepaInst).serviceName }}
-        - id: nks-inst-ms_route
-          predicates:
-            - Path=/nksInst/api/msg/*, /nksInst/api/info, /api/msg/*, /api/info
-          uri: https://{{ .Values.routes.sepaInst.serviceName }}:{{ .Values.routes.sepaInst.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-            - RewritePath=/?.*/api/(?<segment>.*),/api/$\{segment}
-            - PrefixPath=/sepaInst
-        {{- end }}
-        {{- if (.Values.routes.crdPayInstIss).serviceName }}
-        - id: crd-pay-inst-iss-ms_route
-          predicates:
-            - Path=/api/*/trxPans
-          uri: https://{{ .Values.routes.crdPayInstIss.serviceName }}:{{ .Values.routes.crdPayInstIss.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.balanceCheck).serviceName }}
-        - id: balance-check-ms_route
-          predicates:
-            - Path=/api/*/balanceChangeRequest, /api/*/balance/check/*, /api/*/balance/account/*, /api/*/balance/check/compensation/*
-          uri: https://{{ .Values.routes.balanceCheck.serviceName }}:{{ .Values.routes.balanceCheck.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.balanceLog).serviceName }}
-        - id: balance-log-ms_route
-          predicates:
-            - Path=/api/*/balance/log/transactions,/api/*/balance/log/state/**
-          uri: https://{{ .Values.routes.balanceLog.serviceName }}:{{ .Values.routes.balanceLog.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.balanceReconciliation).serviceName }}
-        - id: balance-reconciliation-ms_route
-          predicates:
-            - Path=/api/*/balance/reconciliation/generate_file
-          uri: https://{{ .Values.routes.balanceReconciliation.serviceName }}:{{ .Values.routes.balanceReconciliation.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.siriusQuery).serviceName }}
-        - id: sirius-query-ms_route
-          predicates:
-            - Path=/api/*/sirius/query/overdraft/*/summary, /api/*/sirius/query/transaction/*/summary, /api/*/sirius/query/transaction/analytic/individual
-          uri: https://{{ .Values.routes.siriusQuery.serviceName }}:{{ .Values.routes.siriusQuery.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.panManager).serviceName }}
-        - id: pan-manager-ms_route
-          predicates:
-            - Path=/api/*/secure-data-value/**
-          uri: https://{{ .Values.routes.panManager.serviceName }}:{{ .Values.routes.panManager.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-          {{- if .Values.routes.allowSensitiveDataEndpoints }}
-        - id: pan-manager-ms-pcidss_route
-          predicates:
-            - Path=/api/*/generateNewPan, /api/*/generateNewPanList,
-          uri: https://{{ .Values.routes.panManager.serviceName }}:{{ .Values.routes.panManager.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-          {{- end }}
-        {{- end }}
-        {{- if (.Values.routes.gsfCore).serviceName }}
-        - id: gsf-core-ms_route
-          predicates:
-            - Path=/api/*/gsf/code-validation
-          uri: https://{{ .Values.routes.gsfCore.serviceName }}:{{ .Values.routes.gsfCore.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.vetoManager).serviceName }}
-        - id: veto-manager-ms_route
-          predicates:
-            - Path=/api/*/vetos
-          uri: https://{{ .Values.routes.vetoManager.serviceName }}:{{ .Values.routes.vetoManager.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.productEngine).serviceName }}
-        - id: product-engine-ms_route
-          predicates:
-            - Path=/api/*/package-request/**, /api/*/products-overview/**, /api/*/package-contract/**, /api/*/status-management/**
-          uri: https://{{ .Values.routes.productEngine.serviceName }}:{{ .Values.routes.productEngine.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.pricingEngine).serviceName }}
-        - id: pricing-engine-ms_route
-          predicates:
-            - Path=/api/*/pricingEngine, /api/*/updateFeeBillingAccount, /api/*/feeIndividualTerms/get, /api/*/pricing-engine/fee-individual-terms/search, /api/*/feeIndividualTerms/set, /api/*/pricing-engine/fee-individual-terms, /api/*/pricing-engine/fee-calculations, /api/*/pricing-engine/fee-billing-account-updates
-          uri: https://{{ .Values.routes.pricingEngine.serviceName }}:{{ .Values.routes.pricingEngine.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.consumerFinance).serviceName }}
-        - id: consumer-finance-ms_route
-          predicates:
-            - Path=/api/*/consumer-finance/**
-          uri: https://{{ .Values.routes.consumerFinance.serviceName }}:{{ .Values.routes.consumerFinance.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.addressParser).serviceName }}
-        - id: address-parser-ms_route
-        predicates:
-        - Path=/api/*/address-parser/**
-        uri: https://{{ .Values.routes.addressParser.serviceName }}:{{ .Values.routes.addressParser.servicePortNumber }}
-        filters:
-        - TokenRelay
-        - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.extDisputeInterface).serviceName }}
-          {{- if .Values.routes.allowSensitiveDataEndpoints }}
-        - id: external-dispute-interface-ms-pcidss_route
-          predicates:
-            - Path=/card/*/pan, /card/cardId
-          uri: https://{{ .Values.routes.extDisputeInterface.serviceName }}:{{ .Values.routes.extDisputeInterface.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-          {{- end }}
-        - id: external-dispute-interface-ms_route
-          predicates:
-            - Path=/card/*/cardholderId, /event/v2
-          uri: https://{{ .Values.routes.extDisputeInterface.serviceName }}:{{ .Values.routes.extDisputeInterface.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        - id: external-dispute-interface-health-ms_route
-          predicates:
-            - Path=/external-dispute-interface/health
-          uri: https://{{ .Values.routes.extDisputeInterface.serviceName }}:{{ .Values.routes.extDisputeInterface.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-            - StripPrefix=1
-        {{- end }}
-        {{- if (.Values.routes.ccmsApi).serviceName }}
-        - id: ccms-api_route
-          predicates:
-            - Path=/rest/service/**
-          uri: https://{{ .Values.routes.ccmsApi.serviceName }}:{{ .Values.routes.ccmsApi.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.cmod).serviceName }}
-        - id: cmod_route
-          predicates:
-            - Path=/acmod/**
-          uri: https://{{ .Values.routes.cmod.serviceName }}:{{ .Values.routes.cmod.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.debitGateway).serviceName }}
-        - id: debit-gateway_route
-          predicates:
-            - Path=/api/v1/riskLimits, /api/v1/riskLimitHistoryOfChanges
-          uri: https://{{ .Values.routes.debitGateway.serviceName }}:{{ .Values.routes.debitGateway.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.drbGateway).serviceName }}
-        - id: drb_gateway_route
-          predicates:
-            - Path=/api/v1/package-request/**
-          uri: https://{{ .Values.routes.drbGateway.serviceName }}:{{ .Values.routes.drbGateway.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.esb).serviceName }}
-        - id: esb_route
-          predicates:
-            - Path=/cxf/performfran/**, /cxf/banking/**, /cxf/mngmt/**
-          uri: https://{{ .Values.routes.esb.serviceName }}:{{ .Values.routes.esb.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.winwin).serviceName }}
-        - id: winwin_route
-          predicates:
-            - Path=/cxf/zoomtool-winwin-info-service/**
-          uri: https://{{ .Values.routes.winwin.serviceName }}:{{ .Values.routes.winwin.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.superPersonGateway).serviceName }}
-        - id: super-person-gateway_route
-          predicates:
-            - Path=/api/v1/personRegistry/**
-          uri: https://{{ .Values.routes.superPersonGateway.serviceName }}:{{ .Values.routes.superPersonGateway.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.ucat).serviceName }}
-        - id: ucat_route
-          predicates:
-            - Path=/api/v1/check-enrolment-exist
-          uri: https://{{ .Values.routes.ucat.serviceName }}:{{ .Values.routes.ucat.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.uc4).serviceName }}
-        - id: uc4_route
-          predicates:
-            - Path=/ae/api/v1/1/executions/**
-          uri: https://{{ .Values.routes.uc4.serviceName }}:{{ .Values.routes.uc4.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if and (.Values.routes.fsecure).serviceName (.Values.routes.fsecure).servicePortNumber }}
-        - id: fsecure_route
-          predicates:
-            - Path={{ required "Please specify path patterns in fsecure.path" .Values.routes.fsecure.path }}
-          uri: https://{{ .Values.routes.fsecure.serviceName }}:{{ .Values.routes.fsecure.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.mastercard).serviceName }}
-        - id: mastercard_route
-          predicates:
-            - Path=/fld/**
-          uri: https://{{ .Values.routes.mastercard.serviceName }}:{{ .Values.routes.mastercard.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.pifCore).serviceName }}
-        - id: pif-core-ms_route
-          predicates:
-            - Path=/api/*/pif-core/segregation-groups/**, /api/*/segregation-groups/**
-          uri: https://{{ .Values.routes.pifCore.serviceName }}:{{ .Values.routes.pifCore.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.ipcBackend).serviceName }}
-        - id: ipc-backend_route
-          predicates:
-            - Path=/services/**
-          uri: https://{{ .Values.routes.ipcBackend.serviceName }}:{{ .Values.routes.ipcBackend.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-            - StripPrefix=1
-        {{- end }}
-        {{- if (.Values.routes.ipcWeb).serviceName }}
-        - id: ipc-web_route
-          predicates:
-            - Path=/**
-          uri: https://{{.Values.routes.ipcWeb.serviceName }}:{{.Values.routes.ipcWeb.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.personRegistryWeb).serviceName }}
-        - id: person-registry-web_route
-          predicates:
-            - Path=/**
-          uri: https://{{.Values.routes.personRegistryWeb.serviceName }}:{{.Values.routes.personRegistryWeb.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
-        {{- if (.Values.routes.coreGateway).serviceName }}
-        - id: forward-all_route
-          predicates:
-            - Path=/**
-          uri: https://{{ .Values.routes.coreGateway.serviceName }}:{{ .Values.routes.coreGateway.servicePortNumber }}
-          filters:
-            - TokenRelay
-            - SaveSession
-        {{- end }}
+          routes:
+            {{- if not .Values.routes.allowSensitiveDataEndpoints }}
+            - id: pci-dss-blocked_route
+              predicates:
+                - Path=/api/*/generateNewPan, /api/*/generateNewPanList, /card/*/pan, /card/cardId, /rest/service/WS2I12, /rest/service/WS2I05
+              uri: no://op
+              filters:
+                - SetStatus=403
+                - SetResponseHeader=X-Blocked-Message, "Access Denied"
+            {{- end }}
+            {{- if (.Values.routes.alcCollect).serviceName }}
+            - id: alc_route
+              predicates:
+                - Path=/api/*/riskLimitHistoryOfChanges/**
+                - Method=GET
+              uri: https://{{ .Values.routes.alcCollect.serviceName }}:{{ .Values.routes.alcCollect.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            - id: alc_route_old
+              predicates:
+                - Path=/alc-collect/**
+              uri: https://{{ .Values.routes.alcCollect.serviceName }}:{{ .Values.routes.alcCollect.servicePortNumber }}
+              filters:
+                - StripPrefix=1
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.authLimitControl).serviceName }}
+            - id: auth-limit-control_route
+              predicates:
+                - Path=/api/*/authLimitControl/**, /api/*/authorization-request, /api/*/riskLimits/**
+              uri: https://{{ .Values.routes.authLimitControl.serviceName }}:{{ .Values.routes.authLimitControl.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            - id: auth-limit-control_route_old
+              predicates:
+                - Path=/auth-limit-control/**
+              uri: https://{{ .Values.routes.authLimitControl.serviceName }}:{{ .Values.routes.authLimitControl.servicePortNumber }}
+              filters:
+                - StripPrefix=1
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.personStructure).serviceName }}
+            - id: person-structure-ms_route
+              predicates:
+                - Path=/api/*/riskLimits/**, /api/*/customerControlsLimits/**
+                - Method=POST
+              uri: https://{{ .Values.routes.personStructure.serviceName }}:{{ .Values.routes.personStructure.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            - id: person-structure-ms_route_old
+              predicates:
+                - Path=/person-structure/**
+              uri: https://{{ .Values.routes.personStructure.serviceName }}:{{ .Values.routes.personStructure.servicePortNumber }}
+              filters:
+                - StripPrefix=1
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.personRegistry).serviceName }}
+            - id: person-registry-ms_route
+              predicates:
+                - Path=/api/*/personRegistry/**
+              uri: https://{{ .Values.routes.personRegistry.serviceName }}:{{ .Values.routes.personRegistry.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.paymentOrder).serviceName }}
+            - id: payment-order-ms_route
+              predicates:
+                - Path=/api/*/paymentOrder/**, /api/job/start/**, /api/*/liquidity/**
+              uri: https://{{ .Values.routes.paymentOrder.serviceName }}:{{ .Values.routes.paymentOrder.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.sepaInst).serviceName }}
+            - id: nks-inst-ms_route
+              predicates:
+                - Path=/nksInst/api/msg/*, /nksInst/api/info, /api/msg/*, /api/info
+              uri: https://{{ .Values.routes.sepaInst.serviceName }}:{{ .Values.routes.sepaInst.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+                - RewritePath=/?.*/api/(?<segment>.*),/api/$\{segment}
+                - PrefixPath=/sepaInst
+            {{- end }}
+            {{- if (.Values.routes.crdPayInstIss).serviceName }}
+            - id: crd-pay-inst-iss-ms_route
+              predicates:
+                - Path=/api/*/trxPans
+              uri: https://{{ .Values.routes.crdPayInstIss.serviceName }}:{{ .Values.routes.crdPayInstIss.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.balanceCheck).serviceName }}
+            - id: balance-check-ms_route
+              predicates:
+                - Path=/api/*/balanceChangeRequest, /api/*/balance/check/*, /api/*/balance/account/*, /api/*/balance/check/compensation/*
+              uri: https://{{ .Values.routes.balanceCheck.serviceName }}:{{ .Values.routes.balanceCheck.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.balanceLog).serviceName }}
+            - id: balance-log-ms_route
+              predicates:
+                - Path=/api/*/balance/log/transactions,/api/*/balance/log/state/**
+              uri: https://{{ .Values.routes.balanceLog.serviceName }}:{{ .Values.routes.balanceLog.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.balanceReconciliation).serviceName }}
+            - id: balance-reconciliation-ms_route
+              predicates:
+                - Path=/api/*/balance/reconciliation/generate_file
+              uri: https://{{ .Values.routes.balanceReconciliation.serviceName }}:{{ .Values.routes.balanceReconciliation.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.siriusQuery).serviceName }}
+            - id: sirius-query-ms_route
+              predicates:
+                - Path=/api/*/sirius/query/overdraft/*/summary, /api/*/sirius/query/transaction/*/summary, /api/*/sirius/query/transaction/analytic/individual
+              uri: https://{{ .Values.routes.siriusQuery.serviceName }}:{{ .Values.routes.siriusQuery.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.panManager).serviceName }}
+            - id: pan-manager-ms_route
+              predicates:
+                - Path=/api/*/secure-data-value/**
+              uri: https://{{ .Values.routes.panManager.serviceName }}:{{ .Values.routes.panManager.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+              {{- if .Values.routes.allowSensitiveDataEndpoints }}
+            - id: pan-manager-ms-pcidss_route
+              predicates:
+                - Path=/api/*/generateNewPan, /api/*/generateNewPanList
+              uri: https://{{ .Values.routes.panManager.serviceName }}:{{ .Values.routes.panManager.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+              {{- end }}
+            {{- end }}
+            {{- if (.Values.routes.gsfCore).serviceName }}
+            - id: gsf-core-ms_route
+              predicates:
+                - Path=/api/*/gsf/code-validation
+              uri: https://{{ .Values.routes.gsfCore.serviceName }}:{{ .Values.routes.gsfCore.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.vetoManager).serviceName }}
+            - id: veto-manager-ms_route
+              predicates:
+                - Path=/api/*/vetos
+              uri: https://{{ .Values.routes.vetoManager.serviceName }}:{{ .Values.routes.vetoManager.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.productEngine).serviceName }}
+            - id: product-engine-ms_route
+              predicates:
+                - Path=/api/*/package-request/**, /api/*/products-overview/**, /api/*/package-contract/**, /api/*/status-management/**
+              uri: https://{{ .Values.routes.productEngine.serviceName }}:{{ .Values.routes.productEngine.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.pricingEngine).serviceName }}
+            - id: pricing-engine-ms_route
+              predicates:
+                - Path=/api/*/pricingEngine, /api/*/updateFeeBillingAccount, /api/*/feeIndividualTerms/get, /api/*/pricing-engine/fee-individual-terms/search, /api/*/feeIndividualTerms/set, /api/*/pricing-engine/fee-individual-terms, /api/*/pricing-engine/fee-calculations, /api/*/pricing-engine/fee-billing-account-updates
+              uri: https://{{ .Values.routes.pricingEngine.serviceName }}:{{ .Values.routes.pricingEngine.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.consumerFinance).serviceName }}
+            - id: consumer-finance-ms_route
+              predicates:
+                - Path=/api/*/consumer-finance/**
+              uri: https://{{ .Values.routes.consumerFinance.serviceName }}:{{ .Values.routes.consumerFinance.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.addressParser).serviceName }}
+            - id: address-parser-ms_route
+              predicates:
+                - Path=/api/*/address-parser/**
+              uri: https://{{ .Values.routes.addressParser.serviceName }}:{{ .Values.routes.addressParser.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.extDisputeInterface).serviceName }}
+              {{- if .Values.routes.allowSensitiveDataEndpoints }}
+            - id: external-dispute-interface-ms-pcidss_route
+              predicates:
+                - Path=/card/*/pan, /card/cardId
+              uri: https://{{ .Values.routes.extDisputeInterface.serviceName }}:{{ .Values.routes.extDisputeInterface.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+              {{- end }}
+            - id: external-dispute-interface-ms_route
+              predicates:
+                - Path=/card/*/cardholderId, /event/v2
+              uri: https://{{ .Values.routes.extDisputeInterface.serviceName }}:{{ .Values.routes.extDisputeInterface.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            - id: external-dispute-interface-health-ms_route
+              predicates:
+                - Path=/external-dispute-interface/health
+              uri: https://{{ .Values.routes.extDisputeInterface.serviceName }}:{{ .Values.routes.extDisputeInterface.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+                - StripPrefix=1
+            {{- end }}
+            {{- if (.Values.routes.ccmsApi).serviceName }}
+            - id: ccms-api_route
+              predicates:
+                - Path=/rest/service/**
+              uri: https://{{ .Values.routes.ccmsApi.serviceName }}:{{ .Values.routes.ccmsApi.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.cmod).serviceName }}
+            - id: cmod_route
+              predicates:
+                - Path=/acmod/**
+              uri: https://{{ .Values.routes.cmod.serviceName }}:{{ .Values.routes.cmod.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.debitGateway).serviceName }}
+            - id: debit-gateway_route
+              predicates:
+                - Path=/api/v1/riskLimits, /api/v1/riskLimitHistoryOfChanges
+              uri: https://{{ .Values.routes.debitGateway.serviceName }}:{{ .Values.routes.debitGateway.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.drbGateway).serviceName }}
+            - id: drb_gateway_route
+              predicates:
+                - Path=/api/v1/package-request/**
+              uri: https://{{ .Values.routes.drbGateway.serviceName }}:{{ .Values.routes.drbGateway.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.esb).serviceName }}
+            - id: esb_route
+              predicates:
+                - Path=/cxf/performfran/**, /cxf/banking/**, /cxf/mngmt/**
+              uri: https://{{ .Values.routes.esb.serviceName }}:{{ .Values.routes.esb.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.winwin).serviceName }}
+            - id: winwin_route
+              predicates:
+                - Path=/cxf/zoomtool-winwin-info-service/**
+              uri: https://{{ .Values.routes.winwin.serviceName }}:{{ .Values.routes.winwin.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.superPersonGateway).serviceName }}
+            - id: super-person-gateway_route
+              predicates:
+                - Path=/api/v1/personRegistry/**
+              uri: https://{{ .Values.routes.superPersonGateway.serviceName }}:{{ .Values.routes.superPersonGateway.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.ucat).serviceName }}
+            - id: ucat_route
+              predicates:
+                - Path=/api/v1/check-enrolment-exist
+              uri: https://{{ .Values.routes.ucat.serviceName }}:{{ .Values.routes.ucat.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.uc4).serviceName }}
+            - id: uc4_route
+              predicates:
+                - Path=/ae/api/v1/1/executions/**
+              uri: https://{{ .Values.routes.uc4.serviceName }}:{{ .Values.routes.uc4.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if and (.Values.routes.fsecure).serviceName (.Values.routes.fsecure).servicePortNumber }}
+            - id: fsecure_route
+              predicates:
+                - Path={{ required "Please specify path patterns in fsecure.path" .Values.routes.fsecure.path }}
+              uri: https://{{ .Values.routes.fsecure.serviceName }}:{{ .Values.routes.fsecure.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.mastercard).serviceName }}
+            - id: mastercard_route
+              predicates:
+                - Path=/fld/**
+              uri: https://{{ .Values.routes.mastercard.serviceName }}:{{ .Values.routes.mastercard.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.pifCore).serviceName }}
+            - id: pif-core-ms_route
+              predicates:
+                - Path=/api/*/pif-core/segregation-groups/**, /api/*/segregation-groups/**
+              uri: https://{{ .Values.routes.pifCore.serviceName }}:{{ .Values.routes.pifCore.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.triple).serviceName }}
+            - id: triple_route
+              predicates:
+                - Path={{ required "Please specify path patterns in triple.path" .Values.routes.triple.path }}
+              uri: https://{{ .Values.routes.triple.serviceName }}:{{ .Values.routes.triple.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.ipcBackend).serviceName }}
+            - id: ipc-backend_route
+              predicates:
+                - Path=/services/**
+              uri: https://{{ .Values.routes.ipcBackend.serviceName }}:{{ .Values.routes.ipcBackend.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+                - StripPrefix=1
+            {{- end }}
+            {{- if (.Values.routes.ipcWeb).serviceName }}
+            - id: ipc-web_route
+              predicates:
+                - Path=/**
+              uri: https://{{.Values.routes.ipcWeb.serviceName }}:{{.Values.routes.ipcWeb.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.personRegistryWeb).serviceName }}
+            - id: person-registry-web_route
+              predicates:
+                - Path=/**
+              uri: https://{{.Values.routes.personRegistryWeb.serviceName }}:{{.Values.routes.personRegistryWeb.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
+            {{- if (.Values.routes.coreGateway).serviceName }}
+            - id: forward-all_route
+              predicates:
+                - Path=/**
+              uri: https://{{ .Values.routes.coreGateway.serviceName }}:{{ .Values.routes.coreGateway.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}

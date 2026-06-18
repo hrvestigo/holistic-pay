@@ -52,9 +52,9 @@ Key store env variables
   value: {{ $keyStorePath }}
 - name: JAVAX_NET_SSL_KEY_STORE_TYPE
   value: {{ .Values.mountKeyStoreFromSecret.keyStoreType }}
-- name: SPRING_CLOUD_GATEWAY_HTTPCLIENT_SSL_KEYSTORE
+- name: SPRING_CLOUD_GATEWAY_SERVER_WEBFLUX_HTTPCLIENT_SSL_KEYSTORE
   value: {{ $keyStorePath }}
-- name: SPRING_CLOUD_GATEWAY_HTTPCLIENT_SSL_KEYSTORETYPE
+- name: SPRING_CLOUD_GATEWAY_SERVER_WEBFLUX_HTTPCLIENT_SSL_KEYSTORETYPE
   value: {{ .Values.mountKeyStoreFromSecret.keyStoreType }}
 {{- if and .Values.secret.existingSecret (eq "NONE" .Values.secret.encryptionAlgorithm) }}
 - name: JAVAX_NET_SSL_KEY_STORE_PASSWORD
@@ -62,7 +62,7 @@ Key store env variables
     secretKeyRef:
       name: {{ .Values.secret.existingSecret }}
       key: keystore.password
-- name: SPRING_CLOUD_GATEWAY_HTTPCLIENT_SSL_KEYSTOREPASSWORD
+- name: SPRING_CLOUD_GATEWAY_SERVER_WEBFLUX_HTTPCLIENT_SSL_KEYSTOREPASSWORD
   valueFrom:
     secretKeyRef:
       name: {{ .Values.secret.existingSecret }}
@@ -252,6 +252,8 @@ Tracing configuration
   value: {{ required "Please specify tracing endpoint in tracing.endpoint" .Values.tracing.endpoint  }}
 {{- else }}
 - name: MANAGEMENT_TRACING_ENABLED
+  value: "false"
+- name: MANAGEMENT_OTLP_METRICS_EXPORT_ENABLED
   value: "false"
 {{- end }}
 {{- end }}

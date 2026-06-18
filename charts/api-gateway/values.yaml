@@ -134,9 +134,6 @@ routes:
   esb:
     serviceName: ""
     servicePortNumber: "443"
-  winwin:
-    serviceName: ""
-    servicePortNumber: "443"
   superPersonGateway:
     serviceName: ""
     servicePortNumber: "443"
@@ -144,6 +141,9 @@ routes:
     serviceName: ""
     servicePortNumber: "443"
   uc4:
+    serviceName: ""
+    servicePortNumber: "443"
+  winwin:
     serviceName: ""
     servicePortNumber: "443"
   # external outbound routes:
@@ -154,6 +154,10 @@ routes:
   mastercard:
     serviceName: ""
     servicePortNumber: "443"
+  triple:
+    serviceName: ""
+    servicePortNumber: "443"
+    path: "/api/*/enrich-transaction/**"
 
 oauth2:
   enabled: false
@@ -165,9 +169,7 @@ javaOpts: "-Xms256M -Xmx256M"
 
 podAnnotations: {}
 
-deploymentAnnotations: {}
-
-serviceAnnotations: {}
+podLabels: {}
 
 podSecurityContext:
   runAsNonRoot: true
@@ -193,6 +195,7 @@ ingress:
   annotations: {}
   hosts: []
   tls: []
+  labels: {}
 
 tracing:
   enabled: false

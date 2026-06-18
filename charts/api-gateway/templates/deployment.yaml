@@ -34,6 +34,9 @@ spec:
         {{- end }}
       labels:
         {{- include "api-gateway.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       automountServiceAccountToken: false
       {{- with .Values.imagePullSecrets }}
@@ -69,13 +72,13 @@ spec:
             - name: TZ
               value: {{ .Values.timezone }}
             {{- end }}
-            - name: MANAGEMENT_ENDPOINTS_ENABLEDBYDEFAULT
-              value: "false"
-            - name: MANAGEMENT_ENDPOINT_HEALTH_ENABLED
-              value: "true"
+            - name: MANAGEMENT_ENDPOINTS_ACCESS_DEFAULT
+              value: "read-only"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_ACCESS
+              value: "read-only"
             {{- if .Values.prometheus.exposed }}
-            - name: MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED
-              value: "true"
+            - name: MANAGEMENT_ENDPOINT_PROMETHEUS_ACCESS
+              value: "read-only"
             {{- end }}
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
               value: {{ include "api-gateway.exposed.endpoints" $ }}
@@ -103,7 +106,7 @@ spec:
               value: C.UTF-8
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
-            - name: SPRING_CLOUD_GATEWAY_HTTPCLIENT_DNSRESOLVER
+            - name: SPRING_CLOUD_GATEWAY_SERVER_WEBFLUX_HTTPCLIENT_DNSRESOLVER
               value: {{ .Values.dnsResolver.name }}
             {{- if .Values.http.headerRequestSizeInBytes }}
             - name: SERVER_MAXHTTPREQUESTHEADERSIZE
