@@ -19,7 +19,6 @@ spring:
     gateway:
       server:
         webflux:
-          trusted-proxies: ".*"
           x-forwarded:
             proto-append: false
           {{- if and (.Values.proxy).host (.Values.proxy).port }}
