@@ -313,25 +313,23 @@ kafka:
     bansubserventityvariabledata:
       name: gw.{env}.x.ccms.cdc.bansubserventityvariabledata.01
       consumerGroup: gw.{env}.ccms.datrep.bansubserventityvariabledata
+      spc:
+        consumerGroup: gw.{env}.ccms.datrep.spc.bansubserventityvariabledata.<VER>
       massive:
         name: gw.{env}.x.ccms.cdc.loadbansubserventityvariabledata.01
         consumerGroup: gw.{env}.ccms.datrep.loadbansubserventityvariabledata
-      spc:
-        consumerGroup: gw.<ENV>.ccms.datrep.bansubserventityvariabledataspc.<VER>
-      massive:
         spc:
-          consumerGroup: gw.<ENV>.ccms.datrep.loadbansubserventityvariabledataspc.<VER>
+          consumerGroup: gw.{env}.ccms.datrep.spc.loadbansubserventityvariabledata.<VER>
     servicepackagecontract:
       name: gw.{env}.x.ccms.cdc.servicepackagecontract.01
       consumerGroup: gw.{env}.ccms.datrep.servicepackagecontract
+      entity:
+        consumerGroup: gw.{env}.ccms.datrep.entity.servicepackagecontract.<VER>
       massive:
         name: gw.{env}.x.ccms.cdc.loadservicepackagecontract.01
         consumerGroup: gw.{env}.ccms.datrep.loadservicepackagecontract
-      entity:
-        consumerGroup: gw.<ENV>.ccms.datrep.servicepackagecontractentity.<VER>
-      massive:
         entity:
-          consumerGroup: gw.<ENV>.ccms.datrep.loadservicepackagecontractentity.<VER>
+          consumerGroup: gw.{env}.ccms.datrep.entity.loadservicepackagecontract.<VER>
     smstatuseffect:
       name: gw.{env}.x.ccms.cdc.smstatuseffect.01
       consumerGroup: gw.{env}.ccms.datrep.smstatuseffect
@@ -342,52 +340,51 @@ kafka:
         name: gw.{env}.x.ccms.cdc.loadismissentitystatus.01
         consumerGroup: gw.{env}.ccms.datrep.loadismissentitystatus
     citizen:
-      name: gw.<ENV>.x.ccms.cdc.citizen.<VER>
-      consumerGroup: gw.<ENV>.ccms.datrep.citizen
+      name: gw.{env}.x.ccms.cdc.citizen.<VER>
+      consumerGroup: gw.{env}.ccms.datrep.citizen
       massive:
-        name: gw.<ENV>.x.ccms.cdc.loadcitizen.<VER>
-        consumerGroup: gw.<ENV>.ccms.datrep.loadcitizen
+        name: gw.{env}.x.ccms.cdc.loadcitizen.<VER>
+        consumerGroup: gw.{env}.ccms.datrep.loadcitizen
     legalentity:
-      name: gw.<ENV>.x.ccms.cdc.legalentity.<VER>
-      consumerGroup: gw.<ENV>.ccms.datrep.legalentity
+      name: gw.{env}.x.ccms.cdc.legalentity.<VER>
+      consumerGroup: gw.{env}.ccms.datrep.legalentity
       massive:
-        name: gw.<ENV>.x.ccms.cdc.loadlegalentity.<VER>
-        consumerGroup: gw.<ENV>.ccms.datrep.loadlegalentity
+        name: gw.{env}.x.ccms.cdc.loadlegalentity.<VER>
+        consumerGroup: gw.{env}.ccms.datrep.loadlegalentity
     ssi:
-      name: gw.<ENV>.x.ccms.cdc.ssi.<VER>
-      consumerGroup: gw.<ENV>.ccms.datrep.ssi
+      name: gw.{env}.x.ccms.cdc.ssi.<VER>
+      consumerGroup: gw.{env}.ccms.datrep.ssi
       massive:
-        name: gw.<ENV>.x.ccms.cdc.loadssi.<VER>
-        consumerGroup: gw.<ENV>.ccms.datrep.loadssi
+        name: gw.{env}.x.ccms.cdc.loadssi.<VER>
+        consumerGroup: gw.{env}.ccms.datrep.loadssi
     isscontract:
-      name: gw.<ENV>.x.ccms.cdc.isscontract.<VER>
-      consumerGroup: gw.<ENV>.ccms.datrep.isscontract
+      name: gw.{env}.x.ccms.cdc.isscontract.<VER>
+      consumerGroup: gw.{env}.ccms.datrep.isscontract
       massive:
-        name: gw.<ENV>.x.ccms.cdc.loadisscontract.<VER>
-        consumerGroup: gw.<ENV>.ccms.datrep.loadisscontract
+        name: gw.{env}.x.ccms.cdc.loadisscontract.<VER>
+        consumerGroup: gw.{env}.ccms.datrep.loadisscontract
     customercommunication:
-      name: gw.<ENV>.x.ccms.cdc.custcommunication.<VER>
-      consumerGroup: gw.<ENV>.ccms.datrep.custcommunication
+      name: gw.{env}.x.ccms.cdc.custcommunication.<VER>
       spc:
-        consumerGroup: gw.<ENV>.ccms.datrep.customercommunicationspc
+        consumerGroup: gw.{env}.ccms.datrep.custcommunication
     servicepackagecardproduct:
-      name: gw.<ENV>.x.ccms.cdc.servicepackagecardproduct.<VER>
-      consumerGroup: gw.<ENV>.ccms.datrep.servicepackagecardproduct
+      name: gw.{env}.x.ccms.cdc.servicepackagecardproduct.<VER>
+      consumerGroup: gw.{env}.ccms.datrep.servicepackagecardproduct
     servicepackagecoveragetype:
-      name: gw.<ENV>.x.ccms.cdc.servicepackagecoveragetype.<VER>
-      consumerGroup: gw.<ENV>.ccms.datrep.servicepackagecoveragetype
+      name: gw.{env}.x.ccms.cdc.servicepackagecoveragetype.<VER>
+      consumerGroup: gw.{env}.ccms.datrep.servicepackagecoveragetype
     servicepackagetermcond:
-      name: gw.<ENV>.x.ccms.cdc.servicepackagetermcond.<VER>
-      consumerGroup: gw.<ENV>.ccms.datrep.servicepackagetermcond
+      name: gw.{env}.x.ccms.cdc.servicepackagetermcond.<VER>
+      consumerGroup: gw.{env}.ccms.datrep.servicepackagetermcond
     promosourcepromochannel:
-      name: gw.<ENV>.x.ccms.cdc.promosourcepromochannel.<VER>
-      consumerGroup: gw.<ENV>.ccms.datrep.promosourcepromochannel
+      name: gw.{env}.x.ccms.cdc.promosourcepromochannel.<VER>
+      consumerGroup: gw.{env}.ccms.datrep.promosourcepromochannel
     servicepackagepromochannel:
-      name: gw.<ENV>.x.ccms.cdc.servicepackagepromochannel.<VER>
-      consumerGroup: gw.<ENV>.ccms.datrep.servicepackagepromochannel
+      name: gw.{env}.x.ccms.cdc.servicepackagepromochannel.<VER>
+      consumerGroup: gw.{env}.ccms.datrep.servicepackagepromochannel
     promosourcecode:
-      name: gw.<ENV>.x.ccms.cdc.promosourcecode.<VER>
-      consumerGroup: gw.<ENV>.ccms.datrep.promosourcecode
+      name: gw.{env}.x.ccms.cdc.promosourcecode.<VER>
+      consumerGroup: gw.{env}.ccms.datrep.promosourcecode
 ```
 
 ### Scheduled tasks setup
