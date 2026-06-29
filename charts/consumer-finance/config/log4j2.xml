@@ -121,14 +121,14 @@
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.apache" level={{ .level.kafkaCore | upper | quote }} additivity="false">
+    <Logger name="org.apache" level={{ .level.kafka | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${tomcatAppender}"/>
       {{- end }}
       <AppenderRef ref="${consoleAppender}"/>
     </Logger>
 
-    <Logger name="org.apache.kafka" level={{ .level.kafkaCore | upper | quote }} additivity="false">
+    <Logger name="org.apache.kafka" level={{ .level.kafka | upper | quote }} additivity="false">
       {{- if .logToFile }}
       <AppenderRef ref="${applicationAppender}"/>
       {{- end }}

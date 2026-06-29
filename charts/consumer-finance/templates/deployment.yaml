@@ -147,22 +147,20 @@ spec:
                 {{ required "Please specify Kafka Schema Registry user in kafka.schemaRegistry.user" .Values.kafka.schemaRegistry.user }}:${kafka.schemaregistry.password}
             - name: SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL
               value: {{ required "Please specify Kafka Schema Registry URL in kafka.schemaRegistry.url" .Values.kafka.schemaRegistry.url | quote }}
-            - name: SPRING_KAFKA_STREAMS_AUTOSTARTUP
+            - name: SPRING_KAFKA_STREAMS_AUTO_STARTUP
               value: {{ .Values.kafka.streams.auto.startup | default "true" | quote }}
-            - name: SPRING_KAFKA_STREAMS_REPLICATIONFACTOR
+            - name: SPRING_KAFKA_STREAMS_REPLICATION_FACTOR
               value: {{ .Values.kafka.streams.replicationFactor | default 3 | quote }}
-            {{- if .Values.kafka.streams.auto.startup }}
-            - name: SPRING_KAFKA_STREAMS_APPLICATIONID
+            - name: SPRING_KAFKA_STREAMS_APPLICATION_ID
               value: {{ .Values.kafka.streams.application.id | default "consumer-finance" | quote }}
-            {{- end }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
               value: PKCS12
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
               value: loggers,health,prometheus
-            - name: MANAGEMENT_ENDPOINTS_LOGGERS_ENABLED
-              value: "true"
+            - name: MANAGEMENT_ENDPOINT_LOGGERS_ACCESS
+              value: "UNRESTRICTED"
             - name: MANAGEMENT_ENDPOINTS_WEB_BASEPATH
               value: /
             - name: MANAGEMENT_HEALTH_PROBES_ENABLED

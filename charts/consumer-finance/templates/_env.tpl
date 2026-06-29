@@ -12,21 +12,21 @@
   value: {{ .Values.grpc.personStructureData.timeout | default "10000" | quote }}
 
 - name: SPRING_GRPC_CLIENT_CHANNELS_GETLIMITBUCKETS_ADDRESS
-  value: {{ required "Please specify address for limit buckets gRPC server in spring.grpc.client.channels.getLimitBuckets.address" .Values.spring.grpc.client.channels.getLimitBuckets.address | quote }}
+  value: {{ .Values.spring.grpc.client.channels.getLimitBuckets.address | quote }}
 - name: SPRING_GRPC_CLIENT_CHANNELS_GETLIMITBUCKETS_NEGOTIATION_TYPE
   value: {{ .Values.spring.grpc.client.negotiation | default "TLS" | quote }}
 - name: GRPC_GETLIMITBUCKETS_TIMEOUT
   value: {{ .Values.grpc.getLimitBuckets.timeout | default "10000" | quote }}
 
 - name: SPRING_GRPC_CLIENT_CHANNELS_UPDATELIMITBUCKETS_ADDRESS
-  value: {{ required "Please specify address for limit buckets gRPC server in spring.grpc.client.channels.updateLimitBuckets.address" .Values.spring.grpc.client.channels.updateLimitBuckets.address | quote }}
+  value: {{ .Values.spring.grpc.client.channels.updateLimitBuckets.address | quote }}
 - name: SPRING_GRPC_CLIENT_CHANNELS_UPDATELIMITBUCKETS_NEGOTIATION_TYPE
   value: {{ .Values.spring.grpc.client.negotiation | default "TLS" | quote }}
 - name: GRPC_UPDATELIMITBUCKETS_TIMEOUT
   value: {{ .Values.grpc.updateLimitBuckets.timeout | default "10000" | quote }}
 
 - name: SPRING_GRPC_CLIENT_CHANNELS_GETPRICINGENGINE_ADDRESS
-  value: {{ required "Please specify address for pricing engine gRPC server in spring.grpc.client.channels.getPricingEngine.address" .Values.spring.grpc.client.channels.getPricingEngine.address | quote }}
+  value: {{ .Values.spring.grpc.client.channels.getPricingEngine.address | quote }}
 - name: SPRING_GRPC_CLIENT_CHANNELS_GETPRICINGENGINE_NEGOTIATION_TYPE
   value: {{ .Values.spring.grpc.client.negotiation | default "TLS" | quote }}
 - name: GRPC_GETPRICINGENGINE_TIMEOUT
