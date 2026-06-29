@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 2.53.0
+    tag: 3.1.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -186,6 +186,13 @@ kafka:
       name: hr.vestigo.hp.cusaccbalancelast.01
       consumerGroup: hr.vestigo.hp.cusaccbalancelast
       enabled: false
+    cusaccFee:
+      name: hr.vestigo.hp.cusaccfee.01
+      consumerGroup: hr.vestigo.hp.cusaccfee
+      enabled: false
+      retry:
+        maxAttempts: 3
+        delay: 1000
     balanceMigration:
       name: hr.vestigo.hp.balancemigration.01
     paymentfinmessage:
@@ -238,12 +245,24 @@ kafka:
       maxPollRecords: 500
       maxPollIntervalMs: 600000
       requestTimeoutMs: 350000
+rest:
+  api:
+    pricingEngine:
+      host: ''
+      endpoint: /api/v1/pricing-engine/fee-individual-terms/search
+      setEndpoint: /api/v1/pricing-engine/fee-individual-terms
 external:
   core:
     system:
       member:
         sign:
           default: RB
+      appModule:
+        default: ''
+      deliveryChannel:
+        default: ''
+      userId:
+        default: ''
 sirius:
   service:
     url: ''
@@ -277,7 +296,7 @@ sirius:
 grpc:
   server:
     enabled: false
-    port: 9091
+    port: 9090
     security:
       enabled: false
       secure: false
@@ -292,7 +311,7 @@ grpc:
       negotiationType: tls
       sslBundle: grpc
   personStructureData:
-    address: dns:///person-structure:9091
+    address: dns:///person-structure:9090
 keycloak:
   enabled: false
   realm: Holistic-Pay

@@ -109,6 +109,12 @@ spec:
               value: {{ .Values.ibmMq.maxIdleTimeout | quote }}
             - name: NARAYANA_MESSAGINGHUB_CONNECTIONCHECKINTERVAL
               value: "60000"
+            - name: REST_API_PRICINGENGINE_HOST
+              value: {{ .Values.rest.api.pricingEngine.host | quote }}
+            - name: REST_API_PRICINGENGINE_ENDPOINT
+              value: {{ .Values.rest.api.pricingEngine.endpoint | quote }}
+            - name: REST_API_PRICINGENGINE_SETENDPOINT
+              value: {{ .Values.rest.api.pricingEngine.setEndpoint | quote }}
             - name: SIRIUS_REST_INITIATE_TIMEOUT
               value: "{{ .Values.sirius.rest.initiate.timeout | int }}"
             - name: SPRING_DATASOURCE_XA_PROPERTIES_USER
@@ -177,6 +183,18 @@ spec:
               value: {{ .Values.kafka.topics.cusaccBalanceLast.consumerGroup | quote }}
             - name: KAFKA_TOPIC_BALANCEMIGRATION_NAME
               value: {{ .Values.kafka.topics.balanceMigration.name | quote }}
+            {{- end }}
+            - name: KAFKA_CONSUMER_CUSACCFEE_ENABLED
+              value: {{ .Values.kafka.topics.cusaccFee.enabled | default "false" | quote }}
+            {{- if .Values.kafka.topics.cusaccFee.enabled }}
+            - name: KAFKA_TOPIC_CUSACCFEE_NAME
+              value: {{ .Values.kafka.topics.cusaccFee.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_CUSACCFEE_NAME
+              value: {{ .Values.kafka.topics.cusaccFee.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_CUSACCFEE_RETRY_MAXATTEMPTS
+              value: {{ .Values.kafka.topics.cusaccFee.retry.maxAttempts | quote }}
+            - name: KAFKA_TOPIC_CUSACCFEE_RETRY_DELAY
+              value: {{ .Values.kafka.topics.cusaccFee.retry.delay | quote }}
             {{- end }}
             - name: KAFKA_TOPIC_PAYMENTORIGINALMESSAGE_NAME
               value: {{ .Values.kafka.topics.paymentOriginalMessage.name | quote }}
@@ -395,6 +413,12 @@ spec:
             {{- end }}
             - name: EXTERNAL_CORE_SYSTEM_MEMBER_SIGN_DEFAULT
               value: {{ .Values.external.core.system.member.sign.default | quote }}
+            - name: EXTERNAL_CORE_SYSTEM_APP_MODULE_DEFAULT
+              value: {{ .Values.external.core.system.appModule.default | quote }}
+            - name: EXTERNAL_CORE_SYSTEM_DELIVERY_CHANNEL_DEFAULT
+              value: {{ .Values.external.core.system.deliveryChannel.default | quote }}
+            - name: EXTERNAL_CORE_SYSTEM_USER_ID_DEFAULT
+              value: {{ .Values.external.core.system.userId.default | quote }}
             - name: SIRIUS_SPECIFIC_CACHE_EXPIREAFTERWRITE
               value: {{ .Values.sirius.specific.cache.refresh.rate | quote }}
             - name: SIRIUS_SERVICE_URL
@@ -457,7 +481,7 @@ spec:
             - name: SPRING_GRPC_SERVER_ENABLED
               value: "true"
             - name: SPRING_GRPC_SERVER_PORT
-              value: {{ .Values.grpc.server.port | default "9091" | quote }}
+              value: {{ .Values.grpc.server.port | default "9090" | quote }}
             - name: SPRING_GRPC_SERVER_SSL_ENABLED
               value: {{ .Values.grpc.server.security.enabled | default "false" | quote }}
               {{- if .Values.grpc.server.security.enabled }}
@@ -471,10 +495,12 @@ spec:
               value: {{ required "Please specify gRPC server certificate in grpc.server.security.certificate" .Values.grpc.server.security.certificate | quote }}
             - name: SPRING_SSL_BUNDLE_PEM_GRPC_KEYSTORE_PRIVATE_KEY
               value: {{ required "Please specify gRPC server key in grpc.server.security.key" .Values.grpc.server.security.key | quote }}
+            {{- if ne (.Values.grpc.server.security.clientAuth | default "none") "none" }}
             - name: SPRING_SSL_BUNDLE_PEM_GRPC_TRUSTSTORE_CERTIFICATE
               value: {{ required "Please specify gRPC truststore certificate in grpc.server.security.truststore.certificate" .Values.grpc.server.security.truststore.certificate | quote }}
             - name: SPRING_SSL_BUNDLE_PEM_GRPC_TRUSTSTORE_PRIVATE_KEY
               value: {{ required "Please specify gRPC truststore key in grpc.server.security.truststore.key" .Values.grpc.server.security.truststore.key | quote }}
+            {{- end }}
               {{- end }}
             {{- end }}
             - name: SPRING_GRPC_CLIENT_DEFAULT_CHANNEL_NEGOTIATION_TYPE
@@ -608,7 +634,7 @@ spec:
               containerPort: 8443
               protocol: TCP
             - name: grpc
-              containerPort: {{ .Values.grpc.server.port | default "9091" | int }}
+              containerPort: {{ .Values.grpc.server.port | default "9090" | int }}
               protocol: TCP
           livenessProbe:
             {{- toYaml .Values.deployment.livenessProbe | nindent 12 }}

@@ -774,7 +774,7 @@ grpc:
       key: #path to TLS server key file
 ```
 
-`grpc.server.enabled` should be set to true if you want gRPC server to start and external checks to be executed through it.
+`spring.grpc.server.enabled` should be set to true if you want gRPC server to start and external checks to be executed through it.
 `grpc.server.security.enabled` should be set to true if you want this connection to use TLS protocol.
 If security enabled, `grpc.server.security.certificate` and `grpc.server.security.key` should also be provided and represent
 TLS certificate and key files location.
