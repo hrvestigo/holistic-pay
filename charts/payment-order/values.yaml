@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 2.28.0
+    tag: 3.0.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -114,6 +114,7 @@ kafka:
       enabled: false
       concurrency: 1
   consumer:
+    authErrorRetryInterval: 10s
     properties:
       sessionTimeoutMs: 45000
       heartbeatIntervalMs: 3000
@@ -167,6 +168,8 @@ payment:
       enabled: false
   acceptanceDateTime:
     override: empty
+  structuredAddressOnly:
+    enabled: false
 oauth2:
   enabled: false
   resourceUri: ''

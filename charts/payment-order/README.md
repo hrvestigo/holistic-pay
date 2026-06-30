@@ -262,6 +262,18 @@ payment:
     override: empty
 ```
 
+### Payment Order structured addresses only
+
+By default, payment order can process payment with debtor and/or creditor
+having addresses in structured, unstructured and hybrid form.  
+WHen `structuredAddressOnly` is enabled, only structured and hybrid address form is accepted.
+
+```yaml
+payment:
+  structuredAddressOnly:
+    enable: false
+```
+
 ### Datasource connection setup
 
 All values required for PostgreSQL database connection are defined within `datasource` parent attribute.
@@ -423,12 +435,19 @@ kafka:
       enabled: false # default value, set to true if you want to enable internal response timeout for external checks logic
       concurrency: 1 # default value, used for vertical scaling
   consumer:
+    authErrorRetryInterval: 10s # time between retries after Kafka topic authentication exceptions on consumer
     properties: # see https://kafka.apache.org/documentation/#consumerconfigs for details
       sessionTimeoutMs: 45000
       heartbeatIntervalMs: 3000
       maxPollRecords: 500
       maxPollIntervalMs: 300000
 ```
+
+With `authErrorRetryInterval` interval is defined to retry consumer poll when
+Kafka authorization / authentication error occurs. Authentication and authorization errors
+are considered fatal, which causes the container to stop. With this configuration
+we allow the consumer to recover once the proper permissions are granted.
+The `authErrorRetryInterval` must be less than `maxPollIntervalMs`.
 
 ### Configuring image source and pull secrets
 
