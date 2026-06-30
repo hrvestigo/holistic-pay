@@ -302,3 +302,8 @@ inbox:
 alert:
   communication:
     type: skip
+
+payment:
+  structuredAddressOnly:
+    enabled: false
+

@@ -224,6 +224,8 @@ spec:
               value: {{ .Values.ecs.interface.ws9016.settlementDateMode | quote }}
             - name: ALERT_COMMUNICATION_TYPE
               value: {{ .Values.alert.communication.type | quote }}
+            - name: PAYMENT_STRUCTUREDADDRESSONLY_ENABLED
+              value: {{ .Values.payment.structuredAddressOnly.enabled | quote }}
             - name: SERVER_SSL_KEYSTORE
               value: /tmp/tls.p12
             - name: SERVER_SSL_KEYSTORETYPE
