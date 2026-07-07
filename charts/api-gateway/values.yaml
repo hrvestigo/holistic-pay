@@ -29,6 +29,8 @@ logger:
   logToFile: false # boolean value, default is false
   logDir: "/var/log/app"
   format: "STRING" # defines log format for stdout logger. Valid values are ECS, LOGSTASH, GELF, GCP, STRING
+  enhancedAccessLog:
+    enabled: false
   logDirMount:
     enabled: false # boolean value, default is false
     spec:
@@ -328,3 +330,10 @@ dnsConfig:
 
 http:
   headerRequestSizeInBytes: ''
+
+tls:
+  # Opt-in TLS provider for the outbound HttpClient. Allowed: 'jdk' or 'openssl'.
+  # 'openssl' requires netty-tcnative-boringssl-static on classpath (already shipped).
+  provider: "jdk"
+
+

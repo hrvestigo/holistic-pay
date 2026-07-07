@@ -1,8 +1,20 @@
-{{- if .Values.oauth2.enabled -}}
+{{- if or .Values.oauth2.enabled .Values.tls.provider }}
 api:
   gateway:
+    {{- if .Values.oauth2.enabled }}
     authentication: oauth2
+    {{- end }}
+    {{- if (.Values.tls).provider }}
+    tls:
+      provider: {{ .Values.tls.provider }}
+    {{- end }}
 {{ "" }}
+{{- end }}
+
+{{- if .Values.logger.enhancedAccessLog.enabled }}
+logger:
+  enhanced-access-log:
+    enabled: {{ .Values.logger.enhancedAccessLog.enabled | quote }}
 {{- end }}
 
 spring:
@@ -21,15 +33,15 @@ spring:
         webflux:
           x-forwarded:
             proto-append: false
-          {{- if and (.Values.proxy).host (.Values.proxy).port }}
           httpclient:
+            {{- if and (.Values.proxy).host (.Values.proxy).port }}
             proxy:
               host: {{ .Values.proxy.host }}
               port: {{ .Values.proxy.port }}
               {{- if .Values.proxy.nonProxyHosts }}
               non-proxy-hosts-pattern: {{ .Values.proxy.nonProxyHosts }}
               {{- end }}
-          {{- end }}
+            {{- end }}
           routes:
             {{- if not .Values.routes.allowSensitiveDataEndpoints }}
             - id: pci-dss-blocked_route
