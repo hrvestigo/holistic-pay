@@ -1535,6 +1535,13 @@ application:
       ##    saa - validates Swift MX message using SAA XSD scheme
       ##    env - validates Swift MX message using ENV XSD scheme
       xsdModeOut: mix
+      ## Controls if incoming JSON string values are stripped during deserialization.
+      ##
+      ## When enabled, leading and trailing whitespace is removed.
+      ## Whitespace inside the value is preserved.
+      ## Values containing only whitespace become empty strings.
+      ## If disabled, stripping is no-op and values are left as-is.
+      jsonRequestTextStrip: false
     format:
       ## Formatting timestamp values in send Swift MX messages
       ##

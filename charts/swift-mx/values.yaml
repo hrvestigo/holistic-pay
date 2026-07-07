@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 2.6.0
+    tag: 2.8.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -367,6 +367,7 @@ application:
     validation:
       xsdModeIn: mix
       xsdModeOut: mix
+      jsonRequestTextStrip: false
     format:
       timestampOut: yyyy-MM-dd'T'HH:mm:ss.SSSxxx
       xmlModeOut: saa
