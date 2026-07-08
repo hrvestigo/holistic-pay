@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.7.0
+    tag: 2.0.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -60,6 +60,9 @@ kafka:
   autoOffsetReset: earliest
   maxPollInterval: 300000
   trxTimeout: 60000
+  authException:
+    failProbeEnabled: false
+    retryInterval: ''
   sslEndpointIdentAlg: HTTPS
   schemaRegistry:
     credSource: USER_INFO
@@ -77,8 +80,8 @@ kafka:
       name: ''
       consumerGroup: ''
       retry:
-        maxAttempts:
-        delay: # milliseconds
+        maxAttempts: null
+        delay: null
 oauth2:
   enabled: false
   resourceUri: ''
@@ -292,5 +295,3 @@ mountCaFromSecret:
 customVolumes: []
 customMounts: []
 customEnv: []
-
-

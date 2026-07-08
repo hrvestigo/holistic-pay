@@ -273,6 +273,14 @@ spec:
               value: /mnt/k8s/secrets/password.conf
             - name: KAFKA_HEALTH_ENABLED
               value: "true"
+            - name: KAFKA_HEALTH_FAILPROBEONAUTHFAILURE
+              value: {{ .Values.kafka.authException.failProbeEnabled | default "false" | quote }}
+            {{- if .Values.kafka.authException.retryInterval }}
+            - name: SPRING_KAFKA_LISTENER_AUTHEXCEPTIONRETRYINTERVAL
+              value: {{ .Values.kafka.authException.retryInterval | quote }}
+            {{- end }}
+            - name: SPRING_JTA_ENABLED
+              value: "false"
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
             {{- if (include "product-engine-interface.trustStoreEnv" .) -}}
