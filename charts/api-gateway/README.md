@@ -590,6 +590,7 @@ Default deployment strategy for API Gateway application is `RollingUpdate`, but 
 ```yaml
 deployment:
   annotations: {}
+  labels: {}
   replicaCount: 1
   strategy:
     type: RollingUpdate
@@ -770,6 +771,7 @@ ingress:
   annotations: {}
   hosts: []
   tls: []
+  labels: {}
 ```
 
 For example, a working setup could be defined like this:
@@ -857,7 +859,7 @@ tolerations:
     tolerationSeconds: 3600
 ```
 
-### Adding custom annotations
+### Adding custom annotations and labels
 
 Custom annotations can be added to pod by listing them under `podAnnotations` attribute structure, for example:
 
@@ -874,6 +876,58 @@ deployment:
   annotations:
     custom.annotation: custom-value
     other.annotation: other-value
+```
+
+Custom labels can be added to pod by listing them under `podLabels` attribute, for example:
+
+```yaml
+podLabels:
+  custom.labels: custom-value
+  other.labels: other-value
+```
+
+### DNS configuration
+
+By default, api-gateway application comes with Netty implementation of DNS resolver. This implementation can, in some 
+cases, be problematic. For this reason, api-gateway is configured to use JDK implementation of DNS resolver, which is 
+defined with following structure:
+
+```yaml
+dnsResolver:
+  name: java # allowed values are [netty, java]
+```
+
+Along with DNS resolver implementation, it is also possible to override DNS configuration for Kubernetes. In order to do
+so, the following structure can be defined:
+
+```yaml
+dnsConfig:
+  options:
+    - name: ndots
+      value: "1"
+```
+
+The latter configuration is active by default, but anything from standard Kubernetes `dnsConfig` structure can be 
+defined:
+
+```yaml
+nameservers:
+  - 192.0.2.1 # this is an example
+searches:
+  - ns1.svc.cluster-domain.example
+  - my.dns.search.suffix
+options:
+  - name: ndots
+    value: "2"
+  - name: edns0
+```
+
+### HTTP Request Header customization
+By default, api-gateway allows request headers with size up to 8KB.
+This can be overridden by providing values in the following structure:
+```yaml
+httpHeaders:
+  maxRequestHeaderSizeInBytes: 16384 # allowed values are positive integers, default is empty which will force 8KB
 ```
 
 ### Additional custom configuration
