@@ -138,6 +138,8 @@ secret:
   trustStorePassword: ''
   keyStorePassword: ''
   searchenginePassword: ''
+  existingSecret: ''
+  encryptionAlgorithm: AES_CBC
 logger:
   level:
     health: DEBUG
@@ -156,7 +158,7 @@ healthStatusDownReturnCode: '418'
 javaOpts: -Xms256M -Xmx256M
 springActiveProfile: prod
 podAnnotations: {}
-deploymentAnnotations: {}
+podLabels: {}
 serviceAnnotations: {}
 podSecurityContext:
   runAsNonRoot: true
@@ -179,6 +181,7 @@ ingress:
   annotations: {}
   hosts: []
   tls: []
+  labels: {}
 resources:
   limits:
     cpu: 500m

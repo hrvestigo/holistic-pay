@@ -32,6 +32,8 @@ secret:
   kafkaSchemaRegistryPassword: "AES-encoded-kafka-schema-registry-password" # string value
   liquibasePassword: "AES-encoded-liquibase-password" # string value
   searchenginePassword: "AES-encoded-searchengine-password" # string value
+  existingSecret: '' # modify, required if encryptionAlgorithm is NONE;
+  encryptionAlgorithm: AES_CBC # required field, password.conf is not consulted in NONE case
 
 datasource:
   host: "datasource-host" # string value
@@ -898,6 +900,7 @@ Default deployment strategy for Person registry application is `RollingUpdate`, 
 ```yaml
 deployment:
   annotations: {}
+  labels: {}
   replicaCount: 1
   strategy:
     type: RollingUpdate
@@ -1115,6 +1118,7 @@ ingress:
   annotations: {}
   hosts: []
   tls: []
+  labels: {}
 ```
 
 For example, a working setup could be defined like this:
@@ -1202,7 +1206,7 @@ tolerations:
     tolerationSeconds: 3600
 ```
 
-### Adding custom annotations
+### Adding custom annotations and labels
 
 Custom annotations can be added to pod by listing them under `podAnnotations` attribute structure, for example:
 
@@ -1219,6 +1223,14 @@ deployment:
   annotations:
     custom.annotation: custom-value
     other.annotation: other-value
+```
+
+Custom labels can be added to pod by listing them under `podLabels` attribute, for example:
+
+```yaml
+podLabels:
+  custom.labels: custom-value
+  other.labels: other-value
 ```
 
 ### Additional custom configuration
