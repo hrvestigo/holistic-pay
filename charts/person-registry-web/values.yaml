@@ -32,7 +32,7 @@ timezone: ""
 
 podAnnotations: {}
 
-deploymentAnnotations: {}
+podLabels: {}
 
 serviceAnnotations: {}
 
@@ -60,6 +60,7 @@ ingress:
   annotations: {}
   hosts: []
   tls: []
+  labels: {}
 
 resources:
   limits:
