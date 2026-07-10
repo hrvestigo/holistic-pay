@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.229.0
+    tag: 2.0.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -84,6 +84,9 @@ kafka:
   maxPollInterval: 300000
   trxTimeout: 60000
   sslEndpointIdentAlg: HTTPS
+  authException:
+    failProbeEnabled: false
+    retryInterval: ''
   schemaRegistry:
     credSource: USER_INFO
     user: ''
