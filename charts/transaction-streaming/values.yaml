@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 4.13.0
+    tag: 4.14.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -95,6 +95,12 @@ kafka:
         paymCover: 1
         paymentOrderAddress: 1
         paymentUnstructuredAddress: 1
+        cfmInterface: 1
+        cfmTurnover: 1
+        cfmDueInstalment: 1
+        cfmAnalyticDetails: 1
+        cfmLoanAnalytics: 1
+        cfmOriginalEvent: 1
         customerAccountStatement: 2
         futuristicForeignPayment: 30
     join:
@@ -148,6 +154,18 @@ kafka:
       name: hr.vestigo.hp.paymentorderaddress
     paymentUnstructuredAddress:
       name: hr.vestigo.hp.paymentunstructuredaddress
+    cfmInterface:
+      name: hr.vestigo.hp.cfminterface
+    cfmTurnover:
+      name: hr.vestigo.hp.cfmturnover
+    cfmDueInstalment:
+      name: hr.vestigo.hp.cfmdueinstalment
+    cfmAnalyticDetails:
+      name: hr.vestigo.hp.cfmanalyticdetails
+    cfmLoanAnalytics:
+      name: hr.vestigo.hp.cfmloananalytics
+    cfmOriginalEvent:
+      name: hr.vestigo.hp.cfmoriginalevent
     currency:
       name: hr.vestigo.hp.currency
       consumerGroup: hr.vestigo.hp.currency
@@ -189,6 +207,18 @@ kafka:
         name: hr.vestigo.hp.paymentorderaddress
       paymentUnstructuredAddress:
         name: hr.vestigo.hp.paymentunstructuredaddress
+      cfmInterface:
+        name: hr.vestigo.hp.cfminterface
+      cfmTurnover:
+        name: hr.vestigo.hp.cfmturnover
+      cfmDueInstalment:
+        name: hr.vestigo.hp.cfmdueinstalment
+      cfmAnalyticDetails:
+        name: hr.vestigo.hp.cfmanalyticdetails
+      cfmLoanAnalytics:
+        name: hr.vestigo.hp.cfmloananalytics
+      cfmOriginalEvent:
+        name: hr.vestigo.hp.cfmoriginalevent
     banproamotype:
       name: hr.vestigo.hp.banproamotype
       consumerGroup: hr.vestigo.hp.banproamotype

@@ -197,6 +197,18 @@ spec:
               value: {{ .Values.kafka.streams.delete.maximumAge.paymentOrderAddress | default "1" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_PAYMENTUNSTRUCTUREDADDRESS
               value: {{ .Values.kafka.streams.delete.maximumAge.paymentUnstructuredAddress | default "1" | quote }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_CFMINTERFACE
+              value: {{ .Values.kafka.streams.delete.maximumAge.cfmInterface | default "1" | quote }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_CFMTURNOVER
+              value: {{ .Values.kafka.streams.delete.maximumAge.cfmTurnover | default "1" | quote }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_CFMDUEINSTALMENT
+              value: {{ .Values.kafka.streams.delete.maximumAge.cfmDueInstalment | default "1" | quote }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_CFMANALYTICDETAILS
+              value: {{ .Values.kafka.streams.delete.maximumAge.cfmAnalyticDetails | default "1" | quote }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_CFMLOANANALYTICS
+              value: {{ .Values.kafka.streams.delete.maximumAge.cfmLoanAnalytics | default "1" | quote }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_CFMORIGINALEVENT
+              value: {{ .Values.kafka.streams.delete.maximumAge.cfmOriginalEvent | default "1" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_CUSTOMERACCOUNTSTATEMENT
               value: {{ .Values.kafka.streams.delete.maximumAge.customerAccountStatement | default "2" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_FUTURISTICFOREIGNPAYMENT
@@ -227,6 +239,18 @@ spec:
               value: {{ .Values.kafka.topics.tombstone.paymentOrderAddress.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTUNSTRUCTUREDADDRESS_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.tombstone.paymentUnstructuredAddress.name | quote }}
+            - name: KAFKA_TOPIC_CFMINTERFACE_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.tombstone.cfmInterface.name | quote }}
+            - name: KAFKA_TOPIC_CFMTURNOVER_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.tombstone.cfmTurnover.name | quote }}
+            - name: KAFKA_TOPIC_CFMDUEINSTALMENT_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.tombstone.cfmDueInstalment.name | quote }}
+            - name: KAFKA_TOPIC_CFMANALYTICDETAILS_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.tombstone.cfmAnalyticDetails.name | quote }}
+            - name: KAFKA_TOPIC_CFMLOANANALYTICS_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.tombstone.cfmLoanAnalytics.name | quote }}
+            - name: KAFKA_TOPIC_CFMORIGINALEVENT_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.tombstone.cfmOriginalEvent.name | quote }}
             {{- else }}
             - name: KAFKA_TOPIC_TURNOVER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.turnover.name | quote }}
@@ -254,6 +278,18 @@ spec:
               value: {{ .Values.kafka.topics.paymentOrderAddress.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTUNSTRUCTUREDADDRESS_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.paymentUnstructuredAddress.name | quote }}
+            - name: KAFKA_TOPIC_CFMINTERFACE_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.cfmInterface.name | quote }}
+            - name: KAFKA_TOPIC_CFMTURNOVER_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.cfmTurnover.name | quote }}
+            - name: KAFKA_TOPIC_CFMDUEINSTALMENT_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.cfmDueInstalment.name | quote }}
+            - name: KAFKA_TOPIC_CFMANALYTICDETAILS_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.cfmAnalyticDetails.name | quote }}
+            - name: KAFKA_TOPIC_CFMLOANANALYTICS_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.cfmLoanAnalytics.name | quote }}
+            - name: KAFKA_TOPIC_CFMORIGINALEVENT_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.cfmOriginalEvent.name | quote }}
             {{- end }}
             - name: SPRING_KAFKA_STREAMS_JOIN_WINDOW
               value: {{ .Values.kafka.streams.join.window | default "60" | quote }}
@@ -335,6 +371,18 @@ spec:
               value: {{ .Values.kafka.topics.paymentOrderAddress.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTUNSTRUCTUREDADDRESS_NAME
               value: {{ .Values.kafka.topics.paymentUnstructuredAddress.name | quote }}
+            - name: KAFKA_TOPIC_CFMINTERFACE_NAME
+              value: {{ .Values.kafka.topics.cfmInterface.name | quote }}
+            - name: KAFKA_TOPIC_CFMTURNOVER_NAME
+              value: {{ .Values.kafka.topics.cfmTurnover.name | quote }}
+            - name: KAFKA_TOPIC_CFMDUEINSTALMENT_NAME
+              value: {{ .Values.kafka.topics.cfmDueInstalment.name | quote }}
+            - name: KAFKA_TOPIC_CFMANALYTICDETAILS_NAME
+              value: {{ .Values.kafka.topics.cfmAnalyticDetails.name | quote }}
+            - name: KAFKA_TOPIC_CFMLOANANALYTICS_NAME
+              value: {{ .Values.kafka.topics.cfmLoanAnalytics.name | quote }}
+            - name: KAFKA_TOPIC_CFMORIGINALEVENT_NAME
+              value: {{ .Values.kafka.topics.cfmOriginalEvent.name | quote }}
             - name: KAFKA_TOPIC_CURRENCY_NAME
               value: {{ .Values.kafka.topics.currency.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CURRENCY_NAME
