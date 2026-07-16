@@ -169,6 +169,10 @@ spec:
               value: {{ .Values.scheduledTask.paramReplication.enabled | quote }}
             - name: SCHEDULED_TASK_PARAM_REPLICATION_CRON
               value: {{ .Values.scheduledTask.paramReplication.cron | quote }}
+            - name: SCHEDULED_TASK_PARAM_REPLICATION_PROC_CODE_CRON
+              value: {{ .Values.scheduledTask.paramReplication.procCodeCron | quote }}
+            - name: SCHEDULED_TASK_PARAM_REPLICATION_CURRENCY_CRON
+              value: {{ .Values.scheduledTask.paramReplication.currencyCron | quote }}
             - name: KAFKA_TOPIC_CUSTOMER_NAME
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.customer.name" .Values.kafka.topics.customer.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CUSTOMER_NAME
@@ -269,6 +273,30 @@ spec:
               value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.servicepackagetermcond.name" .Values.kafka.topics.servicepackagetermcond.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_SERVICEPACKAGETERMCOND_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.servicepackagetermcond.name" .Values.kafka.topics.servicepackagetermcond.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_ISSSTMTITEM_NAME
+              value: {{ required "Please specify Kafka topic name for person structure checks functionality in kafka.topics.issstmtitem.name" .Values.kafka.topics.issstmtitem.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_ISSSTMTITEM_NAME
+              value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.issstmtitem.name" .Values.kafka.topics.issstmtitem.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_ISSSTMTITEM_BATCHING_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.issstmtitem.maxPollRecords | quote }}
+            - name: KAFKA_TOPIC_ISSSTMTITEM_BATCHING_DLT_NAME
+              value: {{ .Values.kafka.topics.issstmtitem.batching.dlt.name | quote }}
+            - name: KAFKA_TOPIC_ISSSTMTITEMDETAIL_NAME
+              value: {{ required "Please specify Kafka topic name for issstmtitemdetail in kafka.topics.issstmtitemdetail.name" .Values.kafka.topics.issstmtitemdetail.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_ISSSTMTITEMDETAIL_NAME
+              value: {{ required "Please specify Kafka consumer group for issstmtitemdetail in kafka.topics.issstmtitemdetail.consumerGroup" .Values.kafka.topics.issstmtitemdetail.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_ISSSTMTITEMDETAIL_BATCHING_DLT_NAME
+              value: {{ .Values.kafka.topics.issstmtitemdetail.batching.dlt.name | quote }}
+            - name: KAFKA_CONSUMER_ISSSTMTITEMDETAIL_BATCHING_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.issstmtitemdetail.maxPollRecords | quote }}
+            - name: KAFKA_TOPIC_ADDDATATRXEXTERNAL_NAME
+              value: {{ required "Please specify Kafka topic name for adddatatrxexternal in kafka.topics.adddatatrxexternal.name" .Values.kafka.topics.adddatatrxexternal.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_ADDDATATRXEXTERNAL_NAME
+              value: {{ required "Please specify Kafka consumer group for adddatatrxexternal in kafka.topics.adddatatrxexternal.consumerGroup" .Values.kafka.topics.adddatatrxexternal.consumerGroup | quote }}
+            - name: KAFKA_TOPIC_ADDDATATRXEXTERNAL_BATCHING_DLT_NAME
+              value: {{ .Values.kafka.topics.adddatatrxexternal.batching.dlt.name | quote }}
+            - name: KAFKA_CONSUMER_ADDDATATRXEXTERNAL_BATCHING_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.adddatatrxexternal.maxPollRecords | quote }}
             - name: KAFKA_CONSUMER_GROUP_BANSUBSERVENTITYVARIABLEDATA_SPC_NAME
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.bansubserventityvariabledata.spc.name" .Values.kafka.topics.bansubserventityvariabledata.spc.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_GROUP_SERVICEPACKAGECONTRACTENTITY_NAME
@@ -373,6 +401,12 @@ spec:
               value: {{ required "Please specify Kafka consumer group for person structure checks functionality in kafka.consumer.group.isscontract.massive.name" .Values.kafka.topics.isscontract.massive.consumerGroup | quote }}
             - name: KAFKA_CONSUMER_ISSCONTRACT_MASSIVE_MAX_POLL_RECORDS
               value: {{ .Values.kafka.topics.isscontract.massive.maxPollRecords | quote }}
+            - name: KAFKA_TOPIC_ISSSTMTITEM_MASSIVE_NAME
+              value: {{ required "Please specify Kafka massive topic name for issstmtitem in kafka.topics.issstmtitem.massive.name" .Values.kafka.topics.issstmtitem.massive.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_ISSSTMTITEM_MASSIVE_NAME
+              value: {{ required "Please specify Kafka massive consumer group for issstmtitem in kafka.topics.issstmtitem.massive.consumerGroup" .Values.kafka.topics.issstmtitem.massive.consumerGroup | quote }}
+            - name: KAFKA_CONSUMER_ISSSTMTITEM_MASSIVE_MAX_POLL_RECORDS
+              value: {{ .Values.kafka.topics.issstmtitem.massive.maxPollRecords | quote }}
             - name: SPRING_KAFKA_CONSUMER_MAX_POLL_INTERVAL_MS
               value: {{ .Values.kafka.consumer.max.pool.interval | quote }}
             - name: SPRING_KAFKA_CONSUMER_MAX_POLL_RECORDS

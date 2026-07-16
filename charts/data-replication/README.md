@@ -119,6 +119,20 @@ secret:
   liquibasePassword: "{AES}S0m3H4sh" # AES encrypted password for Liquibase user defined in liquibase.user attribute
 ```
 
+The AES encryption algorithm used for all passwords can be configured (default is `AES_CBC`):
+
+```yaml
+secret:
+  encryptionAlgorithm: AES_CBC # default value; alternative is AES_GCM
+```
+
+Instead of specifying individual secret values, an existing Kubernetes secret can be referenced. When `existingSecret` is set, all password values are read from that secret instead of being defined inline:
+
+```yaml
+secret:
+  existingSecret: "name-of-existing-secret" # when set, passwords are read from this pre-existing Kubernetes secret
+```
+
 Additional datasource connection properties can be set by overriding following default attributes:
 
 ```yaml
@@ -241,6 +255,23 @@ The ssl endpoint identification is set to default ([More info](https://docs.conf
 ```yaml
 kafka:
   sslEndpointIdentAlg: HTTPS # default value is HTTPS, set other ssl endpoint identification algorithm if required
+```
+
+Kafka Schema Registry credential source can be configured (default is `USER_INFO`):
+
+```yaml
+kafka:
+  schemaRegistry:
+    credSource: USER_INFO # default value, defines the credentials source for Schema Registry authentication
+```
+
+In case of Kafka authentication exceptions, probe failure behaviour and retry interval can be configured:
+
+```yaml
+kafka:
+  authException:
+    failProbeEnabled: false # default value; when true, health probe will fail if a Kafka auth exception occurs
+    retryInterval: '' # interval (e.g. "10000") in ms between Kafka authentication retries after an exception
 ```
 
 #### Topics and consumer groups setup
@@ -385,7 +416,34 @@ kafka:
     promosourcecode:
       name: gw.{env}.x.ccms.cdc.promosourcecode.<VER>
       consumerGroup: gw.{env}.ccms.datrep.promosourcecode
+    issstmtitem:
+      name: gw.{env}.x.ccms.cdc.issstmtitem.<VER>
+      consumerGroup: gw.{env}.ccms.datrep.issstmtitem
+      maxPollRecords: 1000
+      batching:
+        dlt:
+          name: gw.{env}.x.ccms.cdc.issstmtitem.dlt.<VER>
+      massive:
+        name: gw.{env}.x.ccms.cdc.loadissstmtitem.<VER>
+        consumerGroup: gw.{env}.ccms.datrep.loadissstmtitem
+        maxPollRecords: 1000
+    issstmtitemdetail:
+      name: gw.{env}.x.ccms.cdc.issstmtitemdetail.<VER>
+      consumerGroup: gw.{env}.ccms.datrep.issstmtitemdetail
+      maxPollRecords: 1000
+      batching:
+        dlt:
+          name: gw.{env}.x.ccms.cdc.issstmtitemdetail.dlt.<VER>
+    adddatatrxexternal:
+      name: gw.{env}.x.ccms.cdc.adddatatrxexternal.<VER>
+      consumerGroup: gw.{env}.ccms.datrep.adddatatrxexternal
+      maxPollRecords: 1000
+      batching:
+        dlt:
+          name: gw.{env}.x.ccms.cdc.adddatatrxexternal.dlt.<VER>
 ```
+
+The `issstmtitem`, `issstmtitemdetail` and `adddatatrxexternal` topics support a `batching.dlt.name` attribute which specifies the Dead Letter Topic name used when batch processing fails. The `maxPollRecords` attribute controls the maximum number of records fetched per Kafka poll for that topic's listener.
 
 ### Scheduled tasks setup
 
@@ -393,10 +451,21 @@ data-replication-ms application has scheduled task for replication of parameteri
 This scheduled task is disabled by default, but can be enabled with following setup:
 
 ```yaml
+scheduledTask:
   paramReplication:
     enabled: true # default value is false, set to true to enable scheduled task for data replication
-    cron: "0 * * * * *" # cron expression for scheduling data replication task, default is "0 * * * * *" (spring cron expression with seconds field, which means task is ran each second 0 of each minute)
+    cron: "0 0 * * * *" # cron expression for applicability-rule parameterisation replication task
+    procCodeCron: "0 0 * * * *" # cron expression for processing-code group replication task
+    currencyCron: "0 0 * * * *" # cron expression for currency replication task
 ```
+
+Attribute `scheduledTask.paramReplication.cron` controls the schedule for the general parameterization replication run.
+
+Attribute `scheduledTask.paramReplication.procCodeCron` controls the schedule specifically for the processing code group replication task.
+
+Attribute `scheduledTask.paramReplication.currencyCron` controls the schedule specifically for the currency replication task.
+
+All three cron expressions follow Spring cron format (6 fields, leftmost field is seconds).
 
 ### Configuring image source and pull secrets
 
@@ -737,6 +806,15 @@ Each attribute within `members.datasource` and `members.liquibase` can be define
 For instance, if value of `member.datasource.dbName` attribute is modified, this value will be used instead of `datasource.dbName` for this member's datasource definition.
 Same logic is applied for all attributes.
 Use key from secret to encrypt datasource and liquibase password and define them in `secret.datasourcePasswordSource` for source CCMS datasource, `secret.datasourcePasswordTarget` for target HP datasource and `secret.liquibasePassword` attributes.
+
+For cases where the source and target datasource member lists differ from the general `members` list, two additional attributes can be used:
+
+```yaml
+membersSource: [] # list of members for source datasource overrides (same structure as members)
+membersTarget: [] # list of members for target datasource overrides (same structure as members)
+```
+
+These optional lists allow separate member-level datasource configuration for source and target connections independently.
 
 Person structure provides option to setup database in several different flavors:
 
@@ -1141,15 +1219,15 @@ Please note that this feature requires VPA controller to be installed on Kuberne
 
 ### Customizing probes
 
-data-replication-ms application has predefined health check probes (readiness and liveness).
+data-replication-ms application has predefined health check probes (readiness, liveness and startup).
 Following are the default values:
 
 ```yaml
 deployment:
   readinessProbe:
-    initialDelaySeconds: 10
+    initialDelaySeconds: 0
     periodSeconds: 60
-    timeoutSeconds: 181
+    timeoutSeconds: 10
     successThreshold: 1
     failureThreshold: 2
     httpGet:
@@ -1157,7 +1235,7 @@ deployment:
       port: http
       scheme: HTTPS
   livenessProbe:
-    initialDelaySeconds: 60
+    initialDelaySeconds: 0
     periodSeconds: 60
     timeoutSeconds: 10
     failureThreshold: 3
@@ -1165,7 +1243,18 @@ deployment:
       path: /health/liveness
       port: http
       scheme: HTTPS
+  startupProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 5
+    timeoutSeconds: 1
+    failureThreshold: 60
+    httpGet:
+      path: /health/liveness
+      port: http
+      scheme: HTTPS
 ```
+
+The startup probe gives the application up to `failureThreshold × periodSeconds` seconds (300 s by default) to complete startup before liveness checks begin. This prevents premature container restarts during slow first-starts.
 
 Probes can be modified with different custom attributes simply by setting a different `deployment.readinessProbe` or `deployment.livenessProbe` value structure.
 

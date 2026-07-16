@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 2.4.0
+    tag: 2.6.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -238,6 +238,31 @@ kafka:
     servicepackagetermcond:
       name: hr.vestigo.hp.servicepackagetermcond
       consumerGroup: hr.vestigo.hp.servicepackagetermcond
+    issstmtitem:
+      name: hr.vestigo.hp.issstmtitem
+      consumerGroup: hr.vestigo.hp.issstmtitem
+      maxPollRecords: 1000
+      batching:
+        dlt:
+          name: ''
+      massive:
+        name: hr.vestigo.hp.massive.issstmtitem
+        consumerGroup: hr.vestigo.hp.massive.issstmtitem
+        maxPollRecords: 1000
+    issstmtitemdetail:
+      name: hr.vestigo.hp.issstmtitemdetail
+      consumerGroup: hr.vestigo.hp.issstmtitemdetail
+      maxPollRecords: 1000
+      batching:
+        dlt:
+          name: ''
+    adddatatrxexternal:
+      name: hr.vestigo.hp.adddatatrxexternal
+      consumerGroup: hr.vestigo.hp.adddatatrxexternal
+      maxPollRecords: 1000
+      batching:
+        dlt:
+          name: ''
 detect:
   changes:
     skip: false
@@ -245,6 +270,8 @@ scheduledTask:
   paramReplication:
     enabled: false
     cron: 0 0 * * * *
+    procCodeCron: 0 0 * * * *
+    currencyCron: 0 0 * * * *
 oauth2:
   enabled: false
   resourceUri: ''
