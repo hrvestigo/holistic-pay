@@ -244,14 +244,16 @@ Tracing configuration
 */}}
 {{- define "api-gateway.tracing" -}}
 {{- if .Values.tracing.enabled -}}
-- name: MANAGEMENT_TRACING_ENABLED
+- name: MANAGEMENT_TRACING_EXPORT_ENABLED
   value: "true"
+- name: MANAGEMENT_OTLP_METRICS_EXPORT_ENABLED
+  value: "false"
 - name: MANAGEMENT_TRACING_SAMPLING_PROBABILITY
   value: {{ .Values.tracing.samplingProbability | quote }}
-- name: MANAGEMENT_OTLP_TRACING_ENDPOINT
+- name: MANAGEMENT_OPENTELEMETRY_TRACING_EXPORT_OTLP_ENDPOINT
   value: {{ required "Please specify tracing endpoint in tracing.endpoint" .Values.tracing.endpoint  }}
 {{- else }}
-- name: MANAGEMENT_TRACING_ENABLED
+- name: MANAGEMENT_TRACING_EXPORT_ENABLED
   value: "false"
 - name: MANAGEMENT_OTLP_METRICS_EXPORT_ENABLED
   value: "false"
