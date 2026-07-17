@@ -230,6 +230,8 @@ spec:
               value: {{ .Values.kafka.topics.paymentOrderEventFlowInbox.name | quote }}
             - name: KAFKA_TOPIC_PERSONSTRUCTUREINITIAL_NAME
               value: {{ .Values.kafka.topics.personStructureInitial.name | quote }}
+            - name: KAFKA_TOPIC_EXTSYSRESPONSE_NAME
+              value: {{ .Values.kafka.topics.extSysResponse.name | quote }}
             - name: KAFKA_TOPIC_CUSTOMERACCOUNT_NAME
               value: {{ .Values.kafka.topics.customerAccount.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CUSTOMERACCOUNT_NAME
@@ -360,6 +362,22 @@ spec:
             - name: KAFKA_CONSUMER_GROUP_CUSTOMERPACKAGE_NAME
               value: {{ .Values.kafka.topics.customerPackage.consumerGroup | quote }}
             {{- end }}
+            - name: KAFKA_CONSUMER_LOANEVENT_ENABLED
+              value: {{ .Values.kafkaConsumer.loanEvent.enabled | default "false" | quote }}
+            {{- if .Values.kafkaConsumer.loanEvent.enabled }}
+            - name: KAFKA_TOPIC_LOANEVENT_NAME
+              value: {{ .Values.kafka.topics.loanEvent.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_LOANEVENT_NAME
+              value: {{ .Values.kafka.topics.loanEvent.consumerGroup | quote }}
+            {{- end }}
+            - name: KAFKA_CONSUMER_LIMITBUCKETCOMPENSATION_ENABLED
+              value: {{ .Values.kafkaConsumer.limitBucketCompensation.enabled | default "false" | quote }}
+            {{- if .Values.kafkaConsumer.limitBucketCompensation.enabled }}
+            - name: KAFKA_TOPIC_LIMITBUCKETCOMPENSATION_NAME
+              value: {{ .Values.kafka.topics.limitBucketCompensation.name | quote }}
+            - name: KAFKA_CONSUMER_GROUP_LIMITBUCKETCOMPENSATION_NAME
+              value: {{ .Values.kafka.topics.limitBucketCompensation.consumerGroup | quote }}
+            {{- end }}
             - name: KAFKA_TOPIC_ECSCOMMUNICATIONLOG_NAME
               value: {{ .Values.kafka.topics.ecsCommunicationLog.name | quote }}
             - name: KAFKA_TOPIC_PAYMENTSWIFTORIGINALMESSAGE_NAME
@@ -447,6 +465,14 @@ spec:
               value: {{ .Values.sirius.rest.uri.payInitiation | quote }}
             - name: SIRIUS_REST_URI_LIMITANNEX
               value: {{ .Values.sirius.rest.uri.limitAnnex | quote }}
+            - name: SIRIUS_REST_URI_LIMITRESERVATION
+              value: {{ .Values.sirius.rest.uri.limitReservation | quote }}
+            - name: SIRIUS_REST_URI_GETACCOUNTBALANCES
+              value: {{ .Values.sirius.rest.uri.getAccountBalances | quote }}
+            - name: SIRIUS_REST_URI_LOANREALIZATION
+              value: {{ .Values.sirius.rest.uri.loanRealization | quote }}
+            - name: SIRIUS_REST_URI_DUEINSTALMENT
+              value: {{ .Values.sirius.rest.uri.dueInstalment | quote }}
             - name: SIRIUS_NONRETRY_CODES
               value: {{ .Values.sirius.nonretry.codes | quote }}
             - name: SIRIUS_NONDUPLICATION_CODES
@@ -507,9 +533,9 @@ spec:
               value: {{ .Values.grpc.client.defaultChannel.negotiationType | default "tls" | quote }}
             - name: SPRING_GRPC_CLIENT_DEFAULT_CHANNEL_SSL_BUNDLE
               value: {{ .Values.grpc.client.defaultChannel.sslBundle | default "grpc" | quote }}
-            {{- if .Values.grpc.personStructureData }}
+            {{- if .Values.grpc.client.channels.personStructureData }}
             - name: SPRING_GRPC_CLIENT_PERSONSTRUCTUREDATA_ADDRESS
-              value: {{ .Values.grpc.personStructureData.address | quote }}
+              value: {{ .Values.grpc.client.channels.personStructureData.address | quote }}
             {{- end }}
             {{- if (include "sirius-specific.metrics.config" .) -}}
             {{- include "sirius-specific.metrics.config" . | indent 12 -}}

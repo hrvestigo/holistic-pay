@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 3.1.0
+    tag: 3.2.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -125,6 +125,8 @@ kafka:
       consumerGroup: gw.ipt1.sirspec.paymentordereventflowinbox
     personStructureInitial:
       name: hr.vestigo.hp.perstrucinitial
+    extSysResponse:
+      name: gcp.ipt1.hp.evt.extsysresponse
     parameterization:
       name: gcp.ipt1.hp.evt.param
       consumerGroup: gcp.ipt1.hp.evt.sirspec.ecsspecificparam
@@ -285,6 +287,10 @@ sirius:
       payOrderReceivingOutboundTransfer: WS9004
       payInitiation: WS9031
       limitAnnex: WS9026
+      limitReservation: WS9027
+      getAccountBalances: WS0049
+      loanRealization: WS9028
+      dueInstalment: WS9029
   specific:
     cache:
       refresh:
@@ -310,8 +316,9 @@ grpc:
     defaultChannel:
       negotiationType: tls
       sslBundle: grpc
-  personStructureData:
-    address: dns:///person-structure:9090
+    channels:
+      personStructureData:
+        address: dns:///person-structure:9090
 keycloak:
   enabled: false
   realm: Holistic-Pay
