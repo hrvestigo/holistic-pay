@@ -10,7 +10,7 @@ image:
   liquibase:
     registry: null
     imageLocation: null
-    tag: 1.92.0
+    tag: 1.93.0
     pullPolicy: null
 imagePullSecrets: []
 env:
@@ -110,6 +110,14 @@ rest:
       host: ''
       endpoint: null
       timeout: null
+    authControl:
+      getLimitBuckets:
+        host: ''
+        endpoint: ''
+      updateLimitBuckets:
+        host: ''
+        endpoint: ''
+      timeout: null
 trx:
   max:
     number: 10
@@ -119,6 +127,8 @@ feeEngine:
   client: ''
 limitBuckets:
   client: ''
+  update:
+    client: ''
 idempotency:
   filter:
     enabled: true

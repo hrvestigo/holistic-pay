@@ -46,13 +46,19 @@
   value: {{ required "Please specify rest.api.feePricingEngine.endpoint" .Values.rest.api.feePricingEngine.endpoint | quote }}
 - name: REST_API_FEEPRICINGENGINE_TIMEOUT
   value: {{ .Values.rest.api.feePricingEngine.timeout | default "10000" | quote }}
-{{- if or (eq (.Values.limitBuckets.client.default | default "mocklimitbuckets") "authlimitcontrol") (eq (.Values.limitBuckets.client.cf | default "") "authlimitcontrol") (eq (.Values.limitBuckets.client.cc | default "") "authlimitcontrol") }}
+{{- if or (eq (.Values.limitBuckets.client.default | default "mocklimitbuckets") "authlimitcontrol") (eq (.Values.limitBuckets.client.cf | default "") "authlimitcontrol") (eq (.Values.limitBuckets.client.cc | default "") "authlimitcontrol") (eq (.Values.limitBuckets.client.rb | default "") "authlimitcontrol") }}
 - name: REST_API_AUTHCONTROL_GETLIMITBUCKETS_HOST
   value: {{ required "Please specify rest.api.authControl.getLimitBuckets.host" .Values.rest.api.authControl.getLimitBuckets.host | quote }}
 - name: REST_API_AUTHCONTROL_GETLIMITBUCKETS_ENDPOINT
   value: {{ required "Please specify rest.api.authControl.getLimitBuckets.endpoint" .Values.rest.api.authControl.getLimitBuckets.endpoint | quote }}
 - name: REST_API_AUTHCONTROL_TIMEOUT
   value: {{ .Values.rest.api.authControl.timeout | default "10000" | quote }}
+{{- end }}
+{{- if or (eq (.Values.limitBuckets.update.client.default | default "mockupdatelimitbuckets") "authlimitcontrolupdate") (eq (.Values.limitBuckets.update.client.cf | default "") "authlimitcontrolupdate") (eq (.Values.limitBuckets.update.client.cc | default "") "authlimitcontrolupdate") (eq (.Values.limitBuckets.update.client.rb | default "") "authlimitcontrolupdate") }}
+- name: REST_API_AUTHCONTROL_UPDATELIMITBUCKETS_HOST
+  value: {{ required "Please specify rest.api.authControl.updateLimitBuckets.host" .Values.rest.api.authControl.updateLimitBuckets.host | quote }}
+- name: REST_API_AUTHCONTROL_UPDATELIMITBUCKETS_ENDPOINT
+  value: {{ required "Please specify rest.api.authControl.updateLimitBuckets.endpoint" .Values.rest.api.authControl.updateLimitBuckets.endpoint | quote }}
 {{- end }}
 {{- end }}
 
@@ -199,6 +205,24 @@
 {{- if .Values.limitBuckets.client.cc }}
 - name: LIMIT_BUCKETS_CLIENT_CC
   value: {{ .Values.limitBuckets.client.cc | quote }}
+{{- end }}
+{{- if .Values.limitBuckets.client.rb }}
+- name: LIMIT_BUCKETS_CLIENT_RB
+  value: {{ .Values.limitBuckets.client.rb | quote }}
+{{- end }}
+- name: LIMIT_BUCKETS_UPDATE_CLIENT_DEFAULT
+  value: {{ .Values.limitBuckets.update.client.default | default "mockupdatelimitbuckets" | quote }}
+{{- if .Values.limitBuckets.update.client.cf }}
+- name: LIMIT_BUCKETS_UPDATE_CLIENT_CF
+  value: {{ .Values.limitBuckets.update.client.cf | quote }}
+{{- end }}
+{{- if .Values.limitBuckets.update.client.cc }}
+- name: LIMIT_BUCKETS_UPDATE_CLIENT_CC
+  value: {{ .Values.limitBuckets.update.client.cc | quote }}
+{{- end }}
+{{- if .Values.limitBuckets.update.client.rb }}
+- name: LIMIT_BUCKETS_UPDATE_CLIENT_RB
+  value: {{ .Values.limitBuckets.update.client.rb | quote }}
 {{- end }}
 - name: IDEMPOTENCY_FILTER_ENABLED
   value: {{ .Values.idempotency.filter.enabled | default "true" | quote }}
