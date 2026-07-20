@@ -59,6 +59,26 @@ spec:
               value: {{ required "Please specify backend URL apiGatewayUrl" .Values.apiGatewayUrl | quote }}
             - name: REACT_APP_ENVIRONMENT
               value: {{ required "Please specify environment name in environmentName" .Values.environmentName | quote }}
+            - name: REACT_APP_MEMBERS
+              value: {{ required "Please specify members in members" .Values.members | quote }}
+            - name: APP_OAUTH_ENABLED
+              value: {{ .Values.oauth2.enabled | quote }}
+            {{- if .Values.oauth2.enabled }}
+            - name: REACT_OAUTH_AUTH_SERVER_URL
+              value: >-
+                {{ required "Please specify Keycloak server URL in oauth2.serverUrl" .Values.oauth2.serverUrl }}/realms/{{ required "Please specify Keycloak realm name in oauth2.realm" .Values.oauth2.realm }}
+            - name: REACT_OAUTH_CLIENT_ID
+              value: {{ required "Please specify Keycloak resource name in oauth2.resource" .Values.oauth2.resource | quote }}
+            - name: APP_LOGOUT_REDIRECT_URL
+              value: {{ .Values.logoutUrl | quote }}
+            {{- else }}
+            - name: REACT_OAUTH_AUTH_SERVER_URL
+              value: "N/A"
+            - name: REACT_OAUTH_CLIENT_ID
+              value: "N/A"
+            - name: APP_LOGOUT_REDIRECT_URL
+              value: ""
+            {{- end }}
             {{- with .Values.customEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

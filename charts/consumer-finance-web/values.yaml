@@ -18,6 +18,16 @@ apiGatewayUrl: ""
 
 environmentName: "TEST"
 
+members: ""
+
+logoutUrl: ""
+
+oauth2:
+  enabled: false
+  realm: Holistic-Pay
+  serverUrl: ""
+  resource: consumer-finance
+
 timezone: ""
 
 podAnnotations: {}
@@ -125,6 +135,10 @@ autoscaling:
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
+
+vpa:
+  enabled: false
+  updateMode: "Off"
 
 mountServerCertFromSecret:
   enabled: false
