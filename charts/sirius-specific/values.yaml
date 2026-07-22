@@ -240,6 +240,18 @@ kafka:
     customerPackage:
       name: hr.vestigo.hp.customerpackagecdc.01
       consumerGroup: hr.vestigo.hp.customerpackagecdc
+    loanEvent:
+      name: hr.vestigo.hp.loanEvent.01
+      consumerGroup: hr.vestigo.hp.loanEvent
+    loanEventDlt:
+      name: hr.vestigo.hp.loanEventDlt.01
+      consumerGroup: hr.vestigo.hp.loanEventDlt
+    limitBucketCompensation:
+      name: hr.vestigo.hp.limitbucketcompensation.01
+      consumerGroup: hr.vestigo.hp.limitbucketcompensation
+      retry:
+        maxAttempts: 3
+        delay: 5000
   consumer:
     properties:
       sessionTimeoutMs: 45000
@@ -521,6 +533,12 @@ kafkaConsumer:
   card:
     enabled: false
   customerPackage:
+    enabled: false
+  loanEvent:
+    enabled: false
+  loanEventDlt:
+    enabled: false
+  limitBucketCompensation:
     enabled: false
 inbox:
   scheduler:
