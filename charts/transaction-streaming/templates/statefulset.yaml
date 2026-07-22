@@ -209,6 +209,8 @@ spec:
               value: {{ .Values.kafka.streams.delete.maximumAge.cfmLoanAnalytics | default "1" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_CFMORIGINALEVENT
               value: {{ .Values.kafka.streams.delete.maximumAge.cfmOriginalEvent | default "1" | quote }}
+            - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_CFMEVENT
+              value: {{ .Values.kafka.streams.delete.maximumAge.cfmEvent | default "1" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_CUSTOMERACCOUNTSTATEMENT
               value: {{ .Values.kafka.streams.delete.maximumAge.customerAccountStatement | default "2" | quote }}
             - name: SPRING_KAFKA_STREAMS_DELETE_MAXIMUMAGE_FUTURISTICFOREIGNPAYMENT
@@ -251,6 +253,8 @@ spec:
               value: {{ .Values.kafka.topics.tombstone.cfmLoanAnalytics.name | quote }}
             - name: KAFKA_TOPIC_CFMORIGINALEVENT_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.tombstone.cfmOriginalEvent.name | quote }}
+            - name: KAFKA_TOPIC_CFMEVENT_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.tombstone.cfmEvent.name | quote }}
             {{- else }}
             - name: KAFKA_TOPIC_TURNOVER_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.turnover.name | quote }}
@@ -290,6 +294,8 @@ spec:
               value: {{ .Values.kafka.topics.cfmLoanAnalytics.name | quote }}
             - name: KAFKA_TOPIC_CFMORIGINALEVENT_TOMBSTONE_NAME
               value: {{ .Values.kafka.topics.cfmOriginalEvent.name | quote }}
+            - name: KAFKA_TOPIC_CFMEVENT_TOMBSTONE_NAME
+              value: {{ .Values.kafka.topics.cfmEvent.name | quote }}
             {{- end }}
             - name: SPRING_KAFKA_STREAMS_JOIN_WINDOW
               value: {{ .Values.kafka.streams.join.window | default "60" | quote }}
@@ -383,6 +389,8 @@ spec:
               value: {{ .Values.kafka.topics.cfmLoanAnalytics.name | quote }}
             - name: KAFKA_TOPIC_CFMORIGINALEVENT_NAME
               value: {{ .Values.kafka.topics.cfmOriginalEvent.name | quote }}
+            - name: KAFKA_TOPIC_CFMEVENT_NAME
+              value: {{ .Values.kafka.topics.cfmEvent.name | quote }}
             - name: KAFKA_TOPIC_CURRENCY_NAME
               value: {{ .Values.kafka.topics.currency.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_CURRENCY_NAME

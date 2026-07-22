@@ -101,6 +101,7 @@ kafka:
         cfmAnalyticDetails: 1
         cfmLoanAnalytics: 1
         cfmOriginalEvent: 1
+        cfmEvent: 1
         customerAccountStatement: 2
         futuristicForeignPayment: 30
     join:
@@ -166,6 +167,8 @@ kafka:
       name: hr.vestigo.hp.cfmloananalytics
     cfmOriginalEvent:
       name: hr.vestigo.hp.cfmoriginalevent
+    cfmEvent:
+      name: hr.vestigo.hp.cfmevent
     currency:
       name: hr.vestigo.hp.currency
       consumerGroup: hr.vestigo.hp.currency
@@ -219,6 +222,8 @@ kafka:
         name: hr.vestigo.hp.cfmloananalytics
       cfmOriginalEvent:
         name: hr.vestigo.hp.cfmoriginalevent
+      cfmEvent:
+        name: hr.vestigo.hp.cfmevent
     banproamotype:
       name: hr.vestigo.hp.banproamotype
       consumerGroup: hr.vestigo.hp.banproamotype
