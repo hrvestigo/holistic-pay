@@ -363,7 +363,7 @@ spec:
               value: {{ .Values.kafka.topics.customerPackage.consumerGroup | quote }}
             {{- end }}
             - name: KAFKA_CONSUMER_LOANEVENT_ENABLED
-              value: {{ .Values.kafka.consumer.loanEvent.enabled | default "false" | quote }}
+              value: {{ .Values.kafkaConsumer.loanEvent.enabled | default "false" | quote }}
             {{- if .Values.kafkaConsumer.loanEvent.enabled }}
             - name: KAFKA_TOPIC_LOANEVENT_NAME
               value: {{ .Values.kafka.topics.loanEvent.name | quote }}
@@ -371,15 +371,15 @@ spec:
               value: {{ .Values.kafka.topics.loanEvent.consumerGroup | quote }}
             {{- end }}
             - name: KAFKA_CONSUMER_LOANEVENTDLT_ENABLED
-              value: { { .Values.kafka.consumer.loanEventDlt.enabled | default "false" | quote } }
-            { { - if .Values.kafkaConsumer.loanEventDlt.enabled } }
+              value: {{ .Values.kafkaConsumer.loanEventDlt.enabled | default "false" | quote }}
+            {{- if .Values.kafkaConsumer.loanEventDlt.enabled }}
             - name: KAFKA_TOPIC_LOANEVENTDLT_NAME
-              value: { { .Values.kafka.topics.loanEventDlt.name | quote } }
+              value: {{ .Values.kafka.topics.loanEventDlt.name | quote }}
             - name: KAFKA_CONSUMER_GROUP_LOANEVENTDLT_NAME
-              value: { { .Values.kafka.topics.loanEventDlt.consumerGroup | quote } }
-            { { - end } }
+              value: {{ .Values.kafka.topics.loanEventDlt.consumerGroup | quote }}
+            {{- end }}
             - name: KAFKA_CONSUMER_LIMITBUCKETCOMPENSATION_ENABLED
-              value: {{ .Values.kafka.consumer.limitBucketCompensation.enabled | default "false" | quote }}
+              value: {{ .Values.kafkaConsumer.limitBucketCompensation.enabled | default "false" | quote }}
             {{- if .Values.kafkaConsumer.limitBucketCompensation.enabled }}
             - name: KAFKA_TOPIC_LIMITBUCKETCOMPENSATION_NAME
               value: {{ .Values.kafka.topics.limitBucketCompensation.name | quote }}
