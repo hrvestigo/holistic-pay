@@ -21361,6 +21361,22 @@ entries:
   - annotations:
       helm.sh/images: |-
         - name: product-engine-ms
+          image: docker.io/hrvestigo/product-engine-ms:2.2.0
+        - name: product-engine-lb-cc
+          image: docker.io/hrvestigo/product-engine-lb-cc:2.0.0
+    apiVersion: v2
+    appVersion: 2.2.0
+    created: "2026-07-27T09:47:06.508054631Z"
+    description: Helm chart for product engine application
+    digest: deb495079669e81a5eef558fe7b05d0e9f55cea0cebf5acc48f50f01dccfae7a
+    name: product-engine
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/product-engine-2.2.0/product-engine-2.2.0.tgz
+    version: 2.2.0
+  - annotations:
+      helm.sh/images: |-
+        - name: product-engine-ms
           image: docker.io/hrvestigo/product-engine-ms:2.1.0
     apiVersion: v2
     appVersion: 2.1.0
@@ -37212,4 +37228,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2026-07-27T09:30:03.604376848Z"
+generated: "2026-07-27T09:47:06.535887456Z"
