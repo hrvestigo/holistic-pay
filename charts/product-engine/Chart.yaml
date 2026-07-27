@@ -2,9 +2,11 @@ apiVersion: v2
 name: product-engine
 description: Helm chart for product engine application
 type: application
-version: 2.1.0
-appVersion: 2.1.0
+version: 2.2.0
+appVersion: 2.2.0
 annotations:
   helm.sh/images: |-
     - name: product-engine-ms
-      image: docker.io/hrvestigo/product-engine-ms:2.1.0
+      image: docker.io/hrvestigo/product-engine-ms:2.2.0
+    - name: product-engine-lb-cc
+      image: docker.io/hrvestigo/product-engine-lb-cc:2.0.0
