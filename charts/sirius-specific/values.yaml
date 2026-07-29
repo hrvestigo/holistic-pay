@@ -275,6 +275,9 @@ external:
         default: ''
       deliveryChannel:
         default: ''
+      webService:
+        appModule: ''
+        deliveryChannel: ''
       userId:
         default: ''
 sirius:

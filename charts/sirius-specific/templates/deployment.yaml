@@ -443,6 +443,10 @@ spec:
               value: {{ .Values.external.core.system.appModule.default | quote }}
             - name: EXTERNAL_CORE_SYSTEM_DELIVERY_CHANNEL_DEFAULT
               value: {{ .Values.external.core.system.deliveryChannel.default | quote }}
+            - name: EXTERNAL_CORE_SYSTEM_WEB_SERVICE_APP_MODULE
+              value: {{ .Values.external.core.system.webService.appModule | quote }}
+            - name: EXTERNAL_CORE_SYSTEM_WEB_SERVICE_DELIVERY_CHANNEL
+              value: {{ .Values.external.core.system.webService.deliveryChannel | quote }}
             - name: EXTERNAL_CORE_SYSTEM_USER_ID_DEFAULT
               value: {{ .Values.external.core.system.userId.default | quote }}
             - name: SIRIUS_SPECIFIC_CACHE_EXPIREAFTERWRITE
