@@ -2,5 +2,11 @@ apiVersion: v2
 name: person-registry-interface
 description: Helm chart for person-registry-interface application
 type: application
-version: 1.22.0
-appVersion: 1.22.0
+version: 1.23.0
+appVersion: 1.23.0
+annotations:
+  helm.sh/images: |-
+    - name: person-registry-interface-ms
+      image: docker.io/hrvestigo/person-registry-interface-ms:1.23.0
+    - name: person-registry-interface-lb-cc
+      image: docker.io/hrvestigo/person-registry-interface-lb-cc:1.22.0
