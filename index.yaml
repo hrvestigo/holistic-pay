@@ -8765,6 +8765,24 @@ entries:
   - annotations:
       helm.sh/images: |-
         - name: data-replication-ms
+          image: docker.io/hrvestigo/data-replication-ms:2.14.0
+        - name: data-replication-lb-cc
+          image: docker.io/hrvestigo/data-replication-lb-cc:2.14.0
+        - name: data-replication-lb-ce
+          image: docker.io/hrvestigo/data-replication-lb-ce:2.14.0
+    apiVersion: v2
+    appVersion: 2.14.0
+    created: "2026-08-06T12:37:21.122559452Z"
+    description: Helm chart for data-replication-ms application
+    digest: 1418cc6cd0a871770518cb9cdcf5901822ffa7feb1161dfbb8c03f7599435acb
+    name: data-replication
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/data-replication-2.14.0/data-replication-2.14.0.tgz
+    version: 2.14.0
+  - annotations:
+      helm.sh/images: |-
+        - name: data-replication-ms
           image: docker.io/hrvestigo/data-replication-ms:2.13.0
         - name: data-replication-lb-cc
           image: docker.io/hrvestigo/data-replication-lb-cc:2.9.0
@@ -37404,4 +37422,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2026-08-06T11:46:04.269673405Z"
+generated: "2026-08-06T12:37:21.151864778Z"
