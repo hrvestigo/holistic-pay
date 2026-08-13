@@ -251,6 +251,15 @@ spring:
                 - TokenRelay
                 - SaveSession
             {{- end }}
+            {{- if (.Values.routes.ecs).serviceName }}
+            - id: ecs-ms_route
+              predicates:
+                - Path=/api/*/ecs/**
+              uri: https://{{ .Values.routes.ecs.serviceName }}:{{ .Values.routes.ecs.servicePortNumber }}
+              filters:
+                - TokenRelay
+                - SaveSession
+            {{- end }}
             {{- if (.Values.routes.extDisputeInterface).serviceName }}
               {{- if .Values.routes.allowSensitiveDataEndpoints }}
             - id: external-dispute-interface-ms-pcidss_route

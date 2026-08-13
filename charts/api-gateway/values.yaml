@@ -123,6 +123,9 @@ routes:
   vetoManager:
     serviceName: ""
     servicePortNumber: "8443"
+  ecs:
+    serviceName: ""
+    servicePortNumber: "8443"
   # internal outbound routes:
   cmod:
     serviceName: ""
