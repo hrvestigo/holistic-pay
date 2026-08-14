@@ -12132,6 +12132,16 @@ entries:
     version: 0.3.0
   payment-dashboard-web:
   - apiVersion: v2
+    appVersion: 1.13.0
+    created: "2026-08-14T12:55:31.38177206Z"
+    description: Helm chart for payment dashboard web application
+    digest: a40455cf161d9af6b269132462593ae7ed25203895bd677c88803d32ca7fe8b1
+    name: payment-dashboard-web
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/payment-dashboard-web-1.13.0/payment-dashboard-web-1.13.0.tgz
+    version: 1.13.0
+  - apiVersion: v2
     appVersion: 1.12.0
     created: "2025-06-09T11:34:10.980702156Z"
     description: Helm chart for payment dashboard web application
@@ -37496,4 +37506,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2026-08-14T12:52:36.017338322Z"
+generated: "2026-08-14T12:55:31.4035993Z"
