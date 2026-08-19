@@ -17972,6 +17972,24 @@ entries:
     - https://github.com/hrvestigo/holistic-pay/releases/download/person-registry-web-0.9.0/person-registry-web-0.9.0.tgz
     version: 0.9.0
   person-structure:
+  - annotations:
+      helm.sh/images: |-
+        - name: person-structure-ms
+          image: docker.io/hrvestigo/person-structure-ms:5.46.0
+        - name: person-structure-lb-cc
+          image: docker.io/hrvestigo/person-structure-lb-cc:5.44.0
+        - name: person-structure-lb-ce
+          image: docker.io/hrvestigo/person-structure-lb-ce:5.44.0
+    apiVersion: v2
+    appVersion: 5.46.0
+    created: "2026-08-19T14:33:38.166291612Z"
+    description: Helm chart for person structure application
+    digest: 2c73df71193c530eed4c974c2c628ccb214ecfbe7387f3f00bb83ebb81f60ed1
+    name: person-structure
+    type: application
+    urls:
+    - https://github.com/hrvestigo/holistic-pay/releases/download/person-structure-5.46.0/person-structure-5.46.0.tgz
+    version: 5.46.0
   - apiVersion: v2
     appVersion: 5.45.0
     created: "2026-08-03T11:04:53.365921893Z"
@@ -37536,4 +37554,4 @@ entries:
     urls:
     - https://github.com/hrvestigo/holistic-pay/releases/download/transaction-streaming-1.0.0/transaction-streaming-1.0.0.tgz
     version: 1.0.0
-generated: "2026-08-19T12:02:58.303978463Z"
+generated: "2026-08-19T14:33:38.193312375Z"
