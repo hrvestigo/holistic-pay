@@ -2,5 +2,13 @@ apiVersion: v2
 name: person-structure
 description: Helm chart for person structure application
 type: application
-version: 5.45.0
-appVersion: 5.45.0
+version: 5.46.0
+appVersion: 5.46.0
+annotations:
+  helm.sh/images: |-
+    - name: person-structure-ms
+      image: docker.io/hrvestigo/person-structure-ms:5.46.0
+    - name: person-structure-lb-cc
+      image: docker.io/hrvestigo/person-structure-lb-cc:5.44.0
+    - name: person-structure-lb-ce
+      image: docker.io/hrvestigo/person-structure-lb-ce:5.44.0
