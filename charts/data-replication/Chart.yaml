@@ -2,12 +2,12 @@ apiVersion: v2
 name: data-replication
 description: Helm chart for data-replication-ms application
 type: application
-version: 2.16.0
-appVersion: 2.16.0
+version: 2.17.0
+appVersion: 2.17.0
 annotations:
   helm.sh/images: |-
     - name: data-replication-ms
-      image: docker.io/hrvestigo/data-replication-ms:2.16.0
+      image: docker.io/hrvestigo/data-replication-ms:2.17.0
     - name: data-replication-lb-cc
       image: docker.io/hrvestigo/data-replication-lb-cc:2.14.0
     - name: data-replication-lb-ce
